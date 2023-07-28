@@ -2,12 +2,17 @@ import { createTheme, Theme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
     interface Theme {
+        primary: {
+            main: string;
+            darker: string;
+        };
         color: {
             red: string;
             lightRed: string;
             black: string;
             lightBlack: string;
             gray: string;
+            lightGray: string;
         };
         fontFamily: {
             primary: string;
@@ -15,12 +20,17 @@ declare module '@mui/material/styles' {
     }
     // allow configuration using `createTheme`
     interface ThemeOptions {
+        primary?: {
+            main?: string;
+            darker?: string;
+        };
         color?: {
             red?: string;
             lightRed?: string;
             black?: string;
             lightBlack?: string;
             gray?: string;
+            lightGray?: string;
         };
         fontFamily?: {
             primary: string;
@@ -29,12 +39,17 @@ declare module '@mui/material/styles' {
 }
 
 export const theme: Theme = createTheme({
+    primary: {
+        main: '#ee4949',
+        darker: '#eb2525',
+    },
     color: {
         red: '#ee4949',
         lightRed: 'rgba(238, 73, 73, 0.15)',
         black: '#3b3b3b',
         lightBlack: 'rgba(59, 59, 59, 0.15)',
         gray: '#777777',
+        lightGray: '#d3d3d3',
     },
     fontFamily: {
         primary: "'Montserrat', sans-serif",
@@ -42,4 +57,5 @@ export const theme: Theme = createTheme({
     typography: {
         fontFamily: ['Montserrat', 'sans-serif'].join(','),
     },
+    spacing: 5,
 });

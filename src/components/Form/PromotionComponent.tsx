@@ -2,8 +2,7 @@
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
-import styles from '../../styles/components/product.module.scss';
-import LocalMallIcon from '@mui/icons-material/LocalMall';
+//import styles from '../../styles/components/product.module.scss';
 import CardComponent from './CardComponent';
 
 export const PromotionComponent = () => {
@@ -25,18 +24,6 @@ export const PromotionComponent = () => {
                     }}
                 >
                     <Box sx={{ padding:{lg: '15px 0px 15px 0px' ,xs:'0px 10px 0px 10px'} }}>
-                        <Box
-                            sx={{
-                                marginBottom: '15px',
-                                color: '#ee4949',
-                                textTransform: 'uppercase',
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <LocalMallIcon sx={{ display: 'inline-block' }} />
-                            <p className={styles.text_promotion}>Khuyến Mãi HOT</p>
-                        </Box>
                         <Box sx={{ display: 'flex', justifyContent: { xs: 'space-around' } }}>
                             <Grid
                                 container

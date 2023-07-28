@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from 'styles/components/footer.module.scss';
-import { Stack, useTheme } from '@mui/material';
+import { Box, Container, Grid, Stack, styled, useTheme } from '@mui/material';
 import { LocationOn, Mail, PhoneAndroid } from '@mui/icons-material';
 import Image from 'next/image';
 import AppStore from '@public/images/app-store.png';
@@ -12,104 +12,147 @@ import SocialMedia2 from '@public/images/social-2.png';
 import SocialMedia4 from '@public/images/social-4.png';
 import Link from 'next/link';
 
+const IconContainer =  styled(Box)(() => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    '& p': {
+        fontSize: "14px",
+    },
+
+}));
+
+const Icon = styled(Box)(({theme}) => ({
+    width: 32,
+    height: 32,
+    display: 'flex',
+    color: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#777777',
+    marginRight: theme.spacing(2),
+    flex: "0 0 32px",
+}));
+
 export const FooterClient = () => {
     const { color } = useTheme();
     return (
-        <div className={styles.footer}>
-            <div className={styles.footerTop}>
-                <div className={styles.footerContent}>
-                    <h4>Thanh toán & Giao hàng</h4>
-                    <ul>
-                        <li>
-                            <Link href="/">Điều khoản dịch vụ</Link>
-                        </li>
-                        <li>
-                            <Link href="/">Phương thức thanh toán</Link>
-                        </li>
-                        <li>
-                            <Link href="/">Hướng dẫn đổi trả hàng</Link>
-                        </li>
-                        <li>
-                            <Link href="/">Chính sách giao hàng</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className={styles.footerContent}>
-                    <h4>Liên kết nhanh</h4>
-                    <ul>
-                        <li>
-                            <Link href="/">iphone</Link>
-                        </li>
-                        <li>
-                            <Link href="/">Tai nghe</Link>
-                        </li>
-                        <li>
-                            <Link href="/">Cáp sạc</Link>
-                        </li>
-                        {/* <li><Link href="/">Điều khoản dịch vụ</Link></li> */}
-                    </ul>
-                </div>
-                <div className={styles.footerContent}>
-                    <h4>Liên hệ với chúng tôi</h4>
-                    <div className={styles.footerContact}>
-                        <div className={styles.contactSymbol}>
-                            <LocationOn style={{ padding: '2px' }} />
+        <Box component="footer" sx={{ backgroundColor: '#eaeaea', marginTop: 'auto' }}>
+            <Container maxWidth="lg">
+                <Grid
+                    container
+                    columnSpacing={4}
+                    rowSpacing={3}
+                    sx={{
+                        width: { xs: '390px', lg: '1200px', sm: '768px', md: '960px' },
+                        marginTop: '30px',
+                    }}
+                >
+                    <Grid item xs={12} lg={3} sm={6}>
+                        <div className={styles.footerContent}>
+                            <h4>Liên hệ với chúng tôi</h4>
+                            <Stack spacing={1.5}>
+                                <IconContainer>
+                                    <Icon>
+                                        <LocationOn />
+                                    </Icon>
+                                    <Box>
+                                        <p>
+                                            Hno: 18 Tam Trinh Hoang Mai, Ha Noi
+                                        </p>
+                                    </Box>
+                                </IconContainer>
+                                <IconContainer>
+                                    <Icon>
+                                        <Mail />
+                                    </Icon>
+                                    <p>techcellVTC@gmail.com</p>
+                                </IconContainer>
+                                <IconContainer>
+                                    <Icon>
+                                        <PhoneAndroid />
+                                    </Icon>
+                                    <p>
+                                        Phone 1 : 0123456789
+                                        <br />
+                                        Phone 2 : 0987654321
+                                    </p>
+                                </IconContainer>
+                            </Stack>
                         </div>
-                        <p>
-                            Hno: 18 Tam Trinh Hoang Mai, Ha Noi <br />
-                            Pincode: 100000
-                        </p>
-                    </div>
-                    <div className={styles.footerContact}>
-                        <div className={styles.contactSymbol}>
-                            <Mail style={{ padding: '2px' }} />
+                    </Grid>
+                    <Grid item xs={12} lg={3} sm={6}>
+                        <div className={styles.footerContent}>
+                            <h4>Thanh toán & Giao hàng</h4>
+                            <ul>
+                                <li>
+                                    <Link href="/">Điều khoản dịch vụ</Link>
+                                </li>
+                                <li>
+                                    <Link href="/">Phương thức thanh toán</Link>
+                                </li>
+                                <li>
+                                    <Link href="/">Hướng dẫn đổi trả hàng</Link>
+                                </li>
+                                <li>
+                                    <Link href="/">Chính sách giao hàng</Link>
+                                </li>
+                            </ul>
                         </div>
-                        <p>techcellVTC@gmail.com</p>
-                    </div>
-                    <div className={styles.footerContact}>
-                        <div className={styles.contactSymbol}>
-                            <PhoneAndroid style={{ padding: '2px' }} />
+                    </Grid>
+                    <Grid item xs={12} lg={3} sm={6}>
+                        <div className={styles.footerContent}>
+                            <h4>Liên kết nhanh</h4>
+                            <ul>
+                                <li>
+                                    <Link href="/">iphone</Link>
+                                </li>
+                                <li>
+                                    <Link href="/">Tai nghe</Link>
+                                </li>
+                                <li>
+                                    <Link href="/">Cáp sạc</Link>
+                                </li>
+                            </ul>
                         </div>
-                        <p>
-                            Phone 1 : 0123456789
-                            <br />
-                            Phone 2 : 0987654321
-                        </p>
-                    </div>
-                </div>
-                <div className={styles.footerLogo}>
-                    <Stack>
-                        <Image src="/logo-red.png" alt="Logo Techcell" width={150} height={50} />
-                    </Stack>
-                    <Stack direction="row" gap={2} alignItems="center">
+                    </Grid>
+                    <Grid item xs={12} lg={3} sm={6}>
+                        <div className={styles.footerLogo}>
+                            <Stack spacing={2} alignItems="center" justifyContent="center">
+                                <Image
+                                    src="/logo-red.png"
+                                    alt="Logo Techcell"
+                                    width={150}
+                                    height={50}
+                                />
+                                <Link href="/">
+                                    <Image src={GooglePlay} alt="Download platforms" height={50} />
+                                </Link>
+                                <Link href="/">
+                                    <Image src={AppStore} alt="Download platforms" height={50} />
+                                </Link>
+                            </Stack>
+                        </div>
+                    </Grid>
+                </Grid>
+                <hr className={styles.footerDivider} />
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '50px'}}>
+                    <span>
+                        © TechCell Team VTC, 2023 - <b>Privacy Policy</b>
+                    </span>
+                    <Stack direction="row" spacing={2}>
                         <Link href="/">
-                            <Image src={GooglePlay} alt="Download platforms" height={50} />
+                            <Image src={SocialMedia1} alt="facebook" height={32} />
+                        </Link>
+                        <Link href="/">
+                            <Image src={SocialMedia2} alt="instagram" height={32} />
+                        </Link>
+                        <Link href="/">
+                            <Image src={SocialMedia4} alt="youtube" height={32} />
                         </Link>
                     </Stack>
-                    <Stack direction="row" gap={2} alignItems="center">
-                        <Link href="/">
-                            <Image src={AppStore} alt="Download platforms" height={50} />
-                        </Link>
-                    </Stack>
-                </div>
-            </div>
-            <hr className={styles.footerDivider} />
-            <div className={styles.footerBottom}>
-                <span>
-                    © TechCell Team VTC, 2023 - <b>Privacy Policy</b>
-                </span>
-                <Stack direction="row" spacing={2}>
-                    <Link href="/">
-                        <Image src={SocialMedia1} alt="facebook" height={30} />
-                    </Link>
-                    <Link href="/">
-                        <Image src={SocialMedia2} alt="instagram" height={30} />
-                    </Link>
-                    <Link href="/">
-                        <Image src={SocialMedia4} alt="youtube" height={30} />
-                    </Link>
-                </Stack>
-            </div>
-        </div>
+                </Box>
+            </Container>
+        </Box>
     );
 };

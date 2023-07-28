@@ -6,3 +6,4 @@ export * from './SearchComponent';
 export * from './PromotionComponent';
 export * from './CardComponent';
 export * from './ProductDetail';
+export * from './ShopServicesComponent';
