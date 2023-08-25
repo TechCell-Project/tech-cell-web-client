@@ -74,7 +74,7 @@ export const HeaderClient = (props: Props) => {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     maxWidth: '100%',
-                    padding: '0px',
+                    paddingRight: '0px !important',
                 }}
             >
                 <Toolbar

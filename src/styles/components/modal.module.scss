@@ -1,0 +1,16 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.MuiDialog-container{
+    .css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+        #customized-dialog-title{
+            padding: 20px;
+            background-color: #d70018 !important;
+            color: #fff !important;
+            font-size: 18px !important;
+            button{
+                color: #fff;
+            }
+        }
+    }
+}

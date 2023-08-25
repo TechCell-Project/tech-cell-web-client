@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '@styles/components/product.module.scss'
+import styles from '@styles/components/product.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import StarIcon from '@mui/icons-material/Star';
@@ -11,15 +11,14 @@ interface Props {
     price: number;
     star: string;
     whislist: string;
-
 }
 
 const CardComponent = () => {
     return (
         <div className={styles.product}>
             <div className={styles.productInfoContainer}>
-                <div className={styles.productInfo}>
-                    <Link href="">
+                <Link href="/productdetail">
+                    <div className={styles.productInfo}>
                         <div className={styles.productImgContent}>
                             <div className={styles.productImgitem}>
                                 <Image
@@ -49,21 +48,21 @@ const CardComponent = () => {
                                 <p>Tặng thêm dịch vụ bảo hành Vip 12 tháng 1 đổi 1</p>
                             </div>
                         </div>
-                    </Link>
-                    <div className={styles.productRating}>
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
+                        <div className={styles.productRating}>
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                        </div>
                     </div>
-                </div>
-                <div className={styles.productWishlist}>
-                    <span>Yêu thích</span>
-                    <div className={styles.productIconheart}>
-                        <FavoriteIcon />
+                    <div className={styles.productWishlist}>
+                        <span>Yêu thích</span>
+                        <div className={styles.productIconheart}>
+                            <FavoriteIcon />
+                        </div>
                     </div>
-                </div>
+                </Link>
             </div>
         </div>
     );

@@ -24,8 +24,10 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
                         // isBlackContent
                     />
                 ) : (
-                    <Box key={item.name} sx={{margin:'20px 0px'}}> 
-                        <Link sx={{textDecoration:'none', color:"#ee4949"}} href="/">{item.name}</Link>
+                    <Box key={item.name} sx={{ margin: '20px 0px' }}>
+                        <Link sx={{ textDecoration: 'none', color: '#ee4949' }} href="/">
+                            {item.name}
+                        </Link>
                     </Box>
                 );
             })}
