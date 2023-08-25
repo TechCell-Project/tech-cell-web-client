@@ -1,5 +1,10 @@
 'use client';
 
+import React, { useEffect } from 'react';
+import Link from 'next/link';
+import { Metadata } from 'next';
+import { useRouter } from 'next/navigation';
+
 import {
     Avatar,
     Box,
@@ -15,50 +20,37 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import Link from 'next/link';
-import * as React from 'react';
-import * as yup from 'yup';
-import { useFormik } from 'formik';
-import Image from 'next/image';
 import { FacebookRounded, Google, PhoneIphone } from '@mui/icons-material';
+
 import { Copyright } from '@components/Layout';
+import { useFormik } from 'formik';
+import { LoginSchema } from 'validate/auth.validate';
+import { LoginModel } from 'models';
+import { useAppDispatch } from '@store/store';
+import { logIn } from '@store/slices/authSlice';
 
-const validateEmail = (email: string | undefined) => {
-    return yup.string().email('Bạn cần điền đúng định dạng email').isValidSync(email);
+export const metadata: Metadata = {
+    title: 'TechCell - Đăng nhập',
 };
-
-const validatePhone = (phone: number | undefined) => {
-    return yup
-        .number()
-        .integer()
-        .positive()
-        .test((phone) => {
-            return phone && phone.toString().length >= 10 && phone.toString().length <= 12
-                ? true
-                : false;
-        })
-        .isValidSync(phone);
-};
-
-const LoginSchema = yup.object().shape({
-    email_or_phone: yup
-        .string()
-        .required('Bạn cần nhập email hoặc SĐT đã đăng ký')
-        .test('email_or_phone', 'Email / Phone is invalid', (value) => {
-            return validateEmail(value) || validatePhone(parseInt(value ?? '0'));
-        }),
-    password: yup.string().min(8, 'Mật khẩu cần ít nhất 8 kí tự').required('Bạn cần nhập mật khẩu'),
-});
 
 const Login = () => {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+
     const formik = useFormik({
-        initialValues: {
-            email_or_phone: '',
-            password: '',
-        },
+        initialValues: new LoginModel(),
         validationSchema: LoginSchema,
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: async (values) => {
+            const response = await dispatch(logIn(values));
+            
+            if (String(response.payload).startsWith("Email")) {
+                const timeout = setTimeout(() => {
+                    router.replace('/verify');
+                }, 200);
+                return () => {
+                    clearTimeout(timeout);
+                };
+            }
         },
     });
 
@@ -83,26 +75,24 @@ const Login = () => {
                     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
-                            id="emailOrPhone"
+                            id="emailOrUsername"
                             label="Email hoặc SĐT"
-                            name="emailOrPhone"
+                            name="emailOrUsername"
                             autoFocus
-                            value={formik.values.email_or_phone}
+                            value={formik.values.emailOrUsername}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             error={
-                                formik.touched.email_or_phone &&
-                                Boolean(formik.errors.email_or_phone)
+                                formik.touched.emailOrUsername &&
+                                Boolean(formik.errors.emailOrUsername)
                             }
                             helperText={
-                                formik.touched.email_or_phone && formik.errors.email_or_phone
+                                formik.touched.emailOrUsername && formik.errors.emailOrUsername
                             }
                         />
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             id="password"
                             name="password"
@@ -115,9 +105,9 @@ const Login = () => {
                             helperText={formik.touched.password && formik.errors.password}
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" sx={{ color: '#ee4949', }} />}
-                            label="Remember me"
-                            sx={{ 
+                            control={<Checkbox value="remember" sx={{ color: '#ee4949' }} />}
+                            label="Nhớ mật khẩu"
+                            sx={{
                                 '& .Mui-checked': {
                                     color: '#ee4949',
                                 },
@@ -134,32 +124,38 @@ const Login = () => {
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#">
-                                    <Typography variant="body2">
-                                        Forgot password?
-                                    </Typography>
+                                    <Typography variant="body2">Quên mật khẩu</Typography>
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/signup">
-                                    <Typography variant="body2" sx={{ '& span': { textDecoration: 'underline', color: '#ee4949', }}}>
-                                        Don&apos;t have an account? <span>Sign Up</span>
+                                <Link href="/register">
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            '& span': {
+                                                textDecoration: 'underline',
+                                                color: '#ee4949',
+                                            },
+                                        }}
+                                    >
+                                        Chưa có tài khoản ? <span>Đăng ký</span>
                                     </Typography>
                                 </Link>
                             </Grid>
                         </Grid>
                     </Box>
                     <Divider />
-                    <Typography component="h1" variant="h6" sx={{ mt: 3, }}>
+                    <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
                         Hoặc Đăng nhập với
                     </Typography>
-                    <Stack spacing={3} direction='row'>
-                        <Link href='#'>
-                            <IconButton size='large' sx={{ color: '#ee4949'}}>
+                    <Stack spacing={3} direction="row">
+                        <Link href="#">
+                            <IconButton size="large" sx={{ color: '#ee4949' }}>
                                 <FacebookRounded />
                             </IconButton>
                         </Link>
-                        <Link href='#'>
-                            <IconButton size='large' sx={{ color: '#ee4949'}}>
+                        <Link href="#">
+                            <IconButton size="large" sx={{ color: '#ee4949' }}>
                                 <Google />
                             </IconButton>
                         </Link>

@@ -8,6 +8,9 @@ const nextConfig = {
   images: {
     domains: ['res.cloudinary.com'],
   },
+  env: {
+    API_ENDPOINT: process.env.API_BASE_URL,
+  },
 
   webpack(config) {
     config.module.rules.push({

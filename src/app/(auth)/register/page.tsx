@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { Metadata } from 'next';
 import {
     Avatar,
     Box,
@@ -17,37 +18,37 @@ import {
     Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import * as yup from 'yup';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { Copyright } from '@components/Layout';
 import { FacebookRounded, Google, PhoneIphone } from '@mui/icons-material';
+import { SignupSchema } from 'validate/auth.validate';
+import { RegisterModel } from 'models';
+import { useAppDispatch } from '@store/store';
+import { useRouter } from 'next/navigation';
+import { register } from '@store/slices/authSlice';
 
-const SignupSchema = yup.object({
-    firstname: yup.string().required('Bạn cần điền tên'),
-    lastname: yup.string().required('Bạn cần điền họ'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
-    mobile: yup.string().required('Bạn cần nhập sdt'),
-    password: yup.string().min(8, 'Mật khẩu cần ít nhất 8 kí tự').required('Bạn cần nhập mật khẩu'),
-    confirm_password: yup
-        .string()
-        .oneOf([yup.ref('password')], 'Mật khẩu chưa khớp')
-        .required('Bạn cần nhập lại mật khẩu!'),
-});
+export const metadata: Metadata = {
+    title: 'TechCell - Đăng ký',
+};
 
 const Signup = () => {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+
     const formik = useFormik({
-        initialValues: {
-            firstname: '',
-            lastname: '',
-            email: '',
-            mobile: '',
-            password: '',
-            confirm_password: '',
-        },
+        initialValues: new RegisterModel(),
         validationSchema: SignupSchema,
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: async (values) => {
+            const response = await dispatch(register(values));
+            if (response.meta.requestStatus === "fulfilled") {
+                const timeout = setTimeout(() => {
+                    router.replace('/verify');
+                }, 1000);
+                return () => {
+                    clearTimeout(timeout);
+                };
+            }
         },
     });
 
@@ -75,37 +76,34 @@ const Signup = () => {
                             <TextField
                                 autoComplete="given-name"
                                 name="firstName"
-                                required
                                 fullWidth
                                 id="firstName"
                                 label="Tên"
                                 autoFocus
-                                value={formik.values.firstname}
+                                value={formik.values.firstName}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                error={formik.touched.firstname && Boolean(formik.errors.firstname)}
-                                helperText={formik.touched.firstname && formik.errors.firstname}
+                                error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                                helperText={formik.touched.firstName && formik.errors.firstName}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
                                 fullWidth
                                 id="lastName"
                                 label="Họ"
                                 name="lastName"
                                 autoComplete="family-name"
-                                value={formik.values.lastname}
+                                value={formik.values.lastName}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                error={formik.touched.lastname && Boolean(formik.errors.lastname)}
-                                helperText={formik.touched.lastname && formik.errors.lastname}
+                                error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                                helperText={formik.touched.lastName && formik.errors.lastName}
                             />
                         </Grid>
                       </Grid>
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             id="email"
                             label="Email"
@@ -118,7 +116,18 @@ const Signup = () => {
                         />
                         <TextField
                             margin="normal"
-                            required
+                            fullWidth
+                            id="userName"
+                            label="Username"
+                            name="userName"
+                            value={formik.values.userName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.userName && Boolean(formik.errors.userName)}
+                            helperText={formik.touched.userName && formik.errors.userName}
+                        />
+                        {/* <TextField
+                            margin="normal"
                             fullWidth
                             id="mobile"
                             label="Số điện thoại"
@@ -128,10 +137,9 @@ const Signup = () => {
                             onBlur={formik.handleBlur}
                             error={formik.touched.mobile && Boolean(formik.errors.mobile)}
                             helperText={formik.touched.mobile && formik.errors.mobile}
-                        />
+                        /> */}
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             id="password"
                             name="password"
@@ -145,21 +153,20 @@ const Signup = () => {
                         />
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
-                            id="confirm_password"
-                            name="confirm_password"
+                            id="re_password"
+                            name="re_password"
                             label="Nhập lại Password"
                             type="password"
-                            value={formik.values.confirm_password}
+                            value={formik.values.re_password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             error={
-                                formik.touched.confirm_password &&
-                                Boolean(formik.errors.confirm_password)
+                                formik.touched.re_password &&
+                                Boolean(formik.errors.re_password)
                             }
                             helperText={
-                                formik.touched.confirm_password && formik.errors.confirm_password
+                                formik.touched.re_password && formik.errors.re_password
                             }
                         />
                         <FormControlLabel

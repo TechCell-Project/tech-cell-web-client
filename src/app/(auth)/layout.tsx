@@ -1,21 +1,34 @@
-import { Montserrat } from 'next/font/google';
-import 'styles/base/index.scss';
-import { ThemeProviderMui } from 'components/Provider';
-import { HeaderClient } from '@components/Navigation';
+"use client";
 
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
+import { authenticate } from '@store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '@store/store';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const { isAuthenticated } = useAppSelector((state) => state.auth);
+
+    useEffect(() => {
+        dispatch(authenticate());
+    }, []);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            const timeout = setTimeout(() => {
+                router.replace('/');
+            }, 200);
+            return () => {
+                clearTimeout(timeout);
+            };
+        }
+    }, [isAuthenticated]);
+
     return (
         <html lang="en">
-            <head>
-                <link rel="icon" href="/favicon.ico" />
-            </head>
-            <body className={montserrat.className}>
-                <ThemeProviderMui>
-                    <HeaderClient />
-                    {children}
-                </ThemeProviderMui>
+            <body>
+                {children}
             </body>
         </html>
     );
