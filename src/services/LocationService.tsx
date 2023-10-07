@@ -11,6 +11,6 @@ const instance: AxiosInstance = axios.create({
 });
 
 export const getProvinces = () => instance.get<Array<Province>>('province');
-export const getDistricts = (idProvince: number) =>
+export const getDistricts = (idProvince: string | undefined) =>
     instance.get<Array<Districs>>(`province/district/${idProvince}`);
-export const getWards = (idDistrics: number) => instance.get<Array<Ward>>(`province/ward/${idDistrics}`);
+export const getWards = (idDistrics: string | undefined) => instance.get<Array<Ward>>(`province/ward/${idDistrics}`);

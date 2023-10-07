@@ -2,8 +2,10 @@
 
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import { PromotionComponent } from '@components/Form/PromotionComponent';
 
 const HotSalesSection = () => {
     return (
@@ -31,7 +33,7 @@ const HotSalesSection = () => {
                     Khuyến Mãi HOT
                 </Typography>
             </Box>
-            {/* <PromotionComponent /> */}
+            <PromotionComponent />
         </>
     );
 };

@@ -16,6 +16,7 @@ interface ProductDataProps {
         name: string;
         category: string;
         price: PriceModel;
+        // price: number;
         image: string;
     }
 }
@@ -25,7 +26,7 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
     return (
         <div className={styles.product}>
             <div className={styles.productInfoContainer}>
-                <Link href={`/productdetail/${initialData.id}`}>
+                <Link href={`/chi-tiet-san-pham/${initialData.id}`}>
                     <div className={styles.productInfo}>
                         <div className={styles.productImgContent}>
                             <div className={styles.productImgitem}>
@@ -39,15 +40,15 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
                         </div>
                         <div>
                             <h3 className={styles.productNameproduct}>
-                                {initialData?.name}
+                                {initialData.name}
                             </h3>
                         </div>
                         <div className={styles.productPrice}>
                             <div className={styles.productNewprice}>
-                                {currencyFormat(initialData?.price.sale)}<sup>đ</sup>
+                                {currencyFormat(Number(initialData.price.sale))}<sup>đ</sup>
                             </div>
                             <div className={styles.productOldprice}>
-                                {currencyFormat(initialData?.price.base)}
+                                {currencyFormat(Number(initialData.price.base))}
                                 <sup>đ</sup>
                             </div>
                         </div>

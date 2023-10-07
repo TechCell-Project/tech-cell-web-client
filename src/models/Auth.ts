@@ -1,5 +1,5 @@
 export class LoginModel {
-    emailOrUsername?: string | null = null;
+    emailOrUsername ?: string ;
     password?: string | null = null;
 }
 

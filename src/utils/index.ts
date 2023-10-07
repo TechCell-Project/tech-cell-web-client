@@ -151,16 +151,6 @@ export const getThumbnail = (images: ImageModel[]) => {
 };
 
 //format currency
-export const currencyFormat = (price: number | null): string => {
-  if (typeof price !== 'number') {
-    throw new Error('Invalid input. Please provide a number.');
-  }
-
-  // Convert the number to a string
-  const numberString: string = price.toString();
-
-  // Format the integer part with dots every three digits
-  const formattedIntegerPart: string = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-  return formattedIntegerPart;
+export const currencyFormat = (price: number): string => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }

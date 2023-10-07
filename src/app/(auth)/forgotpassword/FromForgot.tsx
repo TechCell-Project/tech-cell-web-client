@@ -1,17 +1,15 @@
 /* eslint-disable react/display-name */
 import React, { memo, useState } from 'react';
 import { useFormikContext } from 'formik';
-import {
-    Button,
-    FormControl,
-    FormHelperText,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Stack,
-    TextField,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
+import  InputAdornment from '@mui/material/InputAdornment';
+import  InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import  Stack from '@mui/material/Stack';
+import  TextField  from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { ForgotPasswordModel } from 'models';
@@ -46,7 +44,7 @@ export const ForgotForm = memo(({ sendCode }: { sendCode: (email: string) => voi
                     variant="text"
                     onClick={handleClick}
                     disabled={!values.email}
-                    style={{ fontSize: '12px' ,width:120}}
+                    style={{ fontSize: '12px', width: 120 }}
                 >
                     Gửi OTP
                 </Button>

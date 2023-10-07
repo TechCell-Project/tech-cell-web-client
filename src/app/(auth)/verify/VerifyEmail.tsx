@@ -4,17 +4,15 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import {
-    Avatar,
-    Box,
-    Button,
-    Container,
-    CssBaseline,
-    Divider,
-    Grid,
-    TextField,
-    Typography,
-} from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 import { PhoneIphone } from '@mui/icons-material';
 
@@ -29,12 +27,12 @@ import { Copyright } from '@components/Layout';
 import { verifyEmail } from '@store/slices/authSlice';
 import { ToastContainer, toast } from 'react-toastify';
 
-const VerifyEmail = ({email} : {email:string}) => {
+const VerifyEmail = ({ email }: { email: string }) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: { ...new VerifyEmailModel(),email},
+        initialValues: { ...new VerifyEmailModel(), email },
         validationSchema: VerifyEmailSchema,
         onSubmit: async (values) => {
             const response = await dispatch(verifyEmail(values));
@@ -50,7 +48,7 @@ const VerifyEmail = ({email} : {email:string}) => {
                     theme: 'light',
                 });
                 const timeout = setTimeout(() => {
-                    router.replace('/login');
+                    router.replace('/signin');
                 }, 1000);
                 return () => {
                     clearTimeout(timeout);

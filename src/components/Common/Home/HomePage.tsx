@@ -26,7 +26,7 @@ const HomePage = () => {
         dispatch(getAllProduct(searchProduct));
     }, [searchProduct]);
 
-    const productData = products.data.slice(0, 4).map((product) => {
+    const productData = products.data.slice(0, 5).map((product) => {
         return {
             id: product._id ?? '',
             name: product.name ?? '',

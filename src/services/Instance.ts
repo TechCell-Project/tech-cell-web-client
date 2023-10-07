@@ -31,8 +31,8 @@ instance.interceptors.response.use(
         return response;
     },
     async (error) => {
-        const prevRequest = error.config;
-        const statusCode = error.response.status || error.response.statusCode;
+        const prevRequest = error?.config;
+        const statusCode = error?.response?.status || error?.response?.statusCode;
 
         if (statusCode === 401 && !prevRequest._retry) {
             prevRequest._retry = true;

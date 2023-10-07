@@ -1,7 +1,10 @@
-"use client";
+'use client';
 
 import React, { FC, HTMLAttributes } from 'react';
-import { Box, Link, Paper, styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material';
 import Image from 'next/image';
 import { BRANDS } from '@constants/PhoneConstant';
 

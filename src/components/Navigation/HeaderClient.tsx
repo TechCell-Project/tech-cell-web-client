@@ -29,14 +29,17 @@ import Autocomplete from '@mui/material/Autocomplete';
 import styles from 'styles/components/button.module.scss';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { logOut } from '@store/slices/authSlice';
+import { signIn, useSession, signOut } from 'next-auth/react';
 
 interface Props {
     window?: () => Window;
 }
 
 export const HeaderClient = (props: Props) => {
+    const { data: session } = useSession();
+    console.log({session});
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector((state) => state.auth);
+    // const { user } = useAppSelector((state) => state.auth);
     const theme = useTheme();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState<boolean>(false);
@@ -155,22 +158,25 @@ export const HeaderClient = (props: Props) => {
                                 />
                             ))}
 
-                            {!user && (
+                            {!session && (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <AccountCircleIcon />
-                                    <Link
+                                    {/* <Link
                                         href="/login"
                                         underline="none"
                                         color="white"
                                         sx={{ marginLeft: '10px' }}
                                     >
                                         Đăng nhập
-                                    </Link>
+                                    </Link> */}
+                                    <Button onClick={() => signIn()}>
+                                        <Box sx={{ color: 'white' }}>Đăng Nhập</Box>{' '}
+                                    </Button>
                                 </Box>
                             )}
 
                             {/* <Box sx={{ display: 'flex', alignItems: 'center' }}> */}
-                            {user && (
+                            {session && (
                                 <>
                                     <Button
                                         id="basic-button"
@@ -188,8 +194,7 @@ export const HeaderClient = (props: Props) => {
                                             }}
                                         >
                                             <AccountCircleIcon />
-                                            {user.firstName}
-                                            {user.lastName}
+                                            {session?.user?.userName}
                                         </Box>
                                     </Button>
 
@@ -208,9 +213,10 @@ export const HeaderClient = (props: Props) => {
                                     >
                                         <MenuItem sx={{ fontSize: '14px', fontWeight: 500 }}>
                                             <Button
-                                                onClick={() => {
-                                                    dispatch(logOut());
-                                                }}
+                                                // onClick={() => {
+                                                //     dispatch(logOut());
+                                                // }}
+                                                onClick={() => signOut()}
                                             >
                                                 <Box sx={{ color: 'white' }}>Đăng Xuất</Box>
                                             </Button>

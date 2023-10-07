@@ -1,5 +1,7 @@
 export const API_ENDPOINT = process.env.API_ENDPOINT;
 
+export const AUTH_LOGIN = `${API_ENDPOINT}/auth/login`;
+
 // Authentication
 export const LOGIN_ENDPOINT = "/auth/login";
 export const REGISTER_ENDPOINT = "/auth/register";

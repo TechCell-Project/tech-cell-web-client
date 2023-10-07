@@ -1,24 +1,23 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
 
-import {
-    Avatar,
-    Box,
-    Button,
-    Checkbox,
-    Container,
-    CssBaseline,
-    Divider,
-    FormControlLabel,
-    Grid,
-    IconButton,
-    Stack,
-    TextField,
-    Typography,
-} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Divider from '@mui/material/Divider';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { FacebookRounded, Google, PhoneIphone } from '@mui/icons-material';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -28,12 +27,25 @@ import { LoginSchema } from 'validate/auth.validate';
 import { LoginModel } from 'models';
 import { useAppDispatch } from '@store/store';
 import { logIn } from '@store/slices/authSlice';
-import { ForgotPassword } from '../forgotpassword/FromForgotPassword';
+import { ForgotPassword } from 'app/(auth)/forgotpassword/FromForgotPassword';
 
 const Login = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
+    const searchParams = useSearchParams();
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        if (searchParams.get('error')) {
+            toast.error('Đăng nhập thất bại !!', {
+                position: 'top-center',
+            });
+        }
+    }, []);
+
+    // useEffect(() =>{
+    // })
 
     useEffect(() => {
         document.title = `Đăng Nhập`;
@@ -42,45 +54,20 @@ const Login = () => {
     const formik = useFormik({
         initialValues: new LoginModel(),
         validationSchema: LoginSchema,
-        onSubmit: async (values) => {
-            const response = await dispatch(logIn(values));
-            if (response.meta.requestStatus === 'fulfilled') {
-                console.log(response.meta);
-                toast.success('Đăng nhập thành công', {
-                    position: 'top-center',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                });
-                const timeout = setTimeout(() => {
-                    router.replace('/');
-                }, 5000);
-                return () => {
-                    clearTimeout(timeout);
-                };
-                
-            } else {
-                return toast.error('Đăng nhập thất bại !!', {
-                    position: 'top-center',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                });
-            }
+        onSubmit: (values) => {
+            signIn('credentials', {
+                emailOrUsername: values.emailOrUsername,
+                password: values.password,
+                callbackUrl: '/',
+                // redirect: false,
+            });
         },
     });
 
-    return (
+    return session?.user ? (
+        router.push('/')
+    ) : (
         <>
-
             <ToastContainer />
 
             <Container component="main" maxWidth="xs">
@@ -104,7 +91,7 @@ const Login = () => {
                             margin="normal"
                             fullWidth
                             id="emailOrUsername"
-                            label="Email hoặc SĐT"
+                            label="Tên đăng nhập"
                             name="emailOrUsername"
                             autoFocus
                             value={formik.values.emailOrUsername}
@@ -123,7 +110,7 @@ const Login = () => {
                             fullWidth
                             id="password"
                             name="password"
-                            label="Password"
+                            label="Mật khẩu"
                             type="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}
@@ -152,7 +139,7 @@ const Login = () => {
                             <Grid item xs>
                                 <Typography
                                     variant="body2"
-                                    sx={{ cursor: "pointer" }}
+                                    sx={{ cursor: 'pointer' }}
                                     onClick={() => setOpenForgotPassword(true)}
                                 >
                                     Quên mật khẩu
@@ -185,11 +172,15 @@ const Login = () => {
                                 <FacebookRounded />
                             </IconButton>
                         </Link>
-                        <Link href="#">
+                        <Button
+                            onClick={() =>
+                                signIn('google', { callbackUrl: 'http://localhost:3000' })
+                            }
+                        >
                             <IconButton size="large" sx={{ color: '#ee4949' }}>
                                 <Google />
                             </IconButton>
-                        </Link>
+                        </Button>
                     </Stack>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />

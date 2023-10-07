@@ -1,12 +1,12 @@
 import React, { memo, useState, useEffect } from 'react';
-// import { ForgotPasswordModel } from "@models/Auth";
 import { ForgotPasswordModel } from 'models';
 
-import { Button, DialogTitle, Stack, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { Form, Formik, FormikHelpers } from 'formik';
-// import {fetchForgotPassword,fetchVerifyForgotPassword} from "@service/AuthService";
 import { fetchForgotPassword, fetchVerifyForgotPassword } from 'services/AuthService';
-// import { enqueueSnackbar } from "notistack";
 import { forgotPasswordValidate } from 'validate/auth.validate';
 import { ForgotForm } from './FromForgot';
 import Dialog from '@mui/material/Dialog';
@@ -92,9 +92,11 @@ export const ForgotPassword = (props: Props) => {
                 onClose={props.handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                style={{height:'auto'}}
+                style={{ height: 'auto' }}
             >
-                <DialogTitle style={{textAlign:'center',marginTop:20}}>{"Quên Mật Khẩu"}</DialogTitle>
+                <DialogTitle style={{ textAlign: 'center', marginTop: 20 }}>
+                    {'Quên Mật Khẩu'}
+                </DialogTitle>
                 <Formik
                     enableReinitialize
                     initialValues={new ForgotPasswordModel()}
@@ -102,8 +104,12 @@ export const ForgotPassword = (props: Props) => {
                     onSubmit={handleSubmit}
                 >
                     {({ isSubmitting }) => (
-                        <Form style={{ width: '100%'}}>
-                            <Stack direction="column" gap={2} style={{width:500,padding:'0px 50px 50px 50px'}}>
+                        <Form style={{ width: '100%' }}>
+                            <Stack
+                                direction="column"
+                                gap={2}
+                                style={{ width: 500, padding: '0px 50px 50px 50px' }}
+                            >
                                 <ForgotForm sendCode={sendCode} />
 
                                 {isActive && (

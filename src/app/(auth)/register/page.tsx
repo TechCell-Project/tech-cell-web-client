@@ -1,18 +1,17 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import {
-    Avatar,
-    Box,
-    Button,
-    Checkbox,
-    Container,
-    CssBaseline,
-    FormControlLabel,
-    Grid,
-    TextField,
-    Typography,
-} from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import { Copyright } from '@components/Layout';
@@ -21,7 +20,6 @@ import { SignupSchema } from 'validate/auth.validate';
 import { RegisterModel } from 'models';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { useRouter } from 'next/navigation';
-import { register } from '@store/slices/authSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dialog from '@mui/material/Dialog';
@@ -44,32 +42,93 @@ const Signup = () => {
         initialValues: new RegisterModel(),
         validationSchema: SignupSchema,
         onSubmit: async (values) => {
-            const response = await dispatch(register(values));
-            if (response.meta.requestStatus === 'fulfilled') {
-                console.log(response.meta);
-                toast.success('Mã đã được gửi vào Email của bạn !!', {
-                    position: 'top-center',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
+            // console.log(values);
+            const requestOptions: RequestInit = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            };
+            fetch('https://api.techcell.cloud/auth/register', requestOptions)
+                .then((res) => {
+                    if (res.ok) {
+                        toast.success('Mã đã được gửi vào Email của bạn !!', {
+                            position: 'top-center',
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light',
+                        });
+                        setOpen(true);
+                        // router('/login');
+                        // router.replace('/login');
+                    }
+                    if (res.status === 409) {
+                        return toast.error('Tên tài khoản hoặc email đã được sử dụng !!', {
+                            position: 'top-center',
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light',
+                        });
+                    }
+
+                    if (res.status === 400) {
+                        return toast.error('Tên đăng nhập phải trên 8 ký tự !!', {
+                            position: 'top-center',
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light',
+                        });
+                    }
+                })
+                .catch((err) => {
+                    return toast.error('Tên đăng nhập hoặc tài khoản Email đã được sử dụng !!', {
+                        position: 'top-center',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'light',
+                    });
                 });
-                setOpen(true);
-            } else {
-                return toast.error('Tên đăng nhập hoặc tài khoản Email đã được sử dụng !!', {
-                    position: 'top-center',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                });
-            }
+            //     if (response.data) {
+            //     toast.success('Mã đã được gửi vào Email của bạn !!', {
+            //         position: 'top-center',
+            //         autoClose: 5000,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: true,
+            //         draggable: true,
+            //         progress: undefined,
+            //         theme: 'light',
+            //     });
+            //     setOpen(true);
+            // } else {
+            //     return toast.error('Tên đăng nhập hoặc tài khoản Email đã được sử dụng !!', {
+            //         position: 'top-center',
+            //         autoClose: 5000,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: true,
+            //         draggable: true,
+            //         progress: undefined,
+            //         theme: 'light',
+            //     });
+            // }
         },
     });
 
@@ -153,7 +212,7 @@ const Signup = () => {
                             margin="normal"
                             fullWidth
                             id="userName"
-                            label="Username"
+                            label="Tên đăng nhập"
                             name="userName"
                             value={formik.values.userName}
                             onChange={formik.handleChange}
@@ -178,7 +237,7 @@ const Signup = () => {
                             fullWidth
                             id="password"
                             name="password"
-                            label="Password"
+                            label="Mật khẩu"
                             type="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}
@@ -191,7 +250,7 @@ const Signup = () => {
                             fullWidth
                             id="re_password"
                             name="re_password"
-                            label="Nhập lại Password"
+                            label="Nhập lại mật khẩu"
                             type="password"
                             value={formik.values.re_password}
                             onChange={formik.handleChange}

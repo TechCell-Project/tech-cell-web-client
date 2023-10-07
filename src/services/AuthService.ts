@@ -11,9 +11,7 @@ import {
 import { ILogin, IRegister } from '@interfaces/auth';
 import { ForgotPasswordModel, VerifyEmailModel } from 'models';
 
-export const fetchLogin = (payload: ILogin) => instance.post(LOGIN_ENDPOINT, payload);
-
-export const fetchRegister = (payload: IRegister) => instance.post(REGISTER_ENDPOINT, payload);
+export const fetchRegister = () => instance.post(REGISTER_ENDPOINT);
 
 export const fetchVerifyEmail = (payload: VerifyEmailModel) =>
     instance.post(VERIFY_EMAIL_ENDPOINT, payload);

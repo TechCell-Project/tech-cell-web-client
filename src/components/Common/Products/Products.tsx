@@ -3,9 +3,9 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { Box, Container, Grid, Pagination, Stack } from '@mui/material';
-
-import CardComponent from '@components/Form/CardComponent';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Stack  from '@mui/material/Stack';
 import { BreadCrumbs } from '@components/Layout';
 
 import BrandScrolling from './BrandScrolling';
@@ -15,7 +15,6 @@ import SortingToolbar from './SortingToolbar';
 import PaginationData from '../PaginationData/PaginationData';
 
 import styles from '@styles/components/brands.module.scss';
-
 import { Paging } from '@models/Common';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getAllProduct } from '@store/slices/productSlice';

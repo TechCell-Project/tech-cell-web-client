@@ -9,10 +9,10 @@ import styles from '@styles/components/cart.module.scss';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Image from 'next/image';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button } from '@mui/material';
-import { Checkbox } from '@mui/material';
-import { FormControlLabel } from '@mui/material';
-import { TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import TextField from '@mui/material/TextField';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { red } from '@mui/material/colors';
 import { Formik } from 'formik';
@@ -60,21 +60,22 @@ export default function Page() {
         });
     }, []);
 
-    const getDataDistricts = async (id: number) => {
+    const getDataDistricts = async (id: string | undefined) => {
+        console.log(id);
         const response = await getDistricts(id);
         if (response.data) {
             setdistricts((response.data as any).results);
         }
     };
 
-    const getDataWards = async (id: number) => {
+    const getDataWards = async (id: string | undefined) => {
         const response = await getWards(id);
         if (response.data) {
             setWards((response.data as any).results);
         }
     };
 
-    console.log(provinces);
+    // console.log(provinces);
 
     return (
         <>
@@ -424,6 +425,11 @@ export default function Page() {
                                                                     (value as Province)?.province_id
                                                                 ) {
                                                                     getDataDistricts(
+                                                                        (
+                                                                            value as Province
+                                                                        ).province_id?.toString(),
+                                                                    );
+                                                                    console.log(
                                                                         Number(
                                                                             (value as Province)
                                                                                 .province_id,
@@ -447,10 +453,9 @@ export default function Page() {
                                                                     (value as Districs)?.district_id
                                                                 ) {
                                                                     getDataWards(
-                                                                        Number(
-                                                                            (value as Districs)
-                                                                                .district_id,
-                                                                        ),
+                                                                        (
+                                                                            value as Districs
+                                                                        ).district_id?.toString(),
                                                                     );
                                                                 }
                                                             }}
