@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Inter, Montserrat } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import { HeaderClient, FooterClient } from 'components/Navigation';
 import 'styles/base/index.scss';
 import { ThemeProviderMui } from 'components/Provider';
