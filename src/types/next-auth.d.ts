@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth';
-import { User } from './user.type';
 
 declare module 'next-auth' {
     /**
@@ -7,6 +6,23 @@ declare module 'next-auth' {
      */
     interface Session {
         user: User;
+    }
+
+    interface User {
+        _id: string;
+        email: string;
+        userName: string;
+        firstName: string;
+        lastName: string;
+        address: {
+            provinceLevel: string;
+            districtLevel: string;
+            wardLevel: string;
+            detail: string;
+        }[];
+        role: string;
+        accessToken: string;
+        refreshToken: string;
     }
 }
 

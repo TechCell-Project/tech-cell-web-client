@@ -1,14 +1,11 @@
-import NextAuth, { Session, NextAuthOptions } from 'next-auth';
+import NextAuth, { NextAuthOptions, User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { API_ENDPOINT, AUTH_LOGIN } from '@constants/Services';
-import axios from 'axios';
+import { AUTH_LOGIN, AUTH_LOGIN_GOOGLE } from '@constants/Services';
+import axios from '@libs/axios';
 
-export const authOptions: NextAuthOptions = {
-    // session: {
-    //     strategy: "jwt",
-    // },
+const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: 'Credentials',
@@ -37,33 +34,59 @@ export const authOptions: NextAuthOptions = {
                         console.error(err.message);
                         return null;
                     });
-            }, 
+            },
         }),
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env .GOOGLE_CLIENT_SECRET,
+            clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
         }),
 
         FacebookProvider({
-            clientId: process.env.FACEBOOK_CLIENT_ID,
-            clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+            clientId: process.env.FACEBOOK_CLIENT_ID ?? '',
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? '',
         }),
     ],
     callbacks: {
+        async signIn({ user, account }) {
+            if (account?.provider === 'google') {
+                try {
+                    const { data } = await axios.post<User>(AUTH_LOGIN_GOOGLE, {
+                        idToken: account.id_token,
+                    });
+                    Object.assign(user, {
+                        // assign custom properties of backend
+                        _id: data._id,
+                        email: data.email,
+                        userName: data.userName,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        address: data.address,
+                        role: data.role,
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken,
+
+                        //remove default properties of google
+                        id: undefined,
+                        name: undefined,
+                        sub: undefined,
+                        picture: undefined,
+                        image: undefined,
+                        iat: undefined,
+                        exp: undefined,
+                        jti: undefined,
+                    });
+                    return true;
+                } catch (error) {
+                    console.error(error);
+                    return false;
+                }
+            }
+            return true;
+        },
         async jwt({ token, user }) {
             return { ...token, ...user };
-            // if (user) {
-            //     return {
-            //         ...token,
-            //         // token.email = user.email,
-            //         accessToken: user?.token as string,
-            //         refreshToken: user.refreshToken,
-            //     };
-            // }
-            // return token;
         },
         async session({ session, token }) {
-            console.log(session);
             session.user = token as any;
             return session; // The return type will match the one returned in `useSession()`
         },
@@ -73,13 +96,6 @@ export const authOptions: NextAuthOptions = {
             else if (new URL(url).origin === baseUrl) return url;
             return baseUrl;
         },
-
-        // async session({ session, token }: Promise<Session>) {
-        //     console.log(session.user);
-        //     session.user.accessToken = token.accessToken;
-
-        //     return session;
-        // },
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {

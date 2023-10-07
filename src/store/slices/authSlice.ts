@@ -1,7 +1,7 @@
 import { IAuthSlice, ICart, ILogin, IRegister } from '@interfaces/auth';
 import { Dispatch, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { VerifyEmailModel } from 'models';
-import { fetchLogin, fetchRegister, fetchVerifyEmail, ftechAddToCart } from 'services/AuthService';
+import { fetchLogin, fetchRegister, fetchVerifyEmail, fetchAddToCart } from 'services/AuthService';
 
 export const logIn = createAsyncThunk('auth/login', async(loginData: ILogin, { rejectWithValue }) => {
     try {
@@ -24,7 +24,7 @@ export const logIn = createAsyncThunk('auth/login', async(loginData: ILogin, { r
 
 export const addToCart = createAsyncThunk('auth/carts', async (cartData:ICart, { rejectWithValue }) => {
     try {
-      const response = await ftechAddToCart();
+      const response = await fetchAddToCart();
       return response.data
     } catch (error:any) {
       return rejectWithValue(error.message);
