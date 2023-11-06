@@ -1,0 +1,25 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.brands_content {
+    overflow-x: auto;
+}
+
+.list_brands {
+    display: flex;
+    flex-wrap: wrap;
+
+    @include responsive(min_sm) {
+        align-items: center;
+        justify-content: center;
+    }
+
+    @include responsive(max_sm) {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        width: 100%;
+        white-space: nowrap;
+        overflow-y: hidden;
+        overflow-x: scroll;
+    } 
+}

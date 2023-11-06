@@ -1,0 +1,47 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.dialog_content{
+    max-width: 500px !important;
+    margin: 0 auto !important;
+}
+
+.dialogtitle_h6{
+    background-color: $primaryColor;
+    color: white;
+}
+
+.button_container{
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+}
+
+.button_btn{
+    width: 95%;
+    background-color: $primaryColor !important;
+    color: white !important;
+}
+
+.dialog_table {
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    td,
+    th {
+        border: 1px solid #dee2e6;
+        border-collapse: collapse;
+        text-align: left;
+        padding: 8px;
+    }
+    tr {
+        font-size: 14px;
+        &:nth-child(even) {
+            background-color: #dddddd;
+        }
+        td:first-child{
+            width: 126px;
+        }
+    }
+}

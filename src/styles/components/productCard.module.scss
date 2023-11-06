@@ -1,0 +1,33 @@
+@import '../base/variables';
+
+.product_card {
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.product_card .product_details {
+    margin-top: 10px;
+    justify-content: flex-start;
+}
+
+.product_card .product_details h6 {
+    color: $primaryColor;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.product_card .product_details h4 {
+    font-size: 18px;
+    color: $blackColor;
+    cursor: pointer;
+}
+
+.product_card .product_details p {
+    font-size: 16px;
+    color: $blackColor;
+}
+

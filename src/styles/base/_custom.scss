@@ -1,0 +1,14 @@
+// Common class
+.MuiButtonBase-root,
+.MuiInputBase-root {
+  font-family: $primaryFont;
+  letter-spacing: 0;
+}
+
+.MuiInputBase-root {
+  font-size: 14px;
+}
+
+.MuiChip-root {
+  font-weight: 600;
+}
