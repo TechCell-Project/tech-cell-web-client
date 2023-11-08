@@ -4,14 +4,11 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import '@styles/components/modal.module.scss';
 import styles from '@styles/components/productdetail.module.scss';
-
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
 import Stack from '@mui/material/Stack';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import { useTheme } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, useTheme } from '@mui/material';
 
 import { StarRateComponent } from '../StarRate/StarRate';
 import { SliderImgProductDetail } from './SliderImg';
@@ -38,8 +35,13 @@ export interface DialogTitleProps {
 
 export const ProductDetail = ({ id }: { id: string }) => {
     const theme = useTheme();
-    const router = useRouter();
     const [showDialog, setShowDialog] = useState(false);
+    const handleClickOpen = () => {
+        setShowDialog(true);
+    };
+    const handleClose = () => {
+        setShowDialog(false);
+    };
 
     const [productDetail, setProductDetail] = useState<ProductModel>(new ProductModel());
     const [variant, setVariant] = useState<VariantInfo>();
@@ -57,13 +59,12 @@ export const ProductDetail = ({ id }: { id: string }) => {
         }
     }, [product]);
 
-    console.log(productDetail);
+    // console.log(productDetail);
 
     const handleSelectVariant = (variant: VariantInfo) => {
         setVariant(variant);
     };
 
-    console.log(variant);
 
     return isLoadingDetails ? (
         <LoadingSection isLoading={isLoadingDetails} />
@@ -161,7 +162,7 @@ export const ProductDetail = ({ id }: { id: string }) => {
                             />
 
                             {/* Btn thêm sản phẩm và mua sản phẩm */}
-                            <CustomizedDialogs missingColor={variant !== undefined ? !variant.isSelectedColor : true} />
+                            <CustomizedDialogs productCart={productDetail} missingColor={variant !== undefined ? !variant.isSelectedColor : true} />
 
                             {/* Ưu đãi thêm */}
                             <div className={styles.extra_offer_container}>
@@ -204,6 +205,23 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                 <div className={styles.card_right_btn}>
                                     <a onClick={() => setShowDialog(true)}>Xem cấu hình chi tiết</a>
                                 </div>
+
+                                <Dialog
+                                    aria-labelledby="customized-dialog-title"
+                                    open={showDialog}
+                                >
+                                    <DialogTitle
+                                        sx={{ backgroundColor: '#ee4949', color: 'white' }}
+                                    >
+                                        <Typography variant="h6" sx={{textAlign:'center'}}>Thông số kĩ thuật</Typography>
+                                    </DialogTitle>
+                                    <DialogContent dividers>
+                                        <Specification techInfo={productDetail.generalAttributes} />
+                                    </DialogContent>
+                                    <DialogActions sx={{backgroundColor:'#ee4949',display:'flex',justifyContent:'center'}}>
+                                        <Button onClick={handleClose} sx={{color:'white',width:'100%'}}>Đóng</Button>
+                                    </DialogActions>
+                                </Dialog>
                             </div>
                         </div>
                     </div>

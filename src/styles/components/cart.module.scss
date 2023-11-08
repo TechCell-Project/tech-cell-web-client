@@ -8,7 +8,7 @@
 .block_product {
     border-radius: 5px;
     margin: auto;
-    max-width: 600px;
+    max-width: 700px;
     padding: 10px;
 }
 .cart_header {
@@ -17,11 +17,11 @@
     display: flex;
     align-items: center;
     .title {
-        margin-left: 200px;
+        margin-left: 250px;
     }
 }
 .cart_body{
-    max-width: 600px;
+    max-width: 700px;
     margin: 25px auto;
     background-color: white;
     border-radius: 5px;
@@ -289,12 +289,12 @@
         width: 600px;
         margin: 10px 0px;
         .cart_buy_now {
-            padding: 10px 20px;
             background-color: #ee4949;
             border-radius: 5px;
             cursor: pointer;
-            button {
+            a {
                 color: white;
+                padding: 10px 20px;
             }
         }
     }

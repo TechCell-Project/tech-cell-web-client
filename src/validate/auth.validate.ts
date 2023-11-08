@@ -13,13 +13,28 @@ export const SignupSchema = yup.object({
     firstName: yup.string().required('Bạn cần điền tên'),
     lastName: yup.string().required('Bạn cần điền họ'),
     userName: yup.string().required('Bạn cần điền tên đăng nhập'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
+    email: yup.string().email('Enter a valid email').required('Bạn cần điền Email'),
     //mobile: yup.string().required('Bạn cần nhập sdt'),
     password: yup.string().min(8, 'Mật khẩu cần ít nhất 8 kí tự').required('Bạn cần nhập mật khẩu'),
     re_password: yup
         .string()
         .oneOf([yup.ref('password')], 'Mật khẩu chưa khớp')
         .required('Bạn cần nhập lại mật khẩu!'),
+});
+
+export const ProfileSchema = yup.object({
+  address: yup.object().shape({
+    // addressName: yup.string().required('Vui lòng nhập địa chỉ!'),
+    customerName: yup.string().required('Vui lòng nhập tên khách hàng!'),
+    phoneNumbers: yup.string()
+      .min(10, 'Số điện thoại phải đủ 10 số!')
+      .max(10, 'Số điện thoại phải đủ 10 số!')
+      .required('Vui lòng nhập số điện thoại!'),
+    provinceLevel: yup.object().required('Vui lòng chọn tỉnh / thành!'),
+    districtLevel: yup.object().required('Vui lòng chọn quận / huyện!'),
+    wardLevel: yup.object().required('Vui lòng chọn xã / phường!'),
+    detail: yup.string().required('Vui lòng nhập địa chỉ cụ thể!'),
+  }),
 });
 
 export const VerifyEmailSchema = yup.object({
@@ -43,4 +58,5 @@ export const forgotPasswordValidate = yup.object({
       .oneOf([yup.ref("password")], "Không trùng khớp với mật khẩu mới!")
       .required("Mật khẩu nhập lại không được bỏ trống !"),
   });
+
   

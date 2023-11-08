@@ -12,6 +12,13 @@ export class RegisterModel {
     lastName?: string | null = null;
 }
 
+export class ProfileModel {
+    userName?: string | null = null;
+    email?: string | null = null;
+    phoneNumber?: string | null = null;
+    referralCode?: string | null = null;
+}
+
 export class VerifyEmailModel {
     email?: string = "";
     otpCode?: string = "";

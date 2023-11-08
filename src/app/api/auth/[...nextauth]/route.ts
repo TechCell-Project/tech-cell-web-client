@@ -28,6 +28,7 @@ const authOptions: NextAuthOptions = {
                     .post(AUTH_LOGIN, payload)
                     .then((response) => {
                         console.log(response.data);
+                        // localStorage.setItem('user', response.data);
                         return response.data;
                     })
                     .catch((err) => {

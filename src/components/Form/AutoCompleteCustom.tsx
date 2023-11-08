@@ -13,6 +13,7 @@ import { FormikValues } from 'formik';
 import { getIn } from 'formik';
 
 interface Props<T> {
+    value?: string | undefined;
     name: string;
     options: T[];
     displayLabel?: string;
@@ -37,6 +38,7 @@ interface MultiSelectProps<T> extends Props<T> {
 
 function AutoCompleteComponent<T>(props: MultiSelectProps<T>) {
     const {
+        value,
         name,
         disabled,
         options,
@@ -86,6 +88,7 @@ function AutoCompleteComponent<T>(props: MultiSelectProps<T>) {
             isOptionEqualToValue={(option, value) =>
                 getIn(option, displaySelected) === getIn(value, displaySelected)
             }
+            fullWidth
             disableCloseOnSelect={multiple ? true : false}
             getOptionLabel={getDefaultOptionLabel}
             onChange={defaultHandleChange}
@@ -99,7 +102,6 @@ function AutoCompleteComponent<T>(props: MultiSelectProps<T>) {
                         htmlFor: name,
                         // shrink: true,
                     }}
-                    style={{ width: '170px' }}
                     value={searchValue}
                     onChange={handleChangeSearchValue}
                     InputProps={{

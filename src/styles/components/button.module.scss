@@ -1,26 +1,17 @@
-.body{
+.body {
     padding-right: 0px !important;
 }
-
+.text_link {
+    padding: 10px;
+    background-color: #ee4949;
+    border-radius: 5px;
+    a {
+        text-decoration: none;
+        background-color: #ee4949 !important;
+    }
+}
 .buttonMenu {
     position: relative;
-    // &::after {
-    //   content: '';
-    //   position: absolute;
-    //   width: 100%;
-    //   transform: scaleX(0);
-    //   height: 2px;
-    //   bottom: 0;
-    //   left: 0;
-    //   background-color: rgba(255, 255, 255, 0.8);
-    //   transform-origin: bottom right;
-    //   transition: transform 0.45s ease-out;
-    // }
-
-    // &:hover::after {
-    //   transform: scaleX(1);
-    //   transform-origin: bottom left;
-    // }
 }
 
 .menu_nav {
@@ -41,8 +32,7 @@
     cursor: pointer;
 }
 
-
-// DrawerLayout Css 
+// DrawerLayout Css
 .css-1elwnq4-MuiPaper-root-MuiAccordion-root:before {
     background-color: #fff;
 }

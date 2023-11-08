@@ -18,16 +18,12 @@ import { Copyright } from '@components/Layout';
 import { PhoneIphone } from '@mui/icons-material';
 import { SignupSchema } from 'validate/auth.validate';
 import { RegisterModel } from 'models';
-import { useAppDispatch, useAppSelector } from '@store/store';
-import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dialog from '@mui/material/Dialog';
 import VerifyEmail from '../verify/VerifyEmail';
 
 const Signup = () => {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
 
     const handleClose = () => {
@@ -42,7 +38,7 @@ const Signup = () => {
         initialValues: new RegisterModel(),
         validationSchema: SignupSchema,
         onSubmit: async (values) => {
-            // console.log(values);
+            console.log(values);
             const requestOptions: RequestInit = {
                 method: 'POST',
                 headers: {
@@ -105,30 +101,6 @@ const Signup = () => {
                         theme: 'light',
                     });
                 });
-            //     if (response.data) {
-            //     toast.success('Mã đã được gửi vào Email của bạn !!', {
-            //         position: 'top-center',
-            //         autoClose: 5000,
-            //         hideProgressBar: false,
-            //         closeOnClick: true,
-            //         pauseOnHover: true,
-            //         draggable: true,
-            //         progress: undefined,
-            //         theme: 'light',
-            //     });
-            //     setOpen(true);
-            // } else {
-            //     return toast.error('Tên đăng nhập hoặc tài khoản Email đã được sử dụng !!', {
-            //         position: 'top-center',
-            //         autoClose: 5000,
-            //         hideProgressBar: false,
-            //         closeOnClick: true,
-            //         pauseOnHover: true,
-            //         draggable: true,
-            //         progress: undefined,
-            //         theme: 'light',
-            //     });
-            // }
         },
     });
 
