@@ -1,4 +1,4 @@
-import { PriceModel } from "@models/Product";
+import { PriceModel, ProductData } from "@models/Product";
 
 export interface CategorySelecting {
     key: string;
@@ -25,4 +25,9 @@ export interface VariantInfo {
     color: string;
     price: PriceModel;
     isSelectedColor: boolean;
+}
+
+export interface ProductSearchingStatus {
+    data: ProductData | null;
+    messageStatusCode: string;
 }

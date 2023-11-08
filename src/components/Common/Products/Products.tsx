@@ -51,8 +51,6 @@ const Products: FC<ProductsPageProps> = ({ className }) => {
             };
         });
 
-        console.log(productData);
-
         setCurrentProducts(productData);
     }, [products]);
 

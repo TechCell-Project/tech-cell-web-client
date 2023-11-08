@@ -2,13 +2,14 @@
 
 import React, { useState, MouseEvent, FC } from 'react';
 
+import styles from '@styles/components/brands.module.scss';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material';
-import { Percent, Visibility } from '@mui/icons-material';
 import { Ascending, Descending } from '@components/svgs';
 
 const ToggleButtonStyled = styled(ToggleButton)(({ theme }) => ({
@@ -37,12 +38,8 @@ const ToggleButtonStyled = styled(ToggleButton)(({ theme }) => ({
     },
 }));
 
-interface ToolbarProps {
-    className: string;
-}
-
-const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
-    const [sortByTag, setSortByTag] = useState('popular');
+const SortingToolbarVSearch = () => {
+    const [sortByTag, setSortByTag] = useState('relevant');
 
     const handleSortByTag = (event: MouseEvent<HTMLElement>, newSorting: string) => {
         setSortByTag(newSorting);
@@ -61,7 +58,7 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
                     <Typography variant="h5" fontWeight={600} fontSize={18}>
                         Sắp xếp theo
                     </Typography>
-                    <Box className={className}>
+                    <Box className={styles.list_brands}>
                         <ToggleButtonGroup
                             sx={{
                                 display: 'grid',
@@ -79,6 +76,9 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
                             }}
                             {...sortByTagControl}
                         >
+                            <ToggleButtonStyled value="relevant" key="relevant">
+                                Liên quan
+                            </ToggleButtonStyled>
                             <ToggleButtonStyled value="ascending" key="ascending">
                                 <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
                                 Giá Cao - Thấp
@@ -86,14 +86,6 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
                             <ToggleButtonStyled value="descending" key="descending">
                                 <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
                                 Giá Thấp - Cao
-                            </ToggleButtonStyled>
-                            <ToggleButtonStyled value="hot-promo" key="hot-promo">
-                                <Percent sx={{ fontSize: '20px', marginRight: '5px' }} />
-                                Khuyến mãi hot
-                            </ToggleButtonStyled>
-                            <ToggleButtonStyled value="popular" key="popular">
-                                <Visibility sx={{ fontSize: '20px', marginRight: '5px' }} />
-                                Xem nhiều
                             </ToggleButtonStyled>
                         </ToggleButtonGroup>
                     </Box>
@@ -103,4 +95,4 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
     );
 };
 
-export default SortingToolbar;
+export default SortingToolbarVSearch;

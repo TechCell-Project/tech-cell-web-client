@@ -39,6 +39,11 @@ declare module '@mui/material/styles' {
 }
 
 export const theme: Theme = createTheme({
+    palette: {
+        primary: {
+            main: '#ee4949',
+        }
+    },
     primary: {
         main: '#ee4949',
         darker: '#eb2525',

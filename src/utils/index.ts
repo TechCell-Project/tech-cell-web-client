@@ -1,9 +1,12 @@
 import { ProductStatus } from '@constants/enum';
 import { IUser } from '@interfaces/auth';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
-import { ImageModel } from '@models/Product';
+import { ImageModel, ProductData } from '@models/Product';
 import { AttributeDynamics } from '@models/Attribute';
 import { VariantStorage } from '@interfaces/product';
+import { FOUND_CODE, MAP_STATUS_CODE, NOTFOUND_ERROR_CODE, SERVER_ERROR_CODE } from '@constants/errorCode';
+
+export * from './get-products';
 
 // get information from local storage
 export const getCurrentUserId = () => {
@@ -167,6 +170,19 @@ export const currencyFormat = (price: number | null): string => {
     return formattedIntegerPart;
 };
 
+// format products data list
+export const formatProductLabel = (products: ProductData) => {
+    return products.data.map((product) => {
+        return {
+            id: product._id ?? '',
+            name: product.name ?? '',
+            category: product.category?.name ?? '',
+            price: product.variations[0].price,
+            image: getThumbnail(product.generalImages),
+        };
+    });
+}
+
 //get attribute from product details
 export const getSingleAttribute = (attributes: AttributeDynamics[], type: string) => {
     const specificAttribute = attributes.filter((attribute) => attribute.k === type).shift();
@@ -206,4 +222,26 @@ export const sortByCustomOrder = (arr: VariantStorage[]) => {
     };
 
     return arr.slice().sort((a, b) => (customOrder[a.storage] || 0) - (customOrder[b.storage] || 0));
+}
+
+//Urlify a given string 
+export const Urlify = (str: string) => {
+    return encodeURI(str.trim());
+}
+
+//Render message when searching products 
+export const getMessage = (messageStatusCode: string, keyword: string, totalRecord?: number) => {
+    let message = ''
+    switch (messageStatusCode) {
+        case FOUND_CODE: 
+            message = `Tìm thấy <span>${totalRecord}</span> sản phẩm cho từ khóa <span>'${keyword}'</span>`;
+            break;
+        case NOTFOUND_ERROR_CODE: 
+            message = MAP_STATUS_CODE.get(NOTFOUND_ERROR_CODE)!.message + ` <span>'${keyword}'</span>`;
+            break;
+        case SERVER_ERROR_CODE:
+            message = MAP_STATUS_CODE.get(SERVER_ERROR_CODE)!.message;
+    }
+
+    return message;
 }

@@ -16,8 +16,9 @@ import { Paging } from '@models/Common';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getAllProduct } from '@store/slices/productSlice';
 
-import { getThumbnail } from 'utils';
+import { formatProductLabel, getThumbnail } from 'utils';
 import { ProductLabel } from '@interfaces/product';
+import LoadingSection from '../Display/LoadingSection';
 
 const HomePage = () => {
     const dispatch = useAppDispatch();
@@ -32,15 +33,7 @@ const HomePage = () => {
     }, [searchProduct]);
 
     useEffect(() => {
-        const productData = products.data.slice(0, 4).map((product) => {
-            return {
-                id: product._id ?? '',
-                name: product.name ?? '',
-                category: product.category?.name ?? '',
-                price: product.variations[0].price,
-                image: getThumbnail(product.generalImages),
-            };
-        });
+        const productData = formatProductLabel(products).slice(0, 4);
 
         setNewestProducts(productData);
 
@@ -52,7 +45,11 @@ const HomePage = () => {
         <ShopServicesComponent />
         <Container maxWidth="lg">
                 <Stack spacing={3}>
-                    <FeaturedSection initialData={newestProducts} />
+                    {isLoading ? (
+                        <LoadingSection isLoading={isLoading} />
+                    ) : (
+                        <FeaturedSection initialData={newestProducts} />
+                    )}
                     <BrandCategoryCompoment />
                     <Box sx={{ maxWidth: { lg: '100%', xs: '100%' } }}>
                         <Image
