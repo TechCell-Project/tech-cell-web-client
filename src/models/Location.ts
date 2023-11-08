@@ -37,17 +37,7 @@ class Address {
     isDefault: boolean | null = null;
 }
 
-// class User {
-//     email: string | null = null;
-//     userName: string | null = null;
-//     lastName: string | null = null;
-//     firstName: string | null = null;
-// }
 
 export class Location {
-    email: string | null = null;
-    userName: string | null = null;
-    lastName: string | null = null;
-    firstName: string | null = null;
     address: Address = new Address();
 }

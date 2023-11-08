@@ -1,8 +1,9 @@
 import { rejects } from 'assert';
 import axios, { AxiosInstance } from 'axios';
 import { API_ENDPOINT } from '@constants/Services';
-import { District, Province, Ward } from 'models/Location';
+import { District, Province, Ward,Location } from 'models/Location';
 import { ADDRESS_PROVICES } from '@constants/Services';
+import { useAxiosAuth } from '@hooks/useAxios';
 
 const instance: AxiosInstance = axios.create({
     baseURL: API_ENDPOINT,
@@ -11,6 +12,11 @@ const instance: AxiosInstance = axios.create({
         'Content-Type': 'application/json',
     },
 });
+
+// export const addAddress = (values:Location) =>{
+//     const axiosAuth = useAxiosAuth();
+//     return axiosAuth.patch('/profile/address', values);
+// }
 
 
 export const getProvinces = () => instance.get<Array<Province>>(ADDRESS_PROVICES);

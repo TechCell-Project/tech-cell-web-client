@@ -24,7 +24,7 @@ export const SignupSchema = yup.object({
 
 export const ProfileSchema = yup.object({
   address: yup.object().shape({
-    // addressName: yup.string().required('Vui lòng nhập địa chỉ!'),
+    addressName: yup.string().required('Vui lòng nhập địa chỉ!'),
     customerName: yup.string().required('Vui lòng nhập tên khách hàng!'),
     phoneNumbers: yup.string()
       .min(10, 'Số điện thoại phải đủ 10 số!')

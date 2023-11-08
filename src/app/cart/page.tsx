@@ -10,7 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { red } from '@mui/material/colors';
-import { Box, Grid, Radio, RadioGroup } from '@mui/material';
+import { Box, Grid, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent } from '@mui/material';
 import { getDistricts } from 'services/LocationService';
 import { getProvinces } from 'services/LocationService';
 import { getWards } from 'services/LocationService';
@@ -27,6 +27,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProfileSchema } from 'validate/auth.validate';
 import { useAppDispatch, useAppSelector } from '@store/store';
+import { SelectInputCustom } from '@components/Common/FormFormik/SelectCustom';
 
 export default function Page() {
     const [provinces, setProvinces] = useState<Array<Province>>(new Array<Province>());
@@ -110,7 +111,11 @@ export default function Page() {
     };
     const { data: session } = useSession();
     const cart = useAppSelector((state) => state.cart);
-    // const { product, isLoadingDetails } = useAppSelector((state) => state.product);
+    const addressName = [
+        { name: 'Nhà', value: 'Nhà'},
+        { name: 'Công ty', value: 'Công ty'}
+    ]
+
 
     return (
         <>
@@ -152,85 +157,82 @@ export default function Page() {
                                     <div className={styles.body_content}>
                                         <div className={styles.cart_content}>
                                             {cart.cartItems.map((cartItem: any) => (
-                                                <div key={cartItem._id} className={styles.product_cart}>
-                                                        <div className={styles.product_cart_check}>
-                                                            <Checkbox
-                                                                defaultChecked
-                                                                // checked={checked[1]}
-                                                                checked={checked[1]}
-                                                                onChange={handleChange2}
-                                                                sx={{
-                                                                    color: red[800],
-                                                                    '&.Mui-checked': {
-                                                                        color: red[600],
-                                                                    },
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        <Image
-                                                            src="/img_productDetail/ip14_2.webp"
-                                                            width={80}
-                                                            height={80}
-                                                            alt="product"
+                                                <div
+                                                    key={cartItem._id}
+                                                    className={styles.product_cart}
+                                                >
+                                                    <div className={styles.product_cart_check}>
+                                                        <Checkbox
+                                                            defaultChecked
+                                                            // checked={checked[1]}
+                                                            checked={checked[1]}
+                                                            onChange={handleChange2}
+                                                            sx={{
+                                                                color: red[800],
+                                                                '&.Mui-checked': {
+                                                                    color: red[600],
+                                                                },
+                                                            }}
                                                         />
-                                                        <div className={styles.product_info}>
-                                                            <div className={styles.product_text}>
-                                                                <div
-                                                                    className={
-                                                                        styles.product_heading
-                                                                    }
-                                                                >
-                                                                    {cartItem.name}
-                                                                </div>
-                                                                <div
-                                                                    className={styles.product_price}
-                                                                >
-                                                                    <div
-                                                                        className={
-                                                                            styles.product_price_new
-                                                                        }
-                                                                    >
-                                                                        26.690.000đ
-                                                                    </div>
-                                                                    <div
-                                                                        className={
-                                                                            styles.product_price_old
-                                                                        }
-                                                                    >
-                                                                        <span>32.990.000đ</span>
-                                                                    </div>
-                                                                </div>
+                                                    </div>
+                                                    <Image
+                                                        src="/img_productDetail/ip14_2.webp"
+                                                        width={80}
+                                                        height={80}
+                                                        alt="product"
+                                                    />
+                                                    <div className={styles.product_info}>
+                                                        <div className={styles.product_text}>
+                                                            <div className={styles.product_heading}>
+                                                                {cartItem.name}
                                                             </div>
-                                                            <div className={styles.product_quanity}>
+                                                            <div className={styles.product_price}>
                                                                 <div
                                                                     className={
-                                                                        styles.product_quanity_btn
+                                                                        styles.product_price_new
                                                                     }
-                                                                    onClick={handleDownquanity}
                                                                 >
-                                                                    -
+                                                                    26.690.000đ
                                                                 </div>
                                                                 <div
                                                                     className={
-                                                                        styles.product_quanity_number
+                                                                        styles.product_price_old
                                                                     }
                                                                 >
-                                                                    {quanity}
-                                                                </div>
-                                                                <div
-                                                                    className={
-                                                                        styles.product_quanity_btn
-                                                                    }
-                                                                    onClick={handleUpquanity}
-                                                                >
-                                                                    +
+                                                                    <span>32.990.000đ</span>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div className={styles.product_quanity}>
+                                                            <div
+                                                                className={
+                                                                    styles.product_quanity_btn
+                                                                }
+                                                                onClick={handleDownquanity}
+                                                            >
+                                                                -
+                                                            </div>
+                                                            <div
+                                                                className={
+                                                                    styles.product_quanity_number
+                                                                }
+                                                            >
+                                                                {quanity}
+                                                            </div>
+                                                            <div
+                                                                className={
+                                                                    styles.product_quanity_btn
+                                                                }
+                                                                onClick={handleUpquanity}
+                                                            >
+                                                                +
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                                        <div className={styles.product_cart_delete}>
-                                                            <DeleteIcon />
-                                                        </div>
+                                                    <div className={styles.product_cart_delete}>
+                                                        <DeleteIcon />
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
@@ -403,170 +405,170 @@ export default function Page() {
                                                         theme: 'light',
                                                     });
 
-                                                    setTimeout(() => {
-                                                        setOpen(false);
-                                                        setOpenList(true);
-                                                        const getAddress = axiosAuth
-                                                            .get('/profile')
-                                                            .then((res) => {
-                                                                console.log(res.data.address);
-                                                            })
-                                                            .catch((err) => {
-                                                                console.log(err);
-                                                            });
-                                                    }, 5000);
+                                                    // setTimeout(() => {
+                                                    //     setOpen(false);
+                                                    //     setOpenList(true);
+                                                    //     const getAddress = axiosAuth
+                                                    //         .get('/profile')
+                                                    //         .then((res) => {
+                                                    //             console.log(res.data.address);
+                                                    //         })
+                                                    //         .catch((err) => {
+                                                    //             console.log(err);
+                                                    //         });
+                                                    // }, 5000);
                                                 });
                                         }}
                                     >
-                                        {({ setValues, errors }) => (
-                                            <Form style={{ width: '100%' }}>
-                                                <Grid container spacing={2}>
-                                                    <Grid item md={6}>
-                                                        <TextFieldCustom
-                                                            name="address.customerName"
-                                                            label={'Họ và tên'}
-                                                        />
-                                                    </Grid>
-                                                    <Grid item md={6}>
-                                                        <TextFieldCustom
-                                                            name="address.phoneNumbers"
-                                                            label={'Số điện thoại'}
-                                                        />
-                                                    </Grid>
-                                                    <Grid item md={6}>
-                                                        <AutocompleteCustom
-                                                            label="Chọn Thành Phố"
-                                                            displaySelected="province_id"
-                                                            displayLabel="province_name"
-                                                            name={'address.provinceLevel'}
-                                                            options={provinces}
-                                                            handleChange={async (value) => {
-                                                                setValues((prev) => {
-                                                                    const newValue = {
-                                                                        ...prev,
-                                                                    };
+                                        {({ setValues, errors, setFieldValue }) => (
+                                            console.log(errors),
+                                            (
+                                                <Form style={{ width: '100%' }}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item md={6}>
+                                                            <SelectInputCustom
+                                                                name="address.addressName"
+                                                                label={'Địa chỉ'}
+                                                                options={addressName}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item md={6}>
+                                                            <TextFieldCustom
+                                                                name="address.customerName"
+                                                                label={'Họ và tên'}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item md={6}>
+                                                            <TextFieldCustom
+                                                                name="address.phoneNumbers"
+                                                                label={'Số điện thoại'}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item md={6}>
+                                                            <AutocompleteCustom
+                                                                label="Chọn Thành Phố"
+                                                                displaySelected="province_id"
+                                                                displayLabel="province_name"
+                                                                name={'address.provinceLevel'}
+                                                                options={provinces}
+                                                                handleChange={async (value) => {
+                                                                    setValues((prev) => {
+                                                                        const newValue = {
+                                                                            ...prev,
+                                                                        };
 
-                                                                    newValue.address.provinceLevel =
-                                                                        value;
-                                                                    newValue.address.districtLevel =
-                                                                        null;
-                                                                    newValue.address.wardLevel =
-                                                                        null;
+                                                                        newValue.address.provinceLevel =
+                                                                            value;
+                                                                        newValue.address.districtLevel =
+                                                                            null;
+                                                                        newValue.address.wardLevel =
+                                                                            null;
 
-                                                                    return newValue;
-                                                                });
-                                                                getDataDistricts(
-                                                                    (value as Province)
-                                                                        ?.province_id,
-                                                                );
-                                                            }}
-                                                        />
+                                                                        return newValue;
+                                                                    });
+                                                                    getDataDistricts(
+                                                                        (value as Province)
+                                                                            ?.province_id,
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item md={6}>
+                                                            <AutocompleteCustom
+                                                                label="Chọn Quận / Huyện"
+                                                                displaySelected="district_name"
+                                                                displayLabel="district_name"
+                                                                name={'address.districtLevel'}
+                                                                options={districts}
+                                                                handleChange={(value) => {
+                                                                    setValues((prev) => {
+                                                                        const newValue = {
+                                                                            ...prev,
+                                                                        };
+
+                                                                        newValue.address.districtLevel =
+                                                                            value;
+                                                                        newValue.address.wardLevel =
+                                                                            null;
+
+                                                                        return newValue;
+                                                                    });
+                                                                    getDataWards(
+                                                                        (value as District)
+                                                                            ?.district_id,
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item md={6}>
+                                                            <AutocompleteCustom
+                                                                label="Chọn Thị / Xã"
+                                                                displaySelected="ward_name"
+                                                                displayLabel="ward_name"
+                                                                name={'address.wardLevel'}
+                                                                options={wards}
+                                                            />
+                                                        </Grid>
+
+                                                        <Grid item md={12}>
+                                                            <TextFieldCustom
+                                                                name="address.detail"
+                                                                label={'Địa chỉ cụ thể'}
+                                                                isTextArea
+                                                                minRowArea={3}
+                                                                maxRowArea={4}
+                                                            />
+                                                        </Grid>
                                                     </Grid>
-                                                    <Grid item md={6}>
-                                                        <AutocompleteCustom
-                                                            label="Chọn Quận / Huyện"
-                                                            displaySelected="district_name"
-                                                            displayLabel="district_name"
-                                                            name={'address.districtLevel'}
-                                                            options={districts}
-                                                            handleChange={(value) => {
-                                                                setValues((prev) => {
-                                                                    const newValue = {
-                                                                        ...prev,
-                                                                    };
 
-                                                                    newValue.address.districtLevel =
-                                                                        value;
-                                                                    newValue.address.wardLevel =
-                                                                        null;
-
-                                                                    return newValue;
-                                                                });
-                                                                getDataWards(
-                                                                    (value as District)
-                                                                        ?.district_id,
-                                                                );
-                                                            }}
-                                                        />
-                                                    </Grid>
-                                                    <Grid item md={6}>
-                                                        <AutocompleteCustom
-                                                            label="Chọn Thị / Xã"
-                                                            displaySelected="ward_name"
-                                                            displayLabel="ward_name"
-                                                            name={'address.wardLevel'}
-                                                            options={wards}
-                                                        />
-                                                    </Grid>
-
-                                                    <Grid item md={12}>
-                                                        <TextFieldCustom
-                                                            name="address.detail"
-                                                            label={'Địa chỉ cụ thể'}
-                                                            isTextArea
-                                                            minRowArea={3}
-                                                            maxRowArea={4}
-                                                        />
-                                                    </Grid>
-                                                </Grid>
-
-                                                <Box
-                                                    sx={{
-                                                        display: 'flex',
-                                                        justifyContent: 'flex-end',
-                                                        alignItems: 'center',
-                                                        marginTop: '10px',
-                                                    }}
-                                                >
-                                                    <Button
-                                                        onClick={handleClose}
+                                                    <Box
                                                         sx={{
-                                                            border: '1px solid #ee4949',
-                                                            color: '#ee4949',
-                                                            borderRadius: '5px',
+                                                            display: 'flex',
+                                                            justifyContent: 'flex-end',
+                                                            alignItems: 'center',
+                                                            marginTop: '10px',
                                                         }}
                                                     >
-                                                        Hủy
-                                                    </Button>
-                                                    <Button
-                                                        type="submit"
-                                                        sx={{
-                                                            borderRadius: '5px',
-                                                            backgroundColor: '#ee4949',
-                                                            color: 'white',
-                                                            marginLeft: '10px',
-                                                            border: '1px solid #ee4949',
-                                                            ':hover': {
+                                                        <Button
+                                                            onClick={handleClose}
+                                                            sx={{
+                                                                border: '1px solid #ee4949',
+                                                                color: '#ee4949',
+                                                                borderRadius: '5px',
+                                                            }}
+                                                        >
+                                                            Hủy
+                                                        </Button>
+                                                        <Button
+                                                            type="submit"
+                                                            sx={{
+                                                                borderRadius: '5px',
                                                                 backgroundColor: '#ee4949',
-                                                            },
-                                                        }}
-                                                        // onClick={handleClickOpenList}
-                                                    >
-                                                        Xác nhận
-                                                    </Button>
-                                                </Box>
-                                            </Form>
+                                                                color: 'white',
+                                                                marginLeft: '10px',
+                                                                border: '1px solid #ee4949',
+                                                                ':hover': {
+                                                                    backgroundColor: '#ee4949',
+                                                                },
+                                                            }}
+                                                            // onClick={handleClickOpenList}
+                                                        >
+                                                            Xác nhận
+                                                        </Button>
+                                                    </Box>
+                                                </Form>
+                                            )
                                         )}
                                     </Formik>
                                 </ShowDialog>
                             )}
-
-                            {openList && (
+                            {/* {openList && (
                                 <ShowDialog
                                     isOpen={openList}
                                     handleClose={handleCloseList}
                                     dialogTitle="Địa chỉ của tôi"
                                     dialogStyle={{ minWidth: 560 }}
                                 >
-                                    {/* <Formik
-                                        initialValues={new Location()}
-                                        enableReinitialize
-                                        onSubmit={() => {
-                                            const getAddress = axiosAuth.get('/profile');
-                                            console.log(getAddress);
-                                        }}
-                                    > */}
-                                    {/* Danh sách địa chỉ */}
                                     <Box
                                         sx={{
                                             display: 'flex',
@@ -641,7 +643,6 @@ export default function Page() {
                                         </Box>
                                     </Box>
 
-                                    {/* Thêm mới địa chỉ */}
 
                                     <Box>
                                         <Button
@@ -698,9 +699,8 @@ export default function Page() {
                                             Xác nhận
                                         </Button>
                                     </Box>
-                                    {/* </Formik> */}
                                 </ShowDialog>
-                            )}
+                            )} */}
                         </div>
                     </div>
                 </div>
