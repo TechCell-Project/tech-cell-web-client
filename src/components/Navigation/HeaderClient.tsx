@@ -28,6 +28,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import styles from '@styles/components/button.module.scss';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { signIn, useSession, signOut } from 'next-auth/react';
+import SearchBarBox from '@components/Common/Searching/SearchBarBox';
 
 interface Props {
     window?: () => Window;
