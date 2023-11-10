@@ -26,7 +26,7 @@ export class Ward {
     status?: number | null = null;
 }
 
-class Address {
+export class Address {
     addressName?: string | null = null;
     customerName?: string | null = null;
     phoneNumbers?: string | null = null;

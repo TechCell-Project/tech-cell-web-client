@@ -27,3 +27,5 @@ export const ATTRIBUTES_ENDPOINT = '/attributes';
 
 // Images
 export const IMAGES_ENDPOINT = '/images';
+
+export const PROFILE_GET_ENDPOINT = '/profile';

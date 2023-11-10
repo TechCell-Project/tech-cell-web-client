@@ -245,3 +245,5 @@ export const getMessage = (messageStatusCode: string, keyword: string, totalReco
 
     return message;
 }
+
+export * from './address.util';
