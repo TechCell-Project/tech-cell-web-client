@@ -24,7 +24,8 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
                 ) : (
                     <Box key={item.name} sx={{ margin: '20px 0px' }}>
                         <Link sx={{ textDecoration: 'none', color: '#ee4949' }} href={item.href}>
-                            {item.name}
+                            {item.name} 
+                            
                         </Link>
                     </Box>
                 );
