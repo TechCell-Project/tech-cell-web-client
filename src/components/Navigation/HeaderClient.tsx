@@ -158,21 +158,14 @@ export const HeaderClient = (props: Props) => {
                             {!session && (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <AccountCircleIcon />
-                                    {/* <Link
-                                        href="/login"
-                                        underline="none"
-                                        color="white"
-                                        sx={{ marginLeft: '10px' }}
-                                    >
-                                        Đăng nhập
-                                    </Link> */}
                                     <Button onClick={() => signIn()}>
-                                        <Box sx={{ color: 'white' ,textTransform:'capitalize'}}>Đăng Nhập</Box>{' '}
+                                        <Box sx={{ color: 'white', textTransform: 'capitalize' }}>
+                                            Đăng Nhập
+                                        </Box>{' '}
                                     </Button>
                                 </Box>
                             )}
 
-                            {/* <Box sx={{ display: 'flex', alignItems: 'center' }}> */}
                             {session && (
                                 <>
                                     <Button
@@ -191,8 +184,13 @@ export const HeaderClient = (props: Props) => {
                                             }}
                                         >
                                             <AccountCircleIcon />
-                                            <Box sx={{textTransform:'capitalize',marginLeft:'2px'}}>
-                                            {session?.user?.userName}
+                                            <Box
+                                                sx={{
+                                                    textTransform: 'capitalize',
+                                                    marginLeft: '2px',
+                                                }}
+                                            >
+                                                {session?.user?.userName}
                                             </Box>
                                         </Box>
                                     </Button>
@@ -205,29 +203,21 @@ export const HeaderClient = (props: Props) => {
                                         MenuListProps={{
                                             'aria-labelledby': 'basic-button',
                                             style: {
-                                                maxHeight: 300,
-                                                width: '20ch',
+                                                maxHeight: 100,
+                                                width: '110px',
                                             },
                                         }}
                                     >
                                         <MenuItem sx={{ fontSize: '14px', fontWeight: 500 }}>
-                                            <div className={styles.text_link}>
-                                                <Link href={'/profile'} sx={{backgroundColor:'#ee4949'}}>
-                                                <Box sx={{ color: 'white' }}>
-                                                    Cập nhập thông tin
-                                                </Box>
-                                                </Link>
-                                            </div>
-                                            {/* <Button href={'/profile'} sx={{backgroundColor:'#ee4949'}}>
-                                                <Box sx={{ color: 'white' }}>
-                                                    Cập nhập thông tin
-                                                </Box>
-                                            </Button> */}
-                                        </MenuItem>
-
-                                        <MenuItem sx={{ fontSize: '14px', fontWeight: 500 }}>
                                             <Button onClick={() => signOut()}>
-                                                <Box sx={{ color: 'white' ,textTransform:'capitalize'}}>Đăng Xuất</Box>
+                                                <Box
+                                                    sx={{
+                                                        color: 'white',
+                                                        textTransform: 'capitalize',
+                                                    }}
+                                                >
+                                                    Đăng Xuất
+                                                </Box>
                                             </Button>
                                         </MenuItem>
                                     </Menu>
@@ -236,12 +226,73 @@ export const HeaderClient = (props: Props) => {
                             {/* </Box> */}
                         </Box>
                     </Stack>
-                    <Box sx={{ display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' } }}>
-                        <Box onClick={handleOpen}>
+                    <Box
+                        sx={{
+                            display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' },
+                            alignItems: { xs: 'center', sm: 'center', md: 'center' },
+                        }}
+                    >
+                        <Box sx={{ height: '24px' }} onClick={handleOpen}>
                             <SearchIcon />
                         </Box>
-                        <Box sx={{ marginLeft: '15px' }}>
-                            <ShoppingCartIcon />
+                        <Box sx={{ marginLeft: '15px', height: '24px' }}>
+                            {!session && (
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <Button sx={{ padding: '0px' }} onClick={() => signIn()}>
+                                        <Box sx={{ color: 'white', textTransform: 'capitalize' }}>
+                                            <AccountCircleIcon />
+                                        </Box>
+                                    </Button>
+                                </Box>
+                            )}
+
+                            {session && (
+                                <>
+                                    <Button
+                                        id="basic-button"
+                                        variant="text"
+                                        aria-controls={open ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleClick}
+                                        sx={{ padding: '0px',minWidth:'24px' }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                color: 'white',
+                                            }}
+                                        >
+                                            <AccountCircleIcon />
+                                        </Box>
+                                    </Button>
+
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                            'aria-labelledby': 'basic-button',
+                                        }}
+                                        
+                                    >
+                                        <MenuItem>
+                                            <Button onClick={() => signOut()}>
+                                                <Box
+                                                    sx={{
+                                                        color: 'white',
+                                                        textTransform: 'capitalize',
+                                                    }}
+                                                >
+                                                    Đăng Xuất
+                                                </Box>
+                                            </Button>
+                                        </MenuItem>
+                                    </Menu>
+                                </>
+                            )}
                         </Box>
                     </Box>
                 </Toolbar>

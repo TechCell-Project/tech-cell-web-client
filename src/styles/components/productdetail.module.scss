@@ -88,7 +88,7 @@
             overflow: hidden;
             position: relative;
             @include responsive(max_sm) {
-                width: 370px;
+                width: 360px;
             }
 
             .mySlides {
@@ -138,7 +138,7 @@
                 justify-content: space-between;
                 align-items: center;
                 @include responsive(max_sm) {
-                    width: 370px;
+                    width: 360px;
                     display: flex;
                     justify-content: space-between;
                 }
@@ -302,7 +302,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                width: 370px;
+                width: 360px;
             }
             .product_price {
                 color: #fd2424;
@@ -380,7 +380,7 @@
             margin-bottom: 10px;
             background: #fcfcfc;
             @include responsive(max_sm) {
-                width: 370px;
+                width: 360px;
                 margin: 10px 0px;
                 text-align: justify;
             }
@@ -440,7 +440,7 @@
             height: auto;
             padding-top: 15px;
             @include responsive(max_sm) {
-                width: 370px;
+                width: 360px;
             }
             .add_cart {
                 width: 35%;
@@ -493,7 +493,7 @@
             overflow: hidden;
 
             @include responsive(max_sm) {
-                width: 370px;
+                width: 360px;
             }
             .extra_offer_heading {
                 padding: 10px;
@@ -528,7 +528,7 @@
         .product_bundled_container {
             margin-top: 15px;
             @include responsive(max_sm) {
-                width: 370px;
+                width: 360px;
             }
             .product_bundled {
                 .product_bundled_content {
@@ -662,11 +662,17 @@
     height: auto;
     display: flex;
     justify-content: space-between;
+    @include responsive(max_sm){
+        display: inline-block;
+    }
     // margin-bottom: 30%;
     // wrapper_left
     .wrapper_left {
         width: 58.75%;
         height: auto;
+        @include responsive(max_sm) {
+            width: 360px;
+        }
         .card_content_left {
             padding: 16px 20px 0px 20px;
             border: 1px solid #b6bfc7;
@@ -750,6 +756,9 @@
         border: 1px solid #b6bfc7;
         border-radius: 5px;
         height: fit-content;
+        @include responsive(max_sm) {
+            width: 360px;
+        }   
         .card_content_right {
             padding: 16px 20px 16px 20px;
             .card_title_right {
