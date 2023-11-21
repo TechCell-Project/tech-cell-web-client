@@ -23,7 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Dialog from '@mui/material/Dialog';
 import VerifyEmail from '../verify/VerifyEmail';
 
-const Signup = () => {
+export default function Signup() {
     const [open, setOpen] = useState(false);
 
     const handleClose = () => {
@@ -281,6 +281,4 @@ const Signup = () => {
             </Container>
         </>
     );
-};
-
-export default Signup;
+}
