@@ -1,32 +1,29 @@
-import { PROFILE_GET_ENDPOINT } from '@constants/Services';
-import { useAxiosAuth } from '@hooks/useAxios';
+'use client';
+
 import { Address } from '@models/Location';
-import { UserModel } from '@models/User.model';
 import { Box, Button, Radio } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { SetStateAction, Dispatch } from 'react';
 import { buildAddressString } from 'utils/address.util';
 
 interface AddressItemListProps {
     address: Address;
-    index: number;
-    seleted: number;
+    selected: number;
     setSelected: (index: number) => void;
-    setIndexUp: (index: number) => void;
-    setleghtAdd: (value: boolean) => void;
-    setCurrentAddress: Dispatch<SetStateAction<Address | null>>;
+    setLengthAddress: (value: boolean) => void;
     handleCloseListItem: (value: boolean) => void;
+    addressIndex: number;
+    selectedAddressToUpdateIndex: Dispatch<SetStateAction<number | null>>;
 }
 
 export const AddressItemList = (props: AddressItemListProps) => {
     const {
         address,
-        index,
-        seleted,
+        selected,
         setSelected,
-        setleghtAdd,
-        setCurrentAddress,
+        setLengthAddress,
         handleCloseListItem,
-        setIndexUp,
+        addressIndex,
+        selectedAddressToUpdateIndex,
     } = props;
 
     return (
@@ -46,9 +43,9 @@ export const AddressItemList = (props: AddressItemListProps) => {
                 }}
             >
                 <Radio
-                    checked={seleted === index}
+                    checked={selected === addressIndex}
                     name="radio-buttons"
-                    onChange={() => setSelected(index)}
+                    onChange={() => setSelected(addressIndex)}
                     sx={{
                         padding: '0',
                         color: 'red',
@@ -71,7 +68,7 @@ export const AddressItemList = (props: AddressItemListProps) => {
                                 paddingRight: '15px',
                             }}
                         >
-                            {address && address?.customerName}
+                            {address?.customerName}
                         </Box>
                         <Box
                             sx={{
@@ -80,7 +77,7 @@ export const AddressItemList = (props: AddressItemListProps) => {
                                 color: '#000000A6',
                             }}
                         >
-                            {address && address?.phoneNumbers}
+                            {address?.phoneNumbers}
                         </Box>
                     </Box>
 
@@ -102,9 +99,8 @@ export const AddressItemList = (props: AddressItemListProps) => {
                 <Button
                     onClick={() => {
                         // handleCloseListItem(false);
-                        setleghtAdd(true);
-                        setIndexUp(index);
-                        setCurrentAddress(address);
+                        setLengthAddress(true);
+                        selectedAddressToUpdateIndex(addressIndex);
                     }}
                 >
                     Cập nhật

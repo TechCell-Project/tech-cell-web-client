@@ -1,14 +1,16 @@
+'use client';
+
+import 'react-toastify/dist/ReactToastify.css';
 import { ShowDialog } from '@components/Common/Display/DialogCustom';
 import { SelectInputCustom } from '@components/Common/FormFormik/SelectCustom';
 import { Box, Button, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { AutocompleteCustom } from '../AutoCompleteCustom';
 import { useEffect, useState } from 'react';
 import { ProfileSchema } from 'validate/auth.validate';
-import { Address, District, Location, Province, Ward } from '@models/Location';
-import { useAxiosAuth } from '@hooks/useAxios';
+import { District, Location, Province, Ward } from '@models/Location';
+import { useAxiosAuth } from '@hooks/useAxiosAuth';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
 import { UserModel } from '@models/User.model';
 import { getDistricts, getWards, getProvinces } from '@services/LocationService';
@@ -16,9 +18,8 @@ import { getDistricts, getWards, getProvinces } from '@services/LocationService'
 interface DialogAddressEditProps {
     isOpen: boolean;
     handleClose: () => void;
-    indexSelected?: number | 'new' | undefined;
-    getUserProfile: () => UserModel | undefined;
-    updateUserProfile: () => void;
+    userProfile: UserModel;
+    triggerRefreshUserProfile: () => Promise<void>;
     setOpenListAddress: (value: boolean) => void;
     setOpenNewAddress: (value: boolean) => void;
 }
@@ -32,43 +33,40 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
     const {
         isOpen,
         handleClose,
-        getUserProfile,
-        updateUserProfile,
+        userProfile,
+        triggerRefreshUserProfile,
         setOpenListAddress,
         setOpenNewAddress,
     } = props;
 
     const [provinces, setProvinces] = useState<Array<Province>>(new Array<Province>());
-    const [districts, setdistricts] = useState<Array<District>>(new Array<District>());
+    const [districts, setDistricts] = useState<Array<District>>(new Array<District>());
     const [wards, setWards] = useState<Array<Ward>>(new Array<Ward>());
 
     const axiosAuth = useAxiosAuth();
 
     const getDataDistricts = async (province_id: string | undefined) => {
-        const response = await getDistricts(province_id);
-
-        if (response.data) {
-            setdistricts(response.data as Array<District>);
-            console.log(districts);
+        const { data } = await getDistricts(province_id);
+        if (data) {
+            setDistricts(data);
         }
     };
 
-    const getDataWards = async (distric_id: string | undefined) => {
-        const response = await getWards(distric_id);
-        if (response.data) {
-            setWards(response.data as any);
+    const getDataWards = async (district_id: string | undefined) => {
+        const { data } = await getWards(district_id);
+        if (data) {
+            setWards(data);
         }
     };
 
     useEffect(() => {
-        getProvinces().then((response) => {
-            setProvinces(response.data as Array<Province>);
+        getProvinces().then(({ data }) => {
+            setProvinces(data);
         });
-        updateUserProfile();
+        triggerRefreshUserProfile();
     }, []);
 
     function handleUpdateAddress(data: Location) {
-        const userProfile = getUserProfile();
         const oldAddress = userProfile?.address ? userProfile.address : [];
         const dataBody = {
             address: [...oldAddress, data.address],
@@ -90,7 +88,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
 
                     setOpenNewAddress(false);
                     setOpenListAddress(true);
-                    updateUserProfile();
+                    triggerRefreshUserProfile();
                 }
             })
             .catch(() => {
@@ -132,7 +130,6 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                                     name="address.addressName"
                                     label={'Địa chỉ'}
                                     options={addressName}
-                                    
                                 />
                             </Grid>
                             <Grid item md={6}>
@@ -142,7 +139,6 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                                 <TextFieldCustom
                                     name="address.phoneNumbers"
                                     label={'Số điện thoại'}
-                                    
                                 />
                             </Grid>
                             <Grid item md={6}>

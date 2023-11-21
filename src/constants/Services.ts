@@ -11,7 +11,7 @@ export const REFRESH_TOKEN_ENDPOINT = '/auth/refresh-token';
 export const FORGOT_PASSWORD = '/auth/forgot-password';
 export const VERIFY_FORGOT_PASSWORD = '/auth/verify-forgot-password';
 export const ADD_TO_CART = 'auth/carts';
-export const ADDRESS_PROVICES = '/address/provinces';
+export const ADDRESS_PROVINCES = '/address/provinces';
 
 // Management Account
 export const USERS_ENDPOINT = '/users';

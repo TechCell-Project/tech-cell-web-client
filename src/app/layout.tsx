@@ -5,8 +5,7 @@ import 'styles/base/index.scss';
 import { ThemeProviderMui } from 'components/Provider';
 import styles from '../styles/components/button.module.scss';
 import { ReduxProvider } from '@components/Provider/ReduxProvider';
-import Provider from '@components/Provider/ProviderAuth';
-
+import NextAuthProvider from '@components/Provider/NextAuthProvider';
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
@@ -14,14 +13,14 @@ export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
 };
 
-export default function RootLayout({children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
             <head>
                 <link rel="icon" href="/favicon.ico" />
             </head>
             <body className={`${montserrat.className} ${styles.body}`}>
-                <Provider>
+                <NextAuthProvider>
                     <ThemeProviderMui>
                         <ReduxProvider>
                             <HeaderClient />
@@ -29,7 +28,7 @@ export default function RootLayout({children }: { children: React.ReactNode }) {
                             <FooterClient />
                         </ReduxProvider>
                     </ThemeProviderMui>
-                </Provider>
+                </NextAuthProvider>
             </body>
         </html>
     );

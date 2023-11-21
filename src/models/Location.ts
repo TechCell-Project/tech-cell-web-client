@@ -1,7 +1,7 @@
 export class Province {
     province_id?: string | undefined;
     province_name?: string | null = null;
-    provnce_type?: string | null = null;
+    province_type?: string | null = null;
     country_id?: number | null = null;
     name_extension?: string | null = null;
     status?: number | null = null;

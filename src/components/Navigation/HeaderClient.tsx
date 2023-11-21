@@ -36,7 +36,6 @@ interface Props {
 
 export const HeaderClient = (props: Props) => {
     const { data: session } = useSession();
-    console.log({ session });
     const dispatch = useAppDispatch();
     // const { user } = useAppSelector((state) => state.auth);
     const theme = useTheme();

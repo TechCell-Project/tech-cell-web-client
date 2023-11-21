@@ -1,3 +1,5 @@
+'use client';
+
 import { ShowDialog } from '@components/Common/Display/DialogCustom';
 import { SelectInputCustom } from '@components/Common/FormFormik/SelectCustom';
 import { Box, Button, Grid } from '@mui/material';
@@ -7,8 +9,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { AutocompleteCustom } from '../AutoCompleteCustom';
 import { useEffect, useState } from 'react';
 import { ProfileSchema } from 'validate/auth.validate';
-import { Address, District, Location, Province, Ward } from '@models/Location';
-import { useAxiosAuth } from '@hooks/useAxios';
+import { District, Location, Province, Ward } from '@models/Location';
+import { useAxiosAuth } from '@hooks/useAxiosAuth';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
 import { getDistricts, getWards, getProvinces } from '@services/LocationService';
 import { UserModel } from '@models/User.model';
@@ -16,10 +18,9 @@ import { UserModel } from '@models/User.model';
 interface DialogAddressUpdateProps {
     isOpen: boolean;
     handleClose: () => void;
-    index: number;
-    currentAddress: Address | null;
-    getUserProfile: () => UserModel | undefined;
-    triggerRefreshUserProfile: () => void;
+    triggerRefreshUserProfile: () => Promise<void>;
+    selectedAddressIndex: number;
+    userProfile: UserModel;
 }
 
 const addressName = [
@@ -28,17 +29,11 @@ const addressName = [
 ];
 
 export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
-    const {
-        isOpen,
-        handleClose,
-        index,
-        getUserProfile,
-        triggerRefreshUserProfile,
-        currentAddress,
-    } = props;
+    const { isOpen, handleClose, triggerRefreshUserProfile, userProfile, selectedAddressIndex } =
+        props;
 
     const [provinces, setProvinces] = useState<Array<Province>>(new Array<Province>());
-    const [districts, setdistricts] = useState<Array<District>>(new Array<District>());
+    const [districts, setDistricts] = useState<Array<District>>(new Array<District>());
     const [wards, setWards] = useState<Array<Ward>>(new Array<Ward>());
 
     const axiosAuth = useAxiosAuth();
@@ -47,34 +42,32 @@ export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
         const response = await getDistricts(province_id);
 
         if (response.data) {
-            setdistricts(response.data as Array<District>);
+            setDistricts(response.data as Array<District>);
             console.log(districts);
         }
     };
 
-    const getDataWards = async (distric_id: string | undefined) => {
-        const response = await getWards(distric_id);
+    const getDataWards = async (district_id: string | undefined) => {
+        const response = await getWards(district_id);
         if (response.data) {
             setWards(response.data as any);
         }
     };
 
     useEffect(() => {
-        getProvinces().then((response) => {
-            setProvinces(response.data as Array<Province>);
+        getProvinces().then((response: { data: Array<Province> }) => {
+            setProvinces(response.data);
         });
         triggerRefreshUserProfile();
     }, []);
 
-    function handleUpdateAddress(data: Location) {
-        const userProfile = getUserProfile();
-        let newAddress = userProfile?.address ? userProfile.address[index] : [];
-        // const dataNewAddress =  [newAddress].push(data.address);
+    function handleUpdateAddress(addressUpdatedData: Location) {
+        const updated = userProfile?.address ?? [];
+        updated[selectedAddressIndex] = addressUpdatedData.address;
         const dataBody = {
-            // address: [dataNewAddress],
+            address: updated,
         };
 
-        console.log('dataBody' + dataBody);
         axiosAuth
             .patch('/profile/address', dataBody)
             .then((res) => {
@@ -116,9 +109,9 @@ export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
         >
             <ToastContainer />
 
-            {currentAddress && (
+            {userProfile?.address && (
                 <Formik
-                    initialValues={new Location(currentAddress)}
+                    initialValues={new Location(userProfile.address[selectedAddressIndex])}
                     enableReinitialize
                     validationSchema={ProfileSchema}
                     onSubmit={(values) => {

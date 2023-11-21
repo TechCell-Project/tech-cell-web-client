@@ -1,9 +1,6 @@
-import { rejects } from 'assert';
 import axios, { AxiosInstance } from 'axios';
-import { API_ENDPOINT } from '@constants/Services';
-import { District, Province, Ward,Location } from 'models/Location';
-import { ADDRESS_PROVICES } from '@constants/Services';
-import { useAxiosAuth } from '@hooks/useAxios';
+import { API_ENDPOINT, ADDRESS_PROVINCES } from '@constants/Services';
+import { District, Province, Ward } from 'models/Location';
 
 const instance: AxiosInstance = axios.create({
     baseURL: API_ENDPOINT,
@@ -13,14 +10,8 @@ const instance: AxiosInstance = axios.create({
     },
 });
 
-// export const addAddress = (values:Location) =>{
-//     const axiosAuth = useAxiosAuth();
-//     return axiosAuth.patch('/profile/address', values);
-// }
-
-
-export const getProvinces = () => instance.get<Array<Province>>(ADDRESS_PROVICES);
+export const getProvinces = () => instance.get<Array<Province>>(ADDRESS_PROVINCES);
 export const getDistricts = (province_id: string | undefined) =>
     instance.get<Array<District>>(`/address/districts/${province_id}`);
-export const getWards = (distric_id: string | undefined) =>
-    instance.get<Array<Ward>>(`/address/wards/${distric_id}`);
+export const getWards = (district_id: string | undefined) =>
+    instance.get<Array<Ward>>(`/address/wards/${district_id}`);
