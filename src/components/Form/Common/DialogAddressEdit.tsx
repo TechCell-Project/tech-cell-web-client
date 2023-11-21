@@ -11,7 +11,6 @@ import { Address, District, Location, Province, Ward } from '@models/Location';
 import { useAxiosAuth } from '@hooks/useAxios';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
 import { UserModel } from '@models/User.model';
-import { ADDRESS_PROVICES } from '@constants/Services';
 import { getDistricts, getWards, getProvinces } from '@services/LocationService';
 
 interface DialogAddressEditProps {
@@ -68,20 +67,6 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
         updateUserProfile();
     }, []);
 
-    function toastSuccess() {
-        console.log('toast success trigger');
-        return toast.success('Cập nhật địa chỉ thành công', {
-            position: 'top-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-        });
-    }
-
     function handleUpdateAddress(data: Location) {
         const userProfile = getUserProfile();
         const oldAddress = userProfile?.address ? userProfile.address : [];
@@ -131,50 +116,12 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
         >
             <ToastContainer />
 
-            <Button onClick={toastSuccess}>Toast</Button>
-
             <Formik
                 initialValues={new Location()}
                 enableReinitialize
                 validationSchema={ProfileSchema}
                 onSubmit={(values) => {
                     handleUpdateAddress(values);
-                    // const oldAddress = address ? address : [];
-                    // const dataBody = {
-                    //     address: [...oldAddress, values.address],
-                    // };
-                    // axiosAuth
-                    //     .patch('/profile/address', dataBody)
-                    //     .then((res) => {
-                    //         if (res.status === 200) {
-                    //             toast.success('Cập nhật địa chỉ thành công', {
-                    //                 position: 'top-center',
-                    //                 autoClose: 2000,
-                    //                 hideProgressBar: false,
-                    //                 closeOnClick: true,
-                    //                 pauseOnHover: true,
-                    //                 draggable: true,
-                    //                 progress: undefined,
-                    //                 theme: 'light',
-                    //             });
-
-                    //             setOpen(false);
-                    //             setOpenList(true);
-                    //             getUserProfile();
-                    //         }
-                    //     })
-                    //     .catch(() => {
-                    //         toast.error('Cập nhật địa chỉ thất bại', {
-                    //             position: 'top-center',
-                    //             autoClose: 5000,
-                    //             hideProgressBar: false,
-                    //             closeOnClick: true,
-                    //             pauseOnHover: true,
-                    //             draggable: true,
-                    //             progress: undefined,
-                    //             theme: 'light',
-                    //         });
-                    //     });
                 }}
             >
                 {({ setValues, errors }) => (
@@ -185,6 +132,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                                     name="address.addressName"
                                     label={'Địa chỉ'}
                                     options={addressName}
+                                    
                                 />
                             </Grid>
                             <Grid item md={6}>
@@ -194,6 +142,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                                 <TextFieldCustom
                                     name="address.phoneNumbers"
                                     label={'Số điện thoại'}
+                                    
                                 />
                             </Grid>
                             <Grid item md={6}>

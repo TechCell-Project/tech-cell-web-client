@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
@@ -24,8 +24,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Provider>
                     <ThemeProviderMui>
                         <ReduxProvider>
-                           
-
                             <HeaderClient />
                             {children}
                             <FooterClient />

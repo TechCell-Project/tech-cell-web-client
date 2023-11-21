@@ -11,22 +11,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { red } from '@mui/material/colors';
 import { Box, Grid, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent } from '@mui/material';
-import { getDistricts, getProvinces, getWards } from 'services/LocationService';
-import { District, Location } from 'models/Location';
-import { Province } from 'models/Location';
-import { Address } from 'models/Location';
-import { Ward } from 'models/Location';
-// import { Form, Formik, useFormikContext } from 'formik';
-// import { AutocompleteCustom } from '@components/Form';
 import { useSession } from 'next-auth/react';
 import { useAxiosAuth } from '@hooks/useAxios';
-// import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
 import { ShowDialog } from '@components/Common/Display/DialogCustom';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import { ProfileSchema } from 'validate/auth.validate';
 import { useAppDispatch, useAppSelector } from '@store/store';
-// import { SelectInputCustom } from '@components/Common/FormFormik/SelectCustom';
 import { UserModel } from '@models/User.model';
 import { AddressList } from '@components/Common/Lists/AddressList';
 import { PROFILE_GET_ENDPOINT } from '@constants/Services';
@@ -40,10 +28,10 @@ export default function Page() {
     const axiosAuth = useAxiosAuth();
 
     useEffect(() => {
-        updateUserProfile();
+        triggerRefreshUserProfile();
     }, []);
 
-    function updateUserProfile() {
+    function triggerRefreshUserProfile() {
         return axiosAuth
             .get(PROFILE_GET_ENDPOINT)
             .then((response) => {
@@ -55,6 +43,7 @@ export default function Page() {
                 console.error(err);
             });
     }
+
 
     function getUserProfile() {
         return userProfile;
@@ -74,7 +63,6 @@ export default function Page() {
         if (!userProfile) {
             setOpenNewAddress(true);
         }
-
         if (
             userProfile &&
             Array.isArray(userProfile?.address) &&
@@ -96,10 +84,8 @@ export default function Page() {
     };
 
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // setChecked([checked[0], event.target.checked]);
         let IsSelected = event.target.value;
         if (IsSelected) {
-            // setSelectedItem(...selectItem,)
         }
     };
 
@@ -133,10 +119,6 @@ export default function Page() {
                             </div>
                             <div className={styles.title}>Giỏ hàng của bạn</div>
                         </div>
-
-                        {cart.cartItems.lenght === 0 ? (
-                            <Box>Ko co san pham</Box>
-                        ) : (
                             <>
                                 {/* Chon tat ca */}
                                 <div className={styles.cart_checkbox}>
@@ -161,9 +143,9 @@ export default function Page() {
                                 <div className={styles.cart_body}>
                                     <div className={styles.body_content}>
                                         <div className={styles.cart_content}>
-                                            {cart.cartItems.map((cartItem: any) => (
+                                            {/* {cart.cartItems.map((cartItem: any) => ( */}
                                                 <div
-                                                    key={cartItem._id}
+                                                    // key={cartItem._id}
                                                     className={styles.product_cart}
                                                 >
                                                     <div className={styles.product_cart_check}>
@@ -189,7 +171,7 @@ export default function Page() {
                                                     <div className={styles.product_info}>
                                                         <div className={styles.product_text}>
                                                             <div className={styles.product_heading}>
-                                                                {cartItem.name}
+                                                                {/* {cartItem.name} */}
                                                             </div>
                                                             <div className={styles.product_price}>
                                                                 <div
@@ -239,7 +221,7 @@ export default function Page() {
                                                         <DeleteIcon />
                                                     </div>
                                                 </div>
-                                            ))}
+                                            {/* ))} */}
                                         </div>
 
                                         <div className={styles.cart_promotions}>
@@ -350,7 +332,6 @@ export default function Page() {
                                     </div>
                                 </div>
                             </>
-                        )}
                     </div>
                 </div>
 
@@ -362,214 +343,19 @@ export default function Page() {
                                 Mua ngay
                             </Button>
 
+                            {/* Thêm địa chỉ mới  */}
                             {openNewAddress && (
                                 <DialogAddressEdit
                                     isOpen={openNewAddress}
                                     handleClose={handleCloseNewAddress}
                                     getUserProfile={getUserProfile}
-                                    updateUserProfile={updateUserProfile}
+                                    updateUserProfile={triggerRefreshUserProfile}
                                     setOpenNewAddress={setOpenNewAddress}
                                     setOpenListAddress={setOpenListAddress}
                                 />
-                                // <ShowDialog
-                                //     isOpen={open}
-                                //     handleClose={handleClose}
-                                //     dialogTitle="Địa chỉ mới"
-                                //     dialogStyle={{ minWidth: 560 }}
-                                // >
-                                //     <ToastContainer />
-
-                                //     <Formik
-                                //         initialValues={new Location()}
-                                //         enableReinitialize
-                                //         validationSchema={ProfileSchema}
-                                //         onSubmit={async (values) => {
-                                //             const oldAddress = userProfile?.address
-                                //                 ? userProfile.address
-                                //                 : [];
-                                //             const dataBody = {
-                                //                 address: [...oldAddress, values.address],
-                                //             };
-                                //             axiosAuth
-                                //                 .patch('/profile/address', dataBody)
-                                //                 .then((res) => {
-                                //                     if (res.status === 200) {
-                                //                         toast.success(
-                                //                             'Cập nhật địa chỉ thành công',
-                                //                             {
-                                //                                 position: 'top-center',
-                                //                                 autoClose: 2000,
-                                //                                 hideProgressBar: false,
-                                //                                 closeOnClick: true,
-                                //                                 pauseOnHover: true,
-                                //                                 draggable: true,
-                                //                                 progress: undefined,
-                                //                                 theme: 'light',
-                                //                             },
-                                //                         );
-
-                                //                         setOpen(false);
-                                //                         setOpenList(true);
-                                //                         updateUserProfile();
-                                //                     }
-                                //                 })
-                                //                 .catch((err) => {
-                                //                     toast.error('Cập nhập địa chỉ thất bại', {
-                                //                         position: 'top-center',
-                                //                         autoClose: 5000,
-                                //                         hideProgressBar: false,
-                                //                         closeOnClick: true,
-                                //                         pauseOnHover: true,
-                                //                         draggable: true,
-                                //                         progress: undefined,
-                                //                         theme: 'light',
-                                //                     });
-                                //                 });
-                                //         }}
-                                //     >
-                                //         {({ setValues, errors, setFieldValue }) => (
-                                //             console.log(errors),
-                                //             (
-                                //                 <Form style={{ width: '100%' }}>
-                                //                     <Grid container spacing={2}>
-                                //                         <Grid item md={6}>
-                                //                             <SelectInputCustom
-                                //                                 name="address.addressName"
-                                //                                 label={'Địa chỉ'}
-                                //                                 options={addressName}
-                                //                             />
-                                //                         </Grid>
-                                //                         <Grid item md={6}>
-                                //                             <TextFieldCustom
-                                //                                 name="address.customerName"
-                                //                                 label={'Họ và tên'}
-                                //                             />
-                                //                         </Grid>
-                                //                         <Grid item md={6}>
-                                //                             <TextFieldCustom
-                                //                                 name="address.phoneNumbers"
-                                //                                 label={'Số điện thoại'}
-                                //                             />
-                                //                         </Grid>
-                                //                         <Grid item md={6}>
-                                //                             <AutocompleteCustom
-                                //                                 label="Chọn Thành Phố"
-                                //                                 displaySelected="province_id"
-                                //                                 displayLabel="province_name"
-                                //                                 name={'address.provinceLevel'}
-                                //                                 options={provinces}
-                                //                                 handleChange={async (value) => {
-                                //                                     setValues((prev) => {
-                                //                                         const newValue = {
-                                //                                             ...prev,
-                                //                                         };
-
-                                //                                         newValue.address.provinceLevel =
-                                //                                             value;
-                                //                                         newValue.address.districtLevel =
-                                //                                             null;
-                                //                                         newValue.address.wardLevel =
-                                //                                             null;
-
-                                //                                         return newValue;
-                                //                                     });
-                                //                                     getDataDistricts(
-                                //                                         (value as Province)
-                                //                                             ?.province_id,
-                                //                                     );
-                                //                                 }}
-                                //                             />
-                                //                         </Grid>
-                                //                         <Grid item md={6}>
-                                //                             <AutocompleteCustom
-                                //                                 label="Chọn Quận / Huyện"
-                                //                                 displaySelected="district_name"
-                                //                                 displayLabel="district_name"
-                                //                                 name={'address.districtLevel'}
-                                //                                 options={districts}
-                                //                                 handleChange={(value) => {
-                                //                                     setValues((prev) => {
-                                //                                         const newValue = {
-                                //                                             ...prev,
-                                //                                         };
-
-                                //                                         newValue.address.districtLevel =
-                                //                                             value;
-                                //                                         newValue.address.wardLevel =
-                                //                                             null;
-
-                                //                                         return newValue;
-                                //                                     });
-                                //                                     getDataWards(
-                                //                                         (value as District)
-                                //                                             ?.district_id,
-                                //                                     );
-                                //                                 }}
-                                //                             />
-                                //                         </Grid>
-                                //                         <Grid item md={6}>
-                                //                             <AutocompleteCustom
-                                //                                 label="Chọn Thị / Xã"
-                                //                                 displaySelected="ward_name"
-                                //                                 displayLabel="ward_name"
-                                //                                 name={'address.wardLevel'}
-                                //                                 options={wards}
-                                //                             />
-                                //                         </Grid>
-
-                                //                         <Grid item md={12}>
-                                //                             <TextFieldCustom
-                                //                                 name="address.detail"
-                                //                                 label={'Địa chỉ cụ thể'}
-                                //                                 isTextArea
-                                //                                 minRowArea={3}
-                                //                                 maxRowArea={4}
-                                //                             />
-                                //                         </Grid>
-                                //                     </Grid>
-
-                                //                     <Box
-                                //                         sx={{
-                                //                             display: 'flex',
-                                //                             justifyContent: 'flex-end',
-                                //                             alignItems: 'center',
-                                //                             marginTop: '10px',
-                                //                         }}
-                                //                     >
-                                //                         <Button
-                                //                             onClick={handleClose}
-                                //                             sx={{
-                                //                                 border: '1px solid #ee4949',
-                                //                                 color: '#ee4949',
-                                //                                 borderRadius: '5px',
-                                //                             }}
-                                //                         >
-                                //                             Hủy
-                                //                         </Button>
-                                //                         <Button
-                                //                             type="submit"
-                                //                             sx={{
-                                //                                 borderRadius: '5px',
-                                //                                 backgroundColor: '#ee4949',
-                                //                                 color: 'white',
-                                //                                 marginLeft: '10px',
-                                //                                 border: '1px solid #ee4949',
-                                //                                 ':hover': {
-                                //                                     backgroundColor: '#ee4949',
-                                //                                 },
-                                //                             }}
-                                //                         >
-                                //                             Xác nhận
-                                //                         </Button>
-                                //                     </Box>
-                                //                 </Form>
-                                //             )
-                                //         )}
-                                //     </Formik>
-                                // </ShowDialog>
                             )}
 
-
+                            {/* Hiển thị danh sách địa chỉ của user */}
                             {openListAddress && (
                                 <ShowDialog
                                     isOpen={openListAddress}
@@ -578,7 +364,7 @@ export default function Page() {
                                     dialogStyle={{ minWidth: 560 }}
                                 >
                                     {userProfile && userProfile.address && (
-                                        <AddressList addresses={userProfile.address} />
+                                        <AddressList handleCloseListItem={handleCloseListAddress} addresses={userProfile.address} />
                                     )}
 
                                     <Box>
@@ -610,7 +396,7 @@ export default function Page() {
                                         }}
                                     >
                                         <Button
-                                            onClick={handleCloseNewAddress}
+                                            onClick={handleCloseListAddress}
                                             sx={{
                                                 border: '1px solid #ee4949',
                                                 color: '#ee4949',

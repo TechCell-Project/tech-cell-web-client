@@ -1,5 +1,9 @@
+import { PROFILE_GET_ENDPOINT } from '@constants/Services';
+import { useAxiosAuth } from '@hooks/useAxios';
 import { Address } from '@models/Location';
+import { UserModel } from '@models/User.model';
 import { Box, Button, Radio } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { buildAddressString } from 'utils/address.util';
 
 interface AddressItemListProps {
@@ -7,10 +11,23 @@ interface AddressItemListProps {
     index: number;
     seleted: number;
     setSelected: (index: number) => void;
+    setIndexUp: (index: number) => void;
+    setleghtAdd: (value: boolean) => void;
+    setCurrentAddress: Dispatch<SetStateAction<Address | null>>;
+    handleCloseListItem: (value: boolean) => void;
 }
 
 export const AddressItemList = (props: AddressItemListProps) => {
-    const { address, index, seleted, setSelected } = props;
+    const {
+        address,
+        index,
+        seleted,
+        setSelected,
+        setleghtAdd,
+        setCurrentAddress,
+        handleCloseListItem,
+        setIndexUp,
+    } = props;
 
     return (
         <Box
@@ -82,7 +99,16 @@ export const AddressItemList = (props: AddressItemListProps) => {
             </Box>
 
             <Box sx={{ width: '25%' }}>
-                <Button>Cập nhật</Button>
+                <Button
+                    onClick={() => {
+                        // handleCloseListItem(false);
+                        setleghtAdd(true);
+                        setIndexUp(index);
+                        setCurrentAddress(address);
+                    }}
+                >
+                    Cập nhật
+                </Button>
             </Box>
         </Box>
     );

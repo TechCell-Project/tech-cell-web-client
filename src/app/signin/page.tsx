@@ -159,11 +159,15 @@ export default function Login() {
                             Hoặc Đăng nhập với
                         </Typography>
                         <Stack spacing={3} direction="row">
-                            <Link href="#">
+                            <Button
+                                onClick={() => {
+                                    signIn('facebook', { callbackUrl: 'http://localhost:3000' });
+                                }}
+                            >
                                 <IconButton size="large" sx={{ color: '#ee4949' }}>
                                     <FacebookRounded />
                                 </IconButton>
-                            </Link>
+                            </Button>
                             <Button
                                 onClick={() =>
                                     signIn('google', { callbackUrl: 'http://localhost:3000' })

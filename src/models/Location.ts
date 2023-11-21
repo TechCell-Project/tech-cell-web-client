@@ -30,14 +30,18 @@ export class Address {
     addressName?: string | null = null;
     customerName?: string | null = null;
     phoneNumbers?: string | null = null;
-    provinceLevel:  Province | Province[] | null = null;
+    provinceLevel: Province | Province[] | null = null;
     districtLevel: District | District[] | null = null;
     wardLevel: Ward | Ward[] | null = null;
     detail: string | null = null;
     isDefault: boolean | null = null;
 }
 
-
 export class Location {
     address: Address = new Address();
+    constructor(values?: Address) {
+        if (values) {
+            Object.assign(this, {address: values});
+        }
+    }
 }
