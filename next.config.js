@@ -7,12 +7,18 @@ const nextConfig = {
     // },
     typescript: {
         ignoreBuildErrors: true,
-     },
+    },
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
     },
     images: {
-        domains: ['res.cloudinary.com'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+                pathname: '**',
+            },
+        ],
     },
     env: {
         API_ENDPOINT: process.env.API_BASE_URL,
