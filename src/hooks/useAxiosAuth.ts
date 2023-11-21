@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { axiosAuth } from '@libs/axios';
 import { signOut, useSession } from 'next-auth/react';
 import { useRefreshToken } from '@hooks/useRefreshToken';
@@ -7,12 +7,19 @@ export function useAxiosAuth() {
     const { data: session } = useSession();
     const refreshToken = useRefreshToken();
 
+    const refresh = useCallback(async () => {
+        const isRefreshSuccess = await refreshToken();
+        if (!isRefreshSuccess) {
+            signOut({ callbackUrl: '/', redirect: true });
+        }
+        return isRefreshSuccess;
+    }, [refreshToken]);
+
     useEffect(() => {
-        const accessToken = session?.user.accessToken;
         const requestIntercept = axiosAuth.interceptors.request.use(
             (config) => {
                 if (!config.headers.authorization) {
-                    config.headers.authorization = `Bearer ${accessToken}`;
+                    config.headers.authorization = `Bearer ${session?.user.accessToken}`;
                 }
                 return config;
             },
@@ -25,11 +32,8 @@ export function useAxiosAuth() {
                 const prevRequest = error.config;
                 if (error.response.status === 401 && !prevRequest.sent) {
                     prevRequest.sent = true;
-                    const isRefreshSuccess = await refreshToken();
-                    if (!isRefreshSuccess) {
-                        return signOut({ callbackUrl: '/', redirect: true });
-                    }
-                    prevRequest.headers.authorization = `Bearer ${accessToken}`;
+                    await refresh();
+                    prevRequest.headers.authorization = `Bearer ${session?.user.accessToken}`;
                     return axiosAuth(prevRequest);
                 }
                 return Promise.reject(error);

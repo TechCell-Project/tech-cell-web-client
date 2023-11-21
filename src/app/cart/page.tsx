@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from '@styles/components/cart.module.scss';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Image from 'next/image';
@@ -25,11 +25,7 @@ export default function Page() {
 
     const axiosAuth = useAxiosAuth();
 
-    useEffect(() => {
-        triggerRefreshUserProfile();
-    }, [axiosAuth]);
-
-    async function triggerRefreshUserProfile() {
+    const triggerRefreshUserProfile = useCallback(async () => {
         return axiosAuth
             .get(PROFILE_GET_ENDPOINT)
             .then((response) => {
@@ -40,7 +36,11 @@ export default function Page() {
             .catch((err) => {
                 console.error(err);
             });
-    }
+    }, [axiosAuth, setUserProfile]);
+
+    useEffect(() => {
+        triggerRefreshUserProfile();
+    }, [triggerRefreshUserProfile]);
 
     const handleClickNewAddress = () => {
         setOpenListAddress(false);

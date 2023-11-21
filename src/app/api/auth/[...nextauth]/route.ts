@@ -99,9 +99,9 @@ const authOptions: NextAuthOptions = {
         error: '/signin',
     },
     logger: {
-        debug: (...data) => console.debug(data),
-        error: (...data) => console.error(data),
-        warn: (...data) => console.warn(data),
+        debug: (...data) => console.debug({ ...data }),
+        error: (...data) => console.error({ ...data }),
+        warn: (...data) => console.warn({ ...data }),
     },
 };
 
