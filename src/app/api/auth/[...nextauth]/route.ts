@@ -95,8 +95,8 @@ const authOptions: NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: '/signin',
-        error: '/signin',
+        signIn: '/dang-nhap',
+        error: '/dang-nhap',
     },
     logger: {
         debug: (...data) => console.debug({ ...data }),

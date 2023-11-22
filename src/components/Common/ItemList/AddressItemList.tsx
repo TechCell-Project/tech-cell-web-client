@@ -2,7 +2,7 @@
 
 import { Address } from '@models/Location';
 import { Box, Button, Radio } from '@mui/material';
-import { SetStateAction, Dispatch } from 'react';
+import { SetStateAction, Dispatch, useState, useEffect } from 'react';
 import { buildAddressString } from 'utils/address.util';
 
 interface AddressItemListProps {
@@ -15,7 +15,7 @@ interface AddressItemListProps {
     selectedAddressToUpdateIndex: Dispatch<SetStateAction<number | null>>;
 }
 
-export const AddressItemList = (props: AddressItemListProps) => {
+const AddressItemList = (props: AddressItemListProps) => {
     const {
         address,
         selected,
@@ -25,6 +25,12 @@ export const AddressItemList = (props: AddressItemListProps) => {
         addressIndex,
         selectedAddressToUpdateIndex,
     } = props;
+
+    const [addressString, setAddressString] = useState<string>('');
+
+    useEffect(() => {
+        setAddressString(buildAddressString(address));
+    }, [address]);
 
     return (
         <Box
@@ -89,7 +95,7 @@ export const AddressItemList = (props: AddressItemListProps) => {
                                 color: '#000000A6',
                             }}
                         >
-                            {buildAddressString(address)}
+                            {addressString}
                         </Box>
                     </Box>
                 </Box>
@@ -109,3 +115,5 @@ export const AddressItemList = (props: AddressItemListProps) => {
         </Box>
     );
 };
+
+export default AddressItemList;

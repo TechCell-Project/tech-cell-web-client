@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -16,17 +16,16 @@ import {
     Menu,
     MenuItem,
 } from '@mui/material';
-import { Menu as MenuIcon, ShoppingCart as ShoppingCartIcon } from '@mui/icons-material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 import { MenuComponent } from '@components/Form';
-import { DRAWER_WIDTH, NAV_ITEMS } from '@constants/NavContants';
+import { DRAWER_WIDTH, NAV_ITEMS } from '@constants/NavConstant';
 import { DrawerLayout } from '@components/Layout';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import styles from '@styles/components/button.module.scss';
-import { useAppDispatch, useAppSelector } from '@store/store';
 import { signIn, useSession, signOut } from 'next-auth/react';
 import SearchBarBox from '@components/Common/Searching/SearchBarBox';
 
@@ -36,13 +35,11 @@ interface Props {
 
 export const HeaderClient = (props: Props) => {
     const { data: session } = useSession();
-    const dispatch = useAppDispatch();
-    // const { user } = useAppSelector((state) => state.auth);
     const theme = useTheme();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const openDrop = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -58,7 +55,7 @@ export const HeaderClient = (props: Props) => {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     // Modal search
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const top100Films = [
@@ -72,7 +69,7 @@ export const HeaderClient = (props: Props) => {
     ];
 
     const style = {
-        position: 'absolute' as 'absolute',
+        position: 'absolute',
         top: '13%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -143,10 +140,9 @@ export const HeaderClient = (props: Props) => {
                                 alignItems: 'center',
                             }}
                         >
-                            {NAV_ITEMS.map((item, i) => (
+                            {NAV_ITEMS.map((item, index) => (
                                 <MenuComponent
-                                    // userdata={item.}
-                                    key={i}
+                                    key={`nav_item_${index.toString()}`}
                                     content={item.name}
                                     options={item?.menu}
                                     icon={item.icon ? <item.icon></item.icon> : undefined}
@@ -254,7 +250,7 @@ export const HeaderClient = (props: Props) => {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                         onClick={handleClick}
-                                        sx={{ padding: '0px',minWidth:'24px' }}
+                                        sx={{ padding: '0px', minWidth: '24px' }}
                                     >
                                         <Box
                                             sx={{
@@ -275,7 +271,6 @@ export const HeaderClient = (props: Props) => {
                                         MenuListProps={{
                                             'aria-labelledby': 'basic-button',
                                         }}
-                                        
                                     >
                                         <MenuItem>
                                             <Button onClick={() => signOut()}>

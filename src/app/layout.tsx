@@ -6,6 +6,7 @@ import { ThemeProviderMui } from 'components/Provider';
 import styles from '../styles/components/button.module.scss';
 import { ReduxProvider } from '@components/Provider/ReduxProvider';
 import NextAuthProvider from '@components/Provider/NextAuthProvider';
+import { getSession } from 'next-auth/react';
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
@@ -13,14 +14,20 @@ export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export async function getNextAuthSession() {
+    const session = await getSession();
+    return session;
+}
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const session = await getNextAuthSession();
     return (
         <html lang="en">
             <head>
                 <link rel="icon" href="/favicon.ico" />
             </head>
             <body className={`${montserrat.className} ${styles.body}`}>
-                <NextAuthProvider>
+                <NextAuthProvider {...(session ?? {})}>
                     <ThemeProviderMui>
                         <ReduxProvider>
                             <HeaderClient />

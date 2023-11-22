@@ -326,7 +326,8 @@ export default function Page() {
                                 {userProfile?.address && (
                                     <AddressList
                                         handleCloseListItem={handleCloseListAddress}
-                                        addresses={userProfile.address}
+                                        userProfile={userProfile}
+                                        triggerRefreshUserProfile={triggerRefreshUserProfile}
                                     />
                                 )}
 

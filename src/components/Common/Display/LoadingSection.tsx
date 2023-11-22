@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Typography, useTheme } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { MoonLoader } from 'react-spinners';

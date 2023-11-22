@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MoonLoader from 'react-spinners/MoonLoader';
@@ -23,11 +21,7 @@ const LoadingPage = () => {
                     }}
                     spacing={3}
                 >
-                    <MoonLoader
-                        color={theme.color.red}
-                        speedMultiplier={0.75}
-                        size={60}
-                    />
+                    <MoonLoader color={theme.color.red} speedMultiplier={0.75} size={60} />
                     <Typography variant="subtitle1">Đang tải ...</Typography>
                 </Stack>
             </Container>

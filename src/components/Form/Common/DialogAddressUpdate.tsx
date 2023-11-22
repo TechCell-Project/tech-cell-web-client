@@ -19,7 +19,7 @@ interface DialogAddressUpdateProps {
     isOpen: boolean;
     handleClose: () => void;
     triggerRefreshUserProfile: () => Promise<void>;
-    selectedAddressIndex: number;
+    selectedAddressToUpdateIndex: number;
     userProfile: UserModel;
 }
 
@@ -28,9 +28,14 @@ const addressName = [
     { name: 'Công ty', value: 'Công ty' },
 ];
 
-export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
-    const { isOpen, handleClose, triggerRefreshUserProfile, userProfile, selectedAddressIndex } =
-        props;
+const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
+    const {
+        isOpen,
+        handleClose,
+        triggerRefreshUserProfile,
+        userProfile,
+        selectedAddressToUpdateIndex,
+    } = props;
 
     const [provinces, setProvinces] = useState<Array<Province>>(new Array<Province>());
     const [districts, setDistricts] = useState<Array<District>>(new Array<District>());
@@ -63,14 +68,14 @@ export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
 
     function handleUpdateAddress(addressUpdatedData: Location) {
         const updated = userProfile?.address ?? [];
-        updated[selectedAddressIndex] = addressUpdatedData.address;
+        updated[selectedAddressToUpdateIndex] = addressUpdatedData.address;
         const dataBody = {
             address: updated,
         };
 
         axiosAuth
             .patch('/profile/address', dataBody)
-            .then((res) => {
+            .then(async (res) => {
                 if (res.status === 200) {
                     toast.success('Cập nhật địa chỉ thành công', {
                         position: 'top-center',
@@ -83,7 +88,7 @@ export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
                         theme: 'light',
                     });
                     // handleClose(false);
-                    triggerRefreshUserProfile();
+                    await triggerRefreshUserProfile();
                 }
             })
             .catch(() => {
@@ -111,7 +116,7 @@ export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
 
             {userProfile?.address && (
                 <Formik
-                    initialValues={new Location(userProfile.address[selectedAddressIndex])}
+                    initialValues={new Location(userProfile.address[selectedAddressToUpdateIndex])}
                     enableReinitialize
                     validationSchema={ProfileSchema}
                     onSubmit={(values) => {
@@ -247,3 +252,5 @@ export const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
         </ShowDialog>
     );
 };
+
+export default DialogAddressUpdate;

@@ -123,7 +123,7 @@ const VerifyEmail = ({ email }: { email: string }) => {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link href="/register">
+                                <Link href="/dang-ky-tai-khoan">
                                     <Typography
                                         variant="body2"
                                         sx={{

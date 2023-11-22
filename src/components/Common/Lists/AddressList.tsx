@@ -1,44 +1,29 @@
 'use client';
 
 import { Address } from '@models/Location';
-import { AddressItemList } from '../ItemList';
-import { useEffect, useState } from 'react';
-import { DialogAddressUpdate } from '@components/Form/Common/DialogAddressUpdate';
-import { useAxiosAuth } from '@hooks/useAxiosAuth';
-import { PROFILE_GET_ENDPOINT } from '@constants/Services';
+import { useEffect, useState, Suspense, lazy } from 'react';
 import { UserModel } from '@models/User.model';
+import { LoadingPageMnt } from '@components/Common/Display/loading';
+import LoadingSection from '@components/Common/Display/LoadingSection';
+import SkeletonLoading from '@components/Common/Display/loading/SkeletonLoading';
+import { Box } from '@mui/material';
 
 interface AddressListProps {
-    addresses: Address[];
+    userProfile: UserModel;
+    triggerRefreshUserProfile: () => Promise<void>;
     handleCloseListItem: (value: boolean) => void;
 }
 
 export function AddressList(props: Readonly<AddressListProps>) {
-    const { addresses, handleCloseListItem } = props;
-    const [userProfile, setUserProfile] = useState<UserModel>();
+    const DialogAddressUpdate = lazy(() => import('@components/Form/Common/DialogAddressUpdate'));
+    const AddressItemList = lazy(() => import('@components/Common/ItemList/AddressItemList'));
+
+    const { handleCloseListItem, triggerRefreshUserProfile, userProfile } = props;
     const [selectAddress, setSelectAddress] = useState<number>(0);
     const [openAddressUpdate, setOpenAddressUpdate] = useState(false);
     const [selectedAddressToUpdateIndex, setSelectedAddressToUpdateIndex] = useState<number | null>(
         null,
     );
-
-    const axiosAuth = useAxiosAuth();
-    function triggerRefreshUserProfile() {
-        return axiosAuth
-            .get(PROFILE_GET_ENDPOINT)
-            .then((response) => {
-                if (response.data) {
-                    setUserProfile(response.data as UserModel);
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }
-
-    function getUserProfile() {
-        return userProfile;
-    }
 
     const handleSetSelected = (index: number) => {
         setSelectAddress(index);
@@ -54,44 +39,53 @@ export function AddressList(props: Readonly<AddressListProps>) {
     };
 
     useEffect(() => {
-        const defaultAddressIndex = addresses.findIndex((address) => address?.isDefault);
-        if (defaultAddressIndex !== -1) {
+        const defaultAddressIndex = userProfile?.address?.findIndex(
+            (address) => address?.isDefault,
+        );
+        if (defaultAddressIndex !== -1 && defaultAddressIndex != undefined) {
             setSelectAddress(defaultAddressIndex);
         }
-    }, [addresses]);
-
-    useEffect(() => {
-        if (!userProfile) {
-            triggerRefreshUserProfile();
-        }
-    }, []);
+    }, [userProfile?.address]);
 
     return (
         <>
-            {/* cập nhật địa chỉ khi click cập nhật ở danh sách địa chỉ */}
-            {selectedAddressToUpdateIndex && userProfile && (
-                <DialogAddressUpdate
-                    userProfile={userProfile}
-                    isOpen={openAddressUpdate}
-                    handleClose={handleCloseAddressUp}
-                    triggerRefreshUserProfile={triggerRefreshUserProfile}
-                    selectedAddressIndex={selectedAddressToUpdateIndex}
-                />
-            )}
-
-            {/* địa chỉ của user */}
-            {addresses.map((address: Address, index: number) => (
-                <AddressItemList
-                    address={address}
+            {/* danh sách địa chỉ của user */}
+            {userProfile?.address?.map((address: Address, index: number) => (
+                <Suspense
+                    fallback={
+                        <SkeletonLoading
+                            enableAnimation
+                            height={120}
+                            wrapper={Box}
+                            duration={0.5}
+                        />
+                    }
                     key={`index-${index.toString()}`}
-                    selected={selectAddress}
-                    setSelected={handleSetSelected}
-                    setLengthAddress={handleLength}
-                    handleCloseListItem={handleCloseListItem}
-                    addressIndex={index}
-                    selectedAddressToUpdateIndex={setSelectedAddressToUpdateIndex}
-                />
+                >
+                    <AddressItemList
+                        address={address}
+                        selected={selectAddress}
+                        setSelected={handleSetSelected}
+                        setLengthAddress={handleLength}
+                        handleCloseListItem={handleCloseListItem}
+                        addressIndex={index}
+                        selectedAddressToUpdateIndex={setSelectedAddressToUpdateIndex}
+                    />
+                </Suspense>
             ))}
+
+            {/* cập nhật địa chỉ khi click cập nhật ở danh sách địa chỉ */}
+            {userProfile && selectedAddressToUpdateIndex != null && (
+                <Suspense fallback={<LoadingPageMnt isLoading isBlur />}>
+                    <DialogAddressUpdate
+                        userProfile={userProfile}
+                        isOpen={openAddressUpdate}
+                        handleClose={handleCloseAddressUp}
+                        triggerRefreshUserProfile={triggerRefreshUserProfile}
+                        selectedAddressToUpdateIndex={selectedAddressToUpdateIndex}
+                    />
+                </Suspense>
+            )}
         </>
     );
 }

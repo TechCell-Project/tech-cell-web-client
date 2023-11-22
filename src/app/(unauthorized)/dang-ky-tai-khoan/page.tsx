@@ -21,7 +21,7 @@ import { RegisterModel } from 'models';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dialog from '@mui/material/Dialog';
-import VerifyEmail from '../verify/VerifyEmail';
+import VerifyEmail from '../xac-thuc-tai-khoan/VerifyEmail';
 
 export default function Signup() {
     const [open, setOpen] = useState(false);
@@ -260,7 +260,7 @@ export default function Signup() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login">
+                                <Link href="/dang-nhap">
                                     <Typography
                                         variant="body2"
                                         sx={{

@@ -25,7 +25,7 @@ import { Copyright } from '@components/Layout';
 import { useFormik } from 'formik';
 import { LoginSchema } from 'validate/auth.validate';
 import { LoginModel } from 'models';
-import { ForgotPassword } from 'app/(auth)/forgotpassword/FromForgotPassword';
+import { ForgotPassword } from '@app/quen-mat-khau/FromForgotPassword';
 
 export default function Login() {
     const router = useRouter();
@@ -55,8 +55,7 @@ export default function Login() {
     });
 
     if (session?.user?.accessToken) {
-        router.replace('/');
-        return <></>;
+        return router.replace('/');
     } else
         return (
             <>
@@ -138,7 +137,7 @@ export default function Login() {
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="/register">
+                                    <Link href="/dang-ky-tai-khoan">
                                         <Typography
                                             variant="body2"
                                             sx={{
@@ -161,7 +160,7 @@ export default function Login() {
                         <Stack spacing={3} direction="row">
                             <Button
                                 onClick={() => {
-                                    signIn('facebook', { callbackUrl: 'http://localhost:3000' });
+                                    signIn('facebook', { callbackUrl: process.env.NEXTAUTH_URL });
                                 }}
                             >
                                 <IconButton size="large" sx={{ color: '#ee4949' }}>
@@ -170,7 +169,7 @@ export default function Login() {
                             </Button>
                             <Button
                                 onClick={() =>
-                                    signIn('google', { callbackUrl: 'http://localhost:3000' })
+                                    signIn('google', { callbackUrl: process.env.NEXTAUTH_URL })
                                 }
                             >
                                 <IconButton size="large" sx={{ color: '#ee4949' }}>
