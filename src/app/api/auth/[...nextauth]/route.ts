@@ -2,10 +2,12 @@ import NextAuth, { NextAuthOptions, User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { AUTH_LOGIN, AUTH_LOGIN_GOOGLE } from '@constants/Services';
-import axios from '@libs/axios';
+import { LOGIN_GOOGLE_ENDPOINT } from '@constants/Services';
+import instanceAuth from '@config/instanceAuth.config';
+import { fetchLogin } from '@services/AuthService';
+import instancePublic from '@config/instancePublic.config';
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             credentials: {
@@ -22,8 +24,7 @@ const authOptions: NextAuthOptions = {
                     password: credentials?.password,
                 };
 
-                return axios
-                    .post<User>(AUTH_LOGIN, payload)
+                return fetchLogin(payload)
                     .then((response) => {
                         return response.data;
                     })
@@ -47,7 +48,7 @@ const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === 'google') {
                 try {
-                    const { data } = await axios.post<User>(AUTH_LOGIN_GOOGLE, {
+                    const { data } = await instancePublic.post<User>(LOGIN_GOOGLE_ENDPOINT, {
                         idToken: account.id_token,
                     });
                     Object.assign(user, {
@@ -80,11 +81,19 @@ const authOptions: NextAuthOptions = {
             }
             return true;
         },
-        async jwt({ token, user }) {
-            return { ...token, ...user };
+        async jwt({ token, user, profile, account }) {
+            if (user) {
+                token = { ...token, ...user };
+            }
+
+            return token;
         },
         async session({ session, token }) {
-            session.user = token as unknown as User;
+            if (token) {
+                session.user = token as unknown as User;
+
+                instanceAuth.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`
+            }
             return session;
         },
         async redirect({ url, baseUrl }) {

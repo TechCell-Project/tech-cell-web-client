@@ -1,13 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { Button } from '@mui/material';
-import { Menu } from '@mui/material';
-import { MenuItem } from '@mui/material';
-import { useTheme } from '@mui/material';
-import { IMenuOptions } from 'interfaces/form';
-import styles from '@styles/components/button.module.scss';
 import Link from 'next/link';
+import styles from '@styles/components/button.module.scss';
+
+import { IMenuOptions } from 'interfaces/form';
+
+import { useTheme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 interface Props {
     // userdata : string;
@@ -18,7 +20,7 @@ interface Props {
     href: string;
 }
 
-export function MenuComponent(props: Props) {
+export function MenuComponent(props: Readonly<Props>) {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);

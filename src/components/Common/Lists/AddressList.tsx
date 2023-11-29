@@ -1,10 +1,9 @@
 'use client';
 
-import { Address } from '@models/Location';
+import { Address } from '@models/Account';
 import { useEffect, useState, Suspense, lazy } from 'react';
 import { UserModel } from '@models/User.model';
 import { LoadingPageMnt } from '@components/Common/Display/loading';
-import LoadingSection from '@components/Common/Display/LoadingSection';
 import SkeletonLoading from '@components/Common/Display/loading/SkeletonLoading';
 import { Box } from '@mui/material';
 

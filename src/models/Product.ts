@@ -4,6 +4,7 @@ import { Paging, PagingResponse } from "./Common";
 
 export class PagingProduct extends Paging {
   detail?: boolean = false;
+  select_type?: string | null = null;
 }
 
 export class PriceModel {
@@ -25,8 +26,6 @@ export class ImageModel {
   publicId: string = "";
   url: string = "";
   isThumbnail: boolean = false;
-  isPlaceholder?: boolean = false;
-  isDeleted?: boolean = false;
 }
 
 export class ProductRequest {
@@ -52,12 +51,12 @@ export class ProductModel extends ProductRequest {
   updatedAt?: string;
 }
 
-export class ProductData extends PagingResponse {
-  data: Array<ProductModel> = [];
-}
+// export class ProductData extends PagingResponse {
+//   data: Array<ProductModel> = [];
+// }
 
 export class ProductSlice {
-  products: ProductData = new ProductData();
+  products: PagingResponse<ProductModel> = new PagingResponse<ProductModel>();
   product: ProductModel | null = null;
   isLoading: boolean = false;
   isLoadingDetails: boolean = false;

@@ -8,9 +8,11 @@ import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import { useDispatch } from 'react-redux';
 import styles from '@styles/components/productdetail.module.scss';
-import { addToCart } from '@store/slices/cartSlice';
+import { addItemToCart } from '@store/slices/cartSlice';
+import { useAppDispatch } from '@store/store';
+import { toast } from 'react-toastify';
+import { AddCartItemModel } from '@models/Cart';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -26,25 +28,38 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 interface DialogButtonContent {
     missingColor: boolean;
-    productCart: {};
+    productCart: AddCartItemModel;
 }
 
 const CustomizedDialogs: FC<DialogButtonContent> = ({ missingColor, productCart }) => {
+    const dispatch = useAppDispatch();
     const [open, setOpen] = useState<{ title: string; isOpen: boolean }>({
         title: '',
         isOpen: false,
     });
-    const dispach = useDispatch();
 
-    const addCartClickOpen = () => {
+    console.log(productCart);
+
+    const addCartClickOpen = async () => {
         if (missingColor) {
             setOpen({
                 title: 'Thêm vào giỏ hàng thất bại!',
                 isOpen: true,
             });
+        } else {
+            try {
+                const response = await dispatch(addItemToCart(productCart));
+
+                console.log(response);
+                if (response?.success) {
+                    toast.success('Thêm vào giỏ hàng thành công');
+                } else {
+                    toast.error('Có lỗi xảy ra. Thêm vào giỏ hàng thất bại');
+                }
+            } catch (error) {
+                toast.error('Có lỗi xảy ra. Thêm vào giỏ hàng thất bại');
+            }
         }
-        console.log(productCart);
-        dispach(addToCart(productCart));
     };
 
     const buyNowClickOpen = () => {

@@ -35,6 +35,7 @@ interface Props {
 
 export const HeaderClient = (props: Props) => {
     const { data: session } = useSession();
+    console.log({ session });
     const theme = useTheme();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState<boolean>(false);

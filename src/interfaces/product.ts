@@ -1,4 +1,5 @@
-import { PriceModel, ProductData } from "@models/Product";
+import { PagingResponse } from "@models/Common";
+import { PriceModel, ProductModel, } from "@models/Product";
 
 export interface CategorySelecting {
     key: string;
@@ -21,13 +22,15 @@ export interface VariantStorage {
 }
 
 export interface VariantInfo {
+    variantThumbnail: string;
     storage: string;
     color: string;
     price: PriceModel;
+    sku: string;
     isSelectedColor: boolean;
 }
 
 export interface ProductSearchingStatus {
-    data: ProductData | null;
+    data: PagingResponse<ProductModel> | null;
     messageStatusCode: string;
 }

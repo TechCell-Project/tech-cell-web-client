@@ -1,4 +1,4 @@
-import instance from './Instance';
+import instancePublic from '@config/instancePublic.config';
 import {
     LOGIN_ENDPOINT,
     REGISTER_ENDPOINT,
@@ -6,24 +6,28 @@ import {
     VERIFY_EMAIL_ENDPOINT,
     FORGOT_PASSWORD,
     VERIFY_FORGOT_PASSWORD,
-    ADD_TO_CART,
+    CHANGE_PASSWORD_ENDPOINT,
 } from '@constants/Services';
 import { ILogin, IRegister } from '@interfaces/auth';
-import { ForgotPasswordModel, VerifyEmailModel } from 'models';
+import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from 'models';
+import instanceAuth from '@config/instanceAuth.config';
+import { User } from 'next-auth';
 
-export const fetchLogin = (data: ILogin) => instance.post(LOGIN_ENDPOINT, data);
+export const fetchLogin = (data: ILogin) => instancePublic.post(LOGIN_ENDPOINT, data);
 
-export const fetchRegister = (data: IRegister) => instance.post(REGISTER_ENDPOINT, data);
+export const fetchRegister = (data: IRegister) => instancePublic.post(REGISTER_ENDPOINT, data);
 
 export const fetchVerifyEmail = (payload: VerifyEmailModel) =>
-    instance.post(VERIFY_EMAIL_ENDPOINT, payload);
+    instancePublic.post(VERIFY_EMAIL_ENDPOINT, payload);
 
 export const fetchRefresh = (refreshToken: string) =>
-    instance.post(REFRESH_TOKEN_ENDPOINT, { refreshToken });
+    instancePublic.post<User>(REFRESH_TOKEN_ENDPOINT, { refreshToken });
 
-export const fetchForgotPassword = (email: string) => instance.post(FORGOT_PASSWORD, { email });
+export const fetchForgotPassword = (email: string) =>
+    instancePublic.post(FORGOT_PASSWORD, { email });
 
 export const fetchVerifyForgotPassword = (payload: ForgotPasswordModel) =>
-    instance.post(VERIFY_FORGOT_PASSWORD, payload);
+    instancePublic.post(VERIFY_FORGOT_PASSWORD, payload);
 
-export const fetchAddToCart = () => instance.get(ADD_TO_CART);
+export const postChangePassword = (payload: AccountChangePass) =>
+    instanceAuth.post(CHANGE_PASSWORD_ENDPOINT, payload);

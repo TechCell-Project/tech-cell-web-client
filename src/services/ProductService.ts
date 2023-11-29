@@ -1,8 +1,9 @@
 import { PRODUCTS_ENDPOINT } from '@constants/Services';
 import instance from './Instance';
-import { PagingProduct, ProductData } from '@models/Product';
+import { PagingProduct, ProductModel } from '@models/Product';
 
-import instancePublic from './InstancePublic';
+import instancePublic from '@config/instancePublic.config';
+import { PagingResponse } from '@models/Common';
 
 export const getProducts = (payload: PagingProduct) => {
     const { page, pageSize, keyword } = payload;
@@ -23,7 +24,7 @@ export const getProductsPublic = (payload: PagingProduct) => {
         url += `&keyword=${keyword}`;
     }
 
-    return instancePublic.get<ProductData>(url);
+    return instancePublic.get<PagingResponse<ProductModel>>(url);
 };
 
 export const getProductById = (id: string, isDetails?: boolean) => {
@@ -32,5 +33,5 @@ export const getProductById = (id: string, isDetails?: boolean) => {
     if (isDetails) {
         url += `?detail=${isDetails}`;
     }
-    return instance.get(url);
+    return instancePublic.get<ProductModel>(url);
 }

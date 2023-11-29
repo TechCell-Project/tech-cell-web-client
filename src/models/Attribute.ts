@@ -20,16 +20,15 @@ export class AttributeDynamics {
 }
 
 export class PagingAttribute extends Paging {
-  select_type?: "only_active" | "only_deleted" | "both_deleted_and_active" =
-    "only_active";
+  select_type?: string | null;
 }
 
-export class AttributeData extends PagingResponse {
-  data: Array<AttributeModel> = [];
-}
+// export class AttributeData extends PagingResponse {
+//   data: Array<AttributeModel> = [];
+// }
 
 export class AttributeSlice {
-  attributes: AttributeData = new AttributeData();
+  attributes: PagingResponse<AttributeModel> = new PagingResponse<AttributeModel>();
   attribute: AttributeModel | null = null;
   isLoading: boolean = false;
   isLoadingDetail: boolean = false;

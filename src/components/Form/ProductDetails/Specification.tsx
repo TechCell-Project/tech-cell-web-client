@@ -9,30 +9,26 @@ interface TechnologyInformation {
 }
 
 export const Specification: FC<TechnologyInformation> = ({ techInfo }) => {
-
     const getTechInfo = (attributes: AttributeDynamics[], fieldsToRemove: string[]) => {
-        return attributes.filter(attribute => !fieldsToRemove.includes(attribute.k));
-    }
+        return attributes.filter((attribute) => !fieldsToRemove.includes(attribute.k));
+    };
 
     const info = getTechInfo(techInfo, ['brand', 'brand_country', 'model', 'origin']);
 
     console.log(info);
 
     return (
-        <>
-            <Table>
-                {info.map(attribute => {
-                    const name = attribute.name[0].toUpperCase() + attribute.name.slice(1);
+        <Table>
+            {info.map((attribute) => {
+                const name = attribute.name[0].toUpperCase() + attribute.name.slice(1);
 
-                    return (
+                return (
                     <TableRow key={attribute.k}>
                         <TableCell>{name}</TableCell>
-                        <TableCell>
-                            {attribute.v}
-                        </TableCell>
+                        <TableCell>{attribute.v}</TableCell>
                     </TableRow>
-                )})}
-            </Table>
-        </>
+                );
+            })}
+        </Table>
     );
 };

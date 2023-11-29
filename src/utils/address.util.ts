@@ -1,4 +1,4 @@
-import { Address } from '@models/Location';
+import { Address } from '@models/Account';
 
 export function getDefaultAddress(addresses: Address[]) {
     if (!Array.isArray(addresses)) {

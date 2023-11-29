@@ -1,5 +1,7 @@
+import { UserAccount } from './Account';
+
 export class LoginModel {
-    emailOrUsername ?: string ;
+    emailOrUsername?: string;
     password?: string | null = null;
 }
 
@@ -20,8 +22,8 @@ export class ProfileModel {
 }
 
 export class VerifyEmailModel {
-    email?: string = "";
-    otpCode?: string = "";
+    email?: string = '';
+    otpCode?: string = '';
 }
 
 export class ForgotPasswordModel {
@@ -29,4 +31,17 @@ export class ForgotPasswordModel {
     otpCode?: string | null = null;
     password?: string | null = null;
     re_password?: string | null = null;
+}
+
+export class AccountChangePass {
+    oldPassword?: string = '';
+    newPassword?: string = '';
+    reNewPassword?: string = '';
+}
+
+export class AuthSlice {
+    user: UserAccount | null = new UserAccount();
+    isLoading: boolean = false;
+    isLoadingProfile: boolean = false;
+    isAuthenticated: boolean = false;
 }
