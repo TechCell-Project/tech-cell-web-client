@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React, { ReactNode } from 'react';
 import Link from 'next/link';
 import styles from '@styles/components/button.module.scss';
 
@@ -16,11 +16,12 @@ interface Props {
     content: string;
     options?: IMenuOptions[];
     isBlackContent?: boolean;
-    icon?: React.ReactNode;
+    icon?: ReactNode;
     href: string;
 }
 
 export function MenuComponent(props: Readonly<Props>) {
+    const { content, options, isBlackContent, icon, href } = props;
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -33,8 +34,10 @@ export function MenuComponent(props: Readonly<Props>) {
     };
 
     return (
-        <Link href={props.href} className={styles.menu_nav}>
-            {props.icon && props.icon}
+        <Link href={href} className={styles.menu_nav}>
+            {icon && (
+                <span>{icon}</span>
+            )}
             <Button
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
@@ -42,15 +45,15 @@ export function MenuComponent(props: Readonly<Props>) {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
                 sx={{
-                    color: props.isBlackContent ? theme.color.black : '#fff',
+                    color: isBlackContent ? theme.color.black : '#fff',
                     textTransform: 'capitalize',
                     fontWeight: 600,
                 }}
                 className={styles.buttonMenu}
             >
-                {props.content}
+                {content}
             </Button>
-            {props.options && (
+            {options && (
                 <Menu
                     id="basic-menu"
                     anchorEl={anchorEl}
@@ -64,8 +67,8 @@ export function MenuComponent(props: Readonly<Props>) {
                         },
                     }}
                 >
-                    {props.options?.map((menuItem, i) => (
-                        <MenuItem key={i} sx={{ fontSize: '14px', fontWeight: 500 }}>
+                    {options?.map((menuItem) => (
+                        <MenuItem key={menuItem.value} sx={{ fontSize: '14px', fontWeight: 500 }}>
                             {menuItem.label}
                         </MenuItem>
                     ))}

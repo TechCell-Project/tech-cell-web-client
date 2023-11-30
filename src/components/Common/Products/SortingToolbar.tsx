@@ -55,51 +55,49 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
     };
 
     return (
-        <>
-            <Box sx={{ padding: '0 !important', margin: '20px 0px' }}>
-                <Stack spacing={2} sx={{ alignItems: 'flex-start', justifyContent: 'center' }}>
-                    <Typography variant="h5" fontWeight={600} fontSize={18}>
-                        Sắp xếp theo
-                    </Typography>
-                    <Box className={className}>
-                        <ToggleButtonGroup
-                            sx={{
-                                display: 'grid',
-                                gridTemplateColumns: 'auto auto auto auto',
-                                padding: '0px',
-                                '& .MuiToggleButtonGroup-grouped': {
-                                    border: 0,
-                                    '&:not(:first-of-type)': {
-                                        borderRadius: '10px',
-                                    },
-                                    '&:first-of-type': {
-                                        borderRadius: '10px',
-                                    },
+        <Box sx={{ padding: '0 !important', margin: '20px 0px' }}>
+            <Stack spacing={2} sx={{ alignItems: 'flex-start', justifyContent: 'center' }}>
+                <Typography variant="h5" fontWeight={600} fontSize={18}>
+                    Sắp xếp theo
+                </Typography>
+                <Box className={className}>
+                    <ToggleButtonGroup
+                        sx={{
+                            display: 'grid',
+                            gridTemplateColumns: 'auto auto auto auto',
+                            padding: '0px',
+                            '& .MuiToggleButtonGroup-grouped': {
+                                border: 0,
+                                '&:not(:first-of-type)': {
+                                    borderRadius: '10px',
                                 },
-                            }}
-                            {...sortByTagControl}
-                        >
-                            <ToggleButtonStyled value="ascending" key="ascending">
-                                <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
-                                Giá Cao - Thấp
-                            </ToggleButtonStyled>
-                            <ToggleButtonStyled value="descending" key="descending">
-                                <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
-                                Giá Thấp - Cao
-                            </ToggleButtonStyled>
-                            <ToggleButtonStyled value="hot-promo" key="hot-promo">
-                                <Percent sx={{ fontSize: '20px', marginRight: '5px' }} />
-                                Khuyến mãi hot
-                            </ToggleButtonStyled>
-                            <ToggleButtonStyled value="popular" key="popular">
-                                <Visibility sx={{ fontSize: '20px', marginRight: '5px' }} />
-                                Xem nhiều
-                            </ToggleButtonStyled>
-                        </ToggleButtonGroup>
-                    </Box>
-                </Stack>
-            </Box>
-        </>
+                                '&:first-of-type': {
+                                    borderRadius: '10px',
+                                },
+                            },
+                        }}
+                        {...sortByTagControl}
+                    >
+                        <ToggleButtonStyled value="ascending" key="ascending">
+                            <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            Giá Cao - Thấp
+                        </ToggleButtonStyled>
+                        <ToggleButtonStyled value="descending" key="descending">
+                            <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            Giá Thấp - Cao
+                        </ToggleButtonStyled>
+                        <ToggleButtonStyled value="hot-promo" key="hot-promo">
+                            <Percent sx={{ fontSize: '20px', marginRight: '5px' }} />
+                            Khuyến mãi hot
+                        </ToggleButtonStyled>
+                        <ToggleButtonStyled value="popular" key="popular">
+                            <Visibility sx={{ fontSize: '20px', marginRight: '5px' }} />
+                            Xem nhiều
+                        </ToggleButtonStyled>
+                    </ToggleButtonGroup>
+                </Box>
+            </Stack>
+        </Box>
     );
 };
 

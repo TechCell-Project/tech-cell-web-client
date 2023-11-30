@@ -1,23 +1,26 @@
 'use client';
 
 import React from 'react';
-import styles from 'styles/components/footer.module.scss';
-import { Box } from '@mui/material';
-import { Container } from '@mui/material';
-import { Grid } from '@mui/material';
-import { Stack } from '@mui/material';
-import { styled } from '@mui/material';
-import { useTheme } from '@mui/material';
-import { LocationOn } from '@mui/icons-material';
-import { Mail } from '@mui/icons-material';
-import { PhoneAndroid } from '@mui/icons-material';
 import Image from 'next/image';
+import Link from 'next/link';
+
+import styles from 'styles/components/footer.module.scss';
+
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import MailIcon from '@mui/icons-material/Mail';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+
 import AppStore from '@public/images/app-store.png';
 import GooglePlay from '@public/images/google-play.png';
 import SocialMedia1 from '@public/images/social-1.png';
 import SocialMedia2 from '@public/images/social-2.png';
 import SocialMedia4 from '@public/images/social-4.png';
-import Link from 'next/link';
 
 const IconContainer = styled(Box)(() => ({
     display: 'flex',
@@ -41,7 +44,6 @@ const Icon = styled(Box)(({ theme }) => ({
 }));
 
 export const FooterClient = () => {
-    const { color } = useTheme();
     return (
         <Box component="footer" sx={{ position: 'absolute',backgroundColor: '#eaeaea', marginTop: '20px', width: '100%', }}>
             <Container maxWidth="lg">
@@ -60,7 +62,7 @@ export const FooterClient = () => {
                             <Stack spacing={1.5}>
                                 <IconContainer>
                                     <Icon>
-                                        <LocationOn />
+                                        <LocationOnIcon />
                                     </Icon>
                                     <Box>
                                         <p>Hno: 18 Tam Trinh Hoang Mai, Ha Noi</p>
@@ -68,13 +70,13 @@ export const FooterClient = () => {
                                 </IconContainer>
                                 <IconContainer>
                                     <Icon>
-                                        <Mail />
+                                        <MailIcon />
                                     </Icon>
                                     <p>techcellVTC@gmail.com</p>
                                 </IconContainer>
                                 <IconContainer>
                                     <Icon>
-                                        <PhoneAndroid />
+                                        <PhoneAndroidIcon />
                                     </Icon>
                                     <p>
                                         Phone 1 : 0123456789
