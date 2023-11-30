@@ -69,10 +69,9 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
     if (!token) return signOut(request);
 
-    console.log('token: ');
-    console.log(token);
-
     const response = NextResponse.next();
+
+    console.log('response: ', response);
 
     if (shouldUpdateToken(token)) {
         const newToken = await refreshToken(token);
