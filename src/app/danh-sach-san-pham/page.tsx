@@ -4,9 +4,7 @@ import Products from '@components/Common/Products/Products';
 
 const Product = () => {
     return (
-        <>
-            <Products />
-        </>
+        <Products />
     );
 };
 

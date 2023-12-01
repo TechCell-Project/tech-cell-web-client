@@ -1,6 +1,6 @@
 'use client';
 
-import { Address } from '@models/Location';
+import { Address } from '@models/Account';
 import { useEffect, useState, Suspense, lazy } from 'react';
 import { UserModel } from '@models/User.model';
 import { LoadingPageMnt } from '@components/Common/Display/loading';

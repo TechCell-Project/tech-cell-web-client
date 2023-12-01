@@ -7,6 +7,8 @@ import styles from '../styles/components/button.module.scss';
 import { ReduxProvider } from '@components/Provider/ReduxProvider';
 import NextAuthProvider from '@components/Provider/NextAuthProvider';
 import { getSession } from 'next-auth/react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
@@ -24,9 +26,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     return (
         <html lang="en">
             <head>
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href='/public/favicon.ico' />
             </head>
             <body className={`${montserrat.className} ${styles.body}`}>
+                <ToastContainer theme='colored' autoClose={3000} newestOnTop closeOnClick position='top-right' />
                 <NextAuthProvider {...(session ?? {})}>
                     <ThemeProviderMui>
                         <ReduxProvider>

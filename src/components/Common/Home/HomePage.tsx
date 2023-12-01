@@ -16,9 +16,9 @@ import { Paging } from '@models/Common';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getAllProduct } from '@store/slices/productSlice';
 
-import { formatProductLabel, getThumbnail } from 'utils';
+import { formatProductLabel } from 'utils';
 import { ProductLabel } from '@interfaces/product';
-import LoadingSection from '../Display/LoadingSection';
+import { LoadingSection } from '../Display/LoadingSection';
 
 const HomePage = () => {
     const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ const HomePage = () => {
     }, [searchProduct]);
 
     useEffect(() => {
-        const productData = formatProductLabel(products).slice(0, 4);
+        const productData = products.data.map((product) => formatProductLabel(product)).slice(0, 4);
 
         setNewestProducts(productData);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Address } from '@models/Location';
+import { Address } from '@models/Account';
 import { Box, Button, Radio } from '@mui/material';
 import { SetStateAction, Dispatch, useState, useEffect } from 'react';
 import { buildAddressString } from 'utils/address.util';

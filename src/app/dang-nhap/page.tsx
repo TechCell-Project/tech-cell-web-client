@@ -33,6 +33,8 @@ export default function Login() {
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
     const searchParams = useSearchParams();
 
+    const backUrl = searchParams.has('callbackUrl') ? searchParams.get('callbackUrl') : '/';
+
     useEffect(() => {
         if (searchParams.get('error')) {
             toast.error('Đăng nhập thất bại !!', {
@@ -48,7 +50,8 @@ export default function Login() {
             signIn('credentials', {
                 emailOrUsername: values.emailOrUsername,
                 password: values.password,
-                callbackUrl: '/',
+                callbackUrl: backUrl as string,
+                // redirect: false,
             });
         },
     });

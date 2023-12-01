@@ -7,11 +7,9 @@ import Box from '@mui/material/Box';
 import { useAxiosAuth } from '@hooks/useAxiosAuth';
 import { ShowDialog } from '@components/Common/Display/DialogCustom';
 import { UserModel } from '@models/User.model';
-import { AddressList } from '@components/Common/Address/Lists/AddressList';
-import { PROFILE_GET_ENDPOINT } from '@constants/Services';
-import { DialogAddressEdit } from '@components/Form/Common/AddressDialog/DialogAddressEdit';
-import ListProductInCart from '@components/Common/Cart/ListProductInCart';
-import Link from 'next/link';
+import { AddressList } from '@components/Common/Lists/AddressList';
+// import { PROFILE_GET_ENDPOINT } from '@constants/Services';
+import { DialogAddressEdit } from '@components/Form/Common/DialogAddressEdit';
 
 export default function Page() {
     const [userProfile, setUserProfile] = useState<UserModel>();
@@ -22,7 +20,7 @@ export default function Page() {
     const axiosAuth = useAxiosAuth();
     const triggerRefreshUserProfile = useCallback(async () => {
         return axiosAuth
-            .get(PROFILE_GET_ENDPOINT)
+            .get(PROFILE_ENDPOINT)
             .then((response) => {
                 if (response.data) {
                     setUserProfile(response.data as UserModel);

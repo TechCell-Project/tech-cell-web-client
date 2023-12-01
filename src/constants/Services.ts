@@ -5,11 +5,12 @@ export const AUTH_LOGIN_GOOGLE = `${API_ENDPOINT}/auth/google`;
 
 // Authentication
 export const LOGIN_ENDPOINT = '/auth/login';
-export const REGISTER_ENDPOINT = `${API_ENDPOINT}/auth/register`;
+export const REGISTER_ENDPOINT = '/auth/register';
 export const VERIFY_EMAIL_ENDPOINT = '/auth/verify-email';
 export const REFRESH_TOKEN_ENDPOINT = '/auth/refresh-token';
 export const FORGOT_PASSWORD = '/auth/forgot-password';
 export const VERIFY_FORGOT_PASSWORD = '/auth/verify-forgot-password';
+export const CHANGE_PASSWORD_ENDPOINT = '/auth/change-password';
 export const ADD_TO_CART = 'auth/carts';
 export const ADDRESS_PROVINCES = '/address/provinces';
 
@@ -25,7 +26,13 @@ export const CATEGORIES_ENDPOINT = '/categories';
 // Attributes
 export const ATTRIBUTES_ENDPOINT = '/attributes';
 
+// Carts Management
+export const CART_ENDPOINT = '/carts';
+
+// get provinces
+export const LOCATION_PROVINCES_ENDPOINT = '/address/provinces';
+
 // Images
 export const IMAGES_ENDPOINT = '/images';
 
-export const PROFILE_GET_ENDPOINT = '/profile';
+export const PROFILE_ENDPOINT = '/profile';

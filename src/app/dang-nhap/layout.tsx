@@ -5,6 +5,10 @@ export const metadata: Metadata = {
     title: 'Đăng Nhập - TechCell - Điện thoại, phụ kiện chính hãng',
 };
 
-export default function LoginLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return <>{children}</>;
+export default function LoginLayout() {
+    return (
+        <>
+            <Login />
+        </>
+    );
 }

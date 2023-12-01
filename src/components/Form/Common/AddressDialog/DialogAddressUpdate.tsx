@@ -168,7 +168,7 @@ const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
 
                                                 return newValue;
                                             });
-                                            getDataDistricts((value as Province)?.province_id);
+                                            getDataDistricts((value as Province)?.province_id!);
                                         }}
                                     />
                                 </Grid>
@@ -190,7 +190,7 @@ const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
 
                                                 return newValue;
                                             });
-                                            getDataWards((value as District)?.district_id);
+                                            getDataWards((value as District)?.district_id!);
                                         }}
                                     />
                                 </Grid>

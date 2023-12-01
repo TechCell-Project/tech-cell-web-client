@@ -5,10 +5,8 @@ import Container from '@mui/material/Container';
 import MoonLoader from 'react-spinners/MoonLoader';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
 
-const LoadingPage = () => {
-    const theme = useTheme();
+export const LoadingPage = () => {
 
     return (
         <Box marginTop="20px">
@@ -21,12 +19,10 @@ const LoadingPage = () => {
                     }}
                     spacing={3}
                 >
-                    <MoonLoader color={theme.color.red} speedMultiplier={0.75} size={60} />
+                    <MoonLoader color='#ee4949' speedMultiplier={0.75} size={60} />
                     <Typography variant="subtitle1">Đang tải ...</Typography>
                 </Stack>
             </Container>
         </Box>
     );
 };
-
-export default LoadingPage;
