@@ -31,7 +31,9 @@ const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
 
 function signOut(request: NextRequest) {
     console.log(request.url);
-    const response = NextResponse.redirect(new URL('/dang-nhap?callbackUrl=/gio-hang-v2', request.url));
+    const response = NextResponse.redirect(
+        new URL('/dang-nhap?callbackUrl=/gio-hang-v2', request.url),
+    );
 
     request.cookies.getAll().forEach((cookie) => {
         if (cookie.name.includes('next-auth')) response.cookies.delete(cookie.name);
@@ -74,55 +76,60 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
     console.log('response: ', response);
 
     if (shouldUpdateToken(token)) {
-        const newToken = await refreshToken(token);
+        try {
+            const newToken = await refreshToken(token);
 
-        console.log('newToken', newToken);
+            console.log('newToken', newToken);
 
-        if (newToken.error) {
-            if (newToken.statusCode === 403 || newToken.status === 403) {
-                return signOut(request);
-            }
-        } else {
-            const newSessionToken = await encode({
-                secret: process.env.NEXTAUTH_SECRET as string,
-                token: {
-                    ...token,
-                    accessToken: newToken.accessToken as string,
-                    refreshToken: newToken.refreshToken as string,
-                },
-                maxAge: 15 * 60 /* 15 mins */,
-            });
-
-            console.log('newSessionToken', newSessionToken);
-
-            const size = 3933; // maximum size of each chunk
-            const regex = new RegExp('.{1,' + size + '}', 'g');
-
-            // split the string into an array of strings
-            const tokenChunks = RegExp(regex).exec(newSessionToken);
-
-            // set request cookies for the incoming getServerSession to read new session
-            if (tokenChunks) {
-                tokenChunks.forEach((tokenChunk, index) => {
-                    response.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
-                });
-                // updated request cookies can only be passed to server if its passdown here after setting its updates
-                const response = NextResponse.next({
-                    request: {
-                        headers: request.headers,
+            if (newToken.error) {
+                if (newToken.statusCode === 403 || newToken.status === 403) {
+                    return signOut(request);
+                }
+            } else {
+                const newSessionToken = await encode({
+                    secret: process.env.NEXTAUTH_SECRET as string,
+                    token: {
+                        ...token,
+                        accessToken: newToken.accessToken as string,
+                        refreshToken: newToken.refreshToken as string,
                     },
+                    maxAge: 15 * 60 /* 15 mins */,
                 });
 
-                // set response cookies to send back to browser
-                tokenChunks.forEach((tokenChunk, index) => {
-                    response.cookies.set(`${sessionCookie}.${index}`, tokenChunk, {
-                        httpOnly: true,
-                        maxAge: 3 * 24 * 60 * 60, // 3 days
-                        secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'lax',
+                console.log('newSessionToken', newSessionToken);
+
+                const size = 3933; // maximum size of each chunk
+                const regex = new RegExp('.{1,' + size + '}', 'g');
+
+                // split the string into an array of strings
+                const tokenChunks = RegExp(regex).exec(newSessionToken);
+
+                // set request cookies for the incoming getServerSession to read new session
+                if (tokenChunks) {
+                    tokenChunks.forEach((tokenChunk, index) => {
+                        response.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
                     });
-                });
+                    // updated request cookies can only be passed to server if its passdown here after setting its updates
+                    const response = NextResponse.next({
+                        request: {
+                            headers: request.headers,
+                        },
+                    });
+
+                    // set response cookies to send back to browser
+                    tokenChunks.forEach((tokenChunk, index) => {
+                        response.cookies.set(`${sessionCookie}.${index}`, tokenChunk, {
+                            httpOnly: true,
+                            maxAge: 3 * 24 * 60 * 60, // 3 days
+                            secure: process.env.NODE_ENV === 'production',
+                            sameSite: 'lax',
+                        });
+                    });
+                }
             }
+        } catch (error) {
+            console.log('error: ', error);
+            response.cookies.delete(sessionCookie);
         }
     }
 
