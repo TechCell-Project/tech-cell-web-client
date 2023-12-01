@@ -1,5 +1,6 @@
+'use client';
+
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { useOnClickOutside } from 'usehooks-ts';
 
@@ -10,7 +11,6 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
@@ -24,9 +24,8 @@ import { ProductLabel } from '@interfaces/product';
 
 import { useAppSelector } from '@store/store';
 
-import { currencyFormat, formatProductLabel } from 'utils';
-import Box from '@mui/material/Box';
-import Image from 'next/image';
+import { formatProductLabel } from 'utils';
+import CurrentSearchesCard from './CurrentSearchesCard';
 
 interface RecentSearchValueProps {
     onClose(): void;
@@ -43,7 +42,6 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     removeItem,
     getHistoryKey,
 }) => {
-    const router = useRouter();
 
     const paperRef = useRef<HTMLDivElement>(null);
 
@@ -52,15 +50,15 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     const { products, isLoading } = useAppSelector((state) => state.product);
 
     useEffect(() => {
-        const productLabels = formatProductLabel(products);
+        const productLabels = products.data
+            .map((product) => formatProductLabel(product))
+            .slice(0, 4);
 
         setCurrentProducts(productLabels);
     }, [products, isLoading]);
 
     useOnClickOutside(paperRef, onClose);
     if (!anchorEl) return null;
-
-    console.log(products);
 
     return (
         <Popper open={open} anchorEl={anchorEl} disablePortal placement="bottom-start">
@@ -79,7 +77,7 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
                     ) : (
                         <>
                             {!recentSearches.length ? (
-                                <></>
+                                <CurrentSearchesCard currentProducts={currentProducts} />
                             ) : (
                                 <>
                                     <Paper
@@ -102,7 +100,11 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
                                         >
                                             Lịch sử tìm kiếm
                                         </Typography>
-                                        <Button size='small' endIcon={<DeleteOutlineIcon />} sx={{ color: 'inherit'}}>
+                                        <Button
+                                            size="small"
+                                            endIcon={<DeleteOutlineIcon />}
+                                            sx={{ color: 'inherit' }}
+                                        >
                                             Xóa tất cả
                                         </Button>
                                     </Paper>
@@ -126,67 +128,7 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
                                             </IconButton>
                                         </MenuItem>
                                     ))}
-                                    {currentProducts.length !== 0 && (
-                                        <Paper
-                                            sx={{
-                                                padding: '0 10px',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                height: '40px',
-                                            }}
-                                        >
-                                            <Typography
-                                                variant="h4"
-                                                sx={{
-                                                    fontWeight: 700,
-                                                    fontSize: '16px',
-                                                }}
-                                            >
-                                                Sản phẩm gợi ý
-                                            </Typography>
-                                        </Paper>
-                                    )}
-                                    {currentProducts.map((product) => (
-                                        <MenuItem key={product.id} onClick={() => router.push(`/chi-tiet-san-pham/${product.id}`)}>
-                                            <Stack spacing={2} direction="row">
-                                                <Box>
-                                                    <Image
-                                                        src={product.image}
-                                                        alt={product.name}
-                                                        height={64}
-                                                        width={64}
-                                                    />
-                                                </Box>
-                                                <Stack
-                                                    sx={{
-                                                        width: '100%',
-                                                        paddingLeff: '10px',
-                                                    }}
-                                                    alignItems='flex-start'
-                                                    justifyContent='center'
-                                                    spacing={1}
-                                                >
-                                                    <Typography
-                                                        variant="h4"
-                                                        sx={{
-                                                            fontWeight: '600',
-                                                            fontSize: '16px',
-                                                        }}
-                                                    >
-                                                        {product.name}
-                                                    </Typography>
-                                                    <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
-                                                        <Typography variant='h6' sx={{ fontWeight: 700, fontSize: '17px', color: '#ee4949' }}>
-                                                            {currencyFormat(product.price.sale)}
-                                                        </Typography>
-                                                        <Typography variant='h6' sx={{ fontWeight: 500, fontSize: '14px', color: '#777777', textDecoration: 'line-through' }}>
-                                                            {currencyFormat(product.price.base)}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-                                            </Stack>
-                                        </MenuItem>
-                                    ))}
+                                    <CurrentSearchesCard currentProducts={currentProducts} />
                                 </>
                             )}
                         </>

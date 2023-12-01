@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 import SortingToolbarVSearch from './SortingToolbar-vSearch';
 import { formatProductLabel } from 'utils';
 import PaginationData from '../PaginationData/PaginationData';
-import LoadingSection from '../Display/LoadingSection';
+import { LoadingSection } from '../Display/LoadingSection';
 
 interface ResultsDataProps {
     currentData: ProductLabel[];
@@ -35,7 +35,7 @@ const ResultsSection: FC<ResultsDataProps> = ({ currentData, keyword, totalPage 
     }, [searchProduct]);
 
     useSkipFirstRender(() => {
-        const formatProducts = formatProductLabel(products);
+        const formatProducts = products.data.map((product) => formatProductLabel(product));
 
         setCurrentProducts(formatProducts);
     }, [products])

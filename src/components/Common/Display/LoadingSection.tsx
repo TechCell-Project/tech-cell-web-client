@@ -4,7 +4,7 @@ import { Typography, useTheme } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { MoonLoader } from 'react-spinners';
 
-const LoadingSection = ({ isLoading }: { isLoading: boolean }) => {
+export const LoadingSection = ({ isLoading }: { isLoading: boolean }) => {
     const theme = useTheme();
 
     return (
@@ -22,4 +22,3 @@ const LoadingSection = ({ isLoading }: { isLoading: boolean }) => {
     );
 };
 
-export default LoadingSection;

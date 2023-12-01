@@ -1,55 +1,78 @@
-// import { createSlice } from '@reduxjs/toolkit';
-// import { toast } from 'react-toastify';
+import { createSlice, Dispatch } from '@reduxjs/toolkit';
+import { AddCartItemModel, CartModel, CartsSlice } from '@models/Cart';
+import { Paging } from '@models/Common';
+import { addToCart, getCarts } from '@services/index';
 
+const initialState: CartsSlice = {
+    carts: new CartModel(),
+    isLoading: false,
+    isUpdating: false,
+};
 
-// const initialState = {
-//     cartItems: localStorage.getItem('cartItems')
-//         ? JSON.parse(localStorage.getItem('cartItems') || '{}')
-//         : [],
-//     cartTotalQuantity: 0,
-//     cartTotalAmount: 0,
-// };
+export const cartsSlice = createSlice({
+    name: 'carts',
+    initialState,
+    reducers: {
+        isFetching: (state) => {
+            state.isLoading = true;
+        },
+        isAddingItem: (state) => {
+            state.isUpdating = true;
+        },
+        getAllSuccess: (state, { payload }) => {
+            state.carts = payload;
+            state.isLoading = false;
+        },
+        getAllFailure: (state) => {
+            state.carts = new CartModel();
+            state.isLoading = false;
+        },
+        fetchedDone: (state) => {
+            state.isLoading = false;
+        },
+        addedItemDone: (state) => {
+            state.isUpdating = false;
+        },
+    },
+});
 
-// const cartSilce = createSlice({
-//     name: 'cart',
-//     initialState,
-//     reducers: {
-//         addToCart(state, action) {
-//             const itemIndex = state.cartItems.findIndex(
-//                 (item: any) => item._id === action.payload._id,
-//             );
-//             if (itemIndex >= 0) {
-//                 console.log('itemIndex: ', action.payload.quanity);
-//                 state.cartItems[itemIndex].quanity += 1;
-//                 toast.info('Tăng số lượng sản phẩm thành công !', {
-//                     position: 'top-center',
-//                     autoClose: 5000,
-//                     hideProgressBar: false,
-//                     closeOnClick: true,
-//                     pauseOnHover: true,
-//                     draggable: true,
-//                     progress: undefined,
-//                     theme: 'light',
-//                 });
-//             } else {
-//                 const tempProduct = { ...action.payload, quanity: 1 };
-//                 console.log('tempProduct', action.payload);
-//                 state.cartItems.push(tempProduct);
-//                 toast.success('Thêm sản phẩm mới thành công !!', {
-//                     position: 'top-center',
-//                     autoClose: 5000,
-//                     hideProgressBar: false,
-//                     closeOnClick: true,
-//                     pauseOnHover: true,
-//                     draggable: true,
-//                     progress: undefined,
-//                     theme: 'light',
-//                 });
-//             }
-//             localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
-//         },
-//     },
-// });
+// Thunk
+export const getCartItems = (payload: Paging) => async (dispatch: Dispatch) => {
+    dispatch(isFetching());
+    try {
+        const response = await getCarts(payload);
+        if (response.data) {
+            dispatch(getAllSuccess(response.data));
+        }
+    } catch (error) {
+        console.log(error);
+        dispatch(getAllFailure());
+    }
+};
 
-// export const { addToCart } = cartSilce.actions;
-// export default cartSilce.reducer;
+export const addItemToCart = (payload: AddCartItemModel) => async (dispatch: Dispatch) => {
+    dispatch(isAddingItem());
+    try {
+        const response = await addToCart(payload);
+        if (response.data) {
+            return { success: true };
+        }
+    } catch (error) {
+        return { success: false, error };
+    } finally {
+        dispatch(addedItemDone());
+    }
+};
+
+const { actions, reducer } = cartsSlice;
+
+export const {
+    isFetching,
+    isAddingItem,
+    getAllSuccess,
+    getAllFailure,
+    fetchedDone,
+    addedItemDone,
+} = actions;
+
+export default reducer;

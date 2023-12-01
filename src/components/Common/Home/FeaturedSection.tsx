@@ -3,14 +3,12 @@
 import React, { useState, MouseEvent, FC } from 'react';
 
 import List from '@mui/material/List';
-import { styled } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { useTheme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import { SelectChangeEvent } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
 import Stack from '@mui/material/Stack';
@@ -229,6 +227,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 >
                                     {initialData.map((product) => (
                                         <Grid
+                                            item
                                             sx={{ padding: '12.5px' }}
                                             xs={6}
                                             lg={3}

@@ -1,5 +1,5 @@
 import { AttributeModel } from "./Attribute";
-import { Paging, PagingResponse } from "./Common";
+import { PagingResponse } from "./Common";
 
 export class CategoryModel {
   _id?: string | null = null;
@@ -11,12 +11,12 @@ export class CategoryModel {
 }
 
 export class CategorySlice {
-  categories: CategoryData = new CategoryData();
+  categories: PagingResponse<CategoryModel> = new PagingResponse<CategoryModel>();
   category: CategoryModel | null = null;
   isLoading: boolean = false;
   isLoadingDetails: boolean = false;
 }
 
-export class CategoryData extends PagingResponse {
-  data: Array<CategoryModel> = [];
-}
+// export class CategoryData extends PagingResponse {
+//   data: Array<CategoryModel> = [];
+// }

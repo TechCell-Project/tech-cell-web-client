@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '../../../styles/components/productdetail.module.scss';
 import { VariationModel } from '@models/Product';
-import { getSingleAttribute, sortByCustomOrder } from 'utils';
+import { currencyFormat, getSingleAttribute, sortByCustomOrder } from 'utils';
 import { VariantInfo, VariantStorage } from '@interfaces/product';
 
 interface ProductVariationProps {
@@ -29,6 +29,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
             images: variant.images,
             price: variant.price,
             stock: variant.stock,
+            sku: variant.sku,
         };
     });
 
@@ -162,10 +163,12 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
 
         if (currentVariant !== undefined) {
             handleSelectVariant({
+                variantThumbnail: currentVariant.images[0].url,
                 storage: currentVariant.storage,
                 color: currentVariant.color,
                 price: currentVariant.price,
                 isSelectedColor: color !== undefined,
+                sku: currentVariant.sku ?? 'not available',
             });
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -197,7 +200,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                                 >
                                     <div className={styles.product_internal_text}>
                                         <p>{variant.storage}</p>
-                                        <p>{variant.price.sale}</p>
+                                        <p>{currencyFormat(variant.price.sale)}</p>
                                     </div>
                                 </button>
                             )}
@@ -233,7 +236,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                                             <p>{color.color}</p>
                                             <p>
                                                 {currentVariant !== undefined
-                                                    ? currentVariant.price.sale
+                                                    ? currencyFormat(currentVariant.price.sale)
                                                     : ''}
                                             </p>
                                         </div>

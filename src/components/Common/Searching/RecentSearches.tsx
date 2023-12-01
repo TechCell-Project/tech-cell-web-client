@@ -1,3 +1,4 @@
+'use client';
 import React, { FC, useRef } from 'react';
 
 import { useOnClickOutside } from 'usehooks-ts';

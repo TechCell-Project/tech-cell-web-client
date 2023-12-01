@@ -78,8 +78,7 @@ const SearchBar: FC<SearchValueProps> = ({ onSubmit, defaultValue, alreadyInputS
     }, [defaultValue]);
 
     return (
-        <>
-            <StyledBox
+        <StyledBox
                 component="form"
                 sx={{ border: isError ? '3px solid red' : 'none' }}
                 onSubmit={(e) => {
@@ -101,7 +100,6 @@ const SearchBar: FC<SearchValueProps> = ({ onSubmit, defaultValue, alreadyInputS
                     <SearchIcon />
                 </IconButton>
             </StyledBox>
-        </>
     );
 };
 

@@ -1,12 +1,14 @@
 import { CATEGORY } from './PhoneConstant';
-import ArticleIcon from '@mui/icons-material/Article';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { Article, Shipping, ShoppingCart } from '@components/svgs';
+// import ArticleIcon from '@mui/icons-material/ArticleOutlined';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined';
+// import LocalShippingIcon from '@mui/icons-material/LocalShippingRounded';
+
 
 export const DRAWER_WIDTH: number = 240;
 
 export const NAV_ITEMS = [
-    { name: 'Danh mục', menu: CATEGORY, icon: ArticleIcon, isNav: true },
-    { name: 'Tra cứu đơn hàng', icon: LocalShippingIcon },
-    { name: 'Giỏ hàng', icon: ShoppingCartIcon, href: '/gio-hang' },
+    { name: 'Danh mục', menu: CATEGORY, icon: Article, isNav: true },
+    { name: 'Tra cứu đơn hàng', icon: Shipping },
+    { name: 'Giỏ hàng', icon: ShoppingCart, href: '/gio-hang' },
 ];

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -35,6 +35,7 @@ interface Props {
 
 export const HeaderClient = (props: Props) => {
     const { data: session } = useSession();
+    console.log({ session });
     const theme = useTheme();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState<boolean>(false);
@@ -145,7 +146,7 @@ export const HeaderClient = (props: Props) => {
                                     key={`nav_item_${index.toString()}`}
                                     content={item.name}
                                     options={item?.menu}
-                                    icon={item.icon ? <item.icon></item.icon> : undefined}
+                                    icon={item.icon ? <item.icon style={{ fontSize: '34px' }} /> : undefined}
                                     href={item.href ? item.href : ''}
                                 />
                             ))}

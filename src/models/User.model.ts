@@ -1,4 +1,4 @@
-import { Address } from "./Location";
+import { Address } from "./Account";
 
 export class UserModel {
     constructor(data: UserModel) {
