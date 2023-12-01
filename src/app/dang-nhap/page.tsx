@@ -49,7 +49,6 @@ export default function Login() {
                 emailOrUsername: values.emailOrUsername,
                 password: values.password,
                 callbackUrl: '/',
-                // redirect: false,
             });
         },
     });

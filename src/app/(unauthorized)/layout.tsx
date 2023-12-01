@@ -1,33 +1,12 @@
-'use client';
+import { getServerSession} from 'next-auth';
+import { redirect } from 'next/navigation';
 
-import { getSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-
-export default function AuthorizedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const router = useRouter();
-    const [isAuthorized, setIsAuthorized] = useState(false);
+export default async function UnauthorizedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const redirectDestination = '/';
+    const session = await getServerSession();
 
-    useEffect(() => {
-        async function checkAuthorization() {
-            const session = await getSession();
-            console.log({ session });
-
-            if (session?.user != null) {
-                setIsAuthorized(true);
-            } else {
-                setIsAuthorized(false);
-                router.push(redirectDestination);
-            }
-        }
-
-        router.prefetch(redirectDestination);
-        checkAuthorization();
-    }, [router]);
-
-    if (isAuthorized) {
-        return null;
+    if (session?.user) {
+        return redirect(redirectDestination);
     }
 
     return <>{children}</>;

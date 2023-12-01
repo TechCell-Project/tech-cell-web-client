@@ -1,0 +1,16 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.brands_content {
+    overflow-x: auto;
+}
+
+.list_products {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}

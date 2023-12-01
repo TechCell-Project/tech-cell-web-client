@@ -8,7 +8,6 @@
 .list_brands {
     display: flex;
     flex-wrap: wrap;
-
     @include responsive(min_sm) {
         align-items: center;
         justify-content: center;

@@ -6,7 +6,7 @@ import { Box, Button, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import { AutocompleteCustom } from '../AutoCompleteCustom';
+import { AutocompleteCustom } from '../../AutoCompleteCustom';
 import { useEffect, useState } from 'react';
 import { ProfileSchema } from 'validate/auth.validate';
 import { District, Location, Province, Ward } from '@models/Location';
@@ -63,8 +63,11 @@ const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
         getProvinces().then((response: { data: Array<Province> }) => {
             setProvinces(response.data);
         });
-        triggerRefreshUserProfile();
     }, []);
+
+    useEffect(() => {
+        triggerRefreshUserProfile();
+    }, [triggerRefreshUserProfile]);
 
     function handleUpdateAddress(addressUpdatedData: Location) {
         const updated = userProfile?.address ?? [];
@@ -111,6 +114,7 @@ const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
             handleClose={handleClose}
             dialogTitle="Địa chỉ mới"
             dialogStyle={{ minWidth: 560 }}
+            
         >
             <ToastContainer />
 

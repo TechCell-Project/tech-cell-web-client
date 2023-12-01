@@ -4,7 +4,6 @@ import { Address } from '@models/Location';
 import { useEffect, useState, Suspense, lazy } from 'react';
 import { UserModel } from '@models/User.model';
 import { LoadingPageMnt } from '@components/Common/Display/loading';
-import LoadingSection from '@components/Common/Display/LoadingSection';
 import SkeletonLoading from '@components/Common/Display/loading/SkeletonLoading';
 import { Box } from '@mui/material';
 
@@ -15,8 +14,8 @@ interface AddressListProps {
 }
 
 export function AddressList(props: Readonly<AddressListProps>) {
-    const DialogAddressUpdate = lazy(() => import('@components/Form/Common/DialogAddressUpdate'));
-    const AddressItemList = lazy(() => import('@components/Common/ItemList/AddressItemList'));
+    const DialogAddressUpdate = lazy(() => import('@components/Form/Common/AddressDialog/DialogAddressUpdate'));
+    const AddressItemList = lazy(() => import('@components/Common/Address/ItemList/AddressItemList'));
 
     const { handleCloseListItem, triggerRefreshUserProfile, userProfile } = props;
     const [selectAddress, setSelectAddress] = useState<number>(0);
@@ -62,15 +61,17 @@ export function AddressList(props: Readonly<AddressListProps>) {
                     }
                     key={`index-${index.toString()}`}
                 >
-                    <AddressItemList
-                        address={address}
-                        selected={selectAddress}
-                        setSelected={handleSetSelected}
-                        setLengthAddress={handleLength}
-                        handleCloseListItem={handleCloseListItem}
-                        addressIndex={index}
-                        selectedAddressToUpdateIndex={setSelectedAddressToUpdateIndex}
-                    />
+                    <Box sx={{ marginLeft: '0px !important' }}>
+                        <AddressItemList
+                            address={address}
+                            selected={selectAddress}
+                            setSelected={handleSetSelected}
+                            setLengthAddress={handleLength}
+                            handleCloseListItem={handleCloseListItem}
+                            addressIndex={index}
+                            selectedAddressToUpdateIndex={setSelectedAddressToUpdateIndex}
+                        />
+                    </Box>
                 </Suspense>
             ))}
 

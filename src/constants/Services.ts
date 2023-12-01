@@ -5,7 +5,7 @@ export const AUTH_LOGIN_GOOGLE = `${API_ENDPOINT}/auth/google`;
 
 // Authentication
 export const LOGIN_ENDPOINT = '/auth/login';
-export const REGISTER_ENDPOINT = '/auth/register';
+export const REGISTER_ENDPOINT = `${API_ENDPOINT}/auth/register`;
 export const VERIFY_EMAIL_ENDPOINT = '/auth/verify-email';
 export const REFRESH_TOKEN_ENDPOINT = '/auth/refresh-token';
 export const FORGOT_PASSWORD = '/auth/forgot-password';

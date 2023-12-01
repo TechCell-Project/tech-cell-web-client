@@ -6,7 +6,7 @@ import { SelectInputCustom } from '@components/Common/FormFormik/SelectCustom';
 import { Box, Button, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
-import { AutocompleteCustom } from '../AutoCompleteCustom';
+import { AutocompleteCustom } from '../../AutoCompleteCustom';
 import { useEffect, useState } from 'react';
 import { ProfileSchema } from 'validate/auth.validate';
 import { District, Location, Province, Ward } from '@models/Location';
@@ -213,6 +213,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                                 justifyContent: 'flex-end',
                                 alignItems: 'center',
                                 marginTop: '10px',
+                                fontSize:{xs:'12px',sm:'15px'}
                             }}
                         >
                             <Button
