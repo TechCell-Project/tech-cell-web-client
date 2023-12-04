@@ -6,8 +6,7 @@ export * from './SearchComponent';
 //export * from './PromotionComponent';
 export * from './CardComponent';
 export * from './ShopServicesComponent';
-export * from './SilderProductCompoment'
-export * from './AutoCompleteCustom'
+export * from './SilderProductCompoment';
 
 // export { ProductDetail } from './ProductDetails/ProductDetail';
 // export * from './StarRate/StarRate';

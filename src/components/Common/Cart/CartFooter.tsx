@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { UserModel } from '@models/Profile';
+import { Address } from '@models/Account';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getCurrentUser } from '@store/slices/authSlice';
-import { convertToUserModel } from 'utils';
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import { DialogAddressEdit } from '@components/Form/Common/DialogAddressEdit';
 import { ShowDialog } from '../Display/DialogCustom';
 import { AddressList } from '../Lists/AddressList';
+import DialogAddressUpdate from '@components/Form/Common/DialogAddressUpdate';
 
 const BoxBuying = styled(Box)(() => ({
     position: 'sticky',
@@ -61,7 +62,7 @@ const CartFooterInfomation = () => {
             console.log(user);
             setUserProfile(user as unknown as UserModel);
         }
-    }, [user, isLoadingProfile]);
+    }, [isLoadingProfile]);
 
     console.log(user);
     console.log(userProfile);
@@ -98,8 +99,6 @@ const CartFooterInfomation = () => {
         setOpenNewAddress(false);
     };
 
-    console.log(openListAddress);
-
     return (
         <BoxBuying>
             <Box className="cart_buy_content">
@@ -111,10 +110,11 @@ const CartFooterInfomation = () => {
 
                     {/* Thêm địa chỉ mới  */}
                     {openNewAddress && userProfile && (
-                        <DialogAddressEdit
+                        <DialogAddressUpdate
                             isOpen={openNewAddress}
                             handleClose={handleCloseNewAddress}
-                            userProfile={userProfile}
+                            userThisAddress={new Address()}
+                            addressIndex={null}
                             triggerRefreshUserProfile={triggerRefreshUserProfile}
                             setOpenNewAddress={setOpenNewAddress}
                             setOpenListAddress={setOpenListAddress}
@@ -122,20 +122,18 @@ const CartFooterInfomation = () => {
                     )}
 
                     {/* Hiển thị danh sách địa chỉ của user */}
-                    {openListAddress && (
+                    {openListAddress && userProfile && (
                         <ShowDialog
                             isOpen={openListAddress}
                             handleClose={handleCloseListAddress}
                             dialogTitle="Địa chỉ của tôi"
                             dialogStyle={{ minWidth: 560 }}
                         >
-                            {userProfile?.address && (
-                                <AddressList
-                                    handleCloseListItem={handleCloseListAddress}
-                                    userProfile={userProfile}
-                                    triggerRefreshUserProfile={triggerRefreshUserProfile}
-                                />
-                            )}
+                            <AddressList
+                                handleCloseListItem={handleCloseListAddress}
+                                userProfile={userProfile}
+                                triggerRefreshUserProfile={triggerRefreshUserProfile}
+                            />
 
                             <Box>
                                 <Button

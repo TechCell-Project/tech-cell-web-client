@@ -22,7 +22,7 @@ const Cart = () => {
         fetchCartData();
     }, [isDataFetched]);
 
-    console.log(currentCartData);
+    //console.log(currentCartData);
 
     if (!isDataFetched) {
         return <LoadingPage />;

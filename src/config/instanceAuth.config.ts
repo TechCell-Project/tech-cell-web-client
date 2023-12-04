@@ -45,8 +45,6 @@ const instanceAuth: AxiosInstance = axios.create({
 
 instanceAuth.interceptors.request.use(
     async (request) => {
-        if (request.headers.Authorization) return request;
-
         const session = await getSession();
 
         if (session?.user) {
@@ -67,9 +65,8 @@ instanceAuth.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
         console.log('expired session');
-        
-        console.log("error: ");
-        console.log(error);
+
+        console.log('error: ', error);
 
         // instanceAuth.defaults.headers.common.Authorization = undefined;
         // const prevRequest = error.config;

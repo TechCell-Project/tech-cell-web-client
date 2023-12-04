@@ -71,9 +71,9 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
     if (!token) return signOut(request);
 
-    const response = NextResponse.next();
+    let response = NextResponse.next();
 
-    console.log('response: ', response);
+    //console.log('response: ', response);
 
     if (shouldUpdateToken(token)) {
         try {
@@ -86,17 +86,20 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                     return signOut(request);
                 }
             } else {
+                const newAccessToken = newToken.accessToken as string;
+                const newRefreshToken = newToken.refreshToken as string;
+
                 const newSessionToken = await encode({
                     secret: process.env.NEXTAUTH_SECRET as string,
                     token: {
                         ...token,
-                        accessToken: newToken.accessToken as string,
-                        refreshToken: newToken.refreshToken as string,
+                        accessToken: newAccessToken,
+                        refreshToken: newRefreshToken,
                     },
                     maxAge: 15 * 60 /* 15 mins */,
                 });
 
-                console.log('newSessionToken', newSessionToken);
+                //console.log('newSessionToken', newSessionToken);
 
                 const size = 3933; // maximum size of each chunk
                 const regex = new RegExp('.{1,' + size + '}', 'g');
@@ -107,10 +110,10 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                 // set request cookies for the incoming getServerSession to read new session
                 if (tokenChunks) {
                     tokenChunks.forEach((tokenChunk, index) => {
-                        response.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
+                        request.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
                     });
                     // updated request cookies can only be passed to server if its passdown here after setting its updates
-                    const response = NextResponse.next({
+                    response = NextResponse.next({
                         request: {
                             headers: request.headers,
                         },
@@ -129,6 +132,12 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
             }
         } catch (error) {
             console.log('error: ', error);
+            request.cookies.delete(sessionCookie);
+            response = NextResponse.next({
+                request: {
+                    headers: request.headers,
+                },
+            });
             response.cookies.delete(sessionCookie);
         }
     }
@@ -142,7 +151,6 @@ async function refreshToken(token: JWT) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            authorization: token.refreshToken as string,
         },
         body: JSON.stringify({ refreshToken: currentRefreshToken }),
     });
