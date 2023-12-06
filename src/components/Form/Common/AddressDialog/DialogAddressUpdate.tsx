@@ -65,9 +65,9 @@ const DialogAddressUpdate = (props: DialogAddressUpdateProps) => {
         });
     }, []);
 
-    useEffect(() => {
-        triggerRefreshUserProfile();
-    }, [triggerRefreshUserProfile]);
+    // useEffect(() => {
+    //     triggerRefreshUserProfile();
+    // }, [triggerRefreshUserProfile]);
 
     function handleUpdateAddress(addressUpdatedData: Location) {
         const updated = userProfile?.address ?? [];

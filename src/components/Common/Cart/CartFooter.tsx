@@ -11,9 +11,10 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import { DialogAddressEdit } from '@components/Form/Common/DialogAddressEdit';
 import { ShowDialog } from '../Display/DialogCustom';
-import { AddressList } from '../Lists/AddressList';
+import { DialogAddressEdit } from '@components/Form/Common/AddressDialog/DialogAddressEdit';
+import { AddressList } from '../Address/Lists/AddressList';
+import Link from 'next/link';
 
 const BoxBuying = styled(Box)(() => ({
     position: 'sticky',
@@ -175,21 +176,23 @@ const CartFooterInfomation = () => {
                                 >
                                     Hủy
                                 </Button>
-                                <Button
-                                    type="submit"
-                                    sx={{
-                                        borderRadius: '5px',
-                                        backgroundColor: '#ee4949',
-                                        color: 'white',
-                                        marginLeft: '10px',
-                                        border: '1px solid #ee4949',
-                                        ':hover': {
+                                <Link href={'/gio-hang-v2/payment'}>
+                                    <Button
+                                        type="submit"
+                                        sx={{
+                                            borderRadius: '5px',
                                             backgroundColor: '#ee4949',
-                                        },
-                                    }}
-                                >
-                                    Xác nhận
-                                </Button>
+                                            color: 'white',
+                                            marginLeft: '10px',
+                                            border: '1px solid #ee4949',
+                                            ':hover': {
+                                                backgroundColor: '#ee4949',
+                                            },
+                                        }}
+                                    >
+                                        Xác nhận
+                                    </Button>
+                                </Link>
                             </Box>
                         </ShowDialog>
                     )}

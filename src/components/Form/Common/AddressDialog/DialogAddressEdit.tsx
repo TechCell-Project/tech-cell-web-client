@@ -63,8 +63,12 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
         getProvinces().then(({ data }) => {
             setProvinces(data);
         });
-        triggerRefreshUserProfile();
+        //triggerRefreshUserProfile();
     }, []);
+
+    // useEffect(() => {
+    //     triggerRefreshUserProfile();
+    // }, [triggerRefreshUserProfile]);
 
     function handleUpdateAddress(data: Location) {
         const oldAddress = userProfile?.address ? userProfile.address : [];
