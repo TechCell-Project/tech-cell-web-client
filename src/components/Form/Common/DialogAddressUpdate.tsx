@@ -50,7 +50,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
 
     useEffect(() => {
         getProvinces()
-            .then(({data}) => {
+            .then(({ data }) => {
                 setProvinces(data);
             })
             .catch(() => {
@@ -66,20 +66,23 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
         }
     }, []);
 
-    const getDataDistricts = useCallback(async (province_id: string | undefined) => {
-        const { data } = await getDistricts(province_id);
+    const getDataDistricts = useCallback(
+        async (province_id: string | undefined) => {
+            await getDistricts(province_id)
+                .then(({ data }) => setDistricts(data))
+                .catch(() => setDistricts(new Array<District>()));
+        },
+        [provinces],
+    );
 
-        if (data) {
-            setDistricts(data);
-        }
-    }, [provinces]); 
-
-    const getDataWards = useCallback(async (district_id: string | undefined) => {
-        const { data } = await getWards(district_id);
-        if (data) {
-            setWards(data);
-        }
-    }, [districts]);
+    const getDataWards = useCallback(
+        async (district_id: string | undefined) => {
+            await getWards(district_id)
+                .then(({ data }) => setWards(data))
+                .catch(() => setWards(new Array<Ward>()));
+        },
+        [districts],
+    );
 
     const handleUpdateAddress = async (
         addressUpdatedData: Address,
@@ -120,7 +123,9 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
             });
     };
 
+    console.log(provinces);
     console.log(districts);
+    console.log(wards);
 
     return (
         <ShowDialog
@@ -152,12 +157,12 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                 <TextFieldCustom name="phoneNumbers" label={'Số điện thoại'} />
                             </Grid>
                             <Grid item md={6}>
-                                <AutocompleteCustom
+                                <AutocompleteCustom<Province>
+                                    name={'provinceLevel'}
                                     isNotCheckbox
                                     label="Chọn Thành Phố"
                                     displaySelected="province_id"
                                     displayLabel="province_name"
-                                    name={'provinceLevel'}
                                     options={provinces}
                                     handleChange={(value) => {
                                         if (value !== null) {
@@ -176,17 +181,17 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
 
                                             return newValue;
                                         });
-                                        getDataDistricts(String((value as Province)?.province_id!));
+                                        //getDataDistricts(String((value as Province)?.province_id!));
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={6}>
-                                <AutocompleteCustom
+                            <Grid item xs={6}>
+                                <AutocompleteCustom<District>
+                                    name={'districtLevel'}
                                     isNotCheckbox
                                     label="Chọn Quận / Huyện"
-                                    displaySelected="district_name"
+                                    displaySelected="district_id"
                                     displayLabel="district_name"
-                                    name={'districtLevel'}
                                     options={districts}
                                     handleChange={(value) => {
                                         if (value !== null) {
@@ -202,17 +207,17 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
 
                                             return newValue;
                                         });
-                                        getDataWards(String((value as District)?.district_id!));
+                                        //getDataWards(String((value as District).district_id));
                                     }}
                                 />
                             </Grid>
                             <Grid item md={6}>
-                                <AutocompleteCustom
+                                <AutocompleteCustom<Ward>
+                                    name={'wardLevel'}
                                     isNotCheckbox
                                     label="Chọn Thị / Xã"
-                                    displaySelected="ward_name"
+                                    displaySelected="ward_code"
                                     displayLabel="ward_name"
-                                    name={'wardLevel'}
                                     options={wards}
                                 />
                             </Grid>

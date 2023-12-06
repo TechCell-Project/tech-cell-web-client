@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getCartItems } from '@store/slices/cartSlice';
@@ -43,20 +43,30 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
         dispatch(getCartItems(pagingData));
     }, [pagingData]);
 
-    // const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCheckedList(carts.products.map((item) => item.productId));
-    // };
+    const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let arr: string[] = [];
+        if (checkedList.length !== thisCart?.products.length) {
+            arr = thisCart?.products.map((product) => `${product.productId}/${product.sku}`) as string[];
+        }
+        setCheckedList(arr);
+    };
 
     const handleRefreshCart = () => {
         dispatch(getCartItems(pagingData));
     };
 
     const handleCheckProduct = (id: string) => {
-        let list = addOrRemoveFromArray(checkedList, id);
+        let list = [...checkedList];
+        list = addOrRemoveFromArray(list, id);
         setCheckedList(list);
     };
-    
-    console.log(checkedList);
+
+    const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
+        setPagingData({
+            ...pagingData,
+            page: page - 1,
+        });
+    };
 
     return (
         <Box
@@ -108,12 +118,12 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                             label="Chọn tất cả"
                                             control={
                                                 <Checkbox
-                                                    defaultChecked
+                                                    //defaultChecked
                                                     checked={
                                                         checkedList.length ===
-                                                        thisCart.cartCountProducts
+                                                        thisCart.products.length
                                                     }
-                                                    //onChange={handleCheckAll}
+                                                    onChange={handleCheckAll}
                                                     sx={{
                                                         color: 'rgba(238, 73, 73, 0.8)',
                                                         '&.Mui-checked': {
@@ -135,9 +145,10 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                     >
                                         {thisCart.products.map((item) => (
                                             <CartItemCard
-                                                key={item.productId}
+                                                key={`${item.productId}/${item.sku}`}
                                                 itemData={item}
                                                 refreshCart={handleRefreshCart}
+                                                isSelected={checkedList.includes(`${item.productId}/${item.sku}`)}
                                                 handleCheckBox={handleCheckProduct}
                                             />
                                         ))}

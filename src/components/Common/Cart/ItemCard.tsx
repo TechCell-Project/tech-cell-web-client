@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import styles from '@styles/components/cart.module.scss';
 
-import { AddCartItemModel } from '@models/Cart';
+import { AddCartItemModel, CartItemModel } from '@models/Cart';
 import { currencyFormat } from 'utils';
 
 import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
@@ -21,18 +21,18 @@ import { VariationModel } from '@models/Product';
 type productDataProps = {
     label: ProductLabel;
     currentVariant: VariationModel;
-    itemData: AddCartItemModel;
+    itemData: CartItemModel;
     refreshCart: () => void;
+    isChecked: boolean;
     handleCheckBox: (id: string) => void;
 };
 
 export const ItemCard = (props: productDataProps) => {
-    const { label, currentVariant, itemData, refreshCart, handleCheckBox } = props;
+    const { label, currentVariant, itemData, refreshCart, isChecked, handleCheckBox } = props;
 
     const dispatch = useAppDispatch();
 
     const [updateInfo, setUpdateInfo] = useState<AddCartItemModel | null>(null);
-    const [isChecked, setIsChecked] = useState<boolean>(false);
 
     const [totalAmount, setTotalAmount] = useState<number>(0);
 
@@ -69,15 +69,8 @@ export const ItemCard = (props: productDataProps) => {
         });
     };
 
-    useEffect(() => {
-        handleCheckBox(label.id);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isChecked]);
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(label.id);
-        setIsChecked(event.target.checked);
+        handleCheckBox(`${itemData.productId}/${itemData.sku}`);
     }
 
     //console.log(updateInfo);

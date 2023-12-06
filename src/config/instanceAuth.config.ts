@@ -1,39 +1,8 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
-import { API_ENDPOINT, REFRESH_TOKEN_ENDPOINT } from '@constants/Services';
-import { getSession, signOut } from 'next-auth/react';
-import { Session } from 'next-auth';
-import instancePublic from './instancePublic.config';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
-
-// const setToken = async (session: Session | null) => {
-//     const res = await instancePublic.post(REFRESH_TOKEN_ENDPOINT, {
-//         refreshToken: session?.user?.refreshToken,
-//     });
-
-//     if (session?.user) {
-//         session.user.accessToken = res.data.accessToken;
-//         session.user.refreshToken = res.data.refreshToken;
-//     }
-// };
-
-// const decodeAccessToken = (accessToken: string | undefined) => {
-//     if (accessToken) {
-//         return jwtDecode<JwtPayload>(accessToken);
-//     }
-//     return null;
-// };
-
-// const isAccessTokenExpired = (accessTokenData: JwtPayload | null) => {
-//     if (accessTokenData) {
-//         const { exp } = accessTokenData;
-
-//         const currentTime = Math.floor(Date.now() / 1000);
-
-//         return Number(exp) < currentTime;
-//     }
-
-//     return true;
-// };
+import { API_ENDPOINT } from '@constants/Services';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@app/api/auth/[...nextauth]/route';
+import { getSession } from 'next-auth/react';
 
 const instanceAuth: AxiosInstance = axios.create({
     baseURL: API_ENDPOINT,
@@ -46,6 +15,8 @@ const instanceAuth: AxiosInstance = axios.create({
 instanceAuth.interceptors.request.use(
     async (request) => {
         const session = await getSession();
+
+        console.log(session);
 
         if (session?.user) {
             const authHeaderValue = `Bearer ${session.user.accessToken}`;
@@ -66,7 +37,7 @@ instanceAuth.interceptors.response.use(
     async (error: AxiosError) => {
         console.log('expired session');
 
-        console.log('error: ', error);
+        console.log(error);
 
         // instanceAuth.defaults.headers.common.Authorization = undefined;
         // const prevRequest = error.config;
