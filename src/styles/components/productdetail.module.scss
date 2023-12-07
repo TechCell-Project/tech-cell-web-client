@@ -653,6 +653,10 @@
         .activeInternal {
             border: 2px solid #ee4949 !important;
         }
+        .blurInternal {
+            opacity: 0.4;
+            border: reset;
+        }
     }
 }
 
