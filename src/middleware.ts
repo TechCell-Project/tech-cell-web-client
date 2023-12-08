@@ -31,9 +31,9 @@ const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
 
 function signOut(request: NextRequest) {
     console.log(request.url);
-    const response = NextResponse.redirect(
-        new URL('/dang-nhap?callbackUrl=/gio-hang-v2', request.url),
-    );
+    const url = new URL('/dang-nhap', request.url);
+    url.searchParams.append('callBackUrl', 'gio-hang-v2');
+    const response = NextResponse.redirect(url);
 
     request.cookies.getAll().forEach((cookie) => {
         if (cookie.name.includes('next-auth')) response.cookies.delete(cookie.name);
@@ -86,15 +86,12 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                     return signOut(request);
                 }
             } else {
-                const newAccessToken = newToken.accessToken as string;
-                const newRefreshToken = newToken.refreshToken as string;
-
                 const newSessionToken = await encode({
                     secret: process.env.NEXTAUTH_SECRET as string,
                     token: {
                         ...token,
-                        accessToken: newAccessToken,
-                        refreshToken: newRefreshToken,
+                        accessToken: newToken.accessToken as string,
+                        refreshToken: newToken.refreshToken as string,
                     },
                     maxAge: 15 * 60 /* 15 mins */,
                 });
@@ -110,10 +107,10 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                 // set request cookies for the incoming getServerSession to read new session
                 if (tokenChunks) {
                     tokenChunks.forEach((tokenChunk, index) => {
-                        request.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
+                        response.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
                     });
                     // updated request cookies can only be passed to server if its passdown here after setting its updates
-                    response = NextResponse.next({
+                    const response = NextResponse.next({
                         request: {
                             headers: request.headers,
                         },
@@ -131,13 +128,6 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                 }
             }
         } catch (error) {
-            console.log('error: ', error);
-            request.cookies.delete(sessionCookie);
-            response = NextResponse.next({
-                request: {
-                    headers: request.headers,
-                },
-            });
             response.cookies.delete(sessionCookie);
         }
     }

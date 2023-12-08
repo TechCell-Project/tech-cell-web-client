@@ -22,6 +22,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dialog from '@mui/material/Dialog';
 import VerifyEmail from '../xac-thuc-tai-khoan/VerifyEmail';
+import { REGISTER_ENDPOINT } from '@constants/Services';
 
 export default function Signup() {
     const [open, setOpen] = useState(false);
@@ -46,7 +47,7 @@ export default function Signup() {
                 },
                 body: JSON.stringify(values),
             };
-            fetch('https://api.techcell.cloud/auth/register', requestOptions)
+            fetch(REGISTER_ENDPOINT, requestOptions)
                 .then((res) => {
                     if (res.ok) {
                         toast.success('Mã đã được gửi vào Email của bạn !!', {
@@ -60,8 +61,6 @@ export default function Signup() {
                             theme: 'light',
                         });
                         setOpen(true);
-                        // router('/login');
-                        // router.replace('/login');
                     }
                     if (res.status === 409) {
                         return toast.error('Tên tài khoản hoặc email đã được sử dụng !!', {

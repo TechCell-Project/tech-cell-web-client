@@ -12,7 +12,6 @@ import {
     Toolbar,
     Stack,
     Button,
-    Link,
     Menu,
     MenuItem,
 } from '@mui/material';
@@ -28,6 +27,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import styles from '@styles/components/button.module.scss';
 import { signIn, useSession, signOut } from 'next-auth/react';
 import SearchBarBox from '@components/Common/Searching/SearchBarBox';
+import Link from 'next/link';
 
 interface Props {
     window?: () => Window;
