@@ -71,9 +71,9 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
     if (!token) return signOut(request);
 
-    const response = NextResponse.next();
+    let response = NextResponse.next();
 
-    console.log('response: ', response);
+    //console.log('response: ', response);
 
     if (shouldUpdateToken(token)) {
         try {
@@ -96,7 +96,7 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                     maxAge: 15 * 60 /* 15 mins */,
                 });
 
-                console.log('newSessionToken', newSessionToken);
+                //console.log('newSessionToken', newSessionToken);
 
                 const size = 3933; // maximum size of each chunk
                 const regex = new RegExp('.{1,' + size + '}', 'g');

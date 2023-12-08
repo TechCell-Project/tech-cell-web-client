@@ -42,6 +42,9 @@ export const theme: Theme = createTheme({
     palette: {
         primary: {
             main: '#ee4949',
+        },
+        action: {
+            disabledBackground: 'rgba(238, 73, 73, 0.15)',
         }
     },
     primary: {

@@ -6,7 +6,6 @@ import { SelectInputCustom } from '@components/Common/FormFormik/SelectCustom';
 import { Box, Button, Grid } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
-import { AutocompleteCustom } from '../../AutoCompleteCustom';
 import { useEffect, useState } from 'react';
 import { ProfileSchema } from 'validate/auth.validate';
 import { District, Location, Province, Ward } from '@models/Location';
@@ -14,6 +13,7 @@ import { useAxiosAuth } from '@hooks/useAxiosAuth';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
 import { UserModel } from '@models/User.model';
 import { getDistricts, getWards, getProvinces } from '@services/LocationService';
+import { AutocompleteCustom } from '@components/Common/FormFormik';
 
 interface DialogAddressEditProps {
     isOpen: boolean;

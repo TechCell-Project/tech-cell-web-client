@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';

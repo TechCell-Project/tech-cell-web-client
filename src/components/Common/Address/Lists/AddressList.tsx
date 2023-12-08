@@ -2,7 +2,7 @@
 
 import { Address } from '@models/Account';
 import { useEffect, useState, Suspense, lazy } from 'react';
-import { UserModel } from '@models/User.model';
+import { UserModel } from '@models/Profile';
 import { LoadingPageMnt } from '@components/Common/Display/loading';
 import SkeletonLoading from '@components/Common/Display/loading/SkeletonLoading';
 import { Box } from '@mui/material';
@@ -18,14 +18,16 @@ export function AddressList(props: Readonly<AddressListProps>) {
     const AddressItemList = lazy(() => import('@components/Common/Address/ItemList/AddressItemList'));
 
     const { handleCloseListItem, triggerRefreshUserProfile, userProfile } = props;
-    const [selectAddress, setSelectAddress] = useState<number>(0);
+
+    const [checkedAddress, setCheckedAddress] = useState<number>(0);
     const [openAddressUpdate, setOpenAddressUpdate] = useState(false);
     const [selectedAddressToUpdateIndex, setSelectedAddressToUpdateIndex] = useState<number | null>(
         null,
     );
+    const [currentAddress, setCurrentAddress] = useState<Address | null>(null);
 
-    const handleSetSelected = (index: number) => {
-        setSelectAddress(index);
+    const handleSetChecked = (index: number) => {
+        setCheckedAddress(index);
     };
 
     const handleLength = () => {
@@ -37,14 +39,22 @@ export function AddressList(props: Readonly<AddressListProps>) {
         setSelectedAddressToUpdateIndex(null);
     };
 
+    const handleSelectAddress = (indexToUpdate: number, address: Address) => {
+        console.log(indexToUpdate);
+        setSelectedAddressToUpdateIndex(indexToUpdate);
+        setCurrentAddress(address);
+    }
+
     useEffect(() => {
         const defaultAddressIndex = userProfile?.address?.findIndex(
             (address) => address?.isDefault,
         );
         if (defaultAddressIndex !== -1 && defaultAddressIndex != undefined) {
-            setSelectAddress(defaultAddressIndex);
+            setCheckedAddress(defaultAddressIndex);
         }
     }, [userProfile?.address]);
+
+    console.log(currentAddress);
 
     return (
         <>
@@ -61,29 +71,27 @@ export function AddressList(props: Readonly<AddressListProps>) {
                     }
                     key={`index-${index.toString()}`}
                 >
-                    <Box sx={{ marginLeft: '0px !important' }}>
-                        <AddressItemList
-                            address={address}
-                            selected={selectAddress}
-                            setSelected={handleSetSelected}
-                            setLengthAddress={handleLength}
-                            handleCloseListItem={handleCloseListItem}
-                            addressIndex={index}
-                            selectedAddressToUpdateIndex={setSelectedAddressToUpdateIndex}
-                        />
-                    </Box>
+                    <AddressItemList
+                        address={address}
+                        checked={checkedAddress}
+                        setChecked={handleSetChecked}
+                        setLengthAddress={handleLength}
+                        handleCloseListItem={handleCloseListItem}
+                        addressIndex={index}
+                        selectedAddressToUpdateIndex={handleSelectAddress}
+                    />
                 </Suspense>
             ))}
 
             {/* cập nhật địa chỉ khi click cập nhật ở danh sách địa chỉ */}
-            {userProfile && selectedAddressToUpdateIndex != null && (
+            {userProfile && selectedAddressToUpdateIndex !== null && currentAddress !== null && (
                 <Suspense fallback={<LoadingPageMnt isLoading isBlur />}>
                     <DialogAddressUpdate
-                        userProfile={userProfile}
+                        userThisAddress={currentAddress}
                         isOpen={openAddressUpdate}
                         handleClose={handleCloseAddressUp}
                         triggerRefreshUserProfile={triggerRefreshUserProfile}
-                        selectedAddressToUpdateIndex={selectedAddressToUpdateIndex}
+                        addressIndex={selectedAddressToUpdateIndex}
                     />
                 </Suspense>
             )}

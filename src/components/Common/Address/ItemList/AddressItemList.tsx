@@ -2,24 +2,24 @@
 
 import { Address } from '@models/Account';
 import { Box, Button, Radio } from '@mui/material';
-import { SetStateAction, Dispatch, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { buildAddressString } from 'utils/address.util';
 
 interface AddressItemListProps {
     address: Address;
-    selected: number;
-    setSelected: (index: number) => void;
+    checked: number;
+    setChecked: (index: number) => void;
     setLengthAddress: (value: boolean) => void;
     handleCloseListItem: (value: boolean) => void;
     addressIndex: number;
-    selectedAddressToUpdateIndex: Dispatch<SetStateAction<number | null>>;
+    selectedAddressToUpdateIndex: (indexToUpdate: number, addressInfo: Address) => void;
 }
 
 const AddressItemList = (props: AddressItemListProps) => {
     const {
         address,
-        selected,
-        setSelected,
+        checked,
+        setChecked,
         setLengthAddress,
         handleCloseListItem,
         addressIndex,
@@ -48,9 +48,9 @@ const AddressItemList = (props: AddressItemListProps) => {
                 }}
             >
                 <Radio
-                    checked={selected === addressIndex}
+                    checked={checked === addressIndex}
                     name="radio-buttons"
-                    onChange={() => setSelected(addressIndex)}
+                    onChange={() => setChecked(addressIndex)}
                     sx={{
                         padding: '0',
                         color: 'red',
@@ -106,7 +106,7 @@ const AddressItemList = (props: AddressItemListProps) => {
                     onClick={() => {
                         // handleCloseListItem(false);
                         setLengthAddress(true);
-                        selectedAddressToUpdateIndex(addressIndex);
+                        selectedAddressToUpdateIndex(addressIndex, address);
                     }}
                     sx={{fontSize:{xs:'12px',sm:'15px'}}}
                 >

@@ -23,7 +23,7 @@ export const SignupSchema = yup.object({
 });
 
 export const ProfileSchema = yup.object({
-  address: yup.object().shape({
+  // address: yup.object().shape({
     addressName: yup.string().required('Vui lòng nhập địa chỉ!'),
     customerName: yup.string().required('Vui lòng nhập tên khách hàng!'),
     phoneNumbers: yup.string()
@@ -34,7 +34,7 @@ export const ProfileSchema = yup.object({
     districtLevel: yup.object().required('Vui lòng chọn quận / huyện!'),
     wardLevel: yup.object().required('Vui lòng chọn xã / phường!'),
     detail: yup.string().required('Vui lòng nhập địa chỉ cụ thể!'),
-  }),
+  // }),
 });
 
 export const VerifyEmailSchema = yup.object({
