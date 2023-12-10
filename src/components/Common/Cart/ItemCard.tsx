@@ -73,7 +73,7 @@ export const ItemCard = (props: productDataProps) => {
         handleCheckBox(`${itemData.productId}/${itemData.sku}`);
     }
 
-    //console.log(updateInfo);
+    console.log(currentVariant);
 
     return (
         <div className={styles.cart_content}>
@@ -99,6 +99,14 @@ export const ItemCard = (props: productDataProps) => {
                 <div className={styles.product_info}>
                     <div className={styles.product_text}>
                         <div className={styles.product_heading}>{label.name}</div>
+                        {currentVariant.attributes.map((attribute)=>(
+                            <div key={attribute.k}>
+                                <div>{attribute.v}</div>
+                                {attribute?.u && (
+                                    <div>{attribute.u}</div>
+                                ) }
+                            </div>
+                        ))}
                         <div className={styles.product_price}>
                             <div className={styles.product_price_new}>
                                 {currencyFormat(currentVariant.price.sale * itemData.quantity)}

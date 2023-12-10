@@ -12,8 +12,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import { ShowDialog } from '../Display/DialogCustom';
-import { AddressList } from '../Lists/AddressList';
-import DialogAddressUpdate from '@components/Form/Common/DialogAddressUpdate';
+import { AddressList } from '../Address/Lists/AddressList';
+import Link from 'next/link';
+import DialogAddressUpdate from '@components/Form/Common/AddressDialog/DialogAddressUpdate';
 
 const BoxBuying = styled(Box)(() => ({
     position: 'sticky',
@@ -168,21 +169,23 @@ const CartFooterInfomation = () => {
                                 >
                                     Hủy
                                 </Button>
-                                <Button
-                                    type="submit"
-                                    sx={{
-                                        borderRadius: '5px',
-                                        backgroundColor: '#ee4949',
-                                        color: 'white',
-                                        marginLeft: '10px',
-                                        border: '1px solid #ee4949',
-                                        ':hover': {
+                                <Link href={'/gio-hang-v2/payment'}>
+                                    <Button
+                                        type="submit"
+                                        sx={{
+                                            borderRadius: '5px',
                                             backgroundColor: '#ee4949',
-                                        },
-                                    }}
-                                >
-                                    Xác nhận
-                                </Button>
+                                            color: 'white',
+                                            marginLeft: '10px',
+                                            border: '1px solid #ee4949',
+                                            ':hover': {
+                                                backgroundColor: '#ee4949',
+                                            },
+                                        }}
+                                    >
+                                        Xác nhận
+                                    </Button>
+                                </Link>
                             </Box>
                         </ShowDialog>
                     )}

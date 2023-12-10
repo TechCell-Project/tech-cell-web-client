@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                     <ThemeProviderMui>
                         <ReduxProvider>
                             <HeaderClient />
-                            {children}
+                            <div style={{ minHeight: '60vh'}}>{children}</div>
                             <FooterClient />
                         </ReduxProvider>
                     </ThemeProviderMui>

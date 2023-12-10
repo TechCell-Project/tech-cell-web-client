@@ -33,6 +33,7 @@ import Typography from '@mui/material/Typography';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import ChooseProductVariation from './ChooseProductVariation';
 
 export interface DialogTitleProps {
     id: string;
@@ -49,6 +50,8 @@ export const ProductDetail = ({ id }: { id: string }) => {
     const handleClose = () => {
         setShowDialog(false);
     };
+
+    const [selectedVariationSku, setSelectedVariationSku] = useState<string | null>(null);
 
     const [productDetail, setProductDetail] = useState<ProductModel>(new ProductModel());
     const [variant, setVariant] = useState<VariantInfo>({
@@ -73,10 +76,32 @@ export const ProductDetail = ({ id }: { id: string }) => {
         }
     }, [product]);
 
-    // console.log(productDetail);
-
     const handleSelectVariant = (variant: VariantInfo) => {
         setVariant(variant);
+    };
+
+    useEffect(() => {
+        if (selectedVariationSku) {
+            const variant = productDetail.variations.find(
+                (variation) => variation.sku === selectedVariationSku,
+            );
+            if (variant) {
+                setVariant({
+                    variantThumbnail:
+                        variant.images.find((img) => img.isThumbnail)?.url ??
+                        variant.images[0]?.url ??
+                        productDetail.generalImages[0]?.url,
+                    storage: variant.attributes.find((attr) => attr.k === 'storage')?.v ?? '',
+                    color: variant.attributes.find((attr) => attr.k === 'color')?.v ?? '',
+                    isSelectedColor: false,
+                    price: variant.price,
+                    sku: variant?.sku ?? '',
+                });
+            }
+        }
+    }, [selectedVariationSku, productDetail]);
+    const handleSelectVariation = (sku: string) => {
+        setSelectedVariationSku(sku);
     };
 
     return isLoadingDetails ? (
@@ -114,13 +139,11 @@ export const ProductDetail = ({ id }: { id: string }) => {
                     {/* Thông tin sản phẩm */}
                     <div className={styles.product_content_details}>
                         <div className={styles.product_name}>{productDetail.name}</div>
-
                         {/* hãng sản phẩm */}
                         <p className={styles.product_category}>
                             {getSingleAttribute(productDetail.generalAttributes, 'brand').v} - Điện
                             thoại
                         </p>
-
                         <div className={styles.product_price_old}>
                             {/* giá sản phẩm */}
                             {variant !== undefined && (
@@ -169,21 +192,22 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                 </>
                             )}
                         </div>
-
                         {/* Thông tin sản phẩm */}
                         <p className={styles.product_desc}></p>
                         {/* Chọn sản phẩm */}
-                        <ChooseProduct
+                        {/* <ChooseProduct
                             variations={productDetail.variations}
                             handleSelectVariant={handleSelectVariant}
+                        /> */}
+                        <ChooseProductVariation
+                            product={productDetail}
+                            handleSelectVariation={handleSelectVariation}
                         />
-
                         {/* Btn thêm sản phẩm và mua sản phẩm */}
                         <CustomizedDialogs
                             productCart={{ productId: id, sku: variant.sku, quantity: 1 }}
                             missingColor={variant !== undefined ? !variant.isSelectedColor : true}
                         />
-
                         {/* Ưu đãi thêm */}
                         <div className={styles.extra_offer_container}>
                             <div className={styles.extra_offer_heading}>ƯU ĐÃI THÊM</div>
@@ -191,7 +215,6 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                 <EndowProduct />
                             </div>
                         </div>
-
                         {/* Sản phẩm mua kèm */}
                         <div className={styles.product_bundled_container}>
                             <div className={styles.product_bundled}>

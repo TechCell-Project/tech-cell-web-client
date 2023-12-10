@@ -32,9 +32,9 @@ const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
 
 function signOut(request: NextRequest) {
     console.log(request.url);
-    const response = NextResponse.redirect(
-        new URL('/dang-nhap?callbackUrl=/gio-hang-v2', request.url),
-    );
+    const url = new URL('/dang-nhap', request.url);
+    url.searchParams.append('callBackUrl', 'gio-hang-v2');
+    const response = NextResponse.redirect(url);
 
     request.cookies.getAll().forEach((cookie) => {
         if (cookie.name.includes('next-auth')) response.cookies.delete(cookie.name);
