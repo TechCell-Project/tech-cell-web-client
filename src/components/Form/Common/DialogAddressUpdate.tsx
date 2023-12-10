@@ -13,10 +13,10 @@ import { District, Location, Province, Ward } from '@models/Location';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
 import { getDistricts, getWards, getProvinces } from '@services/LocationService';
 import { ProfileAddressRequest } from '@models/Profile';
-import { patchProfileAddress } from '@services/ProfileService';
 import { toastConfig } from '@constants/ToastMsgConfig';
 import { Address } from '@models/Account';
-import { useAppSelector } from '@store/store';
+import { useAppDispatch, useAppSelector } from '@store/store';
+import { editProfileAddress } from '@store/slices/authSlice';
 
 interface DialogAddressUpdateProps {
     isOpen: boolean;
@@ -42,6 +42,8 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
     setOpenListAddress,
     setOpenNewAddress,
 }) => {
+    const dispatch = useAppDispatch();
+
     const [provinces, setProvinces] = useState<Array<Province>>(new Array<Province>());
     const [districts, setDistricts] = useState<Array<District>>(new Array<District>());
     const [wards, setWards] = useState<Array<Ward>>(new Array<Ward>());
@@ -98,29 +100,28 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
 
         const payload = new ProfileAddressRequest(updateData);
 
-        await patchProfileAddress(payload)
-            .then(() => {
-                toast.success(
-                    `${addressIndex !== null ? 'Cập nhật' : 'Thêm mới'} địa chỉ thành công!`,
-                    toastConfig,
-                );
-                triggerRefreshUserProfile();
-                if (setOpenListAddress && setOpenNewAddress) {
-                    setOpenNewAddress(false);
-                    setOpenListAddress(true);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                toast.error(
-                    `${addressIndex !== null ? 'Cập nhật' : 'Thêm mới'} địa chỉ thất bại!`,
-                    toastConfig,
-                );
-            })
-            .finally(() => {
-                setSubmitting(false);
-                handleClose();
-            });
+        const res = await dispatch(editProfileAddress(payload));
+
+        if (res?.success) {
+            toast.success(
+                `${addressIndex !== null ? 'Cập nhật' : 'Thêm mới'} địa chỉ thành công!`,
+                toastConfig,
+            );
+            triggerRefreshUserProfile();
+            if (setOpenListAddress && setOpenNewAddress) {
+                setOpenNewAddress(false);
+                setOpenListAddress(true);
+            }
+            setSubmitting(false);
+            handleClose();
+        } else {
+            toast.error(
+                `${addressIndex !== null ? 'Cập nhật' : 'Thêm mới'} địa chỉ thất bại!`,
+                toastConfig,
+            );
+            console.log(res?.error);
+            setSubmitting(false);
+        }
     };
 
     console.log(provinces);

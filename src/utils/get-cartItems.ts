@@ -1,8 +1,8 @@
 import { cache } from 'react';
 
 import { Paging } from '@models/Common';
-import { getCarts } from '@services/CartService';
 import { CartModel } from '@models/Cart';
+import { getCarts } from '@services/CartService';
 
 export const revalidateCart = 300;
 

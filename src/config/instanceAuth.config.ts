@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { API_ENDPOINT } from '@constants/Services';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@app/api/auth/[...nextauth]/route';
 import { getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@app/api/auth/[...nextauth]/route';
 
 const instanceAuth: AxiosInstance = axios.create({
     baseURL: API_ENDPOINT,
@@ -14,6 +14,8 @@ const instanceAuth: AxiosInstance = axios.create({
 
 instanceAuth.interceptors.request.use(
     async (request) => {
+        if (request.headers.Authorization) return request;
+        
         const session = await getSession();
 
         console.log(session);
@@ -35,50 +37,22 @@ instanceAuth.interceptors.request.use(
 instanceAuth.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
-        console.log('expired session');
-
         console.log(error);
+        if (error.response?.status === 401 && error.config) {
+            const originalRequest = error.config;
+            const session = await getSession();
 
-        // instanceAuth.defaults.headers.common.Authorization = undefined;
-        // const prevRequest = error.config;
-        // const statusCode = error.response?.status;
-        // console.log(error);
+            if (session) {
+                // Update the Authorization header
+                originalRequest.headers.Authorization = `Bearer ${session.user.accessToken}`;
 
-        // if (!error.response || statusCode !== 401 || prevRequest._retry) {
-        //     return Promise.reject(error);
-        // }
+                // Update the default headers for the instance
+                instanceAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`;
 
-        // prevRequest._retry = true;
-
-        // const session = await getSession();
-
-        // if (!session) {
-        //     return Promise.reject(error);
-        // }
-
-        // if (statusCode === 401 && prevRequest._retry) {
-        //     const refreshToken = session?.user.refreshToken;
-
-        //     if (!refreshToken) {
-        //         return Promise.reject(error);
-        //     }
-
-        //     const accessToken = session?.user.accessToken;
-
-        //     const decodedAccessToken = decodeAccessToken(accessToken);
-
-        //     if (isAccessTokenExpired(decodedAccessToken)) {
-        //         try {
-        //             await setToken(session);
-        //             prevRequest.headers.authorization = `Bearer ${session.user.accessToken}`;
-
-        //             return instanceAuth(prevRequest);
-        //         } catch (error) {
-        //             console.log(error);
-        //             return Promise.reject(error);
-        //         }
-        //     }
-        // }
+                // Retry the original request with the new token
+                return instanceAuth(originalRequest);
+            }
+        }
         return Promise.reject(error);
     },
 );

@@ -26,22 +26,23 @@ interface CartsProps {
     userCartData: CartModel | null;
 }
 
-const CartPage: FC<CartsProps> = ({ userCartData }) => {
-    const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
+const CartPage = () => {
+    const [thisCart, setThisCart] = useState<CartModel | null>(null);
     const dispatch = useAppDispatch();
 
-    const { carts, isLoading } = useAppSelector((state) => state.cart);
+    const { carts } = useAppSelector((state) => state.cart);
 
     const [pagingData, setPagingData] = useState<Paging>(new Paging());
     const [checkedList, setCheckedList] = useState<string[]>([]);
 
     useSkipFirstRender(() => {
+        dispatch(getCartItems(pagingData));
+    }, [pagingData]);
+    
+    useEffect(() => {
         setThisCart(carts);
     }, [carts]);
 
-    useSkipFirstRender(() => {
-        dispatch(getCartItems(pagingData));
-    }, [pagingData]);
 
     const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
         let arr: string[] = [];
