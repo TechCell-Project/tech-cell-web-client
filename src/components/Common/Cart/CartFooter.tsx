@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, MouseEvent } from 'react';
 
 import { UserModel } from '@models/Profile';
 import { Address } from '@models/Account';
@@ -15,6 +15,7 @@ import { ShowDialog } from '../Display/DialogCustom';
 import { AddressList } from '../Address/Lists/AddressList';
 import Link from 'next/link';
 import DialogAddressUpdate from '@components/Form/Common/AddressDialog/DialogAddressUpdate';
+import { useRouter } from 'next/navigation';
 
 const BoxBuying = styled(Box)(() => ({
     position: 'sticky',
@@ -42,18 +43,38 @@ const BoxBuying = styled(Box)(() => ({
     },
 }));
 
-const CartFooterInfomation = () => {
+interface CartFooterProps {
+    isSelectedProduct: boolean;
+    handleShowMsg: () => void;
+    saveSelectedProducts: (e: MouseEvent<HTMLElement>) => void;
+}
+
+const CartFooterInfomation: FC<CartFooterProps> = ({
+    isSelectedProduct,
+    handleShowMsg,
+    saveSelectedProducts,
+}) => {
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
     const [userProfile, setUserProfile] = useState<UserModel | null>(null);
     const [openNewAddress, setOpenNewAddress] = useState(false);
     const [openListAddress, setOpenListAddress] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
 
     const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
 
     useEffect(() => {
+        const getProfile = async () => {
+            const res = await dispatch(getCurrentUser());
+
+            if (res?.error) {
+                router.refresh();
+            }
+        }
+
         if (userProfile === null) {
-            dispatch(getCurrentUser());
+            getProfile();
         }
     }, []);
 
@@ -68,17 +89,21 @@ const CartFooterInfomation = () => {
     };
 
     const handleBuyNow = () => {
-        if (!userProfile) {
-            setOpenNewAddress(true);
-        }
-        if (
-            userProfile &&
-            Array.isArray(userProfile?.address) &&
-            userProfile?.address?.length > 0
-        ) {
-            setOpenListAddress(true);
+        if (!isSelectedProduct) {
+            handleShowMsg();
         } else {
-            setOpenNewAddress(true);
+            if (!userProfile) {
+                setOpenNewAddress(true);
+            }
+            if (
+                userProfile &&
+                Array.isArray(userProfile?.address) &&
+                userProfile?.address?.length > 0
+            ) {
+                setOpenListAddress(true);
+            } else {
+                setOpenNewAddress(true);
+            }
         }
     };
 
@@ -93,6 +118,12 @@ const CartFooterInfomation = () => {
 
     const handleCloseNewAddress = () => {
         setOpenNewAddress(false);
+    };
+
+    const saveInforToLocalStorage = (e: MouseEvent<HTMLButtonElement>) => {
+        saveSelectedProducts(e);
+        localStorage.setItem('selected-address', currentIndex.toString());
+        router.push('/gio-hang-v2/payment');
     };
 
     return (
@@ -129,6 +160,9 @@ const CartFooterInfomation = () => {
                                 handleCloseListItem={handleCloseListAddress}
                                 userProfile={userProfile}
                                 triggerRefreshUserProfile={triggerRefreshUserProfile}
+                                handleSelectAddressIndex={(index: number) => {
+                                    setCurrentIndex(index);
+                                }}
                             />
 
                             <Box>
@@ -169,23 +203,22 @@ const CartFooterInfomation = () => {
                                 >
                                     Hủy
                                 </Button>
-                                <Link href={'/gio-hang-v2/payment'}>
-                                    <Button
-                                        type="submit"
-                                        sx={{
-                                            borderRadius: '5px',
+                                <Button
+                                    type="submit"
+                                    sx={{
+                                        borderRadius: '5px',
+                                        backgroundColor: '#ee4949',
+                                        color: 'white',
+                                        marginLeft: '10px',
+                                        border: '1px solid #ee4949',
+                                        ':hover': {
                                             backgroundColor: '#ee4949',
-                                            color: 'white',
-                                            marginLeft: '10px',
-                                            border: '1px solid #ee4949',
-                                            ':hover': {
-                                                backgroundColor: '#ee4949',
-                                            },
-                                        }}
-                                    >
-                                        Xác nhận
-                                    </Button>
-                                </Link>
+                                        },
+                                    }}
+                                    onClick={saveInforToLocalStorage}
+                                >
+                                    Xác nhận
+                                </Button>
                             </Box>
                         </ShowDialog>
                     )}

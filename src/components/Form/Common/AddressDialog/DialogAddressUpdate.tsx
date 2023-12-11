@@ -102,6 +102,8 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
 
         const res = await dispatch(editProfileAddress(payload));
 
+        console.log(res);
+
         if (res?.success) {
             toast.success(
                 `${addressIndex !== null ? 'Cập nhật' : 'Thêm mới'} địa chỉ thành công!`,

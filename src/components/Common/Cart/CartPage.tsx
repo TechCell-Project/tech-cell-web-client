@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getCartItems } from '@store/slices/cartSlice';
@@ -26,30 +26,33 @@ interface CartsProps {
     userCartData: CartModel | null;
 }
 
-const CartPage = () => {
-    const [thisCart, setThisCart] = useState<CartModel | null>(null);
+const CartPage: FC<CartsProps> = ({ userCartData }) => {
+    const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
     const dispatch = useAppDispatch();
 
     const { carts } = useAppSelector((state) => state.cart);
 
     const [pagingData, setPagingData] = useState<Paging>(new Paging());
     const [checkedList, setCheckedList] = useState<string[]>([]);
+    const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
 
     useSkipFirstRender(() => {
         dispatch(getCartItems(pagingData));
     }, [pagingData]);
-    
-    useEffect(() => {
+
+    useSkipFirstRender(() => {
         setThisCart(carts);
     }, [carts]);
-
 
     const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
         let arr: string[] = [];
         if (checkedList.length !== thisCart?.products.length) {
-            arr = thisCart?.products.map((product) => `${product.productId}/${product.sku}`) as string[];
+            arr = thisCart?.products.map(
+                (product) => `${product.productId}/${product.sku}/${product.quantity}`,
+            ) as string[];
         }
         setCheckedList(arr);
+        handleShowMsg(true);
     };
 
     const handleRefreshCart = () => {
@@ -60,6 +63,17 @@ const CartPage = () => {
         let list = [...checkedList];
         list = addOrRemoveFromArray(list, id);
         setCheckedList(list);
+        handleShowMsg(true);
+    };
+
+    const handleShowMsg = (isSelected: boolean) => {
+        if (!isSelected) {
+            setShowUncheckMsg(true);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        } else setShowUncheckMsg(false);
     };
 
     const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
@@ -68,6 +82,11 @@ const CartPage = () => {
             page: page - 1,
         });
     };
+
+    const saveProductQuery = (e: MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        localStorage.setItem('select-item-query', checkedList.toString());
+    }
 
     return (
         <Box
@@ -114,6 +133,24 @@ const CartPage = () => {
                                 </Typography>
                             ) : (
                                 <>
+                                    <Box
+                                        sx={{
+                                            width: '100%',
+                                            display: showUncheckMsg ? 'flex' : 'none',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="h3"
+                                            color="primary"
+                                            sx={{
+                                                fontSize: '18px',
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            Bạn cần chọn sản phẩm trước khi tiến hành thanh toán
+                                        </Typography>
+                                    </Box>
                                     <Box sx={{ width: '100%' }}>
                                         <FormControlLabel
                                             label="Chọn tất cả"
@@ -149,7 +186,9 @@ const CartPage = () => {
                                                 key={`${item.productId}/${item.sku}`}
                                                 itemData={item}
                                                 refreshCart={handleRefreshCart}
-                                                isSelected={checkedList.includes(`${item.productId}/${item.sku}`)}
+                                                isSelected={checkedList.includes(
+                                                    `${item.productId}/${item.sku}/${item.quantity}`,
+                                                )}
                                                 handleCheckBox={handleCheckProduct}
                                             />
                                         ))}
@@ -162,7 +201,13 @@ const CartPage = () => {
                     </Container>
                     {thisCart.cartCountProducts !== 0 && (
                         <Box sx={{ padding: '10px' }}>
-                            <CartFooterInfomation />
+                            <CartFooterInfomation
+                                isSelectedProduct={checkedList.length !== 0}
+                                handleShowMsg={() => {
+                                    handleShowMsg(checkedList.length !== 0);
+                                }}
+                                saveSelectedProducts={saveProductQuery}
+                            />
                         </Box>
                     )}
                 </>

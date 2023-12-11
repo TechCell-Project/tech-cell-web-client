@@ -6,7 +6,7 @@ import MoonLoader from 'react-spinners/MoonLoader';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 
-export const LoadingPage = ({ isLoading }: { isLoading: boolean }) => {
+export const LoadingPage = ({ isLoading }: { isLoading?: boolean }) => {
 
     return (
         <Box marginTop="20px">

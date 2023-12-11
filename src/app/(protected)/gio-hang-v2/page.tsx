@@ -7,21 +7,44 @@ import CartPage from '@components/Common/Cart/CartPage';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getCartItems } from '@store/slices/cartSlice';
 import { Paging } from '@models/Common';
+import { useSession } from 'next-auth/react';
+import { getCartItemsCustom } from 'utils/get-cartItems';
+import instanceAuth from '@config/instanceAuth.config';
+import { debounce } from 'utils/funcs';
 
 const Cart = () => {
-    const dispatch = useAppDispatch();
+    const { data: session } = useSession();
 
-    const { isLoading } = useAppSelector((state) => state.cart);
+    const [isDataFetched, setIsDataFetched] = useState<boolean>(false);
+    const [currentCartData, setCurrentCartData] = useState<CartModel | null>(null);
 
     useEffect(() => {
-        dispatch(getCartItems(new Paging()));
-    }, []);
+        const fetchCartData = debounce(async () => {
+            if (!isDataFetched) {
+                const cartData = await getCartItemsCustom();
+                setCurrentCartData(cartData);
+                setIsDataFetched(true);
+            }
+        }, 5000);
 
-    return isLoading ? (
-        <LoadingPage isLoading={isLoading} />
-    ) : (
-        <CartPage />
-    );
+        if (session) {
+            console.log(session.user.accessToken);
+            instanceAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`
+            console.log(instanceAuth.defaults.headers.common.Authorization);
+            fetchCartData();
+        }
+
+    }, [isDataFetched, session]);
+
+    console.log(currentCartData);
+
+    if (!isDataFetched) {
+        return <LoadingPage isLoading />;
+    }
+
+    return (
+        <CartPage userCartData={currentCartData} />
+    )
 };
 
 export default Cart;

@@ -99,6 +99,8 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                 maxAge: 15 * 60 /* 15 mins */,
             });
 
+            console.log(newSessionToken);
+
             response = updateCookie(newSessionToken, request, response);
         } catch (error) {
             response = updateCookie(null, request, response);
@@ -109,6 +111,7 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 };
 
 async function refreshToken(token: JWT) {
+    console.log('token expired');
     const currentRefreshToken = token.refreshToken as string;
     const res = await fetch(API_ENDPOINT + '/auth/refresh-token', {
         method: 'POST',
