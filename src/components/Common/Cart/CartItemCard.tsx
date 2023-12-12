@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { FC, useEffect } from 'react';
 
@@ -23,7 +23,7 @@ const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, handleCh
         if (itemData.productId) {
             dispatch(getDetailsProduct(itemData.productId));
         }
-    }, [itemData]);
+    }, [itemData])
 
     const { product, isLoadingDetails } = useAppSelector((state) => state.product);
 
@@ -43,7 +43,9 @@ const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, handleCh
                         refreshCart={refreshCart}
                         handleCheckBox={handleCheckBox}
                     />
-                    {isLoadingDetails && <SkeletionCartItem />}
+                    {isLoadingDetails && (
+                        <SkeletionCartItem />
+                    )}
                 </>
             )}
         </>

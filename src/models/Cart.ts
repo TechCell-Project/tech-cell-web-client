@@ -1,3 +1,5 @@
+import { PagingResponse } from './Common';
+
 export class AddCartItemModel {
     productId: string = '';
     sku: string = '';
@@ -21,7 +23,7 @@ export class CartModel extends CartRequest {
     _id: string | null = null;
     createdAt: string | null = null;
     updatedAt: string | null = null;
-}
+  }
 
 export class CartsSlice {
     carts: CartModel = new CartModel();

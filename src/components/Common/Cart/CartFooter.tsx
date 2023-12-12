@@ -42,7 +42,7 @@ const BoxBuying = styled(Box)(() => ({
     },
 }));
 
-const CartFooterInformation = () => {
+const CartFooterInfomation = () => {
     const dispatch = useAppDispatch();
 
     const [userProfile, setUserProfile] = useState<UserModel | null>(null);
@@ -64,8 +64,8 @@ const CartFooterInformation = () => {
         }
     }, [isLoadingProfile]);
 
-    // console.log(user);
-    // console.log(userProfile);
+    console.log(user);
+    console.log(userProfile);
 
     const triggerRefreshUserProfile = async () => {
         await dispatch(getCurrentUser());
@@ -199,4 +199,4 @@ const CartFooterInformation = () => {
     );
 };
 
-export default CartFooterInformation;
+export default CartFooterInfomation;

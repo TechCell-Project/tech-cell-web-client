@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import styles from '@styles/components/cart.module.scss';
@@ -40,14 +40,14 @@ export const ItemCard = (props: productDataProps) => {
         if (updateInfo) {
             const timer1 = setTimeout(() => {
                 dispatch(addItemToCart(updateInfo));
-
+    
                 const timer2 = setTimeout(() => {
                     refreshCart();
                 }, 300);
-
+    
                 return () => clearTimeout(timer2);
             }, 600);
-
+    
             return () => clearTimeout(timer1);
         }
     }, [updateInfo]);
@@ -72,13 +72,13 @@ export const ItemCard = (props: productDataProps) => {
     useEffect(() => {
         handleCheckBox(label.id);
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isChecked]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(label.id);
         setIsChecked(event.target.checked);
-    };
+    }
 
     console.log(currentVariant);
 
@@ -106,11 +106,13 @@ export const ItemCard = (props: productDataProps) => {
                 <div className={styles.product_info}>
                     <div className={styles.product_text}>
                         <div className={styles.product_heading}>{label.name}</div>
-                        {currentVariant.attributes.map((attribute, index) => (
-                            <Fragment key={`${attribute.k}_${index.toString()}`}>
-                                {attribute.v} {attribute?.u && <>{attribute.u}</>}
-                                {index < currentVariant.attributes.length - 1 && <>, </>}
-                            </Fragment>
+                        {currentVariant.attributes.map((attribute)=>(
+                            <div key={attribute.k}>
+                                <div>{attribute.v}</div>
+                                {attribute?.u && (
+                                    <div>{attribute.u}</div>
+                                ) }
+                            </div>
                         ))}
                         <div className={styles.product_price}>
                             <div className={styles.product_price_new}>
@@ -131,9 +133,7 @@ export const ItemCard = (props: productDataProps) => {
                         >
                             -
                         </button>
-                        <div className={styles.product_quanity_number}>
-                            {updateInfo ? updateInfo.quantity : itemData.quantity}
-                        </div>
+                        <div className={styles.product_quanity_number}>{updateInfo ? updateInfo.quantity : itemData.quantity}</div>
                         <button
                             type="button"
                             className={styles.product_quanity_btn}
