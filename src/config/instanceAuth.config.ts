@@ -1,8 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { API_ENDPOINT } from '@constants/Services';
 import { getSession } from 'next-auth/react';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@app/api/auth/[...nextauth]/route';
 
 const instanceAuth: AxiosInstance = axios.create({
     baseURL: API_ENDPOINT,
