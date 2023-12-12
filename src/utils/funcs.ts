@@ -9,7 +9,6 @@ import {
     SERVER_ERROR_CODE,
 } from '@constants/errorCode';
 import { getCurrentUserRole } from './local';
-import { PagingResponse } from '@models/Common';
 import { UserAccount } from '@models/Account';
 import { UserModel } from '@models/Profile';
 

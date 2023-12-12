@@ -1,11 +1,6 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
-
-import { useAppDispatch, useAppSelector } from '@store/store';
-import { getCartItems } from '@store/slices/cartSlice';
-import { Paging } from '@models/Common';
-
+import React, { FC, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -14,48 +9,22 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import CartItemCard from './CartItemCard';
-import { CartModel } from '@models/Cart';
-import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
 import CartPromotions from './CartPromotions';
 import CartSaleBanners from './CartSaleBanners';
 import { addOrRemoveFromArray } from 'utils';
-import CartFooterInfomation from './CartFooter';
+import CartFooterInformation from './CartFooter';
 import { LoadingSection } from '../Display';
+import { useCart } from '@hooks/useCart';
 
-interface CartsProps {
-    userCartData: CartModel | null;
-}
+const CartPage: FC = () => {
+    const { data: cart, refreshCart, isLoading: isLoadingCart } = useCart();
 
-const CartPage: FC<CartsProps> = ({ userCartData }) => {
-    const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
-    const dispatch = useAppDispatch();
-
-    const { carts, isLoading } = useAppSelector((state) => state.cart);
-
-    const [pagingData, setPagingData] = useState<Paging>(new Paging());
     const [checkedList, setCheckedList] = useState<string[]>([]);
-
-    useSkipFirstRender(() => {
-        setThisCart(carts);
-    }, [carts]);
-
-    useSkipFirstRender(() => {
-        dispatch(getCartItems(pagingData));
-    }, [pagingData]);
-
-    // const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCheckedList(carts.products.map((item) => item.productId));
-    // };
-
-    const handleRefreshCart = () => {
-        dispatch(getCartItems(pagingData));
-    };
-
     const handleCheckProduct = (id: string) => {
         let list = addOrRemoveFromArray(checkedList, id);
         setCheckedList(list);
     };
-    
+
     console.log(checkedList);
 
     return (
@@ -65,7 +34,9 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                 minHeight: '60vh',
             }}
         >
-            {thisCart ? (
+            {!cart || isLoadingCart ? (
+                <LoadingSection isLoading={true} />
+            ) : (
                 <>
                     <Container
                         maxWidth={false}
@@ -94,7 +65,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                 </Typography>
                             </Box>
 
-                            {thisCart.cartCountProducts === 0 ? (
+                            {cart.cartCountProducts === 0 ? (
                                 <Typography
                                     variant="h4"
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
@@ -111,7 +82,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                                     defaultChecked
                                                     checked={
                                                         checkedList.length ===
-                                                        thisCart.cartCountProducts
+                                                        cart.cartCountProducts
                                                     }
                                                     //onChange={handleCheckAll}
                                                     sx={{
@@ -133,11 +104,11 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                             width: '100%',
                                         }}
                                     >
-                                        {thisCart.products.map((item) => (
+                                        {cart.products.map((item) => (
                                             <CartItemCard
                                                 key={item.productId}
                                                 itemData={item}
-                                                refreshCart={handleRefreshCart}
+                                                refreshCart={refreshCart}
                                                 handleCheckBox={handleCheckProduct}
                                             />
                                         ))}
@@ -148,14 +119,12 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                             )}
                         </Stack>
                     </Container>
-                    {thisCart.cartCountProducts !== 0 && (
+                    {cart.cartCountProducts !== 0 && (
                         <Box sx={{ padding: '10px' }}>
-                            <CartFooterInfomation />
+                            <CartFooterInformation />
                         </Box>
                     )}
                 </>
-            ) : (
-                <LoadingSection isLoading={true} />
             )}
         </Box>
     );
