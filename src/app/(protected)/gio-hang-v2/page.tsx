@@ -20,20 +20,20 @@ const Cart = () => {
 
     useEffect(() => {
         const fetchCartData = debounce(async () => {
-            if (!isDataFetched) {
-                const cartData = await getCartItemsCustom();
-                setCurrentCartData(cartData);
-                setIsDataFetched(true);
-            }
+            const cartData = await getCartItemsCustom();
+            setCurrentCartData(cartData);
+            setIsDataFetched(true);
         }, 5000);
 
         if (session) {
             console.log(session.user.accessToken);
-            instanceAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`
+            instanceAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`;
             console.log(instanceAuth.defaults.headers.common.Authorization);
-            fetchCartData();
-        }
 
+            if (!isDataFetched) {
+                fetchCartData();
+            }
+        }
     }, [isDataFetched, session]);
 
     console.log(currentCartData);
@@ -42,9 +42,7 @@ const Cart = () => {
         return <LoadingPage isLoading />;
     }
 
-    return (
-        <CartPage userCartData={currentCartData} />
-    )
+    return <CartPage userCartData={currentCartData} />;
 };
 
 export default Cart;

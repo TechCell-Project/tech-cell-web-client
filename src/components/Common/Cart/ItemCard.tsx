@@ -73,8 +73,6 @@ export const ItemCard = (props: productDataProps) => {
         handleCheckBox(`${itemData.productId}/${itemData.sku}/${itemData.quantity}`);
     }
 
-    console.log(currentVariant);
-
     return (
         <div className={styles.cart_content}>
             <div className={styles.product_cart}>

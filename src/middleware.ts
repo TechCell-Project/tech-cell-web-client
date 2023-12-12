@@ -2,7 +2,6 @@ import { NextMiddleware, NextRequest, NextResponse } from 'next/server';
 import { JWT, encode, getToken } from 'next-auth/jwt';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { API_ENDPOINT } from './constants';
-import { useAppDispatch } from '@store/store';
 
 interface BackendTokens {
     _id: string;
@@ -111,8 +110,8 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 };
 
 async function refreshToken(token: JWT) {
-    console.log('token expired');
     const currentRefreshToken = token.refreshToken as string;
+    console.log('token expired', currentRefreshToken);
     const res = await fetch(API_ENDPOINT + '/auth/refresh-token', {
         method: 'POST',
         headers: {

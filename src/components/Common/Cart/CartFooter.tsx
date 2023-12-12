@@ -69,6 +69,7 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
             const res = await dispatch(getCurrentUser());
 
             if (res?.error) {
+                console.log(res.error);
                 router.refresh();
             }
         }
