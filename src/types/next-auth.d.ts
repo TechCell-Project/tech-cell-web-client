@@ -1,9 +1,10 @@
 import NextAuth from 'next-auth';
+import { UserDataResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 // import { Address } from '@models/Location';
 
 // interface IAddress extends Address {}
 
-interface IUserToken {
+interface IUserToken extends UserDataResponseDTO {
     _id: string;
     email: string;
     userName: string;

@@ -12,6 +12,26 @@ import { ILogin, IRegister } from '@interfaces/auth';
 import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from 'models';
 import instanceAuth from '@config/instanceAuth.config';
 import { User } from 'next-auth';
+import {
+    AuthenticationApi,
+    LoginRequestDTO,
+    RegisterRequestDTO,
+    VerifyEmailRequestDTO,
+} from '@TechCell-Project/tech-cell-server-node-sdk';
+
+const authSdk = new AuthenticationApi(undefined, undefined, instancePublic);
+
+export function authLogin(data: LoginRequestDTO) {
+    return authSdk.login(data);
+}
+
+export function authRegister(data: RegisterRequestDTO) {
+    return authSdk.register(data);
+}
+
+export function authVerifyEmail(payload: VerifyEmailRequestDTO) {
+    return authSdk.verifyEmail(payload);
+}
 
 export const fetchLogin = (data: ILogin) => instancePublic.post(LOGIN_ENDPOINT, data);
 

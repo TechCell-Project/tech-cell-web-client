@@ -2,9 +2,6 @@
 const path = require('path');
 
 const nextConfig = {
-    // eslint: {
-    //     ignoreDuringBuilds: true,
-    // },
     typescript: {
         ignoreBuildErrors: true,
     },
@@ -20,7 +17,6 @@ const nextConfig = {
                 pathname: '**',
             },
         ],
-        // domains: ['res.cloudinary.com'],
     },
     env: {
         API_ENDPOINT: process.env.API_BASE_URL,
@@ -36,6 +32,7 @@ const nextConfig = {
         // },
     },
 
+    transpilePackages: ['@TechCell-Project/tech-cell-server-node-sdk'],
     webpack(config) {
         config.module.rules.push({
             test: /\.svg$/,

@@ -4,7 +4,7 @@ import FacebookProvider from 'next-auth/providers/facebook';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { LOGIN_GOOGLE_ENDPOINT } from '@constants/Services';
 import instanceAuth from '@config/instanceAuth.config';
-import { fetchLogin } from '@services/AuthService';
+import { authLogin } from '@services/AuthService';
 import instancePublic from '@config/instancePublic.config';
 
 export const authOptions: NextAuthOptions = {
@@ -20,13 +20,13 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials, req) {
                 const payload = {
-                    emailOrUsername: credentials?.emailOrUsername,
-                    password: credentials?.password,
+                    emailOrUsername: credentials?.emailOrUsername ?? '',
+                    password: credentials?.password ?? '',
                 };
 
-                return fetchLogin(payload)
+                return authLogin(payload)
                     .then((response) => {
-                        return response.data;
+                        return response.data as User;
                     })
                     .catch((err) => {
                         console.error(err.message);
@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
             if (token) {
                 session.user = token as unknown as User;
 
-                instanceAuth.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`
+                instanceAuth.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`;
             }
             return session;
         },
