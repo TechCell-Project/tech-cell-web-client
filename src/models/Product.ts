@@ -39,21 +39,11 @@ export class ProductRequest {
   descriptionImages: Array<ImageModel> = new Array<ImageModel>();
 }
 
-// export class ProductDataRequest {
-//   productData: ProductRequest = new ProductRequest();
-//   general: Array<any> = [];
-//   general_isthumbnail: Array<any> = [];
-// }
-
 export class ProductModel extends ProductRequest {
   _id: string | null = null;
   createdAt?: string;
   updatedAt?: string;
 }
-
-// export class ProductData extends PagingResponse {
-//   data: Array<ProductModel> = [];
-// }
 
 export class ProductSlice {
   products: PagingResponse<ProductModel> = new PagingResponse<ProductModel>();
