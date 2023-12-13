@@ -73,8 +73,6 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
     let response = NextResponse.next();
 
-    //console.log('response: ', response);
-
     if (shouldUpdateToken(token)) {
         try {
             const newToken = await refreshToken(token);
@@ -85,50 +83,26 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
                 if (newToken.statusCode === 403 || newToken.status === 403) {
                     return signOut(request);
                 }
-            } else {
-                const newSessionToken = await encode({
-                    secret: process.env.NEXTAUTH_SECRET as string,
-                    token: {
-                        ...token,
-                        accessToken: newToken.accessToken as string,
-                        refreshToken: newToken.refreshToken as string,
-                    },
-                    maxAge: 15 * 60 /* 15 mins */,
-                });
-
-                //console.log('newSessionToken', newSessionToken);
-
-                const size = 3933; // maximum size of each chunk
-                const regex = new RegExp('.{1,' + size + '}', 'g');
-
-                // split the string into an array of strings
-                const tokenChunks = RegExp(regex).exec(newSessionToken);
-
-                // set request cookies for the incoming getServerSession to read new session
-                if (tokenChunks) {
-                    tokenChunks.forEach((tokenChunk, index) => {
-                        response.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
-                    });
-                    // updated request cookies can only be passed to server if its passdown here after setting its updates
-                    const response = NextResponse.next({
-                        request: {
-                            headers: request.headers,
-                        },
-                    });
-
-                    // set response cookies to send back to browser
-                    tokenChunks.forEach((tokenChunk, index) => {
-                        response.cookies.set(`${sessionCookie}.${index}`, tokenChunk, {
-                            httpOnly: true,
-                            maxAge: 3 * 24 * 60 * 60, // 3 days
-                            secure: process.env.NODE_ENV === 'production',
-                            sameSite: 'lax',
-                        });
-                    });
-                }
             }
+
+            const newAccessToken = newToken.accessToken as string;
+            const newRefreshToken = newToken.refreshToken as string;
+
+            const newSessionToken = await encode({
+                secret: process.env.NEXTAUTH_SECRET as string,
+                token: {
+                    ...token,
+                    accessToken: newAccessToken,
+                    refreshToken: newRefreshToken,
+                },
+                maxAge: 15 * 60 /* 15 mins */,
+            });
+
+            console.log(newSessionToken);
+
+            response = updateCookie(newSessionToken, request, response);
         } catch (error) {
-            response.cookies.delete(sessionCookie);
+            response = updateCookie(null, request, response);
         }
     }
 
@@ -137,6 +111,7 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
 async function refreshToken(token: JWT) {
     const currentRefreshToken = token.refreshToken as string;
+    console.log('token expired', currentRefreshToken);
     const res = await fetch(API_ENDPOINT + '/auth/refresh-token', {
         method: 'POST',
         headers: {
@@ -147,6 +122,38 @@ async function refreshToken(token: JWT) {
     const response = await res.json();
 
     console.log('response: ', response);
+
+    return response;
+}
+
+function updateCookie(sessionToken: string | null, request: NextRequest, response: NextResponse) {
+    if (sessionToken) {
+        // set request cookies for the incoming getServerSession to read new session
+        request.cookies.set(sessionCookie, sessionToken);
+
+        // updated request cookies can only be passed to server if its passdown here after setting its updates
+        response = NextResponse.next({
+            request: {
+                headers: request.headers,
+            },
+        });
+
+        // set response cookies to send back to browser
+        response.cookies.set(sessionCookie, sessionToken, {
+            httpOnly: true,
+            maxAge: 15 * 60, // 15 mins
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+        });
+    } else {
+        request.cookies.delete(sessionCookie);
+        response = NextResponse.next({
+            request: {
+                headers: request.headers,
+            },
+        });
+        response.cookies.delete(sessionCookie);
+    }
 
     return response;
 }

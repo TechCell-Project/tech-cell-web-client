@@ -1,5 +1,5 @@
 import { ProductStatus } from '@constants/enum';
-import { ImageModel, PriceModel, ProductModel } from '@models/Product';
+import { ImageModel, PriceModel, ProductModel, VariationModel } from '@models/Product';
 import { AttributeDynamics } from '@models/Attribute';
 import { VariantStorage } from '@interfaces/product';
 import {
@@ -226,3 +226,13 @@ export function debounce<F extends (...args: any[]) => any>(func: F, waitFor: nu
         timeoutId = setTimeout(() => func(...args), waitFor);
     };
 }
+
+// Function to get unique attribute keys from all variations
+export const getUniqueAttributeKeys = (variations: VariationModel[]) =>
+Array.from(
+    new Set(
+        variations.flatMap((variation) =>
+            variation.attributes.map((attr) => attr.k),
+        ),
+    ),
+);

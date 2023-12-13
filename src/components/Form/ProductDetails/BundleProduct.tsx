@@ -27,8 +27,8 @@ const bundledItems = [
 export const BundleProduct = () => {
     return (
         <>
-            {bundledItems.map((bundleds) => (
-                <div key={bundleds.imgBundle} className={styles.product_bundled_content}>
+            {bundledItems.map((bundleds, index) => (
+                <div key={`${bundleds.imgBundle}/${index}`} className={styles.product_bundled_content}>
                     <div className={styles.product_bundled_left}>
                         <div className={styles.product_bundled_img}>
                             <Image src={bundleds.imgBundle} width={68} height={68} alt="" />

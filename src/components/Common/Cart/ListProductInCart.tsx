@@ -35,8 +35,7 @@ export default function ListProductInCart() {
     };
 
     return (
-        <>
-            <div className={styles.block_product}>
+        <div className={styles.block_product}>
                 <div className={styles.cart_header}>
                     <div className={styles.go_to_back}>
                         <ArrowBackIcon />
@@ -161,6 +160,5 @@ export default function ListProductInCart() {
                     </div>
                 </div>
             </div>
-        </>
     );
 }

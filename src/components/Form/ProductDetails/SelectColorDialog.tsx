@@ -27,21 +27,18 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 interface DialogButtonContent {
-    missingColor: boolean;
     productCart: AddCartItemModel;
 }
 
-const CustomizedDialogs: FC<DialogButtonContent> = ({ missingColor, productCart }) => {
+const CustomizedDialogs: FC<DialogButtonContent> = ({ productCart }) => {
     const dispatch = useAppDispatch();
     const [open, setOpen] = useState<{ title: string; isOpen: boolean }>({
         title: '',
         isOpen: false,
     });
 
-    console.log(productCart);
-
     const addCartClickOpen = async () => {
-        if (missingColor) {
+        if (productCart.sku === null) {
             setOpen({
                 title: 'Thêm vào giỏ hàng thất bại!',
                 isOpen: true,
@@ -63,7 +60,7 @@ const CustomizedDialogs: FC<DialogButtonContent> = ({ missingColor, productCart 
     };
 
     const buyNowClickOpen = () => {
-        if (missingColor) {
+        if (productCart.sku === null) {
             setOpen({
                 title: 'Mua ngay thất bại!',
                 isOpen: true,
@@ -100,7 +97,7 @@ const CustomizedDialogs: FC<DialogButtonContent> = ({ missingColor, productCart 
                 <DialogContent sx={{ width: '500px' }}>
                     <Stack spacing={3} alignItems="center" justifyContent="center">
                         <HighlightOffOutlinedIcon sx={{ fontSize: '180px', color: '#ee4949' }} />
-                        <Typography gutterBottom>Bạn chưa chọn màu sản phẩm</Typography>
+                        <Typography gutterBottom>Bạn chưa chọn đủ các thuộc tính</Typography>
                     </Stack>
                 </DialogContent>
                 <DialogActions>
