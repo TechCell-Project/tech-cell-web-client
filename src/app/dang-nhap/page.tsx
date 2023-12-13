@@ -19,7 +19,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FacebookRounded, Google, PhoneIphone } from '@mui/icons-material';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { Copyright } from '@components/Layout';
 import { useFormik } from 'formik';

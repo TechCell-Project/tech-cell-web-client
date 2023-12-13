@@ -13,10 +13,11 @@ import { getDetailsProduct } from '@store/slices/productSlice';
 interface CartItemPropsValues {
     itemData: CartItemModel;
     refreshCart: () => void;
+    isSelected: boolean;
     handleCheckBox: (id: string) => void;
 }
 
-const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, handleCheckBox }) => {
+const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelected, handleCheckBox }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -38,9 +39,10 @@ const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, handleCh
                 <>
                     <ItemCard
                         label={formatProductLabel(product)}
-                        currentVariant={getCurrentVariant(product, itemData.sku)}
+                        currentVariant={getCurrentVariant(product, itemData.sku!)}
                         itemData={itemData}
                         refreshCart={refreshCart}
+                        isChecked={isSelected}
                         handleCheckBox={handleCheckBox}
                     />
                     {isLoadingDetails && (

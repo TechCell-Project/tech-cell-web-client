@@ -56,11 +56,9 @@ export const ForgotPassword = (props: Props) => {
                     setIsActive(true);
                 }
                 toast.success(`Đã gửi mã OTP dến ${email}`);
-                // enqueueSnackbar(`Đã gửi mã OTP dến ${email}`, { variant: "success" });
             })
             .catch(
                 () => toast.error(`Có lỗi xảy ra, Gửi mã thất bại!`),
-                // enqueueSnackbar(`Có lỗi xảy ra, Gửi mã thất bại!`, { variant: "error" })
             );
     };
 
@@ -71,13 +69,11 @@ export const ForgotPassword = (props: Props) => {
         fetchVerifyForgotPassword(values)
             .then(() => {
                 toast.success('Đổi mật khẩu thành công!');
-                // enqueueSnackbar("Đổi mật khẩu thành công!", { variant: "success" });
                 resetForm();
                 props.handleClose();
             })
             .catch(
                 () => toast.error('Đổi mật khẩu thất bại!'),
-                // enqueueSnackbar("Đổi mật khẩu thất bại!", { variant: "error" })
             )
             .finally(() => {
                 setSubmitting(false);

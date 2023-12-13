@@ -41,7 +41,6 @@ const AddressItemList = (props: AddressItemListProps) => {
                 borderTop: '1px solid rgba(0,0,0,.09)',
                 paddingTop: '45px',
                 paddingBottom: '35px',
-                paddingLeft:'0px'
             }}
         >
             <Box

@@ -11,13 +11,14 @@ interface AddressListProps {
     userProfile: UserModel;
     triggerRefreshUserProfile: () => Promise<void>;
     handleCloseListItem: (value: boolean) => void;
+    handleSelectAddressIndex: (index: number) => void;
 }
 
 export function AddressList(props: Readonly<AddressListProps>) {
-    const DialogAddressUpdate = lazy(() => import('@components/Form/Common/DialogAddressUpdate'));
-    const AddressItemList = lazy(() => import('@components/Common/ItemList/AddressItemList'));
+    const DialogAddressUpdate = lazy(() => import('@components/Form/Common/AddressDialog/DialogAddressUpdate'));
+    const AddressItemList = lazy(() => import('@components/Common/Address/ItemList/AddressItemList'));
 
-    const { handleCloseListItem, triggerRefreshUserProfile, userProfile } = props;
+    const { handleCloseListItem, triggerRefreshUserProfile, userProfile, handleSelectAddressIndex } = props;
 
     const [checkedAddress, setCheckedAddress] = useState<number>(0);
     const [openAddressUpdate, setOpenAddressUpdate] = useState(false);
@@ -42,6 +43,7 @@ export function AddressList(props: Readonly<AddressListProps>) {
     const handleSelectAddress = (indexToUpdate: number, address: Address) => {
         console.log(indexToUpdate);
         setSelectedAddressToUpdateIndex(indexToUpdate);
+        handleSelectAddressIndex(indexToUpdate);
         setCurrentAddress(address);
     }
 

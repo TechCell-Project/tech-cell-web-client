@@ -1,31 +1,27 @@
 'use client';
 
+import 'react-toastify/dist/ReactToastify.css';
 import { ShowDialog } from '@components/Common/Display/DialogCustom';
 import { SelectInputCustom } from '@components/Common/FormFormik/SelectCustom';
 import { Box, Button, Grid } from '@mui/material';
-import { Form, Formik, FormikHelpers } from 'formik';
-import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
-import { AutocompleteCustom } from '@components/Common/FormFormik/AutocompleteCustom';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
+import { ToastContainer, toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 import { ProfileSchema } from 'validate/auth.validate';
 import { District, Location, Province, Ward } from '@models/Location';
+import { useAxiosAuth } from '@hooks/useAxiosAuth';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
+import { UserModel } from '@models/User.model';
 import { getDistricts, getWards, getProvinces } from '@services/LocationService';
-import { ProfileAddressRequest } from '@models/Profile';
-import { patchProfileAddress } from '@services/ProfileService';
-import { toastConfig } from '@constants/ToastMsgConfig';
-import { Address } from '@models/Account';
-import { useAppSelector } from '@store/store';
+import { AutocompleteCustom } from '@components/Common/FormFormik';
 
-interface DialogAddressUpdateProps {
+interface DialogAddressEditProps {
     isOpen: boolean;
     handleClose: () => void;
-    userThisAddress: Address;
+    userProfile: UserModel;
     triggerRefreshUserProfile: () => Promise<void>;
-    addressIndex: number | null;
-    setOpenListAddress?: (value: boolean) => void;
-    setOpenNewAddress?: (value: boolean) => void;
+    setOpenListAddress: (value: boolean) => void;
+    setOpenNewAddress: (value: boolean) => void;
 }
 
 const addressName = [
@@ -33,94 +29,85 @@ const addressName = [
     { name: 'Công ty', value: 'Công ty' },
 ];
 
-const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
-    isOpen,
-    handleClose,
-    userThisAddress,
-    triggerRefreshUserProfile,
-    addressIndex,
-    setOpenListAddress,
-    setOpenNewAddress,
-}) => {
+export const DialogAddressEdit = (props: DialogAddressEditProps) => {
+    const {
+        isOpen,
+        handleClose,
+        userProfile,
+        triggerRefreshUserProfile,
+        setOpenListAddress,
+        setOpenNewAddress,
+    } = props;
+
     const [provinces, setProvinces] = useState<Array<Province>>(new Array<Province>());
     const [districts, setDistricts] = useState<Array<District>>(new Array<District>());
     const [wards, setWards] = useState<Array<Ward>>(new Array<Ward>());
 
-    const { user } = useAppSelector((state) => state.auth);
+    const axiosAuth = useAxiosAuth();
 
-    useEffect(() => {
-        getProvinces()
-            .then(({data}) => {
-                setProvinces(data);
-            })
-            .catch(() => {
-                setProvinces(new Array<Province>());
-            });
-
-        if (userThisAddress.provinceLevel !== null) {
-            getDataDistricts(String((userThisAddress.provinceLevel as Province).province_id));
-        }
-
-        if (userThisAddress.districtLevel !== null) {
-            getDataWards(String((userThisAddress.districtLevel as District).district_id));
-        }
-    }, []);
-
-    const getDataDistricts = useCallback(async (province_id: string | undefined) => {
+    const getDataDistricts = async (province_id: string | undefined) => {
         const { data } = await getDistricts(province_id);
-
         if (data) {
             setDistricts(data);
         }
-    }, [provinces]); 
+    };
 
-    const getDataWards = useCallback(async (district_id: string | undefined) => {
+    const getDataWards = async (district_id: string | undefined) => {
         const { data } = await getWards(district_id);
         if (data) {
             setWards(data);
         }
-    }, [districts]);
-
-    const handleUpdateAddress = async (
-        addressUpdatedData: Address,
-        { setSubmitting }: FormikHelpers<Address>,
-    ) => {
-        let updateData = [...(user?.address as Address[])];
-
-        if (addressIndex === null) {
-            updateData.push(addressUpdatedData);
-        } else {
-            updateData[addressIndex] = addressUpdatedData;
-        }
-
-        const payload = new ProfileAddressRequest(updateData);
-
-        await patchProfileAddress(payload)
-            .then(() => {
-                toast.success(
-                    `${addressIndex !== null ? 'Cập nhật' : 'Thêm mới'} địa chỉ thành công!`,
-                    toastConfig,
-                );
-                triggerRefreshUserProfile();
-                if (setOpenListAddress && setOpenNewAddress) {
-                    setOpenNewAddress(false);
-                    setOpenListAddress(true);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                toast.error(
-                    `${addressIndex !== null ? 'Cập nhật' : 'Thêm mới'} địa chỉ thất bại!`,
-                    toastConfig,
-                );
-            })
-            .finally(() => {
-                setSubmitting(false);
-                handleClose();
-            });
     };
 
-    console.log(districts);
+    useEffect(() => {
+        getProvinces().then(({ data }) => {
+            setProvinces(data);
+        });
+        //triggerRefreshUserProfile();
+    }, []);
+
+    // useEffect(() => {
+    //     triggerRefreshUserProfile();
+    // }, [triggerRefreshUserProfile]);
+
+    function handleUpdateAddress(data: Location) {
+        const oldAddress = userProfile?.address ? userProfile.address : [];
+        const dataBody = {
+            address: [...oldAddress, data.address],
+        };
+        axiosAuth
+            .patch('/profile/address', dataBody)
+            .then((res) => {
+                if (res.status === 200) {
+                    toast.success('Cập nhật địa chỉ thành công', {
+                        position: 'top-center',
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'light',
+                    });
+
+                    setOpenNewAddress(false);
+                    setOpenListAddress(true);
+                    triggerRefreshUserProfile();
+                }
+            })
+            .catch(() => {
+                toast.error('Cập nhật địa chỉ thất bại', {
+                    position: 'top-center',
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light',
+                });
+            });
+    }
 
     return (
         <ShowDialog
@@ -129,97 +116,93 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
             dialogTitle="Địa chỉ mới"
             dialogStyle={{ minWidth: 560 }}
         >
+            <ToastContainer />
+
             <Formik
-                initialValues={userThisAddress}
+                initialValues={new Location()}
                 enableReinitialize
                 validationSchema={ProfileSchema}
-                onSubmit={handleUpdateAddress}
+                onSubmit={(values) => {
+                    handleUpdateAddress(values);
+                }}
             >
-                {({ setValues, errors, isSubmitting }) => (
+                {({ setValues, errors }) => (
                     <Form style={{ width: '100%' }}>
                         <Grid container spacing={2}>
                             <Grid item md={6}>
                                 <SelectInputCustom
-                                    name="addressName"
+                                    name="address.addressName"
                                     label={'Địa chỉ'}
                                     options={addressName}
                                 />
                             </Grid>
                             <Grid item md={6}>
-                                <TextFieldCustom name="customerName" label={'Họ và tên'} />
+                                <TextFieldCustom name="address.customerName" label={'Họ và tên'} />
                             </Grid>
                             <Grid item md={6}>
-                                <TextFieldCustom name="phoneNumbers" label={'Số điện thoại'} />
-                            </Grid>
-                            <Grid item md={6}>
-                                <AutocompleteCustom
-                                    isNotCheckbox
-                                    label="Chọn Thành Phố"
-                                    displaySelected="province_id"
-                                    displayLabel="province_name"
-                                    name={'provinceLevel'}
-                                    options={provinces}
-                                    handleChange={(value) => {
-                                        if (value !== null) {
-                                            getDataDistricts(
-                                                String((value as Province)?.province_id),
-                                            );
-                                        }
-                                        setValues((prev) => {
-                                            let newValue = {
-                                                ...prev,
-                                            };
-
-                                            newValue.provinceLevel = value;
-                                            newValue.districtLevel = null;
-                                            newValue.wardLevel = null;
-
-                                            return newValue;
-                                        });
-                                        getDataDistricts(String((value as Province)?.province_id!));
-                                    }}
+                                <TextFieldCustom
+                                    name="address.phoneNumbers"
+                                    label={'Số điện thoại'}
                                 />
                             </Grid>
                             <Grid item md={6}>
                                 <AutocompleteCustom
-                                    isNotCheckbox
-                                    label="Chọn Quận / Huyện"
-                                    displaySelected="district_name"
-                                    displayLabel="district_name"
-                                    name={'districtLevel'}
-                                    options={districts}
-                                    handleChange={(value) => {
-                                        if (value !== null) {
-                                            getDataWards(String((value as District).district_id));
-                                        }
+                                    label="Chọn Thành Phố"
+                                    displaySelected="province_id"
+                                    displayLabel="province_name"
+                                    name={'address.provinceLevel'}
+                                    options={provinces}
+                                    handleChange={async (value) => {
                                         setValues((prev) => {
                                             const newValue = {
                                                 ...prev,
                                             };
 
-                                            newValue.districtLevel = value;
-                                            newValue.wardLevel = null;
+                                            newValue.address.provinceLevel = value;
+                                            newValue.address.districtLevel = null;
+                                            newValue.address.wardLevel = null;
 
                                             return newValue;
                                         });
-                                        getDataWards(String((value as District)?.district_id!));
+                                        getDataDistricts((value as Province)?.province_id!);
                                     }}
                                 />
                             </Grid>
                             <Grid item md={6}>
                                 <AutocompleteCustom
-                                    isNotCheckbox
+                                    label="Chọn Quận / Huyện"
+                                    displaySelected="district_name"
+                                    displayLabel="district_name"
+                                    name={'address.districtLevel'}
+                                    options={districts}
+                                    handleChange={(value) => {
+                                        setValues((prev) => {
+                                            const newValue = {
+                                                ...prev,
+                                            };
+
+                                            newValue.address.districtLevel = value;
+                                            newValue.address.wardLevel = null;
+
+                                            return newValue;
+                                        });
+                                        getDataWards((value as District)?.district_id!);
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item md={6}>
+                                <AutocompleteCustom
                                     label="Chọn Thị / Xã"
                                     displaySelected="ward_name"
                                     displayLabel="ward_name"
-                                    name={'wardLevel'}
+                                    name={'address.wardLevel'}
                                     options={wards}
                                 />
                             </Grid>
 
                             <Grid item md={12}>
                                 <TextFieldCustom
-                                    name="detail"
+                                    name="address.detail"
                                     label={'Địa chỉ cụ thể'}
                                     isTextArea
                                     minRowArea={3}
@@ -234,6 +217,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                 justifyContent: 'flex-end',
                                 alignItems: 'center',
                                 marginTop: '10px',
+                                fontSize:{xs:'12px',sm:'15px'}
                             }}
                         >
                             <Button
@@ -247,7 +231,6 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                 Hủy
                             </Button>
                             <Button
-                                disabled={isSubmitting}
                                 type="submit"
                                 sx={{
                                     borderRadius: '5px',
@@ -269,5 +252,3 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
         </ShowDialog>
     );
 };
-
-export default DialogAddressUpdate;
