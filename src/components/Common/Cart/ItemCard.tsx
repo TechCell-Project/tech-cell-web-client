@@ -106,13 +106,14 @@ export const ItemCard = (props: productDataProps) => {
                 <div className={styles.product_info}>
                     <div className={styles.product_text}>
                         <div className={styles.product_heading}>{label.name}</div>
+                        <div className={styles.product_attribute}>{currentVariant.attributes[0].v}</div>
                         <div className={styles.product_price}>
                             <div className={styles.product_price_new}>
-                                {currencyFormat(currentVariant.price.sale * itemData.quantity)}
+                                {currencyFormat(currentVariant.price.sale * itemData.quantity)} VND
                             </div>
                             <div className={styles.product_price_old}>
                                 <span>
-                                    {currencyFormat(currentVariant.price.base * itemData.quantity)}
+                                    {currencyFormat(currentVariant.price.base * itemData.quantity)} VND
                                 </span>
                             </div>
                         </div>
