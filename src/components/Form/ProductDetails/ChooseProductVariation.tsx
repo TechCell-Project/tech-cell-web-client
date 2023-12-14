@@ -99,7 +99,6 @@ function ChooseProductVariation({
                     </div>
                     <div className={styles.product_internal_}>
                         {Array.from(attributes.values()).map((attribute) => {
-                            // Create a new object that contains all the selected attributes except the current one
                             const selectedAttributesForOtherKeys = Object.entries(
                                 selectedAttributes,
                             )
@@ -109,7 +108,6 @@ function ChooseProductVariation({
                                     return obj;
                                 }, {} as Record<string, AttributeDynamics>);
 
-                            // Filter the product variations to only include those that have all the selected attributes
                             const variationsWithSelectedAttributesForOtherKeys = variations.filter(
                                 (variation) =>
                                     Object.values(selectedAttributesForOtherKeys).every(
@@ -137,7 +135,6 @@ function ChooseProductVariation({
 
                             console.log(variantThumbnail);
 
-                            // Check if the current attribute is in the selected variations
                             const isAttributeInVariations =
                                 variationsWithSelectedAttributesForOtherKeys.some((variation) =>
                                     variation.attributes.some(
@@ -148,16 +145,8 @@ function ChooseProductVariation({
                                 );
 
                             const isSelected = selectedAttributes[attribute.k]?.v === attribute.v;
-                            // const numberOfAttributesSelected =
-                            //     Object.entries(selectedAttributes).length;
 
                             const isSelectable = index === 0 ? true : !!isAttributeInVariations;
-
-                            // if (numberOfAttributesSelected > 0 && numberOfAttributesSelected < attributeAmountNeedToSelect) {
-                            //     if (!isSelected) {
-                            //         handleAttributeSelection(attribute);
-                            //     }
-                            // }
 
                             let classNameOfButton = isSelected ? styles.activeInternal : '';
                             classNameOfButton += !isSelectable ? ' ' + styles.blurInternal : '';
@@ -171,14 +160,6 @@ function ChooseProductVariation({
                                     disabled={!isSelectable}
                                 >
                                     <div className={styles.product_internal_block}>
-                                        {/* {variantThumbnail !== undefined && (
-                                            <Image
-                                                src={variantThumbnail.url.toString()}
-                                                width={30}
-                                                height={30}
-                                                alt=""
-                                            />
-                                        )} */}
                                         <div className={styles.product_internal_text}>
                                             <p>{upperCaseF(attribute.v)}{' '}{attribute.u}</p>
                                             <p>{' '}</p>
@@ -190,7 +171,6 @@ function ChooseProductVariation({
                     </div>
                 </Fragment>
             ))}
-            {/* {selectedVariation && <div>Selected SKU: {selectedVariation}</div>} */}
         </div>
     );
 }

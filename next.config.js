@@ -36,6 +36,10 @@ const nextConfig = {
         // },
     },
 
+    transpilePackages :[
+        "@TechCell-Project/tech-cell-server-node-sdk"
+    ],
+
     webpack(config) {
         config.module.rules.push({
             test: /\.svg$/,
