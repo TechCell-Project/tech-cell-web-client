@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -9,10 +9,11 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import styles from '@styles/components/productdetail.module.scss';
-import { addItemToCart } from '@store/slices/cartSlice';
-import { useAppDispatch } from '@store/store';
+import { addItemToCart, authAddItemToCart } from '@store/slices/cartSlice';
+import { useAppDispatch, useAppSelector } from '@store/store';
 import { toast } from 'react-toastify';
-import { AddCartItemModel } from '@models/Cart';
+import { AddCartItemModel, CartItemModel } from '@models/Cart';
+import { useAxiosAuth } from '@hooks/useAxiosAuth';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -31,11 +32,24 @@ interface DialogButtonContent {
 }
 
 const CustomizedDialogs: FC<DialogButtonContent> = ({ productCart }) => {
+    const axiosAuth = useAxiosAuth();
     const dispatch = useAppDispatch();
+
+    const [currentCartData, setCurrentCartData] = useState<CartItemModel[] | null>(null);
     const [open, setOpen] = useState<{ title: string; isOpen: boolean }>({
         title: '',
         isOpen: false,
     });
+
+    const { carts } = useAppSelector((state) => state.cart);
+
+    useEffect(() => {
+        if (carts) {
+            setCurrentCartData(carts.products);
+        }
+    }, [carts]);
+
+    console.log(currentCartData);
 
     const addCartClickOpen = async () => {
         if (productCart.sku === null) {
@@ -44,8 +58,20 @@ const CustomizedDialogs: FC<DialogButtonContent> = ({ productCart }) => {
                 isOpen: true,
             });
         } else {
+            const productToAdd = currentCartData?.find(
+                (item) => item.productId === productCart.productId && item.sku === productCart.sku,
+            );
+
+            console.log(productToAdd);
             try {
-                const response = await dispatch(addItemToCart(productCart));
+                const response = await dispatch(
+                    authAddItemToCart(
+                        productToAdd
+                            ? { ...productCart, quantity: productToAdd.quantity + 1 }
+                            : productCart,
+                        axiosAuth,
+                    ),
+                );
 
                 console.log(response);
                 if (response?.success) {

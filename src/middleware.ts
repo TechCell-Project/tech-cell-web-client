@@ -119,7 +119,9 @@ async function refreshToken(token: JWT) {
         },
         body: JSON.stringify({ refreshToken: currentRefreshToken }),
     });
-    const response = await res.json();
+    const response = await res.json().catch((error) => {
+        console.log(error);
+    });
 
     console.log('response: ', response);
 

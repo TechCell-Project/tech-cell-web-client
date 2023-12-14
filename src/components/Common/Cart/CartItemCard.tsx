@@ -15,9 +15,10 @@ interface CartItemPropsValues {
     refreshCart: () => void;
     isSelected: boolean;
     handleCheckBox: (id: string) => void;
+    passThisItemPrice: (id: string, sku: string, price: number) => void;
 }
 
-const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelected, handleCheckBox }) => {
+const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelected, handleCheckBox, passThisItemPrice }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -39,11 +40,12 @@ const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelect
                 <>
                     <ItemCard
                         label={formatProductLabel(product)}
-                        currentVariant={getCurrentVariant(product, itemData.sku)}
+                        currentVariant={getCurrentVariant(product, itemData.sku!)}
                         itemData={itemData}
                         refreshCart={refreshCart}
                         isChecked={isSelected}
                         handleCheckBox={handleCheckBox}
+                        passThisItemPrice={passThisItemPrice}
                     />
                     {isLoadingDetails && (
                         <SkeletionCartItem />

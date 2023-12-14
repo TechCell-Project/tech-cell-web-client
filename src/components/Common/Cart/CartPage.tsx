@@ -26,6 +26,12 @@ interface CartsProps {
     userCartData: CartModel | null;
 }
 
+type CartItemPrice = {
+    itemId: string,
+    sku: string,
+    price: number,
+}
+
 const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
     const dispatch = useAppDispatch();
@@ -35,6 +41,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const [pagingData, setPagingData] = useState<Paging>(new Paging());
     const [checkedList, setCheckedList] = useState<string[]>([]);
     const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
+    const [totalAmount, setTotalAmount] = useState<CartItemPrice[]>([]);
 
     useSkipFirstRender(() => {
         dispatch(getCartItems(pagingData));
@@ -43,6 +50,20 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
     useSkipFirstRender(() => {
         setThisCart(carts);
     }, [carts]);
+
+    const handleCalculateTotal = (id: string, sku: string, price: number) => {
+        let currentAmount = totalAmount;
+        const itemAmount = currentAmount.findIndex((item) => item.itemId === id && item.sku === sku);
+        if (itemAmount !== -1) {
+            currentAmount.splice(itemAmount, 1);
+        }
+        currentAmount.push({
+            itemId: id,
+            sku,
+            price,
+        });
+        setTotalAmount(currentAmount);
+    }
 
     const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
         let arr: string[] = [];
@@ -190,6 +211,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                                     `${item.productId}/${item.sku}/${item.quantity}`,
                                                 )}
                                                 handleCheckBox={handleCheckProduct}
+                                                passThisItemPrice={handleCalculateTotal}
                                             />
                                         ))}
                                         <CartPromotions />
@@ -207,6 +229,13 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                     handleShowMsg(checkedList.length !== 0);
                                 }}
                                 saveSelectedProducts={saveProductQuery}
+                                totalPrice={() => {
+                                    let total = 0;
+                                    totalAmount.forEach((item) => {
+                                        total += item.price;
+                                    });
+                                    return total;
+                                }}
                             />
                         </Box>
                     )}

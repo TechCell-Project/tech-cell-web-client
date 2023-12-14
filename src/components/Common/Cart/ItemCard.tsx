@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -8,10 +8,10 @@ import styles from '@styles/components/cart.module.scss';
 import { AddCartItemModel, CartItemModel } from '@models/Cart';
 import { currencyFormat } from 'utils';
 
-import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
 import { useAppDispatch } from '@store/store';
 import { addItemToCart } from '@store/slices/cartSlice';
 
+import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { toast } from 'react-toastify';
@@ -25,10 +25,19 @@ type productDataProps = {
     refreshCart: () => void;
     isChecked: boolean;
     handleCheckBox: (id: string) => void;
+    passThisItemPrice: (id: string, sku: string, price: number) => void;
 };
 
 export const ItemCard = (props: productDataProps) => {
-    const { label, currentVariant, itemData, refreshCart, isChecked, handleCheckBox } = props;
+    const {
+        label,
+        currentVariant,
+        itemData,
+        refreshCart,
+        isChecked,
+        handleCheckBox,
+        passThisItemPrice,
+    } = props;
 
     const dispatch = useAppDispatch();
 
@@ -36,21 +45,33 @@ export const ItemCard = (props: productDataProps) => {
 
     const [totalAmount, setTotalAmount] = useState<number>(0);
 
-    useSkipFirstRender(() => {
+    useEffect(() => {
         if (updateInfo) {
             const timer1 = setTimeout(() => {
                 dispatch(addItemToCart(updateInfo));
-    
+
                 const timer2 = setTimeout(() => {
                     refreshCart();
                 }, 300);
-    
+
                 return () => clearTimeout(timer2);
             }, 600);
-    
+
             return () => clearTimeout(timer1);
         }
     }, [updateInfo]);
+
+    useEffect(() => {
+        setTotalAmount(
+            currentVariant.price.sale
+                ? currentVariant.price.sale * itemData.quantity
+                : currentVariant.price.base * itemData.quantity,
+        );
+    }, [currentVariant, itemData]);
+
+    useEffect(() => {
+        passThisItemPrice(itemData.productId!, itemData.sku!, totalAmount);
+    }, [totalAmount]);
 
     const handleUpdateQuantity = (quantityUpdate: number) => {
         const currentQuantity = updateInfo !== null ? updateInfo.quantity : itemData.quantity;
@@ -71,7 +92,7 @@ export const ItemCard = (props: productDataProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         handleCheckBox(`${itemData.productId}/${itemData.sku}/${itemData.quantity}`);
-    }
+    };
 
     return (
         <div className={styles.cart_content}>
@@ -97,12 +118,10 @@ export const ItemCard = (props: productDataProps) => {
                 <div className={styles.product_info}>
                     <div className={styles.product_text}>
                         <div className={styles.product_heading}>{label.name}</div>
-                        {currentVariant.attributes.map((attribute)=>(
+                        {currentVariant.attributes.map((attribute) => (
                             <div key={attribute.k}>
                                 <div>{attribute.v}</div>
-                                {attribute?.u && (
-                                    <div>{attribute.u}</div>
-                                ) }
+                                {attribute?.u && <div>{attribute.u}</div>}
                             </div>
                         ))}
                         <div className={styles.product_price}>
@@ -124,7 +143,9 @@ export const ItemCard = (props: productDataProps) => {
                         >
                             -
                         </button>
-                        <div className={styles.product_quanity_number}>{updateInfo ? updateInfo.quantity : itemData.quantity}</div>
+                        <div className={styles.product_quanity_number}>
+                            {updateInfo ? updateInfo.quantity : itemData.quantity}
+                        </div>
                         <button
                             type="button"
                             className={styles.product_quanity_btn}
@@ -136,7 +157,13 @@ export const ItemCard = (props: productDataProps) => {
                 </div>
 
                 <div className={styles.product_cart_delete}>
-                    <DeleteIcon />
+                    <IconButton
+                        aria-label="delete"
+                        color="primary"
+                        onClick={() => setUpdateInfo({ ...itemData, quantity: 0 })}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
                 </div>
             </div>
         </div>

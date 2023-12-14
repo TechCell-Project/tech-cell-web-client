@@ -16,6 +16,7 @@ import { AddressList } from '../Address/Lists/AddressList';
 import Link from 'next/link';
 import DialogAddressUpdate from '@components/Form/Common/AddressDialog/DialogAddressUpdate';
 import { useRouter } from 'next/navigation';
+import { currencyFormat } from 'utils';
 
 const BoxBuying = styled(Box)(() => ({
     position: 'sticky',
@@ -47,12 +48,14 @@ interface CartFooterProps {
     isSelectedProduct: boolean;
     handleShowMsg: () => void;
     saveSelectedProducts: (e: MouseEvent<HTMLElement>) => void;
+    totalPrice: () => number;
 }
 
 const CartFooterInfomation: FC<CartFooterProps> = ({
     isSelectedProduct,
     handleShowMsg,
     saveSelectedProducts,
+    totalPrice,
 }) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -130,7 +133,7 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
     return (
         <BoxBuying>
             <Box className="cart_buy_content">
-                <Box>Tạm tính : 0đ</Box>
+                <Box>Tạm tính: {currencyFormat(totalPrice())}đ</Box>
                 <Box className="cart_buy_now">
                     <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
                         Mua ngay
