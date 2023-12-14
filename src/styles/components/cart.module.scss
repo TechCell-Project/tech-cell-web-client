@@ -74,10 +74,6 @@
             font-size: 14px;
             .product_heading {
                 margin-bottom: 10px;
-                @include responsive(max_sm) {
-                    margin-bottom: 5px;
-                    font-size: 12px;
-                }
             }
         }
     }
@@ -112,9 +108,16 @@
     }
 }
 
+.product_attribute{
+    margin-bottom: 10px;
+    color: #747677;
+}
+.product_price{
+    display: flex;
+    align-items: center;
+}
 .product_price_new {
     color: #ee4949;
-    margin-bottom: 10px;
     font-size: 15px;
     @include responsive(max_sm) {
         margin-bottom: 5px;
@@ -122,6 +125,7 @@
     }
 }
 .product_price_old {
+    margin-left: 10px;
     font-size: 12px;
     @include responsive(max_sm) {
         font-size: 10px;

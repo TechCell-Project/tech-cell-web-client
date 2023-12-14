@@ -189,12 +189,6 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                                                     )}{' '}
                                                                 % Discount
                                                             </div>
-                                                            {/* <div className={styles.product_sold}>
-                                                    <AttachMoneyIcon />
-                                                    <strong>
-                                                        {productDemo.sold} <span>Products Sold</span>
-                                                    </strong>
-                                                </div> */}
                                                         </div>
                                                     </div>
                                                 </>

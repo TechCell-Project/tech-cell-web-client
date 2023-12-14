@@ -39,7 +39,7 @@ const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelect
                 <>
                     <ItemCard
                         label={formatProductLabel(product)}
-                        currentVariant={getCurrentVariant(product, itemData.sku)}
+                        currentVariant={getCurrentVariant(product, itemData.sku!)}
                         itemData={itemData}
                         refreshCart={refreshCart}
                         isChecked={isSelected}

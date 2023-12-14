@@ -35,11 +35,12 @@ const AddressItemList = (props: AddressItemListProps) => {
     return (
         <Box
             sx={{
-                display: {xs:'block' , sm:'flex'},
+                display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 borderTop: '1px solid rgba(0,0,0,.09)',
-                padding:{sm:'30px 0px 30px 0px' ,xs:'15px 0px 15px 0px'}
+                paddingTop: '45px',
+                paddingBottom: '35px',
             }}
         >
             <Box
@@ -71,7 +72,6 @@ const AddressItemList = (props: AddressItemListProps) => {
                             sx={{
                                 borderRight: '1px solid rgba(0,0,0,.09)',
                                 paddingRight: '15px',
-                                fontSize:{xs:'12px',sm:'15px'}
                             }}
                         >
                             {address?.customerName}
@@ -101,14 +101,13 @@ const AddressItemList = (props: AddressItemListProps) => {
                 </Box>
             </Box>
 
-            <Box sx={{ width: {sm :'25%' , xs:'auto'},display:{xs:'flex'},justifyContent:{xs:'center'},paddingTop:{xs:'10px'} }}>
+            <Box sx={{ width: '25%' }}>
                 <Button
                     onClick={() => {
                         // handleCloseListItem(false);
                         setLengthAddress(true);
                         selectedAddressToUpdateIndex(addressIndex, address);
                     }}
-                    sx={{fontSize:{xs:'12px',sm:'15px'}}}
                 >
                     Cập nhật
                 </Button>
