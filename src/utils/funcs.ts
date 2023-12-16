@@ -16,13 +16,13 @@ import { UserModel } from '@models/Profile';
 // common functions
 export const getRole = (role?: string | null) => {
     switch (role) {
-        case 'User':
+        case 'User' || 'User'.toLowerCase():
             return 'Khách hàng';
-        case 'Admin':
+        case 'Admin' || 'Admin'.toLowerCase():
             return 'Quản trị viên';
-        case 'Mod':
+        case 'Mod' || 'Mod'.toLowerCase():
             return 'Điều hành viên';
-        case 'SuperAdmin':
+        case 'SuperAdmin' || 'SuperAdmin'.toLowerCase():
             return 'Quản lý';
         default:
             return '';

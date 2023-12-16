@@ -9,8 +9,9 @@ import Stack from '@mui/material/Stack';
 export const LoadingPage = () => {
 
     return (
-        <Box marginTop="20px">
-            <Container maxWidth="lg">
+        <Box marginTop='20px'>
+            {/*<Container maxWidth="lg">*/}
+            <Container sx={{ maxWidth: '1320px !important' }}>
                 <Stack
                     sx={{
                         minHeight: '80vh',
@@ -20,7 +21,7 @@ export const LoadingPage = () => {
                     spacing={3}
                 >
                     <MoonLoader color='#ee4949' speedMultiplier={0.75} size={60} />
-                    <Typography variant="subtitle1">Đang tải ...</Typography>
+                    <Typography variant='subtitle1'>Đang tải ...</Typography>
                 </Stack>
             </Container>
         </Box>
