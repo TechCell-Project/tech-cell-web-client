@@ -17,6 +17,7 @@ export const AccordionComponent = (props: Props) => {
     return (
         <>
             <Accordion sx={{
+                boxShadow: 'unset !important',
                 '&.Mui-expanded': {
                     m: 0,
                 },
