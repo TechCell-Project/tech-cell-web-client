@@ -1,8 +1,8 @@
 import { PagingResponse } from './Common';
 
 export class AddCartItemModel {
-    productId: string = '';
-    sku: string = '';
+    productId: string | null = null;
+    sku: string | null = null;
     quantity: number = 0;
 }
 

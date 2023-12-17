@@ -24,21 +24,21 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     const session = await getNextAuthSession();
     return (
         <html lang="en">
-        <head>
-            <link rel="icon" href='/public/favicon.ico' />
-        </head>
-        <body className={`${montserrat.className} ${styles.body}`}>
-        <ToastContainer theme='colored' autoClose={3000} newestOnTop closeOnClick position='top-right' />
-        <NextAuthProvider {...(session ?? {})}>
-            <ThemeProviderMui>
-                <ReduxProvider>
-                    <HeaderClient />
-                    <div style={{ minHeight: '60vh'}}>{children}</div>
-                    <FooterClient />
-                </ReduxProvider>
-            </ThemeProviderMui>
-        </NextAuthProvider>
-        </body>
+            <head>
+                <link rel="icon" href='/public/favicon.ico' />
+            </head>
+            <body className={`${montserrat.className} ${styles.body}`}>
+                <ToastContainer theme='colored' autoClose={3000} newestOnTop closeOnClick position='top-right' />
+                <NextAuthProvider {...(session ?? {})}>
+                    <ThemeProviderMui>
+                        <ReduxProvider>
+                            <HeaderClient />
+                            <div style={{ minHeight: '60vh'}}>{children}</div>
+                            <FooterClient />
+                        </ReduxProvider>
+                    </ThemeProviderMui>
+                </NextAuthProvider>
+            </body>
         </html>
     );
 }
