@@ -1,3 +1,5 @@
+@import '../base/variables';
+
 .body {
     padding-right: 0px !important;
 }
@@ -19,18 +21,6 @@
     align-items: center;
     justify-content: center;
     color: #fff;
-}
-
-// Button modal search
-
-.button_search {
-    background-color: #ee4949;
-    color: #eaeaea;
-    width: 125px;
-    padding: 10px;
-    margin: 10px auto;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 // DrawerLayout Css

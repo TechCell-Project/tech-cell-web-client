@@ -4,7 +4,7 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Stack  from '@mui/material/Stack';
+import Stack from '@mui/material/Stack';
 import { BreadCrumbs } from '@components/Layout';
 
 import BrandScrolling from './BrandScrolling';
@@ -36,8 +36,8 @@ const Products: FC<ProductsPageProps> = ({ className }) => {
 
     useEffect(() => {
         dispatch(getAllProduct(searchProduct));
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchProduct]);
 
     useEffect(() => {
@@ -69,8 +69,9 @@ const Products: FC<ProductsPageProps> = ({ className }) => {
     ) : (
         <>
             <BreadCrumbs />
-            <Box marginTop="20px">
-                <Container maxWidth="lg">
+            <Box marginTop='20px'>
+                {/*<Container maxWidth="lg">*/}
+                <Container sx={{ maxWidth: '1320px !important' }}>
                     <Stack spacing={3}>
                         <Box sx={{ overflowX: 'auto' }}>
                             <BrandScrolling className={styles.list_brands.toString()} />

@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@TechCell-Project/tech-cell-server-node-sdk@Techcell-project/tech-cell-server-node-sdk":
-  version "0.0.1-a016ac7"
-  resolved "https://codeload.github.com/Techcell-project/tech-cell-server-node-sdk/tar.gz/d2405230a38a4546bc33ba1597c13a08703b12ee"
+"@TechCell-Project/tech-cell-server-node-sdk@TechCell-Project/tech-cell-server-node-sdk":
+  version "0.0.1-984f8c4"
+  resolved "https://codeload.github.com/TechCell-Project/tech-cell-server-node-sdk/tar.gz/60c7770a1c6eb853494e771aef5e109b49542d40"
 
 "@aashutoshrathi/word-wrap@^1.2.3":
   version "1.2.6"

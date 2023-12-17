@@ -6,10 +6,9 @@ import { ThemeProviderMui } from 'components/Provider';
 import styles from '../styles/components/button.module.scss';
 import { ReduxProvider } from '@components/Provider/ReduxProvider';
 import NextAuthProvider from '@components/Provider/NextAuthProvider';
+import { getSession } from 'next-auth/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
@@ -18,8 +17,7 @@ export const metadata: Metadata = {
 };
 
 export async function getNextAuthSession() {
-    const session = await getServerSession(authOptions);
-    return session;
+    return await getSession();
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

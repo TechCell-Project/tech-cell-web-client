@@ -3,6 +3,11 @@ import NextAuth from 'next-auth';
 
 // interface IAddress extends Address {}
 
+interface IUserAvatar {
+    publicId: string;
+    url: string;
+}
+
 interface IUserToken {
     _id: string;
     email: string;
@@ -12,6 +17,7 @@ interface IUserToken {
     role: string;
     accessToken: string;
     refreshToken: string;
+    avatar: IUserAvatar;
 }
 
 declare module 'next-auth' {

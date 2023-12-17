@@ -9,8 +9,9 @@ import Stack from '@mui/material/Stack';
 export const LoadingPage = ({ isLoading }: { isLoading?: boolean }) => {
 
     return (
-        <Box marginTop="20px">
-            <Container maxWidth="lg">
+        <Box marginTop='20px'>
+            {/*<Container maxWidth="lg">*/}
+            <Container sx={{ maxWidth: '1320px !important' }}>
                 <Stack
                     sx={{
                         minHeight: '80vh',

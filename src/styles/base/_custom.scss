@@ -12,3 +12,33 @@
 .MuiChip-root {
   font-weight: 600;
 }
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded {
+  box-shadow: 0 8px 45px #03004717;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary {
+  box-shadow: 0 4px 40px #0000001a;
+  background-color: #fff;
+
+  .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular {
+    min-height: 68px;
+  }
+}
+
+.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary {
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.MuiToolbar-root {
+  .MuiButtonBase-root.MuiIconButton-root.MuiIconButton-edgeStart.MuiIconButton-sizeMedium {
+    width: 40px;
+    height: 40px;
+    background-color: $primaryLightColor;
+    color: $primaryColor;
+    margin-left: unset;
+    border-radius: .5rem;
+  }
+}

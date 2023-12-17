@@ -1,7 +1,11 @@
 import React from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Link } from '@mui/material';
+import Link from 'next/link';
+import styles from '@styles/components/accordion.module.scss';
 
 interface Props {
     content: string;
@@ -12,36 +16,38 @@ interface Props {
 export const AccordionComponent = (props: Props) => {
     return (
         <>
-            {props.icon && props.icon}
-            <Accordion>
+            <Accordion sx={{
+                '&.Mui-expanded': {
+                    m: 0,
+                },
+                '&::before': {
+                    display: 'none',
+                    position: 'unset !important',
+                },
+            }}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
                     sx={{
-                        border:'1px solid #ee4949',
-                        borderRadius:'5px'
+                        padding: '10px 0',
+                        '& .MuiAccordionSummary-content': {
+                            m: '0px !important',
+                            gap: '20px',
+                        },
                     }}
                 >
-                    <Typography sx={{boxShadow:'none', color: '#ee4949' }}>{props.content}</Typography>
+                    {props.icon && props.icon}
+                    <Typography fontSize='15px' fontWeight={500}>{props.content}</Typography>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={{ maxHeight: '230px', overflow: 'auto' }}>
                     {props.options &&
                         props.options.map((item, i) => (
-                            <Box key={i} sx={{
-                                marginTop: '10px',
-                            }}>
-                                <Link
-                                    sx={{
-                                        textDecoration: 'none',
-                                        color: '#ee4949',
-                                        fontSize:'13px'
-                                    }}
-                                    href={item.to}
-                                >
-                                    {item.label}
-                                </Link>
-                            </Box>
+                            <Link
+                                href={item?.to}
+                                key={i}
+                                className={styles.accordion_link}
+                            >
+                                • {item.label}
+                            </Link>
                         ))}
                 </AccordionDetails>
             </Accordion>
