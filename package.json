@@ -10,7 +10,7 @@
     "clean": "rimraf ./node_modules"
   },
   "dependencies": {
-    "@TechCell-Project/tech-cell-server-node-sdk": "Techcell-project/tech-cell-server-node-sdk",
+    "@TechCell-Project/tech-cell-server-node-sdk": "TechCell-Project/tech-cell-server-node-sdk",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "5.14.19",
