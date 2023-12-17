@@ -10,7 +10,7 @@ import { getSession } from 'next-auth/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
+// const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
 export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
@@ -27,7 +27,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <head>
                 <link rel="icon" href='/public/favicon.ico' />
             </head>
-            <body className={`${montserrat.className} ${styles.body}`}>
+{/*             <body className={`${montserrat.className} ${styles.body}`}> */}
+            <body className={`${styles.body}`}>
                 <ToastContainer theme='colored' autoClose={3000} newestOnTop closeOnClick position='top-right' />
                 <NextAuthProvider {...(session ?? {})}>
                     <ThemeProviderMui>
