@@ -1,15 +1,14 @@
 import { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
-import { FooterClient, HeaderClient } from 'components/Navigation';
+import { HeaderClient, FooterClient } from 'components/Navigation';
 import 'styles/base/index.scss';
 import { ThemeProviderMui } from 'components/Provider';
-import styles from '@styles/components/button.module.scss';
+import styles from '../styles/components/button.module.scss';
 import { ReduxProvider } from '@components/Provider/ReduxProvider';
 import NextAuthProvider from '@components/Provider/NextAuthProvider';
 import { getSession } from 'next-auth/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Session } from 'next-auth';
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
@@ -30,7 +29,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             </head>
             <body className={`${montserrat.className} ${styles.body}`}>
                 <ToastContainer theme='colored' autoClose={3000} newestOnTop closeOnClick position='top-right' />
-                <NextAuthProvider session={session as Session}>
+                <NextAuthProvider {...(session ?? {})}>
                     <ThemeProviderMui>
                         <ReduxProvider>
                             <HeaderClient />

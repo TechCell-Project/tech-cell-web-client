@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@TechCell-Project/tech-cell-server-node-sdk@Techcell-project/tech-cell-server-node-sdk":
+  version "0.0.1-a016ac7"
+  resolved "https://codeload.github.com/Techcell-project/tech-cell-server-node-sdk/tar.gz/d2405230a38a4546bc33ba1597c13a08703b12ee"
+
 "@aashutoshrathi/word-wrap@^1.2.3":
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"

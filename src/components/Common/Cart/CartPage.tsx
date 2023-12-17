@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getCartItems } from '@store/slices/cartSlice';
@@ -30,33 +30,63 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
     const dispatch = useAppDispatch();
 
-    const { carts, isLoading } = useAppSelector((state) => state.cart);
+    const { carts } = useAppSelector((state) => state.cart);
 
     const [pagingData, setPagingData] = useState<Paging>(new Paging());
     const [checkedList, setCheckedList] = useState<string[]>([]);
-
-    useSkipFirstRender(() => {
-        setThisCart(carts);
-    }, [carts]);
+    const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
 
     useSkipFirstRender(() => {
         dispatch(getCartItems(pagingData));
     }, [pagingData]);
 
-    // const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCheckedList(carts.products.map((item) => item.productId));
-    // };
+    useSkipFirstRender(() => {
+        setThisCart(carts);
+    }, [carts]);
+
+    const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let arr: string[] = [];
+        if (checkedList.length !== thisCart?.products.length) {
+            arr = thisCart?.products.map(
+                (product) => `${product.productId}/${product.sku}/${product.quantity}`,
+            ) as string[];
+        }
+        setCheckedList(arr);
+        handleShowMsg(true);
+    };
 
     const handleRefreshCart = () => {
         dispatch(getCartItems(pagingData));
     };
 
     const handleCheckProduct = (id: string) => {
-        let list = addOrRemoveFromArray(checkedList, id);
+        let list = [...checkedList];
+        list = addOrRemoveFromArray(list, id);
         setCheckedList(list);
+        handleShowMsg(true);
     };
-    
-    console.log(checkedList);
+
+    const handleShowMsg = (isSelected: boolean) => {
+        if (!isSelected) {
+            setShowUncheckMsg(true);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        } else setShowUncheckMsg(false);
+    };
+
+    const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
+        setPagingData({
+            ...pagingData,
+            page: page - 1,
+        });
+    };
+
+    const saveProductQuery = (e: MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        localStorage.setItem('select-item-query', checkedList.toString());
+    }
 
     return (
         <Box
@@ -103,17 +133,35 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                 </Typography>
                             ) : (
                                 <>
+                                    <Box
+                                        sx={{
+                                            width: '100%',
+                                            display: showUncheckMsg ? 'flex' : 'none',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="h3"
+                                            color="primary"
+                                            sx={{
+                                                fontSize: '18px',
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            Bạn cần chọn sản phẩm trước khi tiến hành thanh toán
+                                        </Typography>
+                                    </Box>
                                     <Box sx={{ width: '100%' }}>
                                         <FormControlLabel
                                             label="Chọn tất cả"
                                             control={
                                                 <Checkbox
-                                                    defaultChecked
+                                                    //defaultChecked
                                                     checked={
                                                         checkedList.length ===
-                                                        thisCart.cartCountProducts
+                                                        thisCart.products.length
                                                     }
-                                                    //onChange={handleCheckAll}
+                                                    onChange={handleCheckAll}
                                                     sx={{
                                                         color: 'rgba(238, 73, 73, 0.8)',
                                                         '&.Mui-checked': {
@@ -135,9 +183,12 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                     >
                                         {thisCart.products.map((item) => (
                                             <CartItemCard
-                                                key={item.productId}
+                                                key={`${item.productId}/${item.sku}`}
                                                 itemData={item}
                                                 refreshCart={handleRefreshCart}
+                                                isSelected={checkedList.includes(
+                                                    `${item.productId}/${item.sku}/${item.quantity}`,
+                                                )}
                                                 handleCheckBox={handleCheckProduct}
                                             />
                                         ))}
@@ -150,7 +201,13 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                     </Container>
                     {thisCart.cartCountProducts !== 0 && (
                         <Box sx={{ padding: '10px' }}>
-                            <CartFooterInfomation />
+                            <CartFooterInfomation
+                                isSelectedProduct={checkedList.length !== 0}
+                                handleShowMsg={() => {
+                                    handleShowMsg(checkedList.length !== 0);
+                                }}
+                                saveSelectedProducts={saveProductQuery}
+                            />
                         </Box>
                     )}
                 </>
