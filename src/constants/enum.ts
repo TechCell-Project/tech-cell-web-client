@@ -19,6 +19,7 @@ export enum ProductStatus {
 export enum RootPath {
     Home = '/',
     Login = '/dang-nhap',
+    Register = '/dang-ky-tai-khoan',
     Cart = '/gio-hang',
     Search = '/tim-kiem',
     Product = '/danh-sach-san-pham'
