@@ -156,7 +156,7 @@ export default function Login() {
 
                     <Box
                         className={styles.login_socials}
-                        onClick={() => signIn('google', {})}
+                        onClick={() => signIn('google', { callbackUrl: process.env.NEXTAUTH_URL })}
                         mt={5}
                     >
                         <Google color='primary' />
