@@ -1,39 +1,34 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-
-import IconButton from '@mui/material/IconButton';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Stack from '@mui/material/Stack';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { FacebookRounded, Google, PhoneIphone } from '@mui/icons-material';
+import { Google, PhoneIphone } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
-import { Copyright } from '@components/Layout';
-import { useFormik } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { LoginSchema } from 'validate/auth.validate';
 import { LoginModel } from 'models';
 import { ForgotPassword } from '@app/quen-mat-khau/FromForgotPassword';
 import { debounce } from 'utils/funcs';
 import { toastConfig } from '@constants/ToastMsgConfig';
-import MoonLoader from 'react-spinners/MoonLoader';
+import { RootPath } from '@constants/enum';
+import { TextFieldCustom } from '@components/Common/FormFormik';
+import { CommonBtn } from '@components/Common';
+import styles from '@styles/components/button.module.scss';
 
 export default function Login() {
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const searchParams = useSearchParams();
+    const { push } = useRouter();
 
     const backUrl = searchParams.has('callbackUrl') ? searchParams.get('callbackUrl') : '/';
 
@@ -45,9 +40,10 @@ export default function Login() {
     //     }
     // }, [searchParams]);
 
-    const debouncedSignIn = debounce(async (payload: LoginModel) => {
+    const debouncedSignIn = debounce(async (
+        payload: LoginModel, { setSubmitting }: FormikHelpers<LoginModel>,
+    ) => {
         try {
-            setIsLoading(true);
             await signIn('credentials', {
                 emailOrUsername: payload.emailOrUsername,
                 password: payload.password,
@@ -59,20 +55,13 @@ export default function Login() {
             console.log(error);
             toast.error('Đăng nhập thất bại !!', toastConfig);
         } finally {
-            setIsLoading(false);
+            setSubmitting(false);
         }
     }, 1500);
 
-    const formik = useFormik({
-        initialValues: new LoginModel(),
-        validationSchema: LoginSchema,
-        onSubmit: (values) => {
-            debouncedSignIn(values);
-        },
-    });
     return (
         <>
-            <Container component="main" maxWidth="xs">
+            <Container component='main' maxWidth='sm'>
                 <CssBaseline />
                 <Box
                     sx={{
@@ -82,121 +71,100 @@ export default function Login() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ mg: 1, bgcolor: '#ee4949' }}>
+                    <Avatar sx={{ mg: 1, bgcolor: '#ee4949', width: '50px', height: '50px' }}>
                         <PhoneIphone />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component='h2' fontWeight={500} fontSize='27px' mt={2}>
                         Đăng nhập
                     </Typography>
-                    <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="emailOrUsername"
-                            label="Tên đăng nhập"
-                            name="emailOrUsername"
-                            autoFocus
-                            value={formik.values.emailOrUsername}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={
-                                formik.touched.emailOrUsername &&
-                                Boolean(formik.errors.emailOrUsername)
-                            }
-                            helperText={
-                                formik.touched.emailOrUsername && formik.errors.emailOrUsername
-                            }
-                        />
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="password"
-                            name="password"
-                            label="Mật khẩu"
-                            type="password"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" sx={{ color: '#ee4949' }} />}
-                            label="Nhớ mật khẩu"
-                            sx={{
-                                '& .Mui-checked': {
-                                    color: '#ee4949',
-                                },
-                            }}
-                        />
-                        <Button
-                            disabled={isLoading}
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, bgcolor: '#ee4949', }}
-                        >
-                            {isLoading && (
-                                <MoonLoader color='#e74c3c' speedMultiplier={0.75} size={22} />
-                            )}
-                            {!isLoading && (
-                                <Typography variant='h6' sx={{ fontSize: '16px' }}>Đăng nhập</Typography>
-                            )}
-                        </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Typography
-                                    variant="body2"
-                                    sx={{ cursor: 'pointer' }}
-                                    onClick={() => setOpenForgotPassword(true)}
-                                >
-                                    Quên mật khẩu
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <Link href="/dang-ky-tai-khoan">
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            '& span': {
-                                                textDecoration: 'underline',
-                                                color: '#ee4949',
-                                            },
-                                        }}
-                                    >
-                                        Chưa có tài khoản ? <span>Đăng ký</span>
-                                    </Typography>
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                    <Divider />
-                    <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
-                        Hoặc Đăng nhập với
+                    <Typography component='span' fontWeight={400} fontSize='14px' mt={1}>
+                        Chào mừng bạn đến với Techcell !!
                     </Typography>
-                    <Stack spacing={3} direction="row">
-                        <Button
-                            onClick={() => {
-                                signIn('facebook', { callbackUrl: process.env.NEXTAUTH_URL });
-                            }}
-                        >
-                            <IconButton size="large" sx={{ color: '#ee4949' }}>
-                                <FacebookRounded />
-                            </IconButton>
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                signIn('google', { callbackUrl: process.env.NEXTAUTH_URL })
-                            }
-                        >
-                            <IconButton size="large" sx={{ color: '#ee4949' }}>
-                                <Google />
-                            </IconButton>
-                        </Button>
-                    </Stack>
+                    <Formik
+                        initialValues={new LoginModel()}
+                        validationSchema={LoginSchema}
+                        onSubmit={(values, formikHelpers) => {
+                            debouncedSignIn(values, formikHelpers);
+                        }}
+                    >
+                        {({ isSubmitting }) => (
+                            <Form style={{ marginTop: '30px', width: '100%' }}>
+                                <TextFieldCustom
+                                    name='emailOrUsername'
+                                    label='Tài khoản hoặc email'
+                                    styles={{ marginBottom: '25px' }}
+                                />
+                                <TextFieldCustom
+                                    name='password'
+                                    type='password'
+                                    label='Mật khẩu'
+                                />
+                                <Stack width='100%' alignItems='center' mt={5}>
+                                    <CommonBtn
+                                        type='submit'
+                                        content='Đăng nhập'
+                                        loading={isSubmitting}
+                                        disabled={isSubmitting}
+                                        styles={{ fontWeight: 600 }}
+                                    />
+                                </Stack>
+                                <Stack direction='row' justifyContent='space-between' mt={4}>
+                                    <Typography fontSize='14px' fontWeight={500}>
+                                        Chưa có tài khoản? {' '}
+                                        <span
+                                            onClick={() => push(RootPath.Register)}
+                                            style={{
+                                                color: '#ee4949',
+                                                cursor: 'pointer',
+                                                textDecoration: 'underline',
+                                            }}>
+                                            Đăng ký
+                                        </span>
+                                    </Typography>
+                                    <Typography
+                                        onClick={() => setOpenForgotPassword(true)}
+                                        color='primary'
+                                        fontSize='14px'
+                                        fontWeight={500}
+                                        sx={{ textDecoration: 'underline', cursor: 'pointer' }}
+                                    >
+                                        Quên mật khẩu
+                                    </Typography>
+                                </Stack>
+                            </Form>
+                        )}
+                    </Formik>
+
+                    <Grid container spacing={4} alignItems='center' mt={1}>
+                        <Grid item xs={4}>
+                            <Divider />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography
+                                textAlign='center'
+                                fontWeight={600}
+                                fontSize='14px'
+                                sx={{ opacity: 0.6 }}
+                            >
+                                Hoặc đăng nhập bằng
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Divider />
+                        </Grid>
+                    </Grid>
+
+                    <Box
+                        className={styles.login_socials}
+                        onClick={() => signIn('google', {})}
+                        mt={5}
+                    >
+                        <Google color='primary' />
+                        <span>Đăng nhập với Google</span>
+                    </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
+
             {openForgotPassword && (
                 <ForgotPassword
                     isOpen={openForgotPassword}
