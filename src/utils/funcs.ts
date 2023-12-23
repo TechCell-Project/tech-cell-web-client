@@ -236,3 +236,19 @@ Array.from(
         ),
     ),
 );
+
+export const getSearchParams = <T extends number | string = any>(payload: Record<string, T>): string => {
+    const url = new URLSearchParams();
+
+    Object.entries(payload).map(([key, value]) => {
+        if (key === 'page') {
+            value = (parseInt(value as string, 10) + 1) as T;
+        }
+        if (value === null || !value) {
+            return;
+        }
+        url.append(key, value.toString());
+    });
+
+    return url.toString();
+};

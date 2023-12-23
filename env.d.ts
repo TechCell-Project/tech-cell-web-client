@@ -1,5 +1,6 @@
 declare namespace NodeJS {
     export interface ProcessEnv {
-        readonly API_BASE_URL: string;
+        readonly API_ENDPOINT: string;
+        readonly URL_HOST_SOCKET_IO: string;
     }
 }
