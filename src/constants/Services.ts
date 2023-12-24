@@ -1,4 +1,5 @@
 export const API_ENDPOINT = process.env.API_ENDPOINT;
+export const URL_HOST_SOCKET_IO = process.env.URL_HOST_SOCKET_IO;
 
 export const AUTH_LOGIN = `${API_ENDPOINT}/auth/login`;
 export const AUTH_LOGIN_GOOGLE = `${API_ENDPOINT}/auth/google`;
@@ -37,3 +38,5 @@ export const LOCATION_PROVINCES_ENDPOINT = '/address/provinces';
 export const IMAGES_ENDPOINT = '/images';
 
 export const PROFILE_ENDPOINT = '/profile';
+
+export const NOTIFICATION_ENDPOINT = '/notifications';

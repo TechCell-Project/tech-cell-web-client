@@ -20,7 +20,6 @@ import Link from 'next/link';
 import { Session } from 'next-auth';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import Avatar from '@mui/material/Avatar';
@@ -34,6 +33,7 @@ import { RootPath } from '@constants/enum';
 import { CATEGORY } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import { Notification } from '@components/Features';
 
 interface Props {
     window?: () => Window;
@@ -144,10 +144,7 @@ export const HeaderClient = ({ window }: Props) => {
                                 tooltip='Giỏ hàng'
                                 badgeContent={1}
                             />
-                            <IconBtn
-                                icon={<NotificationsOutlinedIcon />}
-                                tooltip='Thông báo'
-                            />
+                            <Notification />
 
                             <RenderUserBtn session={session} />
                         </Box>
@@ -159,9 +156,6 @@ export const HeaderClient = ({ window }: Props) => {
                             gap: '10px',
                         }}
                     >
-                        {/*<Box sx={{ height: '24px' }} onClick={() => setOpenSearchModal(true)}>*/}
-                        {/*    <SearchIcon />*/}
-                        {/*</Box>*/}
                         <IconBtn
                             icon={<LocalMallOutlinedIcon />}
                             onClick={() => push('/gio-hang')}
@@ -169,10 +163,7 @@ export const HeaderClient = ({ window }: Props) => {
                             tooltip='Giỏ hàng'
                             badgeContent={1}
                         />
-                        <IconBtn
-                            icon={<NotificationsOutlinedIcon />}
-                            tooltip='Thông báo'
-                        />
+                        <Notification />
                         <RenderUserBtn session={session} />
                     </Box>
                 </Toolbar>
@@ -196,7 +187,7 @@ export const HeaderClient = ({ window }: Props) => {
                         },
                     }}
                 >
-                    <DrawerLayout handleDrawerToggle={handleDrawerToggle} />
+                    <DrawerLayout handleDrawerToggle={() => setMobileOpen(false)} />
                 </Drawer>
             </Box>
             <Box component='main' sx={{ p: 3 }}>
@@ -238,12 +229,13 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                     '& .MuiPaper-root': {
                         p: '18px 20px',
                         minWidth: '250px',
-                        boxShadow: '0 8px 45px #03004717'
+                        boxShadow: '0 8px 45px #03004717',
                     },
                 }}
             >
-                <Typography fontSize='18px'
-                            fontWeight={600}>{`${session.user.firstName} ${session.user.lastName}`}</Typography>
+                <Typography fontSize='18px' fontWeight={600}>
+                    {`${session.user.firstName} ${session.user.lastName}`}
+                </Typography>
                 <Typography fontSize='12px' fontWeight={500}>{getRole(session.user.role)}</Typography>
 
                 <hr style={{ width: '100%', height: '.5px', margin: '15px 0', backgroundColor: 'rgba(0,0,0,0.1)' }} />

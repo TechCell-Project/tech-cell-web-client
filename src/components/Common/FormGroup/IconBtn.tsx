@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import IconButton from '@mui/material/IconButton';
+import IconButton, { IconButtonTypeMap } from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
+import { ExtendButtonBase } from '@mui/material';
 
 interface Props {
     icon: React.ReactNode;
@@ -12,16 +13,29 @@ interface Props {
     isBadge?: boolean;
     badgeInvisible?: boolean;
     badgeContent?: number;
+    badgeVariant?: 'standard' | 'dot';
     tooltip?: string;
+    iconProps?: ExtendButtonBase<IconButtonTypeMap<{}, 'button'>>;
 }
 
 export const IconBtn = (
-    { icon, onClick, styles, isBadge = false, badgeInvisible = false, badgeContent, tooltip = undefined }: Props) => {
+    {
+        icon,
+        onClick,
+        styles,
+        isBadge = false,
+        badgeInvisible = false,
+        badgeContent,
+        badgeVariant = 'standard',
+        tooltip = undefined,
+        iconProps,
+    }: Props) => {
     const renderButton = () => {
         return (
             <IconButton
                 onClick={onClick}
                 sx={{ bgcolor: 'rgba(0, 0, 0, 0.04)', p: '8px', ...styles }}
+                {...iconProps}
             >
                 {isBadge ? (
                     <Badge
@@ -31,10 +45,11 @@ export const IconBtn = (
                             vertical: 'top',
                             horizontal: 'right',
                         }}
+                        variant={badgeVariant}
                         invisible={badgeInvisible}
                         sx={{
                             '& .MuiBadge-badge': {
-                                borderRadius: '.5rem',
+                                borderRadius: badgeVariant === 'standard' ? '.5rem' : '50%',
                             },
                         }}
                     >

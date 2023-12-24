@@ -6,3 +6,4 @@ export * from './ImageService';
 export * from './LocationService';
 export * from './ProductService';
 export * from './AttributeService';
+export * from './NotificationService';
