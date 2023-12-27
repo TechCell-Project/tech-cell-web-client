@@ -3,6 +3,7 @@ import { productSlice } from './productSlice';
 import { attributeSlice } from './attributeSlice';
 import { categorySlice } from './categorySlice';
 import { cartsSlice } from './cartSlice';
+import { orderSlice } from './orderSlice';
 
 export {
   authSlice,
@@ -10,4 +11,5 @@ export {
   attributeSlice,
   categorySlice,
   cartsSlice,
+  orderSlice,
 };

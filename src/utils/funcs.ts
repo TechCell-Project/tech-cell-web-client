@@ -236,3 +236,8 @@ Array.from(
         ),
     ),
 );
+
+// Uppercase first letter
+export const upperCase = (name: string) => {
+    return name[0].toUpperCase() + name.slice(1);
+};

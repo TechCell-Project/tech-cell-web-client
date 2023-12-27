@@ -3,7 +3,7 @@ import Image from 'next/image';
 import styles from '../../../styles/components/productdetail.module.scss';
 import { VariationModel } from '@models/Product';
 import { AttributeDynamics } from '@models/Attribute';
-import { getUniqueAttributeKeys } from 'utils/funcs';
+import { getUniqueAttributeKeys, upperCase } from 'utils/funcs';
 import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
 
 interface ProductVariationProps {
@@ -84,18 +84,13 @@ function ChooseProductVariation({
         }
     }, [selectedAttributes, variations, attributeKeys]);
 
-    // Uppercase first letter
-    const upperCaseF = (name: string) => {
-        return name[0].toUpperCase() + name.slice(1);
-    };
-
     return (
         <div className={styles.product_internal_content}>
             {Object.entries(groupedAttributes).map(([key, attributes], index) => (
                 <Fragment key={key}>
                     {/* Display the name of the first attribute in the current group */}
                     <div className={styles.product_internal_name}>
-                        {upperCaseF(Array.from(attributes.values())[0].name)}
+                        {upperCase(Array.from(attributes.values())[0].name)}
                     </div>
                     <div className={styles.product_internal_}>
                         {Array.from(attributes.values()).map((attribute) => {
@@ -161,7 +156,7 @@ function ChooseProductVariation({
                                 >
                                     <div className={styles.product_internal_block}>
                                         <div className={styles.product_internal_text}>
-                                            <p>{upperCaseF(attribute.v)}{' '}{attribute.u}</p>
+                                            <p>{upperCase(attribute.v)}{' '}{attribute.u}</p>
                                             <p>{' '}</p>
                                         </div>
                                     </div>

@@ -1,9 +1,6 @@
 import React from 'react';
 
-import styles from '@styles/components/cart.module.scss';
-
 import Skeleton from '@mui/material/Skeleton';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 const SkeletionCartItem = () => {

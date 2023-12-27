@@ -10,13 +10,18 @@ import { getCurrentUser } from '@store/slices/authSlice';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 import { ShowDialog } from '../Display/DialogCustom';
 import { AddressList } from '../Address/Lists/AddressList';
-import Link from 'next/link';
 import DialogAddressUpdate from '@components/Form/Common/AddressDialog/DialogAddressUpdate';
 import { useRouter } from 'next/navigation';
-import { currencyFormat } from 'utils';
+import { currencyFormat, debounce } from 'utils';
+import { AddCartItemModel } from '@models/Cart';
+import { OrderReviewRequest } from '@models/Order';
+import { reviewCurrentOrder } from '@store/slices/orderSlice';
+import { toast } from 'react-toastify';
 
 const BoxBuying = styled(Box)(() => ({
     position: 'sticky',
@@ -48,7 +53,7 @@ interface CartFooterProps {
     isSelectedProduct: boolean;
     handleShowMsg: () => void;
     saveSelectedProducts: (e: MouseEvent<HTMLElement>) => void;
-    totalPrice: () => number;
+    totalPrice: number;
 }
 
 const CartFooterInfomation: FC<CartFooterProps> = ({
@@ -66,6 +71,7 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
     const [currentIndex, setCurrentIndex] = useState<number>(0);
 
     const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
+    const { isLoadingDetails } = useAppSelector((state) => state.order);
 
     useEffect(() => {
         const getProfile = async () => {
@@ -75,18 +81,20 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
                 console.log(res.error);
                 router.refresh();
             }
-        }
+        };
 
         if (userProfile === null) {
             getProfile();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         if (user) {
             setUserProfile(user as unknown as UserModel);
         }
-    }, [isLoadingProfile]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoadingProfile, user]);
 
     const triggerRefreshUserProfile = async () => {
         await dispatch(getCurrentUser());
@@ -124,16 +132,41 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
         setOpenNewAddress(false);
     };
 
-    const saveInforToLocalStorage = (e: MouseEvent<HTMLButtonElement>) => {
+    const saveInforToLocalStorage = debounce(async (e: MouseEvent<HTMLButtonElement>) => {
         saveSelectedProducts(e);
         localStorage.setItem('selected-address', currentIndex.toString());
-        router.push('/gio-hang-v2/payment');
-    };
+        const itemsSelectedQueryString = localStorage.getItem('select-item-query');
+        const itemQueries = itemsSelectedQueryString?.split(',');
+        if (itemQueries) {
+            const itemsSelected: AddCartItemModel[] = itemQueries.map((query) => {
+                const data = query.split('-/-');
+                return {
+                    productId: data[0],
+                    sku: data[1],
+                    quantity: parseInt(data[2]),
+                };
+            });
+            const payload: OrderReviewRequest = {
+                addressSelected: currentIndex,
+                productSelected: itemsSelected,
+            };
+            console.log(payload);
+            const response = await dispatch(reviewCurrentOrder(payload));
+
+            console.log(response);
+            if (response?.success) {
+                router.push('/gio-hang-v2/payment');
+            }
+            else {
+                toast.error('Có lỗi xảy ra. Xin vui lòng thử lại sau...');
+            }
+        }
+    }, 1500);
 
     return (
         <BoxBuying>
             <Box className="cart_buy_content">
-                <Box>Tạm tính: {currencyFormat(totalPrice())}đ</Box>
+                <Box>Tạm tính: {currencyFormat(totalPrice)}đ</Box>
                 <Box className="cart_buy_now">
                     <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
                         Mua ngay
@@ -221,7 +254,15 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
                                     }}
                                     onClick={saveInforToLocalStorage}
                                 >
-                                    Xác nhận
+                                    {isLoadingDetails ? (
+                                        <MoonLoader
+                                            color="#f8f8ff"
+                                            speedMultiplier={0.75}
+                                            size={22}
+                                        />
+                                    ) : (
+                                        <Typography variant='h6' sx={{ fontSize: '14px' }}>Xác nhận</Typography>
+                                    )}
                                 </Button>
                             </Box>
                         </ShowDialog>

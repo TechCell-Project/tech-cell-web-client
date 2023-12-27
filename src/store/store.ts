@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import createWebStorage from 'redux-persist/es/storage/createWebStorage';
-import { attributeSlice, authSlice, cartsSlice, categorySlice, productSlice } from './slices';
+import { attributeSlice, authSlice, cartsSlice, categorySlice, orderSlice, productSlice } from './slices';
 
 // @ts-ignore
 const makeStore = () =>
@@ -30,7 +30,7 @@ const storage = typeof window !== 'undefined' ? createWebStorage('local') : crea
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['product', 'attribute', 'category', 'carts'],
+    blacklist: ['product', 'attribute', 'category', 'carts', 'order'],
 };
 
 const rootReducer = combineReducers({
@@ -39,6 +39,7 @@ const rootReducer = combineReducers({
     cart: cartsSlice.reducer,
     attribute: attributeSlice.reducer,
     category: categorySlice.reducer,
+    order: orderSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

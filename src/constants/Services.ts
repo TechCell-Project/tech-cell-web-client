@@ -37,3 +37,5 @@ export const LOCATION_PROVINCES_ENDPOINT = '/address/provinces';
 export const IMAGES_ENDPOINT = '/images';
 
 export const PROFILE_ENDPOINT = '/profile';
+
+export const ORDER_ENDPOINT = '/order';

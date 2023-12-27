@@ -45,7 +45,7 @@ const Icon = styled(Box)(({ theme }) => ({
 
 export const FooterClient = () => {
     return (
-        <Box component="footer" sx={{ position: 'absolute',backgroundColor: '#eaeaea', marginTop: '20px', width: '100%', }}>
+        <Box component="footer" sx={{ position: 'absolute',backgroundColor: '#eaeaea', paddingTop: '20px', width: '100%', }}>
             <Container maxWidth="lg">
                 <Grid
                     container

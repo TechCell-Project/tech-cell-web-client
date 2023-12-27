@@ -21,16 +21,20 @@ import CartSaleBanners from './CartSaleBanners';
 import { addOrRemoveFromArray } from 'utils';
 import CartFooterInfomation from './CartFooter';
 import { LoadingSection } from '../Display';
+import PaginationBar from '../PaginationData/PaginationBar';
+
+import { CART_PAGING } from '@constants/CartPaging';
+import IconButton from '@mui/material/IconButton';
 
 interface CartsProps {
     userCartData: CartModel | null;
 }
 
 type CartItemPrice = {
-    itemId: string,
-    sku: string,
-    price: number,
-}
+    itemId: string;
+    sku: string;
+    price: number;
+};
 
 const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
@@ -38,10 +42,11 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
 
     const { carts } = useAppSelector((state) => state.cart);
 
-    const [pagingData, setPagingData] = useState<Paging>(new Paging());
+    const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
     const [checkedList, setCheckedList] = useState<string[]>([]);
     const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
     const [totalAmount, setTotalAmount] = useState<CartItemPrice[]>([]);
+    const [checkedTotal, setCheckedTotal] = useState<number>(0);
 
     useSkipFirstRender(() => {
         dispatch(getCartItems(pagingData));
@@ -51,9 +56,35 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
         setThisCart(carts);
     }, [carts]);
 
+    useEffect(() => {
+        console.log(checkedList);
+        if (checkedList.length > 0) {
+            let total = 0;
+            const itemsChecked = checkedList.map((listItem) => {
+                const data = listItem.split('-/-');
+                return {
+                    id: data[0],
+                    sku: data[1],
+                };
+            });
+            console.log(itemsChecked);
+            totalAmount.forEach((item) => {
+                for (const element of itemsChecked) {
+                    if (element.id === item.itemId && element.sku === item.sku) {
+                        total += item.price;
+                        break;
+                    }
+                }
+            });
+            setCheckedTotal(total);
+        }
+    }, [checkedList]);
+
     const handleCalculateTotal = (id: string, sku: string, price: number) => {
         let currentAmount = totalAmount;
-        const itemAmount = currentAmount.findIndex((item) => item.itemId === id && item.sku === sku);
+        const itemAmount = currentAmount.findIndex(
+            (item) => item.itemId === id && item.sku === sku,
+        );
         if (itemAmount !== -1) {
             currentAmount.splice(itemAmount, 1);
         }
@@ -63,13 +94,13 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
             price,
         });
         setTotalAmount(currentAmount);
-    }
+    };
 
     const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
         let arr: string[] = [];
         if (checkedList.length !== thisCart?.products.length) {
             arr = thisCart?.products.map(
-                (product) => `${product.productId}/${product.sku}/${product.quantity}`,
+                (product) => `${product.productId}-/-${product.sku}-/-${product.quantity}`,
             ) as string[];
         }
         setCheckedList(arr);
@@ -107,7 +138,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const saveProductQuery = (e: MouseEvent<HTMLElement>) => {
         e.preventDefault();
         localStorage.setItem('select-item-query', checkedList.toString());
-    }
+    };
 
     return (
         <Box
@@ -139,7 +170,9 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                     gap: '10px',
                                 }}
                             >
-                                <ArrowBackIcon />
+                                <IconButton aria-label='home' href='/'>
+                                    <ArrowBackIcon />
+                                </IconButton>
                                 <Typography variant="h4" sx={{ fontSize: '22px' }}>
                                     Giỏ hàng của bạn
                                 </Typography>
@@ -204,16 +237,27 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                     >
                                         {thisCart.products.map((item) => (
                                             <CartItemCard
-                                                key={`${item.productId}/${item.sku}`}
+                                                key={`${item.productId}-/-${item.sku}`}
                                                 itemData={item}
                                                 refreshCart={handleRefreshCart}
                                                 isSelected={checkedList.includes(
-                                                    `${item.productId}/${item.sku}/${item.quantity}`,
+                                                    `${item.productId}-/-${item.sku}-/-${item.quantity}`,
                                                 )}
                                                 handleCheckBox={handleCheckProduct}
                                                 passThisItemPrice={handleCalculateTotal}
                                             />
                                         ))}
+                                        {thisCart && (
+                                            <Box>
+                                                <PaginationBar
+                                                    pagingData={{
+                                                        page: pagingData.page,
+                                                        totalPage: thisCart.totalPage,
+                                                    }}
+                                                    handleChange={handleChangePage}
+                                                />
+                                            </Box>
+                                        )}
                                         <CartPromotions />
                                         <CartSaleBanners />
                                     </Box>
@@ -229,13 +273,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                     handleShowMsg(checkedList.length !== 0);
                                 }}
                                 saveSelectedProducts={saveProductQuery}
-                                totalPrice={() => {
-                                    let total = 0;
-                                    totalAmount.forEach((item) => {
-                                        total += item.price;
-                                    });
-                                    return total;
-                                }}
+                                totalPrice={checkedTotal}
                             />
                         </Box>
                     )}

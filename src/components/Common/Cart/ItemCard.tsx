@@ -91,7 +91,7 @@ export const ItemCard = (props: productDataProps) => {
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        handleCheckBox(`${itemData.productId}/${itemData.sku}/${itemData.quantity}`);
+        handleCheckBox(`${itemData.productId}-/-${itemData.sku}-/-${itemData.quantity}`);
     };
 
     return (

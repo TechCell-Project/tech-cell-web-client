@@ -13,6 +13,7 @@ declare module '@mui/material/styles' {
             lightBlack: string;
             gray: string;
             lightGray: string;
+            rice: string;
         };
         fontFamily: {
             primary: string;
@@ -31,6 +32,7 @@ declare module '@mui/material/styles' {
             lightBlack?: string;
             gray?: string;
             lightGray?: string;
+            rice?: string;
         };
         fontFamily?: {
             primary: string;
@@ -58,6 +60,7 @@ export const theme: Theme = createTheme({
         lightBlack: 'rgba(59, 59, 59, 0.15)',
         gray: '#777777',
         lightGray: '#d3d3d3',
+        rice: '#f4f6f8',
     },
     fontFamily: {
         primary: "'Montserrat', sans-serif",
