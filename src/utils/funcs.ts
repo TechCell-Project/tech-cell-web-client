@@ -237,6 +237,11 @@ Array.from(
     ),
 );
 
+// Uppercase first letter
+export const upperCase = (name: string) => {
+    return name[0].toUpperCase() + name.slice(1);
+};
+
 export const getSearchParams = <T extends number | string = any>(payload: Record<string, T>): string => {
     const url = new URLSearchParams();
 

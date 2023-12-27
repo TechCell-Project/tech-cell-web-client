@@ -4,9 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { CartModel } from '@models/Cart';
 import { LoadingPage } from '@components/Common/Display/LoadingPage';
 import CartPage from '@components/Common/Cart/CartPage';
-import { useAppDispatch, useAppSelector } from '@store/store';
-import { getCartItems } from '@store/slices/cartSlice';
-import { Paging } from '@models/Common';
 import { useSession } from 'next-auth/react';
 import { getCartItemsCustom } from 'utils/get-cartItems';
 import instanceAuth from '@config/instanceAuth.config';
@@ -26,9 +23,7 @@ const Cart = () => {
         }, 5000);
 
         if (session) {
-            console.log(session.user.accessToken);
             instanceAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`;
-            console.log(instanceAuth.defaults.headers.common.Authorization);
 
             if (!isDataFetched) {
                 fetchCartData();

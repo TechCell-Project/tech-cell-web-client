@@ -22,7 +22,7 @@ interface BackendTokens {
 }
 
 export const config = {
-    matcher: ['/gio-hang-v2'],
+    matcher: ['/gio-hang-v2', '/gio-hang-v2/:path*'],
 };
 
 const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
@@ -119,7 +119,10 @@ async function refreshToken(token: JWT) {
         },
         body: JSON.stringify({ refreshToken: currentRefreshToken }),
     });
-    const response = await res.json();
+    console.log(res);
+    const response = await res.json().catch((error) => {
+        console.log(error);
+    });
 
     console.log('response: ', response);
 

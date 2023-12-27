@@ -14,7 +14,7 @@ interface AddressListProps {
     handleSelectAddressIndex: (index: number) => void;
 }
 
-export function AddressList(props: Readonly<AddressListProps>) {
+export function AddressList(props: AddressListProps) {
     const DialogAddressUpdate = lazy(() => import('@components/Form/Common/AddressDialog/DialogAddressUpdate'));
     const AddressItemList = lazy(() => import('@components/Common/Address/ItemList/AddressItemList'));
 
@@ -29,6 +29,7 @@ export function AddressList(props: Readonly<AddressListProps>) {
 
     const handleSetChecked = (index: number) => {
         setCheckedAddress(index);
+        handleSelectAddressIndex(index);
     };
 
     const handleLength = () => {
@@ -43,7 +44,6 @@ export function AddressList(props: Readonly<AddressListProps>) {
     const handleSelectAddress = (indexToUpdate: number, address: Address) => {
         console.log(indexToUpdate);
         setSelectedAddressToUpdateIndex(indexToUpdate);
-        handleSelectAddressIndex(indexToUpdate);
         setCurrentAddress(address);
     }
 
@@ -56,6 +56,8 @@ export function AddressList(props: Readonly<AddressListProps>) {
         }
     }, [userProfile?.address]);
 
+    console.log(checkedAddress);
+    console.log(selectedAddressToUpdateIndex);
     console.log(currentAddress);
 
     return (

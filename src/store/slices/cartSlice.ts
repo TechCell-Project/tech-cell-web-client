@@ -2,6 +2,8 @@ import { createSlice, Dispatch } from '@reduxjs/toolkit';
 import { AddCartItemModel, CartModel, CartsSlice } from '@models/Cart';
 import { Paging } from '@models/Common';
 import { addToCart, getCarts } from '@services/index';
+import { AxiosInstance } from 'axios';
+import { CART_ENDPOINT } from '@constants/Services';
 
 const initialState: CartsSlice = {
     carts: new CartModel(),
@@ -54,6 +56,20 @@ export const addItemToCart = (payload: AddCartItemModel) => async (dispatch: Dis
     dispatch(isAddingItem());
     try {
         const response = await addToCart(payload);
+        if (response.data) {
+            return { success: true };
+        }
+    } catch (error) {
+        return { success: false, error };
+    } finally {
+        dispatch(addedItemDone());
+    }
+};
+
+export const authAddItemToCart = (payload: AddCartItemModel, instance: AxiosInstance) => async (dispatch: Dispatch) => {
+    dispatch(isAddingItem());
+    try {
+        const response = await instance.post(`${CART_ENDPOINT}`, payload);
         if (response.data) {
             return { success: true };
         }

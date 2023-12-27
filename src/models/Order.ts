@@ -1,11 +1,12 @@
-import { ImageModel, PriceModel } from '@models/Product';
-import { AttributeDynamics } from '@models/Attribute';
-import { Address } from '@models/Account';
+import { ShippingData } from '@interfaces/cart';
+import { Address } from './Account';
+import { AddCartItemModel, CartItemModel } from './Cart';
+import { PagingResponse } from './Common';
 
 export class OrderModel {
     _id: string | null = null;
     userId: string | null = null;
-    products: Array<OrderProduct> = new Array<OrderProduct>();
+    products: Array<CartItemModel> = new Array<CartItemModel>();
     checkoutOrder: OrderCheckout = new OrderCheckout();
     shippingOrder: OrderShipping = new OrderShipping();
     paymentOrder?: OrderPayment = new OrderPayment();
@@ -13,21 +14,6 @@ export class OrderModel {
     orderStatus: string | null = null;
     createdAt: string | null = null;
     updatedAt: string | null = null;
-}
-
-export class OrderProduct {
-    productId: string | null = null;
-    quantity: number | null = null;
-    sku: string | null = null;
-    createdAt: string | null = null;
-    updatedAt: string | null = null;
-    attributes: Array<AttributeDynamics> = [];
-    name: string | null = null;
-    price: PriceModel = new PriceModel();
-    stock: number | null = null;
-    status: number | null = null;
-    generalImages: Array<ImageModel> = [];
-    images: Array<ImageModel> = [];
 }
 
 export class OrderShipping {
@@ -44,4 +30,28 @@ export class OrderCheckout {
 export class OrderPayment {
     method: string | null = null;
     status: string | null = null;
+    paymentUrl?: string | null;
+    orderData?: Object | null;
+}
+
+export class OrderReviewRequest {
+    addressSelected: number | null = null;
+    productSelected: Array<AddCartItemModel> = new Array<AddCartItemModel>();
+}
+
+export class OrderCreateRequest extends OrderReviewRequest {
+    paymentMethod: string | null = null;
+}
+
+export class OrderReviewResponse extends OrderReviewRequest {
+    totalProductPrice: number | null = null;
+    shipping: ShippingData | null = null;
+}
+
+export class OrderSlice {
+    orders: PagingResponse<OrderModel> = new PagingResponse<OrderModel>();
+    order?: OrderModel | null = null;
+    reviewedOrder: OrderReviewResponse | null = null;
+    isLoading: boolean = false;
+    isLoadingDetails: boolean = false;
 }

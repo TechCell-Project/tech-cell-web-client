@@ -6,4 +6,4 @@ export * from './Attribute';
 export * from './Cart';
 export * from './Location';
 export * from './Common';
-export * from './Token';
+export * from './Order';
