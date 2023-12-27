@@ -69,6 +69,15 @@ export const theme: Theme = createTheme({
         fontFamily: ['Montserrat', 'sans-serif'].join(','),
     },
     spacing: 5,
+    // breakpoints: {
+    //     values: {
+    //         xs: 0,
+    //         sm: 600,
+    //         md: 900,
+    //         lg: 1320,
+    //         xl: 1536,
+    //     },
+    // },
     components: {
         MuiFormControl: {
             variants: [

@@ -10,6 +10,8 @@ import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     // userdata : string;
@@ -17,7 +19,7 @@ interface Props {
     options?: IMenuOptions[];
     isBlackContent?: boolean;
     icon?: ReactNode;
-    href: string;
+    href?: string;
 }
 
 export function MenuComponent(props: Readonly<Props>) {
@@ -25,8 +27,9 @@ export function MenuComponent(props: Readonly<Props>) {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const { push } = useRouter();
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(event.currentTarget);
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -34,14 +37,14 @@ export function MenuComponent(props: Readonly<Props>) {
     };
 
     return (
-        <Link href={href} className={styles.menu_nav}>
-            {icon && (
-                <span>{icon}</span>
-            )}
+        <Box className={styles.menu_nav} onClick={() => href && push(href)}>
+            {/*{icon && (*/}
+            {/*    <span>{icon}</span>*/}
+            {/*)}*/}
             <Button
-                id="basic-button"
+                id='basic-button'
                 aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
+                aria-haspopup='true'
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
                 sx={{
@@ -55,25 +58,24 @@ export function MenuComponent(props: Readonly<Props>) {
             </Button>
             {options && (
                 <Menu
-                    id="basic-menu"
+                    id='basic-menu'
                     anchorEl={anchorEl}
                     open={open}
                     onClose={handleClose}
                     MenuListProps={{
                         'aria-labelledby': 'basic-button',
                         style: {
-                            maxHeight: 300,
-                            width: '20ch',
+                            width: '22ch',
                         },
                     }}
                 >
                     {options?.map((menuItem) => (
-                        <MenuItem key={menuItem.value} sx={{ fontSize: '14px', fontWeight: 500 }}>
+                        <MenuItem key={menuItem.value} sx={{ fontSize: '14px', fontWeight: 500, py: '8px' }}>
                             {menuItem.label}
                         </MenuItem>
                     ))}
                 </Menu>
             )}
-        </Link>
+        </Box>
     );
 }

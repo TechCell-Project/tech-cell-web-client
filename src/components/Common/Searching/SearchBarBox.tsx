@@ -21,7 +21,7 @@ type ProductStatement = {
     isLoading: boolean;
 };
 
-const SearchBarBox = () => {
+const SearchBarBox = ({ isDisplay, minWidth }: { isDisplay?: boolean, minWidth?: string }) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -57,7 +57,7 @@ const SearchBarBox = () => {
     const handleSubmit = (searchTerm: string) => {
         const url = 'tim-kiem?search=' + encodeURIComponent(Urlify(searchTerm));
         router.push(url);
-        
+
         // add to push recent searches after every search
         if (!recentSearches.includes(searchTerm.trim())) {
             setRecentSearches([searchTerm.trim(), ...recentSearches]);
@@ -82,9 +82,9 @@ const SearchBarBox = () => {
     return (
         <Box
             sx={{
-                display: { xs: 'none', lg: 'flex' },
-                width: '260px',
-                justifyContent: 'center',
+                display: { xs: !isDisplay ? 'none' : 'flex', lg: 'flex' },
+                minWidth: minWidth ? minWidth : '260px',
+                justifyContent: 'flex-end',
             }}
             ref={anchorEl}
         >

@@ -4,12 +4,14 @@ import { attributeSlice } from './attributeSlice';
 import { categorySlice } from './categorySlice';
 import { cartsSlice } from './cartSlice';
 import { orderSlice } from './orderSlice';
+import { notificationSlice } from '@store/slices/notificationSlice';
 
 export {
-  authSlice,
-  productSlice,
-  attributeSlice,
-  categorySlice,
-  cartsSlice,
-  orderSlice,
+    authSlice,
+    productSlice,
+    attributeSlice,
+    categorySlice,
+    cartsSlice,
+    orderSlice,
+    notificationSlice,
 };

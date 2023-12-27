@@ -16,13 +16,13 @@ import { UserModel } from '@models/Profile';
 // common functions
 export const getRole = (role?: string | null) => {
     switch (role) {
-        case 'User':
+        case 'User' || 'User'.toLowerCase():
             return 'Khách hàng';
-        case 'Admin':
+        case 'Admin' || 'Admin'.toLowerCase():
             return 'Quản trị viên';
-        case 'Mod':
+        case 'Mod' || 'Mod'.toLowerCase():
             return 'Điều hành viên';
-        case 'SuperAdmin':
+        case 'SuperAdmin' || 'SuperAdmin'.toLowerCase():
             return 'Quản lý';
         default:
             return '';
@@ -240,4 +240,20 @@ Array.from(
 // Uppercase first letter
 export const upperCase = (name: string) => {
     return name[0].toUpperCase() + name.slice(1);
+};
+
+export const getSearchParams = <T extends number | string = any>(payload: Record<string, T>): string => {
+    const url = new URLSearchParams();
+
+    Object.entries(payload).map(([key, value]) => {
+        if (key === 'page') {
+            value = (parseInt(value as string, 10) + 1) as T;
+        }
+        if (value === null || !value) {
+            return;
+        }
+        url.append(key, value.toString());
+    });
+
+    return url.toString();
 };

@@ -1,7 +1,7 @@
 import { UserAccount } from './Account';
 
 export class LoginModel {
-    emailOrUsername?: string;
+    emailOrUsername?: string | null = null;
     password?: string | null = null;
 }
 

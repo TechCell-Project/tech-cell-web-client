@@ -1,20 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import Link from 'next/link';
-import { useFormik } from 'formik';
-import { Copyright } from '@components/Layout';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { PhoneIphone } from '@mui/icons-material';
 import { SignupSchema } from 'validate/auth.validate';
 import { RegisterModel } from 'models';
@@ -23,99 +17,49 @@ import 'react-toastify/dist/ReactToastify.css';
 import Dialog from '@mui/material/Dialog';
 import VerifyEmail from '../xac-thuc-tai-khoan/VerifyEmail';
 import { REGISTER_ENDPOINT } from '@constants/Services';
+import { toastConfig } from '@constants/ToastMsgConfig';
+import { TextFieldCustom } from '@components/Common/FormFormik';
+import Stack from '@mui/material/Stack';
+import { CommonBtn } from '@components/Common';
+import { RootPath } from '@constants/enum';
+import { useRouter } from 'next/navigation';
 
 export default function Signup() {
     const [open, setOpen] = useState(false);
+    const { push } = useRouter();
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleSubmit = async (values: RegisterModel, { setSubmitting }: FormikHelpers<RegisterModel>) => {
+        const requestOptions: RequestInit = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        };
+        fetch(REGISTER_ENDPOINT, requestOptions)
+            .then((res) => {
+                if (res.ok) {
+                    toast.success('Mã đã được gửi vào Email của bạn !!', toastConfig);
+                    setOpen(true);
+                }
+                if (res.status === 409) {
+                    return toast.error('Tên tài khoản hoặc email đã được sử dụng !!', toastConfig);
+                }
+
+                if (res.status === 400) {
+                    return toast.error('Tên đăng nhập phải trên 8 ký tự !!', toastConfig);
+                }
+            })
+            .catch((err) => {
+                return toast.error('Tên đăng nhập hoặc tài khoản Email đã được sử dụng !!', toastConfig);
+            })
+            .finally(() => setSubmitting(false));
     };
-
-    useEffect(() => {
-        document.title = `Đăng ký`;
-    }, []);
-
-    const formik = useFormik({
-        initialValues: new RegisterModel(),
-        validationSchema: SignupSchema,
-        onSubmit: async (values) => {
-            console.log(values);
-            const requestOptions: RequestInit = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-            };
-            fetch(REGISTER_ENDPOINT, requestOptions)
-                .then((res) => {
-                    if (res.ok) {
-                        toast.success('Mã đã được gửi vào Email của bạn !!', {
-                            position: 'top-center',
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'light',
-                        });
-                        setOpen(true);
-                    }
-                    if (res.status === 409) {
-                        return toast.error('Tên tài khoản hoặc email đã được sử dụng !!', {
-                            position: 'top-center',
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'light',
-                        });
-                    }
-
-                    if (res.status === 400) {
-                        return toast.error('Tên đăng nhập phải trên 8 ký tự !!', {
-                            position: 'top-center',
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'light',
-                        });
-                    }
-                })
-                .catch((err) => {
-                    return toast.error('Tên đăng nhập hoặc tài khoản Email đã được sử dụng !!', {
-                        position: 'top-center',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'light',
-                    });
-                });
-        },
-    });
 
     return (
         <>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <VerifyEmail email={String(formik.values.email)} />
-            </Dialog>
-
             <ToastContainer />
-            <Container component="main" maxWidth="xs">
+            <Container component='main' maxWidth='sm'>
                 <CssBaseline />
                 <Box
                     sx={{
@@ -125,158 +69,81 @@ export default function Signup() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ mg: 1, bgcolor: '#ee4949' }}>
+                    <Avatar sx={{ mg: 1, bgcolor: '#ee4949', width: '50px', height: '50px' }}>
                         <PhoneIphone />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component='h2' fontWeight={500} fontSize='27px' mt={2}>
                         Đăng ký
                     </Typography>
-                    <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
-                                    fullWidth
-                                    id="firstName"
-                                    label="Tên"
-                                    autoFocus
-                                    value={formik.values.firstName}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={
-                                        formik.touched.firstName && Boolean(formik.errors.firstName)
-                                    }
-                                    helperText={formik.touched.firstName && formik.errors.firstName}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    id="lastName"
-                                    label="Họ"
-                                    name="lastName"
-                                    autoComplete="family-name"
-                                    value={formik.values.lastName}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={
-                                        formik.touched.lastName && Boolean(formik.errors.lastName)
-                                    }
-                                    helperText={formik.touched.lastName && formik.errors.lastName}
-                                />
-                            </Grid>
-                        </Grid>
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="email"
-                            label="Email"
-                            name="email"
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
-                        />
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="userName"
-                            label="Tên đăng nhập"
-                            name="userName"
-                            value={formik.values.userName}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.userName && Boolean(formik.errors.userName)}
-                            helperText={formik.touched.userName && formik.errors.userName}
-                        />
-                        {/* <TextField
-                            margin="normal"
-                            fullWidth
-                            id="mobile"
-                            label="Số điện thoại"
-                            name="Mobile"
-                            value={formik.values.mobile}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.mobile && Boolean(formik.errors.mobile)}
-                            helperText={formik.touched.mobile && formik.errors.mobile}
-                        /> */}
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="password"
-                            name="password"
-                            label="Mật khẩu"
-                            type="password"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                        />
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="re_password"
-                            name="re_password"
-                            label="Nhập lại mật khẩu"
-                            type="password"
-                            value={formik.values.re_password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.re_password && Boolean(formik.errors.re_password)}
-                            helperText={formik.touched.re_password && formik.errors.re_password}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="acceptPolicy" sx={{ color: '#ee4949' }} />}
-                            label="Tôi đồng ý với các điều khoản bảo mật cá nhân"
-                            sx={{
-                                '& .Mui-checked': {
-                                    color: '#ee4949',
-                                },
-                            }}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="acceptAdvertisement" sx={{ color: '#ee4949' }} />
-                            }
-                            label="Đăng ký nhận bản tin khuyến mãi qua email"
-                            sx={{
-                                '& .Mui-checked': {
-                                    color: '#ee4949',
-                                },
-                            }}
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, bgcolor: '#ee4949' }}
-                        >
-                            Đăng ký
-                        </Button>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item>
-                                <Link href="/dang-nhap">
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            '& span': {
-                                                textDecoration: 'underline',
-                                                color: '#ee4949',
-                                            },
-                                        }}
+                    <Typography component='span' fontWeight={400} fontSize='14px' textAlign='center' mt={1}>
+                        Tạo tài khoản để cùng đồng hành, trải nghiệm với Techcell !
+                    </Typography>
+                    <Formik
+                        enableReinitialize
+                        initialValues={new RegisterModel()}
+                        validationSchema={SignupSchema}
+                        onSubmit={handleSubmit}
+                    >
+                        {({ values, isSubmitting }) => (
+                            <Form style={{ marginTop: '30px', width: '100%' }}>
+                                <Grid container columnSpacing={4} rowSpacing={5}>
+                                    <Grid item xs={6}>
+                                        <TextFieldCustom name='firstName' label='Tên' />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextFieldCustom name='lastName' label='Họ' />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextFieldCustom name='email' label='Email' />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextFieldCustom name='userName' label='Tài khoản' />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextFieldCustom name='password' label='Mật khẩu' />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextFieldCustom name='re_password' label='Nhập lại mật khẩu' />
+                                    </Grid>
+                                </Grid>
+
+                                <Stack width='100%' alignItems='center' mt={5}>
+                                    <CommonBtn
+                                        type='submit'
+                                        content='Đăng ký'
+                                        loading={isSubmitting}
+                                        disabled={isSubmitting}
+                                        styles={{ fontWeight: 600 }}
+                                    />
+                                </Stack>
+
+                                <Typography fontSize='14px' fontWeight={500} textAlign='center' mt={5}>
+                                    Bạn đã có tài khoản? {' '}
+                                    <span
+                                        onClick={() => push(RootPath.Login)}
+                                        style={{
+                                            color: '#ee4949',
+                                            cursor: 'pointer',
+                                            textDecoration: 'underline',
+                                        }}>
+                                            Đăng nhập
+                                        </span>
+                                </Typography>
+
+                                {open && (
+                                    <Dialog
+                                        open={open}
+                                        onClose={() => setOpen(false)}
+                                        aria-labelledby='alert-dialog-title'
+                                        aria-describedby='alert-dialog-description'
                                     >
-                                        Đã có tài khoản? <span>Đăng nhập</span>
-                                    </Typography>
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </Box>
+                                        <VerifyEmail email={values.email as string} />
+                                    </Dialog>
+                                )}
+                            </Form>
+                        )}
+                    </Formik>
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
             </Container>
         </>
     );

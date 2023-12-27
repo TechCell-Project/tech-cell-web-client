@@ -6,20 +6,18 @@ import { ThemeProviderMui } from 'components/Provider';
 import styles from '../styles/components/button.module.scss';
 import { ReduxProvider } from '@components/Provider/ReduxProvider';
 import NextAuthProvider from '@components/Provider/NextAuthProvider';
+import { getSession } from 'next-auth/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
 
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
+// const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
 export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
 };
 
 export async function getNextAuthSession() {
-    const session = await getServerSession(authOptions);
-    return session;
+    return await getSession();
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -28,8 +26,15 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <html lang="en">
             <head>
                 <link rel="icon" href='/public/favicon.ico' />
+                <link rel='preconnect' href='https://fonts.googleapis.com' />
+                <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
+                <link
+                  href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap'
+                  rel='stylesheet'
+                />
             </head>
-            <body className={`${montserrat.className} ${styles.body}`}>
+{/*             <body className={`${montserrat.className} ${styles.body}`}> */}
+            <body className={`${styles.body}`}>
                 <ToastContainer theme='colored' autoClose={3000} newestOnTop closeOnClick position='top-right' />
                 <NextAuthProvider {...(session ?? {})}>
                     <ThemeProviderMui>

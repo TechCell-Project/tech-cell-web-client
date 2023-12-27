@@ -1,112 +1,135 @@
 @import '../base/variables';
 @import '../base/mixins';
 
-.footer {
-    background-color: $riceColor;
-    padding: 20px 24px;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    gap: 20px;
-    position: relative;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.footerLinks {
+  margin-top: 8px;
 
-    &Top {
-        margin: 20px 20px 0 20px;
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 20px;
-        width: 1200px;
-        @include responsive(max_sm) {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 20px;
-        }
+  li {
+    padding: 6px 0;
+
+    a {
+      transition: all ease .3s;
+      font-size: 14px;
     }
 
-    &Contact {
-        display: flex;
-        gap: 10px;
-        font-size: 14px;
-        margin-bottom: 10px;
-        align-items: center;
+    &:hover a {
+      color: $primaryColor;
     }
-    &Logo {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-    }
-
-    &Content {
-        h4 {
-            font-size: 17px;
-            font-weight: 700;
-            margin-top: 15px;
-            margin-bottom: 20px;
-            position: relative;
-            padding-left: 20px;
-
-            &::before {
-                content: '';
-                position: absolute;
-                width: 8px;
-                height: 100%;
-                background-color: $primaryColor;
-                border-radius: 100rem;
-                top: 0;
-                left: 0;
-            }
-        }
-
-        ul {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-            li {
-                font-size: 14px;
-                transition: all linear 0.3s;
-                font-weight: 500;
-                margin-bottom: 5px;
-            }
-        }
-    }
-
-    &Divider {
-        width: 100%;
-        height: 1px;
-        background: rgba(0, 0, 0, 0.204);
-        margin-top: 10px;
-    }
-
-    &Bottom {
-        width: 100%;
-        display: flex;
-        justify-content: space-between !important;
-        flex-wrap: wrap;
-        align-items: center;
-
-        span {
-            font-size: 12px;
-
-            b {
-                text-decoration: underline;
-            }
-        }
-    }
+  }
 }
 
-.contactSymbol {
-    width: 32px;
-    height: 32px;
-    line-height: 44px;
-    background-color: $grayColor;
-    color: white;
-    text-align: center;
-    justify-content: space-around;
+.footerDivider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 25px 0;
 }
+
+//.footer {
+//    background-color: $riceColor;
+//    padding: 20px 24px;
+//    margin-top: 20px;
+//    display: flex;
+//    flex-direction: column;
+//    justify-content: center;
+//    align-items: center;
+//    position: relative;
+//    gap: 20px;
+//    bottom: 0;
+//    left: 0;
+//    width: 100%;
+//
+//    &Top {
+//        margin: 20px 20px 0 20px;
+//        display: grid;
+//        grid-template-columns: repeat(4, minmax(0, 1fr));
+//        gap: 20px;
+//        width: 1200px;
+//        @include responsive(max_sm) {
+//            grid-template-columns: repeat(1, minmax(0, 1fr));
+//            gap: 20px;
+//        }
+//    }
+//
+//    &Contact {
+//        display: flex;
+//        gap: 10px;
+//        font-size: 14px;
+//        margin-bottom: 10px;
+//        align-items: center;
+//    }
+//    &Logo {
+//        display: flex;
+//        flex-direction: column;
+//        align-items: center;
+//        gap: 15px;
+//    }
+//
+//    &Content {
+//        h4 {
+//            font-size: 17px;
+//            font-weight: 700;
+//            margin-top: 15px;
+//            margin-bottom: 20px;
+//            position: relative;
+//            padding-left: 20px;
+//
+//            &::before {
+//                content: '';
+//                position: absolute;
+//                width: 8px;
+//                height: 100%;
+//                background-color: $primaryColor;
+//                border-radius: 100rem;
+//                top: 0;
+//                left: 0;
+//            }
+//        }
+//
+//        ul {
+//            display: flex;
+//            flex-direction: column;
+//            gap: 10px;
+//
+//            li {
+//                font-size: 14px;
+//                transition: all linear 0.3s;
+//                font-weight: 500;
+//                margin-bottom: 5px;
+//            }
+//        }
+//    }
+//
+//    &Divider {
+//        width: 100%;
+//        height: 1px;
+//        background: rgba(0, 0, 0, 0.204);
+//        margin-top: 10px;
+//    }
+//
+//    &Bottom {
+//        width: 100%;
+//        display: flex;
+//        justify-content: space-between !important;
+//        flex-wrap: wrap;
+//        align-items: center;
+//
+//        span {
+//            font-size: 12px;
+//
+//            b {
+//                text-decoration: underline;
+//            }
+//        }
+//    }
+//}
+//
+//.contactSymbol {
+//    width: 32px;
+//    height: 32px;
+//    line-height: 44px;
+//    background-color: $grayColor;
+//    color: white;
+//    text-align: center;
+//    justify-content: space-around;
+//}
