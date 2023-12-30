@@ -1,60 +1,10 @@
 import { ProfileAddressRequest } from '@models/Profile';
-import { Dispatch, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import { getProfile, patchProfileAddress } from '@services/ProfileService';
-import { AuthSlice, UserAccount, VerifyEmailModel } from 'models';
-import { fetchLogin, fetchVerifyEmail } from 'services/index';
-
-// export const logIn = createAsyncThunk('auth/login', async(loginData: ILogin, { rejectWithValue }) => {
-//     try {
-//         const response = await fetchLogin(loginData);
-//         if (response.data) {
-//             console.log(response.data);
-
-//             localStorage.setItem("user", JSON.stringify(response.data));
-//             return response.data;
-//         }
-//     } catch (error: any) {
-//         if (error.response?.data.message) {
-//             return rejectWithValue(error.response.data.message);
-//         }
-//         else {
-//             return rejectWithValue(error.message);
-//         }
-//     }
-// });
-
-// export const addToCart = createAsyncThunk('auth/carts', async (cartData:ICart, { rejectWithValue }) => {
-//     try {
-//       const response = await fetchAddToCart();
-//       return response.data
-//     } catch (error:any) {
-//       return rejectWithValue(error.message);
-//     }
-//   });
-
-// export const register = createAsyncThunk('auth/register', async(registerData: IRegister, { rejectWithValue }) => {
-//     try {
-//       const response = await fetchAddToCart();
-//       return response.data
-//     } catch (error:any) {
-//       return rejectWithValue(error.message);
-//     }
-//   });
-
-export const verifyEmail = createAsyncThunk(
-    'auth/verify-email',
-    async (verifyData: VerifyEmailModel, { rejectWithValue }) => {
-        try {
-            await fetchVerifyEmail(verifyData);
-        } catch (error: any) {
-            if (error.response?.data.message) {
-                return rejectWithValue(error.response.data.message);
-            } else {
-                return rejectWithValue(error.message);
-            }
-        }
-    },
-);
+import { HttpStatusCode, isAxiosError } from 'axios';
+import { AuthSlice, RegisterModel, UserAccount, VerifyEmailModel } from 'models';
+import { toast } from 'react-toastify';
+import { fetchLogin, fetchRegister, fetchResendVerify, fetchVerifyEmail } from 'services/index';
 
 const initialState: AuthSlice = {
     user: new UserAccount(),
@@ -67,6 +17,9 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        isHandling: (state) => {
+            state.isLoading = true;
+        },
         logout: () => {
             return initialState;
         },
@@ -77,88 +30,17 @@ export const authSlice = createSlice({
         isLoadingProfile: (state) => {
             state.isLoadingProfile = true;
         },
-        loadedProfile: (state) => {
+        doneHandled: (state) => {
             state.isLoading = false;
+        },
+        loadedProfile: (state) => {
+            state.isLoadingProfile = false;
         },
         getUserSuccess: (state, { payload }) => {
             state.user = payload;
             state.isLoadingProfile = false;
             state.isAuthenticated = true;
         },
-    },
-    extraReducers: (builder) => {
-        builder
-            //         .addCase(logIn.pending, (state) => {
-            //             state.isLoading = true;
-            //         })
-            //         .addCase(logIn.fulfilled, (state, action) => {
-            //             state.isLoading = false;
-            //             state.isError = false;
-            //             state.isAuthenticated = true;
-            //             state.user = action.payload;
-            //         })
-            //         .addCase(logIn.rejected, (state, action) => {
-            //             state.isLoading = false;
-            //             state.isError = true;
-            //             state.isAuthenticated = false;
-            //             if (action.payload) {
-            //                 state.message = action.payload as string;
-            //             }
-
-            //         })
-            //         // .addCase(register.pending, (state) => {
-            //         //     state.isLoading = true
-            //         // })
-            //         // .addCase(register.fulfilled, (state, action) => {
-            //         //     state.isLoading = false;
-            //         //     state.isError = false;
-            //         //     state.user = null;
-            //         //     state.message = action.payload;
-            //         // })
-            //         // .addCase(register.rejected, (state, action) => {
-            //         //     state.isLoading = false;
-            //         //     state.isError = true;
-            //         //     state.isAuthenticated = false;
-            //         //     if (action.error.message) {
-            //         //         state.message = action.error.message;
-            //         //     }
-            //         //     else {
-            //         //         state.message = 'Hệ thống có lỗi xảy ra';
-            //         //     }
-            //         // })
-            .addCase(verifyEmail.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(verifyEmail.fulfilled, (state) => {
-                state.isLoading = false;
-                state.isAuthenticated = false;
-                state.user = null;
-            })
-            .addCase(verifyEmail.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isAuthenticated = false;
-            });
-
-        //         // .addCase(addToCart.pending,(state) =>{
-        //         //     state.isLoading =true
-        //         // })
-        //         // .addCase(addToCart.fulfilled,(state,action) =>{
-        //         //     state.item = action.payload;
-        //         //     state.message = 'fulfilled';
-        //         // })
-        //         // .addCase(addToCart.rejected,(state) =>{
-        //         //     state.message = 'fulfilled';
-        //         // })
-        //         // .addCase(addToCart.pending,(state) =>{
-        //         //     state.isLoading =true
-        //         // })
-        //         // .addCase(addToCart.fulfilled,(state,action) =>{
-        //         //     state.item = action.payload;
-        //         //     state.message = 'fulfilled';
-        //         // })
-        //         // .addCase(addToCart.rejected,(state) =>{
-        //         //     state.message = 'fulfilled';
-        //         // })
     },
 });
 
@@ -173,14 +55,91 @@ export const logOut = () => async (dispatch: Dispatch) => {
     dispatch(logout());
 };
 
+export const registerNewUser = (payload: RegisterModel) => async (dispatch: Dispatch) => {
+    dispatch(isHandling());
+    try {
+        const { data } = await fetchRegister(payload);
+        if (data) {
+            dispatch(doneHandled());
+            toast.success('Đăng ký thành công, mã xác nhận đã được gửi vào email của bạn!');
+            return { success: true };
+        }
+    } catch (error) {
+        console.log(error);
+        dispatch(doneHandled());
+        if (isAxiosError(error)) {
+            if (error.response && error.response.status === 422) {
+                toast.error('Đăng ký thất bại. Tài khoản đã tồn tại');
+            } else if (error.response && error.response.status === 404) {
+                toast.error('Đăng ký thất bại. Không tìm thấy email');
+            } else {
+                toast.error('Có lỗi xảy ra. Hãy kiểm tra lại thông tin đăng ký');
+            }
+        }
+    }
+};
+
+export const verifyEmail = (payload: VerifyEmailModel) => async (dispatch: Dispatch) => {
+    dispatch(isHandling());
+    try {
+        const { status } = await fetchVerifyEmail(payload);
+
+        if (status === 200) {
+            toast.success(
+                'Xác thực email thành công! Hãy đăng nhập để có thể mua sắm cùng TechCell!',
+            );
+            return { success: true };
+        }
+    } catch (error) {
+        if (isAxiosError(error)) {
+            if (error.response && error.response.status === 404) {
+                toast.error('Xác thực thất bại. Không tìm thấy email');
+            } else if (error.response && error.response.status === 409) {
+                toast.warn('Email đã được xác thực');
+            } else {
+                toast.error('Form xác thực không hợp lệ');
+            }
+        }
+    } finally {
+        dispatch(doneHandled());
+    }
+};
+
+export const resendVerifyEmail =
+    (payload: Omit<VerifyEmailModel, 'otpCode'>) => async (dispatch: Dispatch) => {
+        dispatch(isHandling());
+        try {
+            const { status } = await fetchResendVerify(payload);
+            if (status === 200) {
+                toast.success('Mã xác thực đã được gửi tới email của bạn. Xin vui lòng kiểm tra');
+                return { success: true };
+            }
+        } catch (error) {
+            console.log(error);
+            if (isAxiosError(error)) {
+                if (error.response && error.response.status === 404) {
+                    toast.error('Gửi mã xác thực thất bại. Không tìm thấy email');
+                } else if (error.response && error.response.status === 400) {
+                    toast.warn('Email đã được xác thực');
+                } else {
+                    toast.error('Có lỗi xảy ra.');
+                }
+            }
+        } finally {
+            dispatch(doneHandled);
+        }
+    };
+
 export const getCurrentUser = () => async (dispatch: Dispatch) => {
     dispatch(isLoadingProfile());
     try {
         const response = await getProfile();
         if (response.data) {
             dispatch(getUserSuccess(response.data));
+            return { success: true };
         }
     } catch (error) {
+        console.log(error);
         return { success: false, error };
     } finally {
         dispatch(loadedProfile());
@@ -201,7 +160,14 @@ export const editProfileAddress =
 
 const { actions, reducer } = authSlice;
 
-export const { logout, authenticatedSuccess, isLoadingProfile, loadedProfile, getUserSuccess } =
-    actions;
+export const {
+    isHandling,
+    logout,
+    authenticatedSuccess,
+    doneHandled,
+    isLoadingProfile,
+    loadedProfile,
+    getUserSuccess,
+} = actions;
 
 export default reducer;

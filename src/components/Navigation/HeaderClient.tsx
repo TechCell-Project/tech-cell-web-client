@@ -34,6 +34,8 @@ import { CATEGORY } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Notification } from '@components/Features';
+import { useAppDispatch } from '@store/store';
+import { logout } from '@store/slices/authSlice';
 
 interface Props {
     window?: () => Window;
@@ -198,6 +200,7 @@ export const HeaderClient = ({ window }: Props) => {
 };
 
 const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
+    const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
@@ -245,7 +248,10 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                         <AssignmentIndIcon />
                         <button>Hồ sơ</button>
                     </li>
-                    <li onClick={() => signOut()}>
+                    <li onClick={() => {
+                        signOut();
+                        dispatch(logout());
+                    }}>
                         <LogoutRoundedIcon />
                         <button>Đăng xuất</button>
                     </li>

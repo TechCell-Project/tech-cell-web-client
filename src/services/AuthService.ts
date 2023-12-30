@@ -7,6 +7,7 @@ import {
     FORGOT_PASSWORD,
     VERIFY_FORGOT_PASSWORD,
     CHANGE_PASSWORD_ENDPOINT,
+    RESEND_VERIFY_ENDPOINT,
 } from '@constants/Services';
 import { ILogin, IRegister } from '@interfaces/auth';
 import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from 'models';
@@ -19,6 +20,9 @@ export const fetchRegister = (data: IRegister) => instancePublic.post(REGISTER_E
 
 export const fetchVerifyEmail = (payload: VerifyEmailModel) =>
     instancePublic.post(VERIFY_EMAIL_ENDPOINT, payload);
+
+export const fetchResendVerify = (payload: Omit<VerifyEmailModel, "otpCode">) =>
+    instancePublic.post(RESEND_VERIFY_ENDPOINT, payload);
 
 export const fetchRefresh = (refreshToken: string) =>
     instancePublic.post<User>(REFRESH_TOKEN_ENDPOINT, { refreshToken });

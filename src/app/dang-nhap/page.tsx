@@ -19,7 +19,6 @@ import { LoginSchema } from 'validate/auth.validate';
 import { LoginModel } from 'models';
 import { ForgotPassword } from '@app/quen-mat-khau/FromForgotPassword';
 import { debounce } from 'utils/funcs';
-import { toastConfig } from '@constants/ToastMsgConfig';
 import { RootPath } from '@constants/enum';
 import { TextFieldCustom } from '@components/Common/FormFormik';
 import { CommonBtn } from '@components/Common';
@@ -32,28 +31,28 @@ export default function Login() {
 
     const backUrl = searchParams.has('callbackUrl') ? searchParams.get('callbackUrl') : '/';
 
-    // useEffect(() => {
-    //     if (searchParams.get('error')) {
-    //         toast.error('Đăng nhập thất bại !!', {
-    //             position: 'top-center',
-    //         });
-    //     }
-    // }, [searchParams]);
-
     const debouncedSignIn = debounce(async (
         payload: LoginModel, { setSubmitting }: FormikHelpers<LoginModel>,
     ) => {
         try {
-            await signIn('credentials', {
+            const res = await signIn('credentials', {
                 emailOrUsername: payload.emailOrUsername,
                 password: payload.password,
                 callbackUrl: backUrl as string,
                 redirect: true,
             });
-            toast.success('Đăng nhập thành công', toastConfig);
+            if (res?.status === 406) {
+                toast.error('Email của bạn chưa được xác thực! Hãy kiểm tra mail và tiến hành xác thực');
+            }
+            else if (res?.status === 401) {
+                toast.error('Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng');
+            }
+            else {
+                toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
+            }
         } catch (error) {
             console.log(error);
-            toast.error('Đăng nhập thất bại !!', toastConfig);
+            toast.error('Đăng nhập thất bại !!');
         } finally {
             setSubmitting(false);
         }
