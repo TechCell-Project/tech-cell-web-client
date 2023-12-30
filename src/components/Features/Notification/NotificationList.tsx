@@ -28,7 +28,13 @@ const NotificationList = ({ status, onClose }: Props) => {
     const { data: session } = useSession();
 
     useEffect(() => {
-        dispatch(getAllNotification({ ...paging, readType: status, pageSize: 10 }, 'get')).then();
+        if (session) {
+            dispatch(getAllNotification({
+                ...paging,
+                readType: status,
+                pageSize: 10,
+            }, 'get')).then();
+        }
 
         return () => {
             dispatch(getFailure());
@@ -53,21 +59,18 @@ const NotificationList = ({ status, onClose }: Props) => {
         }
     };
 
-    const viewNonNotify = (content: string) => {
-        return (
+    const renderViewNonNotify = () => {
+        let content = 'Vui lòng đăng nhập!';
+        if (session && notifications?.length === 0) {
+            content = 'Chưa có thông báo nào!';
+        }
+
+        return !session || (session && notifications?.length === 0) && (
             <div style={{ padding: '20px' }}>
                 <NotifyIcon />
                 <Typography variant='body2' mt='10px' fontWeight={500}>{content}</Typography>
             </div>
         );
-    };
-
-    const renderViewNonNotify = () => {
-        if (session && notifications?.length === 0) {
-            return viewNonNotify('Chưa có thông báo nào!');
-        } else if (!session) {
-            return viewNonNotify('Vui lòng đăng nhập!');
-        }
     };
 
     return (

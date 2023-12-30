@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
                         role: data.role,
                         accessToken: data.accessToken,
                         refreshToken: data.refreshToken,
-                        avatar: data.avatar,
+                        avatar: data?.avatar,
 
                         //remove default properties of google
                         id: undefined,

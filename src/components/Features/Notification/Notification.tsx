@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import NotificationList from './NotificationList';
 import { IconBtn } from '@components/Common';
@@ -8,11 +8,15 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { useAppDispatch, useAppSelector } from '@store/store';
+import { onClickPing } from '@store/slices/notificationSlice';
 
-export const Notification = () => {
+export const Notification = memo(() => {
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [tabNotifyIndex, setTabNotifyIndex] = useState<number>(0);
+    const { isPing } = useAppSelector((state) => state.notifications);
+    const dispatch = useAppDispatch();
 
     const open = Boolean(anchorEl);
     const id = open ? 'notify-popover' : undefined;
@@ -34,11 +38,14 @@ export const Notification = () => {
         <>
             <IconBtn
                 icon={<NotificationsOutlinedIcon />}
-                onClick={(event) => setAnchorEl(event.currentTarget)}
+                onClick={(event) => {
+                    setAnchorEl(event.currentTarget);
+                    if (isPing) dispatch(onClickPing());
+                }}
                 tooltip='Thông báo'
                 isBadge
                 badgeVariant='dot'
-                badgeInvisible={true}
+                badgeInvisible={!isPing}
             />
 
             <Popover
@@ -103,4 +110,4 @@ export const Notification = () => {
             </Popover>
         </>
     );
-};
+});
