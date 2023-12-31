@@ -93,11 +93,13 @@ export default function Login() {
                                     name='emailOrUsername'
                                     label='Tài khoản hoặc email'
                                     styles={{ marginBottom: '25px' }}
+                                    notDelay
                                 />
                                 <TextFieldCustom
                                     name='password'
                                     type='password'
                                     label='Mật khẩu'
+                                    notDelay
                                 />
                                 <Stack width='100%' alignItems='center' mt={5}>
                                     <CommonBtn
@@ -117,7 +119,8 @@ export default function Login() {
                                                 color: '#ee4949',
                                                 cursor: 'pointer',
                                                 textDecoration: 'underline',
-                                            }}>
+                                            }}
+                                        >
                                             Đăng ký
                                         </span>
                                     </Typography>

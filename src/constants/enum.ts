@@ -22,5 +22,7 @@ export enum RootPath {
     Register = '/dang-ky-tai-khoan',
     Cart = '/gio-hang',
     Search = '/tim-kiem',
-    Product = '/danh-sach-san-pham'
+    ProductList = '/danh-sach-san-pham',
+    ProductDetails = '/chi-tiet-san-pham',
+    Profile = '/ho-so'
 }

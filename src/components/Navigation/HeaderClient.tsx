@@ -201,6 +201,7 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
+    const { push } = useRouter();
 
     return session ? (
         <>
@@ -243,7 +244,12 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                 <ul className={styles.popover_account_ul}>
                     <li>
                         <AssignmentIndIcon />
-                        <button>Hồ sơ</button>
+                        <button onClick={() => {
+                            push(RootPath.Profile);
+                            setAnchorEl(null);
+                        }}>
+                            Hồ sơ
+                        </button>
                     </li>
                     <li onClick={() => signOut()}>
                         <LogoutRoundedIcon />

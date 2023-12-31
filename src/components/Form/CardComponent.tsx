@@ -9,6 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { PriceModel } from '@models/Product';
 import { currencyFormat } from 'utils';
+import { RootPath } from '@constants/enum';
 
 interface ProductDataProps {
     initialData: {
@@ -18,7 +19,7 @@ interface ProductDataProps {
         price: PriceModel;
         // price: number;
         image: string;
-    }
+    };
 }
 
 const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
@@ -26,15 +27,15 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
     return (
         <div className={styles.product}>
             <div className={styles.productInfoContainer}>
-                <Link href={`/chi-tiet-san-pham/${initialData.id}`}>
+                <Link href={RootPath.ProductDetails + '/' + initialData.id}>
                     <div className={styles.productInfo}>
                         <div className={styles.productImgContent}>
                             <div className={styles.productImgitem}>
                                 <Image
-                                    src={initialData !== undefined ? initialData.image : "/product_img/phone1.webp"}
+                                    src={initialData !== undefined ? initialData.image : '/product_img/phone1.webp'}
                                     width={160}
                                     height={160}
-                                    alt="product thumbnail"
+                                    alt='product thumbnail'
                                 />
                             </div>
                         </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';

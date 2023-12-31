@@ -100,10 +100,10 @@ export default function Signup() {
                                         <TextFieldCustom name='userName' label='Tài khoản' />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <TextFieldCustom name='password' label='Mật khẩu' />
+                                        <TextFieldCustom name='password' label='Mật khẩu' type='password'/>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <TextFieldCustom name='re_password' label='Nhập lại mật khẩu' />
+                                        <TextFieldCustom name='re_password' label='Nhập lại mật khẩu' type='password' />
                                     </Grid>
                                 </Grid>
 
