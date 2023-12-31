@@ -48,14 +48,6 @@ export default function Signup() {
 
     const { isLoading } = useAppSelector((state) => state.auth);
 
-    const handleSubmitTest = async () => {
-        setOpenVerify({
-            isExpired: false,
-            isOpen: true,
-        });
-        setTargetTime(new Date(new Date().getTime() + 5 * 60 * 1000));
-    };
-
     const handleSubmit = async (values: RegisterModel) => {
         const res = await dispatch(registerNewUser(values));
 
@@ -167,14 +159,6 @@ export default function Signup() {
                                     Đăng nhập
                                 </span>
                             </Typography>
-
-                            {/* <CommonBtn
-                                handleClick={handleSubmitTest}
-                                content="Đăng ký"
-                                loading={isLoading}
-                                disabled={isLoading}
-                                styles={{ fontWeight: 600 }}
-                            /> */}
 
                             {openVerify.isOpen && (
                                 <Dialog

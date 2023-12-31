@@ -259,3 +259,8 @@ export const getSearchParams = <T extends number | string = any>(
 export function padWithZero(num: number) {
     return num.toString().padStart(2, '0');
 }
+
+export function isEmail(email: string): boolean {
+    const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    return regex.test(email);
+}

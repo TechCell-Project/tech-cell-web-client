@@ -119,7 +119,7 @@ export const resendVerifyEmail =
             if (isAxiosError(error)) {
                 if (error.response && error.response.status === 404) {
                     toast.error('Gửi mã xác thực thất bại. Không tìm thấy email');
-                } else if (error.response && error.response.status === 400) {
+                } else if (error.response && error.response.status === 422) {
                     toast.warn('Email đã được xác thực');
                 } else {
                     toast.error('Có lỗi xảy ra.');

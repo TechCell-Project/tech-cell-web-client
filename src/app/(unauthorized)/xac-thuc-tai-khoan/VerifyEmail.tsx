@@ -25,7 +25,7 @@ import { VerifyEmailSchema } from 'validate/auth.validate';
 
 import { Copyright } from '@components/Layout';
 import { verifyEmail } from '@store/slices/authSlice';
-import { padWithZero } from '@utils/funcs';
+import { isEmail, padWithZero } from '@utils/funcs';
 import Stack from '@mui/system/Stack';
 import { styled } from '@mui/material/styles';
 import { RootPath } from '@constants/enum';
@@ -69,12 +69,13 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
         enableReinitialize: true,
         initialValues: { ...new VerifyEmailModel(), email },
         validationSchema: VerifyEmailSchema,
-        onSubmit: async (values) => {
+        onSubmit: async (values, { setSubmitting }) => {
             const response = await dispatch(verifyEmail(values));
 
             if (response?.success) {
-                router.push(RootPath.Login);
+                router.refresh();
             }
+            setSubmitting(false);
         },
     });
 
@@ -96,7 +97,7 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
                 </Typography>
                 <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
                     <TextField
-                        disabled={email.length > 0}
+                        disabled={formik.initialValues.email.length > 0}
                         margin="normal"
                         fullWidth
                         id="email"
@@ -120,45 +121,51 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
                         error={formik.touched.otpCode && Boolean(formik.errors.otpCode)}
                         helperText={formik.touched.otpCode && formik.errors.otpCode}
                     />
-                    {formik.values.email.length > 0 && (
+                    {countdown ? (
                         <>
-                            {countdown && (
-                                <>
-                                    {countdown[2] >= 0 && countdown[3] >= 0 ? (
-                                        <VerificationEmailTimer direction="column">
-                                            <Typography variant="h6" className="timer">
-                                                {'OTP hết hạn sau '}
-                                                {padWithZero(countdown[2])}:
-                                                {padWithZero(countdown[3])}
-                                            </Typography>
-                                            <Button variant="text" disabled>
-                                                Gửi lại OTP
-                                            </Button>
-                                        </VerificationEmailTimer>
-                                    ) : (
-                                        <VerificationEmailTimer direction="column">
-                                            <Typography variant="h6" className="timer">
-                                                OTP hiện tại đã hết hạn
-                                            </Typography>
-                                            <Button
-                                                variant="text"
-                                                onClick={() => handleResendOtp(formik.values.email)}
-                                            >
-                                                <Typography variant='subtitle2'>Gửi lại OTP</Typography>
-                                                {isLoading && <CircularProgress />}
-                                            </Button>
-                                        </VerificationEmailTimer>
-                                    )}
-                                </>
+                            {countdown[2] >= 0 && countdown[3] >= 0 ? (
+                                <VerificationEmailTimer direction="column">
+                                    <Typography variant="h6" className="timer">
+                                        {'OTP hết hạn sau '}
+                                        {padWithZero(countdown[2])}:{padWithZero(countdown[3])}
+                                    </Typography>
+                                    <Button variant="text" disabled>
+                                        Gửi lại OTP
+                                    </Button>
+                                </VerificationEmailTimer>
+                            ) : (
+                                <VerificationEmailTimer direction="column">
+                                    <Typography variant="h6" className="timer">
+                                        OTP hiện tại đã hết hạn
+                                    </Typography>
+                                    <Button
+                                        variant="text"
+                                        onClick={() => handleResendOtp(formik.values.email)}
+                                    >
+                                        <Typography variant="subtitle2">Gửi lại OTP</Typography>
+                                        {isLoading && <CircularProgress />}
+                                    </Button>
+                                </VerificationEmailTimer>
                             )}
                         </>
+                    ) : (
+                        <VerificationEmailTimer direction="column">
+                            <Button
+                                disabled={!isEmail(formik.values.email)}
+                                variant="text"
+                                onClick={() => handleResendOtp(formik.values.email)}
+                            >
+                                <Typography variant="subtitle2">Gửi lại OTP</Typography>
+                                {isLoading && <CircularProgress />}
+                            </Button>
+                        </VerificationEmailTimer>
                     )}
                     <CommonBtn
                         type="submit"
                         fullWidth
-                        content='Xác nhận'
-                        loading={isLoading}
-                        disabled={isLoading}
+                        content="Xác nhận"
+                        loading={formik.isSubmitting}
+                        disabled={formik.isSubmitting}
                         styles={{ fontWeight: 600 }}
                     />
                     <Grid container>
