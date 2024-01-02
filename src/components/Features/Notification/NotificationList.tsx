@@ -14,6 +14,7 @@ import momentVi from '@config/moment.config';
 import { LoadingSection } from '@components/Common/Display';
 import { CommonBtn, NotifyIcon } from '@components/Common';
 import { useSession } from 'next-auth/react';
+import { PubEvent } from '@libs/socket-io';
 
 interface Props {
     status: 'all' | 'unread';
@@ -22,18 +23,25 @@ interface Props {
 
 const NotificationList = ({ status, onClose }: Props) => {
     const dispatch = useAppDispatch();
-    const { notifications, isLoading, showReadmore, socket } = useAppSelector((state) => state.notifications);
+    const { notifications, isLoading, showReadmore, socket } = useAppSelector(
+        (state) => state.notifications,
+    );
     const [paging, setPaging] = useState<PagingNotify>(new PagingNotify());
     const router = useRouter();
     const { data: session } = useSession();
 
     useEffect(() => {
         if (session) {
-            dispatch(getAllNotification({
-                ...paging,
-                readType: status,
-                pageSize: 10,
-            }, 'get')).then();
+            dispatch(
+                getAllNotification(
+                    {
+                        ...paging,
+                        readType: status,
+                        pageSize: 10,
+                    },
+                    'get',
+                ),
+            ).then();
         }
 
         return () => {
@@ -42,20 +50,23 @@ const NotificationList = ({ status, onClose }: Props) => {
     }, [status, dispatch]);
 
     const pagingNoti = () => {
-        setPaging((prev) => (
-            { ...prev, page: prev.page + 1 }),
-        );
-        dispatch(getAllNotification({
-            ...paging,
-            page: paging.page + 1,
-            readType: status,
-        }, 'paging')).then();
+        setPaging((prev) => ({ ...prev, page: prev.page + 1 }));
+        dispatch(
+            getAllNotification(
+                {
+                    ...paging,
+                    page: paging.page + 1,
+                    readType: status,
+                },
+                'paging',
+            ),
+        ).then();
     };
 
     const handleMarkAsRead = (notificationId: string) => {
         if (socket) {
             console.log(`Read order #${notificationId}!`);
-            socket.emit('mark-notification-as-read', { notificationId });
+            socket.emit(PubEvent.markNotifyAsRead, { notificationId });
         }
     };
 
@@ -65,11 +76,16 @@ const NotificationList = ({ status, onClose }: Props) => {
             content = 'Chưa có thông báo nào!';
         }
 
-        return !session || (session && notifications?.length === 0) && (
-            <div style={{ padding: '20px' }}>
-                <NotifyIcon />
-                <Typography variant='body2' mt='10px' fontWeight={500}>{content}</Typography>
-            </div>
+        return (
+            !session ||
+            (session && notifications?.length === 0 && (
+                <div style={{ padding: '20px' }}>
+                    <NotifyIcon />
+                    <Typography variant='body2' mt='10px' fontWeight={500}>
+                        {content}
+                    </Typography>
+                </div>
+            ))
         );
     };
 
@@ -88,7 +104,7 @@ const NotificationList = ({ status, onClose }: Props) => {
             {!isLoading ? (
                 <>
                     {renderViewNonNotify()}
-                    {notifications && notifications?.map((item) => {
+                    {notifications?.map((item) => {
                         return (
                             <Stack
                                 flexDirection='row'
@@ -112,7 +128,10 @@ const NotificationList = ({ status, onClose }: Props) => {
                                     <PersonRoundedIcon />
                                 </Avatar>
                                 <Stack flexDirection='column' gap='5px' alignItems='flex-start'>
-                                    <Typography fontSize='15px' fontWeight={!item.readAt ? 600 : 400}>
+                                    <Typography
+                                        fontSize='15px'
+                                        fontWeight={!item.readAt ? 600 : 400}
+                                    >
                                         {item.content}
                                     </Typography>
                                     <Typography fontSize='13px' fontWeight={500}>
