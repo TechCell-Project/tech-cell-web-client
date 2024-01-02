@@ -126,7 +126,7 @@ const CartFooterInformation: FC<CartFooterProps> = ({
 
             console.log(response);
             if (response?.success) {
-                router.push('/gio-hang-v2/payment');
+                router.push('/gio-hang/payment');
             } else {
                 toast.error('Có lỗi xảy ra. Xin vui lòng thử lại sau...');
             }
