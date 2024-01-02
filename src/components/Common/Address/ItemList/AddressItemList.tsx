@@ -1,18 +1,18 @@
 'use client';
 
-import { Address } from '@models/Account';
+import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { Box, Button, Radio } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { buildAddressString } from 'utils/address.util';
 
 interface AddressItemListProps {
-    address: Address;
+    address: AddressSchemaDTO;
     checked: number;
     setChecked: (index: number) => void;
     setLengthAddress: (value: boolean) => void;
     handleCloseListItem: (value: boolean) => void;
     addressIndex: number;
-    selectedAddressToUpdateIndex: (indexToUpdate: number, addressInfo: Address) => void;
+    selectedAddressToUpdateIndex: (indexToUpdate: number, addressInfo: AddressSchemaDTO) => void;
 }
 
 const AddressItemList = (props: AddressItemListProps) => {
@@ -21,7 +21,6 @@ const AddressItemList = (props: AddressItemListProps) => {
         checked,
         setChecked,
         setLengthAddress,
-        handleCloseListItem,
         addressIndex,
         selectedAddressToUpdateIndex,
     } = props;
@@ -50,7 +49,7 @@ const AddressItemList = (props: AddressItemListProps) => {
             >
                 <Radio
                     checked={checked === addressIndex}
-                    name="radio-buttons"
+                    name='radio-buttons'
                     onChange={() => setChecked(addressIndex)}
                     sx={{
                         padding: '0',
@@ -106,7 +105,8 @@ const AddressItemList = (props: AddressItemListProps) => {
                     onClick={() => {
                         // handleCloseListItem(false);
                         setLengthAddress(true);
-                        selectedAddressToUpdateIndex(addressIndex, address);
+                        // TODO: fix this any type
+                        selectedAddressToUpdateIndex(addressIndex, address as any);
                     }}
                 >
                     Cập nhật

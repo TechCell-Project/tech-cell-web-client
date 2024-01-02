@@ -22,7 +22,7 @@ interface DialogAddressUpdateProps {
     isOpen: boolean;
     handleClose: () => void;
     userThisAddress: Address;
-    triggerRefreshUserProfile: () => Promise<void>;
+    triggerRefreshUserProfile: () => void;
     addressIndex: number | null;
     setOpenListAddress?: (value: boolean) => void;
     setOpenNewAddress?: (value: boolean) => void;
@@ -53,6 +53,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
     useEffect(() => {
         getProvinces()
             .then(({ data }) => {
+                // TODO: fix wrong data type set
                 setProvinces(data);
             })
             .catch(() => {
@@ -134,9 +135,8 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
         <ShowDialog
             isOpen={isOpen}
             handleClose={handleClose}
-            dialogTitle="Địa chỉ mới"
+            dialogTitle='Địa chỉ mới'
             dialogStyle={{ minWidth: 560 }}
-            
         >
             <Formik
                 initialValues={userThisAddress}
@@ -149,24 +149,24 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                         <Grid container spacing={2}>
                             <Grid item md={6}>
                                 <SelectInputCustom
-                                    name="addressName"
+                                    name='addressName'
                                     label={'Địa chỉ'}
                                     options={addressName}
                                 />
                             </Grid>
                             <Grid item md={6}>
-                                <TextFieldCustom name="customerName" label={'Họ và tên'} />
+                                <TextFieldCustom name='customerName' label={'Họ và tên'} />
                             </Grid>
                             <Grid item md={6}>
-                                <TextFieldCustom name="phoneNumbers" label={'Số điện thoại'} />
+                                <TextFieldCustom name='phoneNumbers' label={'Số điện thoại'} />
                             </Grid>
                             <Grid item md={6}>
                                 <AutocompleteCustom<Province>
                                     name={'provinceLevel'}
                                     isNotCheckbox
-                                    label="Chọn Thành Phố"
-                                    displaySelected="province_id"
-                                    displayLabel="province_name"
+                                    label='Chọn Thành Phố'
+                                    displaySelected='province_id'
+                                    displayLabel='province_name'
                                     options={provinces}
                                     handleChange={(value) => {
                                         if (value !== null) {
@@ -193,9 +193,9 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                 <AutocompleteCustom<District>
                                     name={'districtLevel'}
                                     isNotCheckbox
-                                    label="Chọn Quận / Huyện"
-                                    displaySelected="district_id"
-                                    displayLabel="district_name"
+                                    label='Chọn Quận / Huyện'
+                                    displaySelected='district_id'
+                                    displayLabel='district_name'
                                     options={districts}
                                     handleChange={(value) => {
                                         if (value !== null) {
@@ -219,16 +219,16 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                 <AutocompleteCustom<Ward>
                                     name={'wardLevel'}
                                     isNotCheckbox
-                                    label="Chọn Thị / Xã"
-                                    displaySelected="ward_code"
-                                    displayLabel="ward_name"
+                                    label='Chọn Thị / Xã'
+                                    displaySelected='ward_code'
+                                    displayLabel='ward_name'
                                     options={wards}
                                 />
                             </Grid>
 
                             <Grid item md={12}>
                                 <TextFieldCustom
-                                    name="detail"
+                                    name='detail'
                                     label={'Địa chỉ cụ thể'}
                                     isTextArea
                                     minRowArea={3}
@@ -257,7 +257,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                             </Button>
                             <Button
                                 disabled={isSubmitting}
-                                type="submit"
+                                type='submit'
                                 sx={{
                                     borderRadius: '5px',
                                     backgroundColor: '#ee4949',

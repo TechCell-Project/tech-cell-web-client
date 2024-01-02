@@ -2,7 +2,16 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import createWebStorage from 'redux-persist/es/storage/createWebStorage';
-import { attributeSlice, authSlice, cartsSlice, categorySlice, orderSlice, productSlice, notificationSlice } from './slices';
+import {
+    attributeSlice,
+    authSlice,
+    cartsSlice,
+    categorySlice,
+    orderSlice,
+    productSlice,
+    notificationSlice,
+    profileSlice,
+} from './slices';
 
 const createNoopStorage = () => {
     return {
@@ -34,6 +43,7 @@ const rootReducer = combineReducers({
     category: categorySlice.reducer,
     order: orderSlice.reducer,
     notifications: notificationSlice.reducer,
+    profile: profileSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
