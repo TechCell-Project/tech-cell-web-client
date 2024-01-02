@@ -19,7 +19,7 @@ import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
 import CartPromotions from './CartPromotions';
 import CartSaleBanners from './CartSaleBanners';
 import { addOrRemoveFromArray } from 'utils';
-import CartFooterInfomation from './CartFooter';
+import CartFooterInformation from './CartFooter';
 import { LoadingSection } from '../Display';
 import PaginationBar from '../PaginationData/PaginationBar';
 
@@ -39,7 +39,6 @@ type CartItemPrice = {
 const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
     const dispatch = useAppDispatch();
-
     const { carts } = useAppSelector((state) => state.cart);
 
     const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
@@ -158,7 +157,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                             margin: 'auto',
                         }}
                     >
-                        <Stack spacing={3} alignItems="center" minHeight="60vh">
+                        <Stack spacing={3} alignItems='center' minHeight='60vh'>
                             <Box
                                 sx={{
                                     width: '100%',
@@ -173,14 +172,14 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                 <IconButton aria-label='home' href='/'>
                                     <ArrowBackIcon />
                                 </IconButton>
-                                <Typography variant="h4" sx={{ fontSize: '22px' }}>
+                                <Typography variant='h4' sx={{ fontSize: '22px' }}>
                                     Giỏ hàng của bạn
                                 </Typography>
                             </Box>
 
                             {thisCart.cartCountProducts === 0 ? (
                                 <Typography
-                                    variant="h4"
+                                    variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
                                 >
                                     Bạn chưa thêm sản phẩm nào vào giỏ hàng
@@ -195,8 +194,8 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                         }}
                                     >
                                         <Typography
-                                            variant="h3"
-                                            color="primary"
+                                            variant='h3'
+                                            color='primary'
                                             sx={{
                                                 fontSize: '18px',
                                                 fontWeight: 500,
@@ -207,7 +206,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                     </Box>
                                     <Box sx={{ width: '100%' }}>
                                         <FormControlLabel
-                                            label="Chọn tất cả"
+                                            label='Chọn tất cả'
                                             control={
                                                 <Checkbox
                                                     //defaultChecked
@@ -267,7 +266,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                     </Container>
                     {thisCart.cartCountProducts !== 0 && (
                         <Box sx={{ padding: '10px' }}>
-                            <CartFooterInfomation
+                            <CartFooterInformation
                                 isSelectedProduct={checkedList.length !== 0}
                                 handleShowMsg={() => {
                                     handleShowMsg(checkedList.length !== 0);

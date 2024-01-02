@@ -98,14 +98,13 @@ export default function Page() {
                             <ShowDialog
                                 isOpen={openListAddress}
                                 handleClose={handleCloseListAddress}
-                                dialogTitle="Địa chỉ của tôi"
+                                dialogTitle='Địa chỉ của tôi'
                                 dialogStyle={{ minWidth: 560 }}
                             >
                                 {userProfile?.address && (
                                     <AddressList
                                         handleCloseListItem={handleCloseListAddress}
-                                        userProfile={userProfile}
-                                        triggerRefreshUserProfile={triggerRefreshUserProfile}
+                                        handleSelectAddressIndex={() => {}}
                                     />
                                 )}
 
@@ -148,7 +147,7 @@ export default function Page() {
                                     </Button>
                                     <Link href={'/gio-hang/payment'}>
                                         <Button
-                                            type="submit"
+                                            type='submit'
                                             sx={{
                                                 borderRadius: '5px',
                                                 backgroundColor: '#ee4949',

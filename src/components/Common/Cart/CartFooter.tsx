@@ -1,11 +1,9 @@
 'use client';
 
-import React, { FC, useEffect, useState, MouseEvent } from 'react';
+import React, { FC, useState, MouseEvent } from 'react';
 
-import { UserModel } from '@models/Profile';
 import { Address } from '@models/Account';
 import { useAppDispatch, useAppSelector } from '@store/store';
-import { getCurrentUser } from '@store/slices/authSlice';
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -22,6 +20,7 @@ import { AddCartItemModel } from '@models/Cart';
 import { OrderReviewRequest } from '@models/Order';
 import { reviewCurrentOrder } from '@store/slices/orderSlice';
 import { toast } from 'react-toastify';
+import { useProfile } from '@hooks/useProfile';
 
 const BoxBuying = styled(Box)(() => ({
     position: 'sticky',
@@ -56,7 +55,7 @@ interface CartFooterProps {
     totalPrice: number;
 }
 
-const CartFooterInfomation: FC<CartFooterProps> = ({
+const CartFooterInformation: FC<CartFooterProps> = ({
     isSelectedProduct,
     handleShowMsg,
     saveSelectedProducts,
@@ -65,40 +64,12 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const [userProfile, setUserProfile] = useState<UserModel | null>(null);
     const [openNewAddress, setOpenNewAddress] = useState(false);
     const [openListAddress, setOpenListAddress] = useState(false);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
-
-    const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
     const { isLoadingDetails } = useAppSelector((state) => state.order);
 
-    useEffect(() => {
-        const getProfile = async () => {
-            const res = await dispatch(getCurrentUser());
-
-            if (res?.error) {
-                console.log(res.error);
-                router.refresh();
-            }
-        };
-
-        if (userProfile === null) {
-            getProfile();
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            setUserProfile(user as unknown as UserModel);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoadingProfile, user]);
-
-    const triggerRefreshUserProfile = async () => {
-        await dispatch(getCurrentUser());
-    };
+    const { profile: userProfile, refreshProfile } = useProfile();
 
     const handleBuyNow = () => {
         if (!isSelectedProduct) {
@@ -132,7 +103,7 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
         setOpenNewAddress(false);
     };
 
-    const saveInforToLocalStorage = debounce(async (e: MouseEvent<HTMLButtonElement>) => {
+    const saveInfoToLocalStorage = debounce(async (e: MouseEvent<HTMLButtonElement>) => {
         saveSelectedProducts(e);
         localStorage.setItem('selected-address', currentIndex.toString());
         const itemsSelectedQueryString = localStorage.getItem('select-item-query');
@@ -156,8 +127,7 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
             console.log(response);
             if (response?.success) {
                 router.push('/gio-hang-v2/payment');
-            }
-            else {
+            } else {
                 toast.error('Có lỗi xảy ra. Xin vui lòng thử lại sau...');
             }
         }
@@ -165,9 +135,9 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
 
     return (
         <BoxBuying>
-            <Box className="cart_buy_content">
+            <Box className='cart_buy_content'>
                 <Box>Tạm tính: {currencyFormat(totalPrice)}đ</Box>
-                <Box className="cart_buy_now">
+                <Box className='cart_buy_now'>
                     <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
                         Mua ngay
                     </Button>
@@ -179,7 +149,7 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
                             handleClose={handleCloseNewAddress}
                             userThisAddress={new Address()}
                             addressIndex={null}
-                            triggerRefreshUserProfile={triggerRefreshUserProfile}
+                            triggerRefreshUserProfile={refreshProfile}
                             setOpenNewAddress={setOpenNewAddress}
                             setOpenListAddress={setOpenListAddress}
                         />
@@ -190,13 +160,11 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
                         <ShowDialog
                             isOpen={openListAddress}
                             handleClose={handleCloseListAddress}
-                            dialogTitle="Địa chỉ của tôi"
+                            dialogTitle='Địa chỉ của tôi'
                             dialogStyle={{ minWidth: 560 }}
                         >
                             <AddressList
                                 handleCloseListItem={handleCloseListAddress}
-                                userProfile={userProfile}
-                                triggerRefreshUserProfile={triggerRefreshUserProfile}
                                 handleSelectAddressIndex={(index: number) => {
                                     setCurrentIndex(index);
                                 }}
@@ -241,7 +209,7 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
                                     Hủy
                                 </Button>
                                 <Button
-                                    type="submit"
+                                    type='submit'
                                     sx={{
                                         borderRadius: '5px',
                                         backgroundColor: '#ee4949',
@@ -252,16 +220,18 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
                                             backgroundColor: '#ee4949',
                                         },
                                     }}
-                                    onClick={saveInforToLocalStorage}
+                                    onClick={saveInfoToLocalStorage}
                                 >
                                     {isLoadingDetails ? (
                                         <MoonLoader
-                                            color="#f8f8ff"
+                                            color='#f8f8ff'
                                             speedMultiplier={0.75}
                                             size={22}
                                         />
                                     ) : (
-                                        <Typography variant='h6' sx={{ fontSize: '14px' }}>Xác nhận</Typography>
+                                        <Typography variant='h6' sx={{ fontSize: '14px' }}>
+                                            Xác nhận
+                                        </Typography>
                                     )}
                                 </Button>
                             </Box>
@@ -273,4 +243,4 @@ const CartFooterInfomation: FC<CartFooterProps> = ({
     );
 };
 
-export default CartFooterInfomation;
+export default CartFooterInformation;

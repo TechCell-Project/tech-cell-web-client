@@ -117,7 +117,11 @@ export const HeaderClient = ({ window }: Props) => {
                                     key={`nav_item_${index.toString()}`}
                                     content={item.name}
                                     options={item?.menu}
-                                    icon={item.icon ? <item.icon style={{ fontSize: '34px' }} /> : undefined}
+                                    icon={
+                                        item.icon ? (
+                                            <item.icon style={{ fontSize: '34px' }} />
+                                        ) : undefined
+                                    }
                                     href={item.href ? item.href : undefined}
                                 />
                             ))}
@@ -206,7 +210,7 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     return session ? (
         <>
             <Avatar
-                src={session.user.avatar.url}
+                src={session.user?.avatar?.url ?? undefined}
                 alt='User Avatar'
                 sx={{ height: '38px', width: '38px', cursor: 'pointer' }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -237,23 +241,36 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                 <Typography fontSize='18px' fontWeight={600}>
                     {`${session.user.firstName} ${session.user.lastName}`}
                 </Typography>
-                <Typography fontSize='12px' fontWeight={500}>{getRole(session.user.role)}</Typography>
+                <Typography fontSize='12px' fontWeight={500}>
+                    {getRole(session.user.role)}
+                </Typography>
 
-                <hr style={{ width: '100%', height: '.5px', margin: '15px 0', backgroundColor: 'rgba(0,0,0,0.1)' }} />
+                <hr
+                    style={{
+                        width: '100%',
+                        height: '.5px',
+                        margin: '15px 0',
+                        backgroundColor: 'rgba(0,0,0,0.1)',
+                    }}
+                />
 
                 <ul className={styles.popover_account_ul}>
                     <li>
                         <AssignmentIndIcon />
-                        <button onClick={() => {
-                            push(RootPath.Profile);
-                            setAnchorEl(null);
-                        }}>
+                        <button
+                            onClick={() => {
+                                push(RootPath.Profile);
+                                setAnchorEl(null);
+                            }}
+                        >
                             Hồ sơ
                         </button>
                     </li>
-                    <li onClick={() => signOut()}>
+                    <li>
                         <LogoutRoundedIcon />
-                        <button>Đăng xuất</button>
+                        <button onClick={() => signOut()}>
+                            <button>Đăng xuất</button>
+                        </button>
                     </li>
                 </ul>
             </Popover>

@@ -1,6 +1,6 @@
-import { Address } from '@models/Account';
+import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
-export function getDefaultAddress(addresses: Address[]) {
+export function getDefaultAddress(addresses: AddressSchemaDTO[]) {
     if (!Array.isArray(addresses)) {
         return null;
     }
@@ -12,7 +12,7 @@ export function getDefaultAddress(addresses: Address[]) {
     return result;
 }
 
-export function buildAddressString(address: Address): string {
+export function buildAddressString(address: AddressSchemaDTO): string {
     let { detail, wardLevel, districtLevel, provinceLevel } = address;
     wardLevel = Array.isArray(wardLevel) ? wardLevel[0] : wardLevel;
     districtLevel = Array.isArray(districtLevel) ? districtLevel[0] : districtLevel;
