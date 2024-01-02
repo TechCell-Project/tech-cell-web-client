@@ -22,7 +22,7 @@ interface BackendTokens {
 }
 
 export const config = {
-    matcher: ['/gio-hang-v2', '/gio-hang-v2/:path*'],
+    matcher: ['/gio-hang', '/gio-hang/:path*', '/ho-so'],
 };
 
 const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
@@ -32,7 +32,7 @@ const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
 function signOut(request: NextRequest) {
     console.log(request.url);
     const url = new URL('/dang-nhap', request.url);
-    url.searchParams.append('callBackUrl', 'gio-hang-v2');
+    url.searchParams.append('callbackUrl', 'gio-hang');
     const response = NextResponse.redirect(url);
 
     request.cookies.getAll().forEach((cookie) => {
@@ -100,7 +100,13 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
             console.log(newSessionToken);
 
-            response = updateCookie(newSessionToken, request, response);
+            const size = 3933; // maximum size of each chunk
+            const regex = new RegExp('.{1,' + size + '}', 'g');
+
+            // split the string into an array of strings
+            const tokenChunks = RegExp(regex).exec(newSessionToken);
+
+            response = updateCookie(tokenChunks, request, response);
         } catch (error) {
             response = updateCookie(null, request, response);
         }
@@ -129,10 +135,16 @@ async function refreshToken(token: JWT) {
     return response;
 }
 
-function updateCookie(sessionToken: string | null, request: NextRequest, response: NextResponse) {
-    if (sessionToken) {
+function updateCookie(
+    sessionTokenChunks: any[] | null,
+    request: NextRequest,
+    response: NextResponse,
+) {
+    if (sessionTokenChunks) {
         // set request cookies for the incoming getServerSession to read new session
-        request.cookies.set(sessionCookie, sessionToken);
+        sessionTokenChunks.forEach((tokenChunk, index) => {
+            request.cookies.set(`${sessionCookie}.${index}`, tokenChunk);
+        });
 
         // updated request cookies can only be passed to server if its passdown here after setting its updates
         response = NextResponse.next({
@@ -142,11 +154,13 @@ function updateCookie(sessionToken: string | null, request: NextRequest, respons
         });
 
         // set response cookies to send back to browser
-        response.cookies.set(sessionCookie, sessionToken, {
-            httpOnly: true,
-            maxAge: 15 * 60, // 15 mins
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+        sessionTokenChunks.forEach((tokenChunk, index) => {
+            response.cookies.set(`${sessionCookie}.${index}`, tokenChunk, {
+                httpOnly: true,
+                maxAge: 15 * 60, // 15 mins
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+            });
         });
     } else {
         request.cookies.delete(sessionCookie);

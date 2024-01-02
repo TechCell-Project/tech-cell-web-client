@@ -6,6 +6,8 @@ import { LOGIN_GOOGLE_ENDPOINT } from '@constants/Services';
 import instanceAuth from '@config/instanceAuth.config';
 import { fetchLogin } from '@services/AuthService';
 import instancePublic from '@config/instancePublic.config';
+import { AxiosError } from 'axios';
+import { SignInResponse } from 'next-auth/react';
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -24,14 +26,19 @@ export const authOptions: NextAuthOptions = {
                     password: credentials?.password,
                 };
 
-                return fetchLogin(payload)
-                    .then((response) => {
-                        return response.data;
-                    })
-                    .catch((err) => {
-                        console.error(err.message);
-                        return null;
-                    });
+                try {
+                    const res = await fetchLogin(payload);
+                    console.log(res.status);
+                    if (res?.data) {
+                        return res.data;
+                    }
+                    else {
+                        throw new Error(`statusCode|${res.status}`);
+                    }
+                } catch (err: any) {
+                    console.error(err.response?.status);
+                    throw new Error(`statusCode|${err.response?.status}`);
+                }
             },
         }),
         GoogleProvider({
