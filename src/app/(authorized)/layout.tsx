@@ -1,9 +1,9 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
-import { LoadingPageMnt } from '@components/Common/Display/loading';
 import { RootPath } from '@constants/enum';
+import { useSession } from 'next-auth/react';
+import { LoadingPageMnt } from '@components/Common/Display/loading';
 
 /**
  * Renders the authorized layout component.
@@ -12,9 +12,7 @@ import { RootPath } from '@constants/enum';
  * @param {Readonly<{ children: React.ReactNode }>} children - The children elements to be rendered within the layout.
  * @return {JSX.Element} The rendered component.
  */
-export default function AuthorizedLayout({
-    children,
-}: Readonly<{ children: React.ReactNode }>): JSX.Element {
+export default function AuthorizedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const { data: session } = useSession();
 
     const router = useRouter();
