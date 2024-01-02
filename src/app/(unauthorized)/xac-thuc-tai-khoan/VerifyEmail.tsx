@@ -73,6 +73,7 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
             const response = await dispatch(verifyEmail(values));
 
             if (response?.success) {
+                setSubmitting(false);
                 router.refresh();
             }
             setSubmitting(false);
