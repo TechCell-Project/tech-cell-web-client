@@ -18,7 +18,7 @@ import { CartModel } from '@models/Cart';
 import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
 import CartPromotions from './CartPromotions';
 import CartSaleBanners from './CartSaleBanners';
-import { addOrRemoveFromArray } from 'utils';
+import { scrollToTop, addOrRemoveFromArray } from 'utils';
 import CartFooterInformation from './CartFooter';
 import { LoadingSection } from '../Display';
 import PaginationBar from '../PaginationData/PaginationBar';
@@ -120,7 +120,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const handleShowMsg = (isSelected: boolean) => {
         if (!isSelected) {
             setShowUncheckMsg(true);
-            ScrollToTop();
+            scrollToTop();
         } else setShowUncheckMsg(false);
     };
 
