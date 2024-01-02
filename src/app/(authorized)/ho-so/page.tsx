@@ -5,13 +5,13 @@ import React from 'react';
 import styles from '@styles/components/profile.module.scss';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, TextField } from '@mui/material';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useFormik } from 'formik';
 import { ProfileSchema } from 'validate/auth.validate';
 import { ProfileModel } from '@models/Auth';
 import IconButton from '@mui/material/IconButton';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function Page() {
     const { data: session } = useSession();
@@ -20,11 +20,14 @@ export default function Page() {
     const formik = useFormik({
         initialValues: new ProfileModel(),
         validationSchema: ProfileSchema,
-        onSubmit: async () => {
-        },
+        onSubmit: async () => {},
     });
 
-    return session?.user ? (
+    if (!session) {
+        return router.push('/');
+    }
+
+    return (
         <div className={styles.profile_container}>
             <div className={styles.top_nav}>
                 <div className={styles.navbar_container}>
@@ -45,7 +48,7 @@ export default function Page() {
                 />
             </div>
             <div className={styles.body_content}>
-                <div className={styles.content_text}>Cập nhập thông tin tài khoản</div>
+                <div className={styles.content_text}>Cập nhật thông tin tài khoản</div>
 
                 <Box component='form' sx={{ mt: 1 }}>
                     <TextField
@@ -77,9 +80,7 @@ export default function Page() {
                         label='Số điện thoại'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={
-                            formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-                        }
+                        error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
                         helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                     />
 
@@ -103,7 +104,5 @@ export default function Page() {
                 </Box>
             </div>
         </div>
-    ) : (
-        <>Bạn chưa đăng nhập</>
     );
 }

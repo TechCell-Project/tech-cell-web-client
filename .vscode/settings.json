@@ -15,5 +15,5 @@
         "usehooks",
         "webp"
     ],
-    "conventionalCommits.scopes": ["deps", "utils", "setting", "hooks"]
+    "conventionalCommits.scopes": ["deps", "utils", "setting", "hooks", "app"]
 }
