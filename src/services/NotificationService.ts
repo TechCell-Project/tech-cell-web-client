@@ -1,4 +1,4 @@
-import instanceAuth from "@config/instanceAuth.config";
+import instanceAuth from '@config/instanceAuth.config';
 import { getSearchParams } from '@utils/funcs';
 import { PagingResponse } from '@models/Common';
 import { NotificationModel, PagingNotify } from '@models/Notification';

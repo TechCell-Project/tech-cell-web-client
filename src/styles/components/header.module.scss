@@ -2,40 +2,39 @@
 @import '../base/mixins';
 
 .popover_account_ul {
-  li {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    cursor: pointer;
-    transition: all ease .3s;
+    li {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        cursor: pointer;
+        transition: all ease 0.3s;
 
-    &:last-child {
-      margin-top: 15px;
-    }
+        &:last-child {
+            margin-top: 15px;
+        }
 
-    &:hover button {
-      color: $primaryColor;
-    }
+        &:hover button {
+            color: $primaryColor;
+        }
 
-    button {
-      font-family: $primaryFont;
-      font-weight: 500;
-      font-size: 14px;
-      background-color: transparent !important;
-      cursor: pointer;
-      transition: all ease .3s;
+        button {
+            font-family: $primaryFont;
+            font-weight: 500;
+            font-size: 14px;
+            background-color: transparent !important;
+            cursor: pointer;
+            transition: all ease 0.3s;
+        }
     }
-  }
 }
 
 // Button modal search
 .button_search {
-  background-color: #ee4949;
-  color: #eaeaea;
-  width: 125px;
-  padding: 10px;
-  margin: 10px auto;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #ee4949;
+    color: #eaeaea;
+    width: 125px;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 5px;
+    cursor: pointer;
 }
-

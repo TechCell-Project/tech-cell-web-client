@@ -1,5 +1,5 @@
-import { PagingResponse } from "@models/Common";
-import { PriceModel, ProductModel, } from "@models/Product";
+import { PagingResponse } from '@models/Common';
+import { PriceModel, ProductModel } from '@models/Product';
 
 export interface CategorySelecting {
     key: string;

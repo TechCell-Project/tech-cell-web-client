@@ -3,4 +3,4 @@ export * from './FormGroup/CommonBtn';
 
 export * from './Display/IconCustom';
 
-export * from './Home/HomePage'
+export * from './Home/HomePage';

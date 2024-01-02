@@ -2,27 +2,27 @@
 @import '../base/mixins';
 
 .footerLinks {
-  margin-top: 8px;
+    margin-top: 8px;
 
-  li {
-    padding: 6px 0;
+    li {
+        padding: 6px 0;
 
-    a {
-      transition: all ease .3s;
-      font-size: 14px;
+        a {
+            transition: all ease 0.3s;
+            font-size: 14px;
+        }
+
+        &:hover a {
+            color: $primaryColor;
+        }
     }
-
-    &:hover a {
-      color: $primaryColor;
-    }
-  }
 }
 
 .footerDivider {
-  width: 100%;
-  height: 1px;
-  background-color: rgba(0, 0, 0, 0.1);
-  margin: 25px 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 25px 0;
 }
 
 //.footer {

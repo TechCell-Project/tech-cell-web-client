@@ -1,4 +1,4 @@
-import { ToastOptions } from "react-toastify";
+import { ToastOptions } from 'react-toastify';
 
 export const toastConfig: ToastOptions = {
     position: 'top-center',
@@ -9,4 +9,4 @@ export const toastConfig: ToastOptions = {
     draggable: true,
     progress: undefined,
     theme: 'light',
-}
+};

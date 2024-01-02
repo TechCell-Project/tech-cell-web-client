@@ -1,52 +1,51 @@
 @import '../base/variables';
 
 .body {
-  padding-right: 0 !important;
+    padding-right: 0 !important;
 }
 
 .text_link {
-  padding: 10px;
-  background-color: #ee4949;
-  border-radius: 5px;
+    padding: 10px;
+    background-color: #ee4949;
+    border-radius: 5px;
 
-  a {
-    text-decoration: none;
-    background-color: #ee4949 !important;
-  }
+    a {
+        text-decoration: none;
+        background-color: #ee4949 !important;
+    }
 }
 
 .buttonMenu {
-  position: relative;
+    position: relative;
 }
 
 .menu_nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
 }
 
 .login_socials {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  padding: 10px 40px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all .3s ease;
-  border: 1px solid $primaryLightColor;
-  background: $primaryLightColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 10px 40px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid $primaryLightColor;
+    background: $primaryLightColor;
 
-  &:hover {
-    border: 1px solid $primaryColor;
-    background: transparent;
-  }
+    &:hover {
+        border: 1px solid $primaryColor;
+        background: transparent;
+    }
 
-  span {
-    font-weight: 600;
-    color: #ee4949;
-    font-size: 14px;
-  }
+    span {
+        font-weight: 600;
+        color: #ee4949;
+        font-size: 14px;
+    }
 }
-
