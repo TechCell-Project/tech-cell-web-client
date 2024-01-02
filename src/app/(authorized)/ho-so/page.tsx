@@ -38,7 +38,11 @@ export default function Page() {
 
     useEffect(() => {
         if (user) {
-            setUserProfile({ ...new ProfileModel(), firstName: user.firstName, lastName: user.lastName });
+            setUserProfile({
+                ...new ProfileModel(),
+                firstName: user.firstName,
+                lastName: user.lastName,
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
@@ -59,10 +63,10 @@ export default function Page() {
             </div>
             <div className={styles.container_img}>
                 <Image
-                    src="/img_profile/Shipper_CPS3.webp"
+                    src='/img_profile/Shipper_CPS3.webp'
                     width={230}
                     height={230}
-                    alt="profile"
+                    alt='profile'
                 />
             </div>
             <Formik
@@ -78,38 +82,38 @@ export default function Page() {
                         <Form style={{ marginTop: 1 }}>
                             <TextFieldCustom
                                 styles={{ marginTop: 3 }}
-                                name="lastName"
-                                label="Họ"
+                                name='lastName'
+                                label='Họ'
                                 notDelay
                             />
 
                             <TextFieldCustom
                                 styles={{ marginTop: 3 }}
-                                name="firstName"
-                                label="Tên"
+                                name='firstName'
+                                label='Tên'
                                 notDelay
                             />
 
                             <TextFieldCustom
                                 styles={{ marginTop: 3 }}
-                                name="phoneNumber"
-                                label="Số điện thoại"
+                                name='phoneNumber'
+                                label='Số điện thoại'
                                 notDelay
                             />
 
                             <TextFieldCustom
                                 styles={{ marginTop: 3 }}
-                                name="referralCode"
-                                label="Mã giới thiệu ( Nếu có )"
+                                name='referralCode'
+                                label='Mã giới thiệu ( Nếu có )'
                                 notDelay
                             />
 
                             <CommonBtn
-                                type="submit"
+                                type='submit'
                                 styles={{ marginTop: 3, marginBottom: 2 }}
                                 fullWidth
                                 content='Xác Nhận'
-                                variant="contained"
+                                variant='contained'
                                 loading={isSubmitting}
                                 disabled={isSubmitting}
                             />
