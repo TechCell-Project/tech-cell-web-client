@@ -2,7 +2,7 @@ import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import { UserMntResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { profileApi } from '@services/ProfileService';
 
-type ProfileState = {
+export type ProfileState = {
     profile?: UserMntResponseDTO;
     isLoading: boolean;
 };
