@@ -34,4 +34,4 @@ export const getProductById = (id: string, isDetails?: boolean) => {
         url += `?detail=${isDetails}`;
     }
     return instancePublic.get<ProductModel>(url);
-}
+};

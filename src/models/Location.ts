@@ -1,4 +1,4 @@
-import { Address } from "./Account";
+import { Address } from './Account';
 
 export class LocationExtended {
     name_extension: Array<string> = [];
@@ -31,7 +31,7 @@ export class Location {
     address: Address = new Address();
     constructor(values?: Address) {
         if (values) {
-            Object.assign(this, {address: values});
+            Object.assign(this, { address: values });
         }
     }
 }

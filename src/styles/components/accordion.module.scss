@@ -1,14 +1,14 @@
 @import '../base/variables';
 
 .accordion_link {
-  font-weight: 500;
-  font-size: 13px;
-  display: block;
-  padding: 8px 0;
-  transition: all ease .3s;
+    font-weight: 500;
+    font-size: 13px;
+    display: block;
+    padding: 8px 0;
+    transition: all ease 0.3s;
 
-  &:hover {
-    color: $primaryColor;
-    transform: translateX(4px);
-  }
+    &:hover {
+        color: $primaryColor;
+        transform: translateX(4px);
+    }
 }

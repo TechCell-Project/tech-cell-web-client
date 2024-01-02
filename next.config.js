@@ -24,7 +24,7 @@ const nextConfig = {
     },
     env: {
         API_ENDPOINT: process.env.API_BASE_URL,
-        URL_HOST_SOCKET_IO: process.env.URL_HOST_SOCKET_IO
+        URL_HOST_SOCKET_IO: process.env.URL_HOST_SOCKET_IO,
     },
 
     modularizeImports: {
@@ -37,9 +37,7 @@ const nextConfig = {
         // },
     },
 
-    transpilePackages :[
-        "@TechCell-Project/tech-cell-server-node-sdk"
-    ],
+    transpilePackages: ['@TechCell-Project/tech-cell-server-node-sdk'],
 
     webpack(config) {
         config.module.rules.push({

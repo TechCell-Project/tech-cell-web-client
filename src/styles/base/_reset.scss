@@ -1,40 +1,40 @@
 * {
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  border: 0;
-  list-style: none;
-  text-decoration: none;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
-  position: relative;
+    scroll-behavior: smooth;
+    position: relative;
 }
 
 html,
 body {
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 body {
-  font-family: $primaryFont;
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 0;
-  color: $blackColor;
-  min-height: 100vh;
-  flex-direction: column;
-  padding-right: 0 !important;
+    font-family: $primaryFont;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0;
+    color: $blackColor;
+    min-height: 100vh;
+    flex-direction: column;
+    padding-right: 0 !important;
 }
 
 img {
-  display: block;
-  max-width: 100%;
-  object-fit: cover;
+    display: block;
+    max-width: 100%;
+    object-fit: cover;
 }
 
 a {
-  color: $blackColor;
+    color: $blackColor;
 }

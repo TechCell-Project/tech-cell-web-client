@@ -108,11 +108,11 @@
     }
 }
 
-.product_attribute{
+.product_attribute {
     margin-bottom: 10px;
     color: #747677;
 }
-.product_price{
+.product_price {
     display: flex;
     align-items: center;
 }
@@ -207,7 +207,6 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 10px;
-        
     }
 
     .cart_buy_card {
@@ -224,8 +223,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                img{
-                    @include responsive(max_sm){
+                img {
+                    @include responsive(max_sm) {
                         width: 60px;
                         height: 60px;
                     }
@@ -235,7 +234,7 @@
                 margin-top: 10px;
                 margin-bottom: 15px;
                 text-wrap: wrap;
-                @include responsive(max_sm){
+                @include responsive(max_sm) {
                     font-size: 12px;
                     text-wrap: wrap;
                 }
@@ -243,7 +242,7 @@
             .card_product_discount {
                 margin-bottom: 10px;
                 color: #ee4949;
-                @include responsive(max_sm){
+                @include responsive(max_sm) {
                     font-size: 10px;
                 }
             }
@@ -253,7 +252,7 @@
                 padding: 10px 5px;
                 width: 140px;
                 border-radius: 5px;
-                @include responsive(max_sm){
+                @include responsive(max_sm) {
                     font-size: 10px;
                 }
             }
@@ -265,8 +264,8 @@
         padding: 5px 0px 10px 0px;
         .cart_buy_header_icon {
             color: #ee4949;
-            svg{
-                @include responsive(max_sm){
+            svg {
+                @include responsive(max_sm) {
                     width: 20px;
                     height: 20px;
                 }
@@ -275,7 +274,7 @@
         .cart_buy_header_text {
             font-size: 14px;
             margin-left: 5px;
-            @include responsive(max_sm){
+            @include responsive(max_sm) {
                 font-size: 12px;
             }
         }
@@ -380,11 +379,11 @@
         align-items: center;
         width: 600px;
         margin: 10px 0px;
-        @include responsive(max_sm){
+        @include responsive(max_sm) {
             padding: 0px 10px 0px 10px;
         }
-        .cart_buy_provisional{
-            @include responsive(max_sm){
+        .cart_buy_provisional {
+            @include responsive(max_sm) {
                 font-size: 12px;
             }
         }
@@ -392,15 +391,14 @@
             background-color: #ee4949;
             border-radius: 5px;
             cursor: pointer;
-            button{
-                @include responsive(max_sm){
+            button {
+                @include responsive(max_sm) {
                     font-size: 12px;
                 }
             }
             a {
                 color: white;
                 padding: 10px 20px;
-                
             }
         }
     }

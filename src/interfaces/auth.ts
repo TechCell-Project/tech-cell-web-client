@@ -30,8 +30,8 @@ export interface IUser {
 }
 
 export interface IAuthSlice {
-    item:[];
-    status:null;
+    item: [];
+    status: null;
     user: IUser | null;
     isLoading: boolean;
     isAuthenticated: boolean;
@@ -39,6 +39,6 @@ export interface IAuthSlice {
     message: string | null;
 }
 
-export interface ICart{
-    id:number;
+export interface ICart {
+    id: number;
 }
