@@ -8,7 +8,7 @@ import {
     SERVER_ERROR_CODE,
 } from '@constants/errorCode';
 import { ProductSearchingStatus } from '@interfaces/product';
-import Loading from '@app/gio-hang/loading';
+import Loading from './loading';
 
 const SearchPage = async ({ searchParams }: { searchParams: { search?: string } }) => {
     const searchQuery = searchParams.search ?? '';
