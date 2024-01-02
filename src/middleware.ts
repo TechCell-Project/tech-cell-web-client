@@ -22,7 +22,7 @@ interface BackendTokens {
 }
 
 export const config = {
-    matcher: ['/gio-hang-v2', '/gio-hang-v2/:path*'],
+    matcher: ['/gio-hang', '/gio-hang/:path*', '/ho-so'],
 };
 
 const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
@@ -32,7 +32,7 @@ const sessionCookie = process.env.NEXTAUTH_URL?.startsWith('https://')
 function signOut(request: NextRequest) {
     console.log(request.url);
     const url = new URL('/dang-nhap', request.url);
-    url.searchParams.append('callBackUrl', 'gio-hang-v2');
+    url.searchParams.append('callbackUrl', 'gio-hang');
     const response = NextResponse.redirect(url);
 
     request.cookies.getAll().forEach((cookie) => {

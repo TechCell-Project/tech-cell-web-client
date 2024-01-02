@@ -43,23 +43,20 @@ export default function Login() {
     const [targetTime, setTargetTime] = useState<Date | null>(null);
 
     const countdownTimer = useCountdown(targetTime);
-    console.log(countdownTimer);
 
-    const backUrl = searchParams.has('callbackUrl') ? searchParams.get('callbackUrl') : '/';
+    const backUrl = searchParams.has('callbackUrl') ? `/${searchParams.get('callbackUrl')}` : '/';
 
     const debouncedSignIn = debounce(
         async (payload: LoginModel, { setSubmitting }: FormikHelpers<LoginModel>) => {
             const res = await signIn('credentials', {
                 emailOrUsername: payload.emailOrUsername,
                 password: payload.password,
-                callbackUrl: backUrl as string,
-                redirect: false,
+                callbackUrl: backUrl,
             });
-            console.log(res);
+            console.log('response: ', res);
 
             if (res?.ok) {
                 toast.success('Đăng nhập thành công');
-                push(backUrl as string);
             }
             else {
                 // Extract the status code from the error message
@@ -125,9 +122,15 @@ export default function Login() {
                                     name="emailOrUsername"
                                     label="Tài khoản hoặc email"
                                     styles={{ marginBottom: '25px' }}
+                                    notDelay
                                 />
-                                <TextFieldCustom name="password" type="password" label="Mật khẩu" />
-                                <Stack width="100%" alignItems="center" mt={5}>
+                                <TextFieldCustom
+                                    name='password'
+                                    type='password'
+                                    label='Mật khẩu'
+                                    notDelay
+                                />
+                                <Stack width='100%' alignItems='center' mt={5}>
                                     <CommonBtn
                                         type="submit"
                                         content="Đăng nhập"

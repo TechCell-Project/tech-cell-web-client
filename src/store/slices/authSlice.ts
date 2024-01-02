@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { fetchLogin, fetchRegister, fetchResendVerify, fetchVerifyEmail } from 'services/index';
 
 const initialState: AuthSlice = {
-    user: new UserAccount(),
+    user: null,
     isLoading: false,
     isLoadingProfile: false,
     isAuthenticated: false,

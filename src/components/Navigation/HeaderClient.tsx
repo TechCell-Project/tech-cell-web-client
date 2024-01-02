@@ -35,7 +35,9 @@ import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Notification } from '@components/Features';
 import { useAppDispatch } from '@store/store';
-import { logout } from '@store/slices/authSlice';
+import { logOut } from '@store/slices/authSlice';
+
+import AlternateAvatar from '@public/images/avatarColor.webp';
 
 interface Props {
     window?: () => Window;
@@ -204,11 +206,12 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
+    const { push } = useRouter();
 
     return session ? (
         <>
             <Avatar
-                src={session.user.avatar.url}
+                src={session.user.avatar ? session.user.avatar.url : AlternateAvatar.src}
                 alt='User Avatar'
                 sx={{ height: '38px', width: '38px', cursor: 'pointer' }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -246,11 +249,16 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                 <ul className={styles.popover_account_ul}>
                     <li>
                         <AssignmentIndIcon />
-                        <button>Hồ sơ</button>
+                        <button onClick={() => {
+                            push(RootPath.Profile);
+                            setAnchorEl(null);
+                        }}>
+                            Hồ sơ
+                        </button>
                     </li>
                     <li onClick={() => {
                         signOut();
-                        dispatch(logout());
+                        dispatch(logOut());
                     }}>
                         <LogoutRoundedIcon />
                         <button>Đăng xuất</button>

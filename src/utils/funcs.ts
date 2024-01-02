@@ -227,6 +227,14 @@ export function debounce<F extends (...args: any[]) => any>(func: F, waitFor: nu
     };
 }
 
+// Scroll to top of page
+export function ScrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+}
+
 // Function to get unique attribute keys from all variations
 export const getUniqueAttributeKeys = (variations: VariationModel[]) =>
     Array.from(

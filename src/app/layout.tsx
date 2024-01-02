@@ -1,19 +1,16 @@
 import { Metadata } from 'next';
-import { Montserrat } from 'next/font/google';
 import { HeaderClient, FooterClient } from 'components/Navigation';
-import 'styles/base/index.scss';
-import { ThemeProviderMui } from 'components/Provider';
-import styles from '../styles/components/button.module.scss';
+import { SocketProvider, ThemeProviderMui } from 'components/Provider';
 import { ReduxProvider } from '@components/Provider/ReduxProvider';
 import NextAuthProvider from '@components/Provider/NextAuthProvider';
 import { getSession } from 'next-auth/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-// const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
+import 'styles/base/index.scss';
 
 export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
+
 };
 
 export async function getNextAuthSession() {
@@ -22,6 +19,7 @@ export async function getNextAuthSession() {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const session = await getNextAuthSession();
+
     return (
         <html lang="en">
             <head>
@@ -33,15 +31,16 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                   rel='stylesheet'
                 />
             </head>
-{/*             <body className={`${montserrat.className} ${styles.body}`}> */}
-            <body className={`${styles.body}`}>
+            <body>
                 <ToastContainer theme='colored' autoClose={3000} newestOnTop closeOnClick position='top-right' />
                 <NextAuthProvider {...(session ?? {})}>
                     <ThemeProviderMui>
                         <ReduxProvider>
-                            <HeaderClient />
-                            <div style={{ minHeight: '60vh'}}>{children}</div>
-                            <FooterClient />
+                            <SocketProvider>
+                                <HeaderClient />
+                                {children}
+                                <FooterClient />
+                            </SocketProvider>
                         </ReduxProvider>
                     </ThemeProviderMui>
                 </NextAuthProvider>

@@ -15,8 +15,8 @@ export class RegisterModel {
 }
 
 export class ProfileModel {
-    userName?: string | null = null;
-    email?: string | null = null;
+    firstName?: string | null = null;
+    lastName?: string | null = null;
     phoneNumber?: string | null = null;
     referralCode?: string | null = null;
 }
