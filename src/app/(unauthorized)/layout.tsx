@@ -1,14 +1,18 @@
-import { auth } from '@libs/next-auth';
-import { redirect } from 'next/navigation';
+'use client';
 
-export default async function UnauthorizedLayout({
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { LoadingPageMnt } from '@components/Common/Display/loading';
+
+export default function UnauthorizedLayout({
     children,
-}: Readonly<{ children: React.ReactNode }>) {
-    const redirectDestination = '/';
-    const session = await auth();
+}: Readonly<{ children: React.ReactNode }>): JSX.Element {
+    const { data: session } = useSession();
+    const router = useRouter();
 
     if (session?.user) {
-        return redirect(redirectDestination);
+        router.back();
+        return <LoadingPageMnt isLoading />;
     }
 
     return <>{children}</>;
