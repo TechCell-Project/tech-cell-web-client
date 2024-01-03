@@ -8,27 +8,18 @@ import { useSession } from 'next-auth/react';
 import { SubEvent } from '@libs/socket-io';
 import { getSocket } from '@libs/socket-io/socket-io';
 
-export function SocketProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+/**
+ * Provides a socket connection for the application.
+ *
+ * @param {Readonly<{ children: React.ReactNode }>} children - The child components to be rendered.
+ * @return {JSX.Element}
+ */
+export function SocketProvider({ children }: Readonly<{ children: React.ReactNode }>): JSX.Element {
     const dispatch = useAppDispatch();
     const { data: session } = useSession();
     const { socket } = useAppSelector((state) => state.notifications);
 
-    const handleNewOrderAdmin = (data: { time: string; notifications: NotificationModel }) => {
-        console.log(data);
-        dispatch(setPushNotifySocket(data.notifications));
-    };
-
-    const handleAllUserRoom = (data: { time: string; notifications: NotificationModel }) => {
-        console.log(data);
-        dispatch(setPushNotifySocket(data.notifications));
-    };
-
-    const handleUserIdRoom = (data: { time: string; notifications: NotificationModel }) => {
-        console.log(data);
-        dispatch(setPushNotifySocket(data.notifications));
-    };
-
-    const handleRoleRoom = (data: { time: string; notifications: NotificationModel }) => {
+    const handleNotifications = (data: { time: string; notifications: NotificationModel }) => {
         console.log(data);
         dispatch(setPushNotifySocket(data.notifications));
     };
@@ -38,10 +29,10 @@ export function SocketProvider({ children }: Readonly<{ children: React.ReactNod
         if (session?.user && !socket?.connected) {
             const socketInstance = getSocket(session?.user?.accessToken);
 
-            socketInstance.on(SubEvent.newOrderAdmin, handleNewOrderAdmin);
-            socketInstance.on(SubEvent.allUserRoom, handleAllUserRoom);
-            socketInstance.on(SubEvent.userIdRoom(session?.user?._id), handleUserIdRoom);
-            socketInstance.on(SubEvent.roleRoom(session?.user?.role), handleRoleRoom);
+            socketInstance.on(SubEvent.newOrderAdmin, handleNotifications);
+            socketInstance.on(SubEvent.allUserRoom, handleNotifications);
+            socketInstance.on(SubEvent.userIdRoom(session?.user?._id), handleNotifications);
+            socketInstance.on(SubEvent.roleRoom(session?.user?.role), handleNotifications);
 
             dispatch(setSocket(socketInstance));
         }
