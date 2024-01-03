@@ -3,7 +3,10 @@ import { getCurrentVariant } from './funcs';
 import { VariantInCart } from '@interfaces/cart';
 import { AddCartItemModel } from '@models/Cart';
 
-export async function getSingleProductVariant(cartItems: AddCartItemModel, isDetails: boolean = true): Promise<VariantInCart> {
+export async function getSingleProductVariant(
+    cartItems: AddCartItemModel,
+    isDetails: boolean = true,
+): Promise<VariantInCart> {
     try {
         const response = await getProductById(cartItems.productId!, isDetails);
 

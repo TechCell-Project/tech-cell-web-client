@@ -1,10 +1,15 @@
-import instanceAuth from "@config/instanceAuth.config";
-import { PROFILE_ENDPOINT } from "@constants/Services";
-import { UserAccount } from "@models/Account";
-import { ProfileAddressRequest } from "@models/Profile";
+import { ProfileApi } from '@TechCell-Project/tech-cell-server-node-sdk';
+import { PROFILE_ENDPOINT } from '@constants/Services';
+import { axiosAuth } from '@libs/axios';
+import { UserAccount } from '@models/Account';
+import { ProfileAddressRequest } from '@models/Profile';
 
-export const getProfile = () => instanceAuth.get<UserAccount>(PROFILE_ENDPOINT);
+export const profileApi = new ProfileApi(undefined, undefined, axiosAuth);
 
-export const patchProfileInfo = (payload: Partial<UserAccount>) => instanceAuth.patch<UserAccount>(`${PROFILE_ENDPOINT}/info`, payload);
+export const getProfile = () => axiosAuth.get<UserAccount>(PROFILE_ENDPOINT);
 
-export const patchProfileAddress = (payload: ProfileAddressRequest) => instanceAuth.patch<UserAccount>(`${PROFILE_ENDPOINT}/address`, payload);
+export const patchProfileInfo = (payload: Partial<UserAccount>) =>
+    axiosAuth.patch<UserAccount>(`${PROFILE_ENDPOINT}/info`, payload);
+
+export const patchProfileAddress = (payload: ProfileAddressRequest) =>
+    axiosAuth.patch<UserAccount>(`${PROFILE_ENDPOINT}/address`, payload);

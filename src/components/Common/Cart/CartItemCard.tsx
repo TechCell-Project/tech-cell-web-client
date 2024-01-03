@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React, { FC, useEffect } from 'react';
 
-import SkeletionCartItem from '../Display/SkeletionCartItem';
+import SkeletonCartItem from '../Display/SkeletionCartItem';
 
 import { ItemCard } from './ItemCard';
 import { CartItemModel } from '@models/Cart';
@@ -18,14 +18,20 @@ interface CartItemPropsValues {
     passThisItemPrice: (id: string, sku: string, price: number) => void;
 }
 
-const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelected, handleCheckBox, passThisItemPrice }) => {
+const CartItemCard: FC<CartItemPropsValues> = ({
+    itemData,
+    refreshCart,
+    isSelected,
+    handleCheckBox,
+    passThisItemPrice,
+}) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (itemData.productId) {
             dispatch(getDetailsProduct(itemData.productId));
         }
-    }, [itemData])
+    }, [itemData]);
 
     const { product, isLoadingDetails } = useAppSelector((state) => state.product);
 
@@ -33,7 +39,7 @@ const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelect
     // console.log(product);
 
     return isLoadingDetails ? (
-        <SkeletionCartItem />
+        <SkeletonCartItem />
     ) : (
         <>
             {product && (
@@ -41,15 +47,14 @@ const CartItemCard: FC<CartItemPropsValues> = ({ itemData, refreshCart, isSelect
                     <ItemCard
                         label={formatProductLabel(product)}
                         currentVariant={getCurrentVariant(product, itemData.sku!)}
+                        currentProduct={product}
                         itemData={itemData}
                         refreshCart={refreshCart}
                         isChecked={isSelected}
                         handleCheckBox={handleCheckBox}
                         passThisItemPrice={passThisItemPrice}
                     />
-                    {isLoadingDetails && (
-                        <SkeletionCartItem />
-                    )}
+                    {isLoadingDetails && <SkeletonCartItem />}
                 </>
             )}
         </>

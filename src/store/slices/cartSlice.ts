@@ -66,19 +66,20 @@ export const addItemToCart = (payload: AddCartItemModel) => async (dispatch: Dis
     }
 };
 
-export const authAddItemToCart = (payload: AddCartItemModel, instance: AxiosInstance) => async (dispatch: Dispatch) => {
-    dispatch(isAddingItem());
-    try {
-        const response = await instance.post(`${CART_ENDPOINT}`, payload);
-        if (response.data) {
-            return { success: true };
+export const authAddItemToCart =
+    (payload: AddCartItemModel, instance: AxiosInstance) => async (dispatch: Dispatch) => {
+        dispatch(isAddingItem());
+        try {
+            const response = await instance.post(`${CART_ENDPOINT}`, payload);
+            if (response.data) {
+                return { success: true };
+            }
+        } catch (error) {
+            return { success: false, error };
+        } finally {
+            dispatch(addedItemDone());
         }
-    } catch (error) {
-        return { success: false, error };
-    } finally {
-        dispatch(addedItemDone());
-    }
-};
+    };
 
 const { actions, reducer } = cartsSlice;
 

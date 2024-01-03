@@ -81,37 +81,33 @@ export const BRANDS = [
 // sản phẩm đính kèm attached
 export const PRODUCT_ATTACHED = [
     {
-        value:1,
+        value: 1,
         img: '/img_productDetail/ip14_2.webp',
         name: 'Mua kèm bàn ghế công thái học',
         discount: 'Giảm thêm 10%',
-        alt:'img'
+        alt: 'img',
     },
     {
-        value:2,
+        value: 2,
         img: '/img_productDetail/ip14_2.webp',
         name: 'Mua kèm bàn ghế công thái học',
         discount: 'Giảm thêm 10%',
-        alt:'img'
-
+        alt: 'img',
     },
     {
-        value:3,
+        value: 3,
         img: '/img_productDetail/ip14_2.webp',
         name: 'Mua kèm bàn ghế công thái học',
         discount: 'Giảm thêm 10%',
-        alt:'img'
-
+        alt: 'img',
     },
     {
-        value:4,
+        value: 4,
         img: '/img_productDetail/ip14_2.webp',
         name: 'Mua kèm bàn ghế công thái học',
         discount: 'Giảm thêm 10%',
-        alt:'img'
+        alt: 'img',
     },
-    
-    
 ];
 
 export const DETAIL_CATEGORIES = [

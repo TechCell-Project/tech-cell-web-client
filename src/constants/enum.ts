@@ -24,5 +24,5 @@ export enum RootPath {
     Search = '/tim-kiem',
     ProductList = '/danh-sach-san-pham',
     ProductDetails = '/chi-tiet-san-pham',
-    Profile = '/ho-so'
+    Profile = '/ho-so',
 }

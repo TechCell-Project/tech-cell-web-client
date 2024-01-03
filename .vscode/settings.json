@@ -1,0 +1,20 @@
+{
+    "cSpell.words": [
+        "formik",
+        "Macbook",
+        "NEXTAUTH",
+        "persistor",
+        "plaiceholder",
+        "Readmore",
+        "reduxjs",
+        "Shawshank",
+        "signin",
+        "Signout",
+        "tanstack",
+        "toastify",
+        "unauth",
+        "usehooks",
+        "webp"
+    ],
+    "conventionalCommits.scopes": ["deps", "utils", "setting", "hooks", "app", "actions"]
+}

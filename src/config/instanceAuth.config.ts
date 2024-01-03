@@ -13,7 +13,7 @@ const instanceAuth: AxiosInstance = axios.create({
 instanceAuth.interceptors.request.use(
     async (request) => {
         if (request.headers.Authorization) return request;
-        
+
         const session = await getSession();
 
         console.log(session);

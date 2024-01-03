@@ -1,1 +1,1 @@
-export * from './AddressItemList'
+export * from './AddressItemList';

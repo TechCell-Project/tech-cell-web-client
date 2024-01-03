@@ -45,7 +45,7 @@ const PreviewPage = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            router.push('/gio-hang-v2');
+            router.push('/gio-hang');
         }, 2 * 60 * 1000);
 
         return () => clearTimeout(timer);

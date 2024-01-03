@@ -47,7 +47,7 @@ export const theme: Theme = createTheme({
         },
         action: {
             disabledBackground: 'rgba(238, 73, 73, 0.15)',
-        }
+        },
     },
     primary: {
         main: '#ee4949',

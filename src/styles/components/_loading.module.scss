@@ -1,27 +1,27 @@
-@import "../base/variables";
+@import '../base/variables';
 
 .loadingWrapper {
-  position: fixed;
-  inset: 0;
-  background-color: #ffffff;
-  overflow: hidden;
-  z-index: 9998;
+    position: fixed;
+    inset: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+    z-index: 9998;
 
-  .loadingSpinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+    .loadingSpinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
 
-    span {
-      font-size: 14px;
-      color: $blackColor;
-      font-weight: 600;
+        span {
+            font-size: 14px;
+            color: $blackColor;
+            font-weight: 600;
+        }
     }
-  }
 }
