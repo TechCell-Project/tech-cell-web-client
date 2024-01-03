@@ -10,7 +10,7 @@ type TNotificationSlice = {
     isLoading: boolean;
     showReadmore: boolean;
     isPing: boolean;
-}
+};
 
 const initialState: TNotificationSlice = {
     notifications: [],
@@ -65,13 +65,14 @@ export const getAllNotification =
         try {
             const { status, data } = await getNotifications(payload);
             if (status === HttpStatusCode.Ok) {
-                action === 'get' ? dispatch(getSuccess(data.data)) : dispatch(getMoreSuccess(data.data));
+                action === 'get'
+                    ? dispatch(getSuccess(data.data))
+                    : dispatch(getMoreSuccess(data.data));
             }
         } catch {
             dispatch(getFailure());
         }
     };
-
 
 const { actions, reducer } = notificationSlice;
 

@@ -1,7 +1,7 @@
-import { 
+import {
     CategoryModel,
-    // CategoryData, 
-    CategorySlice 
+    // CategoryData,
+    CategorySlice,
 } from '@models/Category';
 import { Paging, PagingResponse } from '@models/Common';
 import { Dispatch, createSlice } from '@reduxjs/toolkit';

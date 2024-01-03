@@ -227,22 +227,28 @@ export function debounce<F extends (...args: any[]) => any>(func: F, waitFor: nu
     };
 }
 
+// Scroll to top of page
+export function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+}
+
 // Function to get unique attribute keys from all variations
 export const getUniqueAttributeKeys = (variations: VariationModel[]) =>
-Array.from(
-    new Set(
-        variations.flatMap((variation) =>
-            variation.attributes.map((attr) => attr.k),
-        ),
-    ),
-);
+    Array.from(
+        new Set(variations.flatMap((variation) => variation.attributes.map((attr) => attr.k))),
+    );
 
 // Uppercase first letter
 export const upperCase = (name: string) => {
     return name[0].toUpperCase() + name.slice(1);
 };
 
-export const getSearchParams = <T extends number | string = any>(payload: Record<string, T>): string => {
+export const getSearchParams = <T extends number | string = any>(
+    payload: Record<string, T>,
+): string => {
     const url = new URLSearchParams();
 
     Object.entries(payload).map(([key, value]) => {
@@ -257,3 +263,12 @@ export const getSearchParams = <T extends number | string = any>(payload: Record
 
     return url.toString();
 };
+
+export function padWithZero(num: number) {
+    return num.toString().padStart(2, '0');
+}
+
+export function isEmail(email: string): boolean {
+    const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    return regex.test(email);
+}

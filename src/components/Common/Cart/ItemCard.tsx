@@ -16,11 +16,12 @@ import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { toast } from 'react-toastify';
 import { ProductLabel } from '@interfaces/product';
-import { VariationModel } from '@models/Product';
+import { ProductModel, VariationModel } from '@models/Product';
 
 type productDataProps = {
     label: ProductLabel;
     currentVariant: VariationModel;
+    currentProduct: ProductModel;
     itemData: CartItemModel;
     refreshCart: () => void;
     isChecked: boolean;
@@ -32,6 +33,7 @@ export const ItemCard = (props: productDataProps) => {
     const {
         label,
         currentVariant,
+        currentProduct,
         itemData,
         refreshCart,
         isChecked,
@@ -110,10 +112,10 @@ export const ItemCard = (props: productDataProps) => {
                     />
                 </div>
                 <Image
-                    src={currentVariant.images[0].url}
+                    src={currentVariant?.images[0].url ?? currentProduct?.generalImages[0].url}
                     height={80}
                     width={80}
-                    alt="product image"
+                    alt='product image'
                 />
                 <div className={styles.product_info}>
                     <div className={styles.product_text}>
@@ -124,14 +126,15 @@ export const ItemCard = (props: productDataProps) => {
                             </div>
                             <div className={styles.product_price_old}>
                                 <span>
-                                    {currencyFormat(currentVariant.price.base * itemData.quantity)} VND
+                                    {currencyFormat(currentVariant.price.base * itemData.quantity)}{' '}
+                                    VND
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div className={styles.product_quanity}>
                         <button
-                            type="button"
+                            type='button'
                             className={styles.product_quanity_btn}
                             onClick={() => handleUpdateQuantity(-1)}
                         >
@@ -141,7 +144,7 @@ export const ItemCard = (props: productDataProps) => {
                             {updateInfo ? updateInfo.quantity : itemData.quantity}
                         </div>
                         <button
-                            type="button"
+                            type='button'
                             className={styles.product_quanity_btn}
                             onClick={() => handleUpdateQuantity(1)}
                         >
@@ -152,8 +155,8 @@ export const ItemCard = (props: productDataProps) => {
 
                 <div className={styles.product_cart_delete}>
                     <IconButton
-                        aria-label="delete"
-                        color="primary"
+                        aria-label='delete'
+                        color='primary'
                         onClick={() => setUpdateInfo({ ...itemData, quantity: 0 })}
                     >
                         <DeleteIcon />

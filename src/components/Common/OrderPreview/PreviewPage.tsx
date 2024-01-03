@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { styled } from '@mui/material/styles';
@@ -18,7 +18,7 @@ import { OrderCreateRequest, OrderReviewResponse } from '@models/Order';
 import { createNewOrder } from '@store/slices/orderSlice';
 import { toast } from 'react-toastify';
 import { debounce } from 'utils';
-import MoonLoader from 'react-spinners/MoonLoader';
+import { CommonBtn } from '../FormGroup/CommonBtn';
 
 const BoxOrderContainer = styled(Box)(({ theme }) => ({
     backgroundColor: theme.color.rice,
@@ -38,20 +38,6 @@ const CheckoutButton = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
     borderRadius: '5px',
     padding: '5px 15px',
-    '& button': {
-        width: '100%',
-        border: `1px solid ${theme.color.red}`,
-        backgroundColor: theme.color.red,
-        color: 'white',
-        textTransform: 'capitalize',
-        '& .loading': {
-            backgroundColor: 'white',
-            color: theme.color.red,
-        },
-        '&:hover': {
-            backgroundColor: theme.primary.darker,
-        },
-    },
 }));
 
 const PreviewPage = () => {
@@ -59,7 +45,7 @@ const PreviewPage = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            router.push('/gio-hang-v2');
+            router.push('/gio-hang');
         }, 2 * 60 * 1000);
 
         return () => clearTimeout(timer);
@@ -107,7 +93,7 @@ const PreviewPage = () => {
         router.back();
     };
 
-    const handleClickCheckout = debounce(async () => {
+    const handleClickCheckout = debounce(async (e: MouseEvent<HTMLElement>) => {
         if (currentOrder) {
             const payload: OrderCreateRequest = {
                 addressSelected: currentOrder.addressSelected,
@@ -169,17 +155,13 @@ const PreviewPage = () => {
                                 shipping={currentOrder.shipping}
                             />
                             <CheckoutButton>
-                                {isLoadingDetails ? (
-                                    <Button sx={{ backgroundColor: 'white' }}>
-                                        <MoonLoader
-                                            color="#ee4949"
-                                            speedMultiplier={0.75}
-                                            size={22}
-                                        />
-                                    </Button>
-                                ) : (
-                                    <Button onClick={handleClickCheckout}>Đặt hàng</Button>
-                                )}
+                                <CommonBtn 
+                                    content='Đặt Hàng'
+                                    loading={isLoadingDetails}
+                                    disabled={isLoadingDetails}
+                                    styles={{ width: '100%'}}
+                                    handleClick={handleClickCheckout}
+                                />
                             </CheckoutButton>
                         </>
                     )}

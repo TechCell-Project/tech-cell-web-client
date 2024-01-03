@@ -14,7 +14,7 @@ import { MenuComponent } from '@components/Form';
 import { DRAWER_WIDTH } from '@constants/NavConstant';
 import { DrawerLayout } from '@components/Layout';
 import styles from '@styles/components/header.module.scss';
-import { signIn, useSession, signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import SearchBarBox from '@components/Common/Searching/SearchBarBox';
 import Link from 'next/link';
 import { Session } from 'next-auth';
@@ -24,7 +24,7 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { IconBtn } from '@components/Common';
 import Typography from '@mui/material/Typography';
 import { getRole } from '@utils/index';
@@ -34,6 +34,8 @@ import { CATEGORY } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Notification } from '@components/Features';
+
+import AlternateAvatar from '@public/images/avatarColor.webp';
 
 interface Props {
     window?: () => Window;
@@ -117,7 +119,11 @@ export const HeaderClient = ({ window }: Props) => {
                                     key={`nav_item_${index.toString()}`}
                                     content={item.name}
                                     options={item?.menu}
-                                    icon={item.icon ? <item.icon style={{ fontSize: '34px' }} /> : undefined}
+                                    icon={
+                                        item.icon ? (
+                                            <item.icon style={{ fontSize: '34px' }} />
+                                        ) : undefined
+                                    }
                                     href={item.href ? item.href : undefined}
                                 />
                             ))}
@@ -202,11 +208,12 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
     const { push } = useRouter();
+    const pathname = usePathname();
 
     return session ? (
         <>
             <Avatar
-                src={session.user.avatar.url}
+                src={session?.user?.avatar?.url ?? AlternateAvatar.src}
                 alt='User Avatar'
                 sx={{ height: '38px', width: '38px', cursor: 'pointer' }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -237,23 +244,34 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                 <Typography fontSize='18px' fontWeight={600}>
                     {`${session.user.firstName} ${session.user.lastName}`}
                 </Typography>
-                <Typography fontSize='12px' fontWeight={500}>{getRole(session.user.role)}</Typography>
+                <Typography fontSize='12px' fontWeight={500}>
+                    {getRole(session.user.role)}
+                </Typography>
 
-                <hr style={{ width: '100%', height: '.5px', margin: '15px 0', backgroundColor: 'rgba(0,0,0,0.1)' }} />
+                <hr
+                    style={{
+                        width: '100%',
+                        height: '.5px',
+                        margin: '15px 0',
+                        backgroundColor: 'rgba(0,0,0,0.1)',
+                    }}
+                />
 
                 <ul className={styles.popover_account_ul}>
                     <li>
                         <AssignmentIndIcon />
-                        <button onClick={() => {
-                            push(RootPath.Profile);
-                            setAnchorEl(null);
-                        }}>
+                        <button
+                            onClick={() => {
+                                push(RootPath.Profile);
+                                setAnchorEl(null);
+                            }}
+                        >
                             Hồ sơ
                         </button>
                     </li>
-                    <li onClick={() => signOut()}>
+                    <li>
                         <LogoutRoundedIcon />
-                        <button>Đăng xuất</button>
+                        <button onClick={() => signOut()}>Đăng xuất</button>
                     </li>
                 </ul>
             </Popover>
@@ -261,7 +279,7 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     ) : (
         <IconBtn
             icon={<PersonOutlineOutlinedIcon />}
-            onClick={() => signIn()}
+            onClick={() => push(`${RootPath.Login}?callbackUrl=${pathname ?? RootPath.Home}`)}
             tooltip='Tài khoản'
         />
     );

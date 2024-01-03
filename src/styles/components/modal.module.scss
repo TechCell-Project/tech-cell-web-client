@@ -1,23 +1,23 @@
 @import '../base/variables';
 @import '../base/mixins';
 
-.dialog_content{
+.dialog_content {
     max-width: 500px !important;
     margin: 0 auto !important;
 }
 
-.dialogtitle_h6{
+.dialogtitle_h6 {
     background-color: $primaryColor;
     color: white;
 }
 
-.button_container{
+.button_container {
     display: flex;
     justify-content: center !important;
     align-items: center;
 }
 
-.button_btn{
+.button_btn {
     width: 95%;
     background-color: $primaryColor !important;
     color: white !important;
@@ -40,7 +40,7 @@
         &:nth-child(even) {
             background-color: #dddddd;
         }
-        td:first-child{
+        td:first-child {
             width: 126px;
         }
     }
