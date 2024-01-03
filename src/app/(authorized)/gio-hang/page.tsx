@@ -6,8 +6,8 @@ import { LoadingPage } from '@components/Common/Display/LoadingPage';
 import CartPage from '@components/Common/Cart/CartPage';
 import { useSession } from 'next-auth/react';
 import { getCartItemsCustom } from 'utils/get-cartItems';
-import instanceAuth from '@config/instanceAuth.config';
 import { debounce } from 'utils/funcs';
+import { axiosAuth } from '@libs/axios';
 
 const Cart = () => {
     const { data: session } = useSession();
@@ -23,15 +23,13 @@ const Cart = () => {
         }, 5000);
 
         if (session) {
-            instanceAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`;
+            axiosAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`;
 
             if (!isDataFetched) {
                 fetchCartData();
             }
         }
     }, [isDataFetched, session]);
-
-    console.log(currentCartData);
 
     if (!isDataFetched) {
         return <LoadingPage isLoading />;
