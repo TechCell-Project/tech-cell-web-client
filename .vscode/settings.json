@@ -9,6 +9,7 @@
         "reduxjs",
         "Shawshank",
         "signin",
+        "Signout",
         "tanstack",
         "toastify",
         "unauth",
