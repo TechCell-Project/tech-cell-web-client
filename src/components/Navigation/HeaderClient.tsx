@@ -14,7 +14,7 @@ import { MenuComponent } from '@components/Form';
 import { DRAWER_WIDTH } from '@constants/NavConstant';
 import { DrawerLayout } from '@components/Layout';
 import styles from '@styles/components/header.module.scss';
-import { signIn, useSession, signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import SearchBarBox from '@components/Common/Searching/SearchBarBox';
 import Link from 'next/link';
 import { Session } from 'next-auth';
@@ -24,7 +24,7 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { IconBtn } from '@components/Common';
 import Typography from '@mui/material/Typography';
 import { getRole } from '@utils/index';
@@ -34,8 +34,6 @@ import { CATEGORY } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Notification } from '@components/Features';
-import { useAppDispatch } from '@store/store';
-import { logOut } from '@store/slices/authSlice';
 
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
@@ -206,11 +204,11 @@ export const HeaderClient = ({ window }: Props) => {
 };
 
 const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
-    const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
     const { push } = useRouter();
+    const pathname = usePathname();
 
     return session ? (
         <>
@@ -273,9 +271,7 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                     </li>
                     <li>
                         <LogoutRoundedIcon />
-                        <button onClick={() => signOut()}>
-                            <button>Đăng xuất</button>
-                        </button>
+                        <button onClick={() => signOut()}>Đăng xuất</button>
                     </li>
                 </ul>
             </Popover>
@@ -283,7 +279,7 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     ) : (
         <IconBtn
             icon={<PersonOutlineOutlinedIcon />}
-            onClick={() => signIn()}
+            onClick={() => push(`${RootPath.Login}?callbackUrl=${pathname ?? RootPath.Home}`)}
             tooltip='Tài khoản'
         />
     );
