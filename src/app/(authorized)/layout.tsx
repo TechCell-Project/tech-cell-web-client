@@ -22,7 +22,7 @@ export default function AuthorizedLayout({
 
     if (!session?.user) {
         const loginUrlCallback = `${RootPath.Login}?callbackUrl=${pathname ?? '/'}`;
-        router.push(loginUrlCallback);
+        router.replace(loginUrlCallback);
         return <LoadingPageMnt isLoading />;
     }
 
