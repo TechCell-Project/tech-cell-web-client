@@ -14,8 +14,12 @@ import { RootPath } from '@constants/enum';
 export default function UnauthorizedLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>): JSX.Element {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const router = useRouter();
+
+    if (status === 'loading') {
+        return <LoadingPageMnt isLoading />;
+    }
 
     if (session?.user) {
         router.replace(RootPath.Home);
