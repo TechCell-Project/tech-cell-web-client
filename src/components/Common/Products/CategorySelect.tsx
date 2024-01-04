@@ -25,7 +25,7 @@ const CategorySelect = () => {
     let initCategoriesData: CategorySelecting[] = [];
 
     DETAIL_CATEGORIES.forEach((item) => {
-        let arr = item.categories.map((cat) => ({
+        const arr = item.categories.map((cat) => ({
             key: cat.key,
             value: cat.value,
             chosen: false,

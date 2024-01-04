@@ -91,7 +91,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
         addressUpdatedData: Address,
         { setSubmitting }: FormikHelpers<Address>,
     ) => {
-        let updateData = [...(user?.address as Address[])];
+        const updateData = [...(user?.address as Address[])];
 
         if (addressIndex === null) {
             updateData.push(addressUpdatedData);
@@ -175,7 +175,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                             );
                                         }
                                         setValues((prev) => {
-                                            let newValue = {
+                                            const newValue = {
                                                 ...prev,
                                             };
 

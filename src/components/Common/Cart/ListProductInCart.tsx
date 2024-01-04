@@ -18,7 +18,7 @@ export default function ListProductInCart() {
     };
 
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let IsSelected = event.target.value;
+        const IsSelected = event.target.value;
         if (IsSelected) {
         }
     };

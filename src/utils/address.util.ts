@@ -13,7 +13,8 @@ export function getDefaultAddress(addresses: AddressSchemaDTO[]) {
 }
 
 export function buildAddressString(address: AddressSchemaDTO): string {
-    let { detail, wardLevel, districtLevel, provinceLevel } = address;
+    const { detail } = address;
+    let { wardLevel, districtLevel, provinceLevel } = address;
     wardLevel = Array.isArray(wardLevel) ? wardLevel[0] : wardLevel;
     districtLevel = Array.isArray(districtLevel) ? districtLevel[0] : districtLevel;
     provinceLevel = Array.isArray(provinceLevel) ? provinceLevel[0] : provinceLevel;

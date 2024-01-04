@@ -57,7 +57,7 @@ export const SliderImgProductDetail: FC<SliderImgProps> = ({ images }) => {
     };
 
     const dragOver = (e: any) => {
-        let touch = e.clientX;
+        const touch = e.clientX;
         setChange(start - touch);
     };
 

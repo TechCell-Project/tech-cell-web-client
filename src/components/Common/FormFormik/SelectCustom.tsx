@@ -73,7 +73,7 @@ function SelectComponent<Value, Option>(props: SelectInputCustomProps<Value, Opt
             getOptionLabel={getDefaultOptionLabel}
             onChange={(event, value) => {
                 // @ts-ignore
-                let newValue: Value = value?.[displayValue] ?? (null as Value);
+                const newValue: Value = value?.[displayValue] ?? (null as Value);
 
                 if (handleChange) {
                     handleChange(newValue, event);
