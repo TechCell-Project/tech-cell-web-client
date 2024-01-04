@@ -8,10 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { AutocompleteCustom } from '@components/Common/FormFormik/AutocompleteCustom';
 import { FC, useCallback, useEffect, useState } from 'react';
-import { ProfileSchema } from 'validate/auth.validate';
+import { ProfileAddressSchema } from 'validate/auth.validate';
 import { District, Location, Province, Ward } from '@models/Location';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
-import { getDistricts, getWards, getProvinces } from '@services/LocationService';
+import { getDistricts, getWards, getProvinces, getProvincess } from '@services/LocationService';
 import { ProfileAddressRequest } from '@models/Profile';
 import { toastConfig } from '@constants/ToastMsgConfig';
 import { Address } from '@models/Account';
@@ -51,7 +51,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
     const { user } = useAppSelector((state) => state.auth);
 
     useEffect(() => {
-        getProvinces()
+        getProvincess()
             .then(({ data }) => {
                 // TODO: fix wrong data type set
                 setProvinces(data);
@@ -141,7 +141,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
             <Formik
                 initialValues={userThisAddress}
                 enableReinitialize
-                validationSchema={ProfileSchema}
+                validationSchema={ProfileAddressSchema}
                 onSubmit={handleUpdateAddress}
             >
                 {({ setValues, errors, isSubmitting }) => (

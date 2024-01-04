@@ -11,7 +11,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 import { StarRateComponent } from '../StarRate/StarRate';
 import { SliderImgProductDetail } from './SliderImg';
-import ChooseProduct from './ChooseProduct';
+
 import { EndowProduct } from './EndowProduct';
 import { BundleProduct } from './BundleProduct';
 import { SalientFeatures } from './SalientFeatures';
@@ -23,7 +23,6 @@ import { useAppDispatch, useAppSelector } from '@store/store';
 import { getDetailsProduct } from '@store/slices/productSlice';
 import { PriceModel, ProductModel, VariationModel } from '@models/Product';
 import { currencyFormat, getSingleAttribute } from 'utils';
-import { VariantInfo } from '@interfaces/product';
 import CustomizedDialogs from './SelectColorDialog';
 
 import { useTheme } from '@mui/material/styles';

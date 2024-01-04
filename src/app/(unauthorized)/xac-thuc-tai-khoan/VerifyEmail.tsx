@@ -20,7 +20,6 @@ import { useAppDispatch, useAppSelector } from '@store/store';
 
 import { useFormik } from 'formik';
 
-import { VerifyEmailModel } from 'models';
 import { VerifyEmailSchema } from 'validate/auth.validate';
 
 import { Copyright } from '@components/Layout';
@@ -31,6 +30,7 @@ import { styled } from '@mui/material/styles';
 import { RootPath } from '@constants/enum';
 import { CircularProgress } from '@mui/material';
 import { CommonBtn } from '@components/Common';
+import { VerifyEmailModel } from '@/models/Auth';
 
 const VerificationEmailTimer = styled(Stack)(({ theme }) => ({
     alignItems: 'center',

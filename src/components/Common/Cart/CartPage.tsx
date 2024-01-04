@@ -39,6 +39,7 @@ type CartItemPrice = {
 const CartPage: FC<CartsProps> = ({ userCartData }) => {
     const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
     const dispatch = useAppDispatch();
+
     const { carts } = useAppSelector((state) => state.cart);
 
     const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
@@ -243,17 +244,6 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                                 passThisItemPrice={handleCalculateTotal}
                                             />
                                         ))}
-                                        {thisCart && (
-                                            <Box>
-                                                <PaginationBar
-                                                    pagingData={{
-                                                        page: pagingData.page,
-                                                        totalPage: thisCart.totalPage,
-                                                    }}
-                                                    handleChange={handleChangePage}
-                                                />
-                                            </Box>
-                                        )}
                                         <CartPromotions />
                                         <CartSaleBanners />
                                     </Box>

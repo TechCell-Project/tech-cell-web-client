@@ -5,8 +5,10 @@ import { ReduxProvider } from '@components/Provider/ReduxProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'styles/base/index.scss';
-import { auth } from '@libs/next-auth';
+import { auth } from '@/auth';
 import { SessionProvider as NextAuthSessionProvider } from 'next-auth/react';
+
+import FaviconIcon from '@public/favicon.ico';
 
 export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
@@ -19,7 +21,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <NextAuthSessionProvider session={session}>
             <html lang='en'>
                 <head>
-                    <link rel='icon' href='/public/favicon.ico' />
+                    <link rel='icon' href={FaviconIcon.src} />
                     <link rel='preconnect' href='https://fonts.googleapis.com' />
                     <link
                         rel='preconnect'

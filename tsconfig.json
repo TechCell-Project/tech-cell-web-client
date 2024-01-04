@@ -21,6 +21,7 @@
         ],
         "baseUrl": "./src/",
         "paths": {
+            "@/*": ["./*"],
             "@public/*": ["../public/*"],
             "@styles/*": ["styles/*"],
             "@app/*": ["app/(authorized)/*", "app/(unauthorized)/*", "app/*"],

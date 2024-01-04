@@ -4,28 +4,27 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { Form, Formik, useFormik } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 
 import styles from '@styles/components/profile.module.scss';
-import Box from '@mui/material/Box';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Button, TextField } from '@mui/material';
 import { ProfileSchema } from 'validate/auth.validate';
-import { ProfileModel } from '@models/Auth';
+import { ProfileUpdateRequest } from '@models/Auth';
 import IconButton from '@mui/material/IconButton';
 
-import { UserModel } from '@models/Profile';
 import { useAppDispatch, useAppSelector } from '@store/store';
-import { getCurrentUser } from '@store/slices/authSlice';
+import { editProfileInfo, getCurrentUser } from '@store/slices/authSlice';
 import { LoadingPage } from '@components/Common/Display';
 import { TextFieldCustom } from '@components/Common/FormFormik';
 import { CommonBtn } from '@components/Common';
+import { debounce } from '@utils/funcs';
+import { UserAccount } from '@models/Account';
 
 export default function Page() {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
-    const [userProfile, setUserProfile] = useState<ProfileModel | null>(null);
+    const [userProfile, setUserProfile] = useState<ProfileUpdateRequest | null>(null);
 
     const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
 
@@ -39,13 +38,22 @@ export default function Page() {
     useEffect(() => {
         if (user) {
             setUserProfile({
-                ...new ProfileModel(),
+                ...new ProfileUpdateRequest(),
                 firstName: user.firstName,
                 lastName: user.lastName,
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
+
+    const handleSubmit = debounce(async (payload: ProfileUpdateRequest, { setSubmitting }: FormikHelpers<ProfileUpdateRequest>) => {
+        const res = await dispatch(editProfileInfo(payload));
+
+        if (res?.success) {
+            dispatch(getCurrentUser());
+        }
+        setSubmitting(false);
+    }, 5000);
 
     return isLoadingProfile ? (
         <LoadingPage />
@@ -70,9 +78,11 @@ export default function Page() {
                 />
             </div>
             <Formik
-                initialValues={userProfile as ProfileModel}
+                initialValues={userProfile as ProfileUpdateRequest}
                 validationSchema={ProfileSchema}
-                onSubmit={async (values, formikHelpers) => {}}
+                onSubmit={(values, formikHelpers) => {
+                    handleSubmit(values, formikHelpers);
+                }}
                 className={styles.body_content}
             >
                 {({ isSubmitting }) => (
@@ -80,6 +90,13 @@ export default function Page() {
                         <div className={styles.content_text}>Cập nhập thông tin tài khoản</div>
 
                         <Form style={{ marginTop: 1 }}>
+                            <TextFieldCustom
+                                styles={{ marginTop: 3 }}
+                                name='username'
+                                label='Tên tài khoản'
+                                notDelay
+                            />
+
                             <TextFieldCustom
                                 styles={{ marginTop: 3 }}
                                 name='lastName'
@@ -91,20 +108,6 @@ export default function Page() {
                                 styles={{ marginTop: 3 }}
                                 name='firstName'
                                 label='Tên'
-                                notDelay
-                            />
-
-                            <TextFieldCustom
-                                styles={{ marginTop: 3 }}
-                                name='phoneNumber'
-                                label='Số điện thoại'
-                                notDelay
-                            />
-
-                            <TextFieldCustom
-                                styles={{ marginTop: 3 }}
-                                name='referralCode'
-                                label='Mã giới thiệu ( Nếu có )'
                                 notDelay
                             />
 
