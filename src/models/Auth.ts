@@ -1,8 +1,9 @@
 import { UserAccount } from './Account';
+import { UpdateUserRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
 export class LoginModel {
-    emailOrUsername?: string | null = null;
-    password?: string | null = null;
+    emailOrUsername?: string;
+    password?: string;
 }
 
 export class RegisterModel {
@@ -14,11 +15,8 @@ export class RegisterModel {
     lastName?: string | null = null;
 }
 
-export class ProfileModel {
-    firstName?: string | null = null;
-    lastName?: string | null = null;
-    phoneNumber?: string | null = null;
-    referralCode?: string | null = null;
+export class ProfileUpdateRequest implements UpdateUserRequestDTO {
+
 }
 
 export class VerifyEmailModel {

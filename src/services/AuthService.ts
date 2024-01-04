@@ -10,9 +10,9 @@ import {
     RESEND_VERIFY_ENDPOINT,
 } from '@constants/Services';
 import { ILogin, IRegister } from '@interfaces/auth';
-import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from 'models';
 import { User } from 'next-auth';
 import { axiosAuth } from '@libs/axios';
+import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from '@/models/Auth';
 
 export const fetchLogin = (data: ILogin) => instancePublic.post(LOGIN_ENDPOINT, data);
 

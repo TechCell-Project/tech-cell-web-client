@@ -1,5 +1,5 @@
 import { axiosAuth } from '@libs/axios';
-import { ORDER_ENDPOINT } from '@constants/Services';
+import { ORDER_ENDPOINT, REVIEW_ORDER_ENDPOINT } from '@constants/Services';
 import { PagingResponse } from '@models/Common';
 import {
     OrderCreateRequest,
@@ -11,7 +11,7 @@ import {
 export const getUserOrders = () => axiosAuth.get<PagingResponse<OrderModel>>(ORDER_ENDPOINT);
 
 export const reviewOrder = (payload: OrderReviewRequest) =>
-    axiosAuth.post<OrderReviewResponse>(`${ORDER_ENDPOINT}/review`, payload);
+    axiosAuth.post<OrderReviewResponse>(REVIEW_ORDER_ENDPOINT, payload);
 
 export const createOrder = (payload: OrderCreateRequest) =>
     axiosAuth.post<OrderModel>(ORDER_ENDPOINT, payload);

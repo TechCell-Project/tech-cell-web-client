@@ -1,10 +1,11 @@
 import { ProfileAddressRequest } from '@models/Profile';
 import { Dispatch, createSlice } from '@reduxjs/toolkit';
-import { getProfile, patchProfileAddress } from '@services/ProfileService';
+import { getProfile, patchProfileAddress, patchProfileInfo } from '@services/ProfileService';
 import { HttpStatusCode, isAxiosError } from 'axios';
-import { AuthSlice, RegisterModel, UserAccount, VerifyEmailModel } from 'models';
 import { toast } from 'react-toastify';
 import { fetchLogin, fetchRegister, fetchResendVerify, fetchVerifyEmail } from 'services/index';
+import { AuthSlice, RegisterModel, VerifyEmailModel } from '@models/Auth';
+import { UserAccount } from '@models/Account';
 
 const initialState: AuthSlice = {
     user: null,
@@ -157,6 +158,23 @@ export const editProfileAddress =
             return { success: false, error };
         }
     };
+
+export const editProfileInfo = (payload: Partial<UserAccount>) => async (dispatch: Dispatch) => {
+    try {
+        const { status } = await patchProfileInfo(payload);
+        if (status === HttpStatusCode.Ok) {
+            toast.success('Cập nhật thông tin hồ sơ thành công!');
+            return { success: true };
+        }
+    } catch (error) {
+        if (isAxiosError(error)) {
+            if (error.response && error.response.status !== HttpStatusCode.Unauthorized) {
+                toast.error('Cập nhật thông tin hồ sơ thất bại!');
+            }
+        }
+        return { success: false, error };
+    }
+};
 
 const { actions, reducer } = authSlice;
 

@@ -1,5 +1,3 @@
-import { PagingResponse } from './Common';
-
 export class AddCartItemModel {
     productId: string | null = null;
     sku: string | null = null;
@@ -16,10 +14,6 @@ export class CartRequest {
     products: Array<CartItemModel> = new Array<CartItemModel>();
     cartState: string | null = null;
     cartCountProducts: number = 0;
-    page: number = 0;
-    pageSize: number = 0;
-    totalPage: number = 0;
-    totalRecord: number = 0;
     __v?: number | null = 0;
 }
 

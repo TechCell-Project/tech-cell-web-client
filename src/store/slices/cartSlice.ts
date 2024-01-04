@@ -1,6 +1,5 @@
 import { createSlice, Dispatch } from '@reduxjs/toolkit';
 import { AddCartItemModel, CartModel, CartsSlice } from '@models/Cart';
-import { Paging } from '@models/Common';
 import { addToCart, getCarts } from '@services/index';
 import { AxiosInstance } from 'axios';
 import { CART_ENDPOINT } from '@constants/Services';
@@ -39,10 +38,10 @@ export const cartsSlice = createSlice({
 });
 
 // Thunk
-export const getCartItems = (payload: Paging) => async (dispatch: Dispatch) => {
+export const getCartItems = () => async (dispatch: Dispatch) => {
     dispatch(isFetching());
     try {
-        const response = await getCarts(payload);
+        const response = await getCarts();
         if (response.data) {
             dispatch(getAllSuccess(response.data));
         }
