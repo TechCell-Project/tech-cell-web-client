@@ -29,7 +29,7 @@ export const PromotionComponent = () => {
                             <Grid
                                 container
                                 sx={{
-                                    width:'100%',
+                                    width: '100%',
                                     display: 'flex',
                                     justifyContent: { sm: 'flex-start', xs: 'space-around' },
                                 }}

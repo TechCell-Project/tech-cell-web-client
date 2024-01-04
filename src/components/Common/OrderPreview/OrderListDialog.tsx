@@ -25,11 +25,11 @@ const OrderListDialog: FC<DialogProps> = ({ openList, handleCloseDialog, list })
         <Dialog
             open={openList}
             onClose={handleCloseDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+            aria-labelledby='alert-dialog-title'
+            aria-describedby='alert-dialog-description'
         >
             <DialogTitle
-                id="alert-dialog-title"
+                id='alert-dialog-title'
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -69,16 +69,16 @@ const OrderListDialog: FC<DialogProps> = ({ openList, handleCloseDialog, list })
                                 src={item.data.images[0].url}
                                 width={80}
                                 height={80}
-                                alt="product"
+                                alt='product'
                             />
 
                             <div className={styles.payment_card_info}>
                                 <div className={styles.payment_name}>{item.name}</div>
-                                <Typography variant="h6" sx={{ fontSize: '14px' }}>
+                                <Typography variant='h6' sx={{ fontSize: '14px' }}>
                                     {item.data.attributes.map((attr, index) => {
                                         let str = '';
                                         const unit = attr.u ?? '';
-                                        const separate = index !== 0 ? ' - ' : '' as string;
+                                        const separate = index !== 0 ? ' - ' : ('' as string);
                                         str += separate + upperCase(attr.v) + unit;
                                         return str;
                                     })}

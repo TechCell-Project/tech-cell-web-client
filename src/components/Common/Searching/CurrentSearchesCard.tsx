@@ -31,7 +31,7 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                     }}
                 >
                     <Typography
-                        variant="h4"
+                        variant='h4'
                         sx={{
                             fontWeight: 700,
                             fontSize: '16px',
@@ -46,7 +46,7 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                     key={product.id}
                     onClick={() => router.push(`/chi-tiet-san-pham/${product.id}`)}
                 >
-                    <Stack spacing={2} direction="row">
+                    <Stack spacing={2} direction='row'>
                         <Box>
                             <Image src={product.image} alt={product.name} height={64} width={64} />
                         </Box>
@@ -55,12 +55,12 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                                 width: '100%',
                                 paddingLeff: '10px',
                             }}
-                            alignItems="flex-start"
-                            justifyContent="center"
+                            alignItems='flex-start'
+                            justifyContent='center'
                             spacing={1}
                         >
                             <Typography
-                                variant="h4"
+                                variant='h4'
                                 sx={{
                                     fontWeight: '600',
                                     fontSize: '16px',
@@ -76,7 +76,7 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                                 }}
                             >
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{
                                         fontWeight: 700,
                                         fontSize: '17px',
@@ -86,7 +86,7 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                                     {currencyFormat(product.price.sale)}
                                 </Typography>
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{
                                         fontWeight: 500,
                                         fontSize: '14px',

@@ -102,17 +102,17 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '15px 0' }}>
                 <TextField
-                    id="standard-basic"
-                    label="Nhập mã giảm giá"
-                    variant="standard"
+                    id='standard-basic'
+                    label='Nhập mã giảm giá'
+                    variant='standard'
                     sx={{ width: '85%' }}
                 />
                 <SaleButton>Áp dụng</SaleButton>
             </Box>
             {isLoading ? (
                 <Skeleton
-                    variant="rounded"
-                    animation="wave"
+                    variant='rounded'
+                    animation='wave'
                     sx={{ width: '100%', height: '200px' }}
                 />
             ) : (
@@ -138,11 +138,11 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
                     <PaymentInfoBox>
                         <Box>
                             <p>Giảm giá khuyến mãi</p>
-                            <p className="discount">- 1.000.000</p>
+                            <p className='discount'>- 1.000.000</p>
                         </Box>
                     </PaymentInfoBox>
                     <PaymentInfoBox>
-                        <Box className="total">
+                        <Box className='total'>
                             <p>
                                 Tổng tiền <span>(đã gồm VAT)</span>
                             </p>

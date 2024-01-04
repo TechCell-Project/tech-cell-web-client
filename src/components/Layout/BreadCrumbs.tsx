@@ -27,22 +27,25 @@ export const BreadCrumbs = () => {
                         width: { xs: '100%', sm: '50%', lg: '30%' },
                     }}
                 >
-                    <Stack spacing={0} justifyContent="center" alignItems="center">
-                        <Typography variant="h5" align="center" fontWeight={600} color="white">
+                    <Stack spacing={0} justifyContent='center' alignItems='center'>
+                        <Typography variant='h5' align='center' fontWeight={600} color='white'>
                             OUR STORE
                         </Typography>
                         <Breadcrumbs
-                            aria-label="breadcrumb"
-                            separator="|"
+                            aria-label='breadcrumb'
+                            separator='|'
                             sx={{ alignItems: 'center' }}
-                            color="white"
+                            color='white'
                         >
-                            <Typography variant="h6" sx={{ '& a:hover': { textDecoration: 'underline' }}}>
-                                <Link color="#ee4949" href="/">
+                            <Typography
+                                variant='h6'
+                                sx={{ '& a:hover': { textDecoration: 'underline' } }}
+                            >
+                                <Link color='#ee4949' href='/'>
                                     Trang chủ
                                 </Link>
                             </Typography>
-                            <Typography variant="h6">Điện thoại</Typography>
+                            <Typography variant='h6'>Điện thoại</Typography>
                         </Breadcrumbs>
                     </Stack>
                 </Box>

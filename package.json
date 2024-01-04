@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "format": "prettier --write '**/*.{ts,js,json,css,scss}'",
+        "format": "prettier --write '**/*.{ts,tsx,js,jsx,json,css,scss}'",
         "clean": "rimraf ./node_modules",
         "sdk": "yarn add TechCell-Project/tech-cell-server-node-sdk"
     },

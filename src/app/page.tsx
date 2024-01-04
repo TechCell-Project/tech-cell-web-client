@@ -14,7 +14,12 @@ export default function Home() {
             <Typography
                 textAlign='center'
                 fontSize='13px'
-                sx={{ bgcolor: '#0e0e0e', color: '#fff', p: '10px 0', display: { xs: 'none', sm: 'none', md: 'block' } }}
+                sx={{
+                    bgcolor: '#0e0e0e',
+                    color: '#fff',
+                    p: '10px 0',
+                    display: { xs: 'none', sm: 'none', md: 'block' },
+                }}
             >
                 UPGRADE YOUR CONNECTIVITY: SMART DEALS, SMARTER PHONES!
             </Typography>
@@ -28,13 +33,20 @@ export default function Home() {
                     <Grid container spacing={2} sx={{ alignItems: 'center' }}>
                         {benefitSection.map((benefit) => (
                             <Grid item xs={6} md={3} key={benefit.title}>
-                                <Stack direction='row' gap={3} alignItems='center'
-                                       justifyContent={{ md: 'center', xs: 'flex-start' }}>
+                                <Stack
+                                    direction='row'
+                                    gap={3}
+                                    alignItems='center'
+                                    justifyContent={{ md: 'center', xs: 'flex-start' }}
+                                >
                                     <benefit.icon sx={{ height: '32px', width: 'auto' }} />
                                     <Stack direction='column'>
-                                        <Typography fontSize='16px' fontWeight={600}
-                                                    mb='4px'>{benefit.title}</Typography>
-                                        <Typography fontSize='13px' sx={{ opacity: 0.9 }}>{benefit.desc}</Typography>
+                                        <Typography fontSize='16px' fontWeight={600} mb='4px'>
+                                            {benefit.title}
+                                        </Typography>
+                                        <Typography fontSize='13px' sx={{ opacity: 0.9 }}>
+                                            {benefit.desc}
+                                        </Typography>
                                     </Stack>
                                 </Stack>
                             </Grid>

@@ -123,11 +123,11 @@ const shouldComponentUpdate = (
         nextProps?.disabled !== currentProps?.disabled ||
         Object.keys(nextProps).length !== Object.keys(currentProps).length ||
         getIn(nextProps.formik.values, currentProps.name) !==
-        getIn(currentProps.formik.values, currentProps.name) ||
+            getIn(currentProps.formik.values, currentProps.name) ||
         getIn(nextProps.formik.errors, currentProps.name) !==
-        getIn(currentProps.formik.errors, currentProps.name) ||
+            getIn(currentProps.formik.errors, currentProps.name) ||
         getIn(nextProps.formik.touched, currentProps.name) !==
-        getIn(currentProps.formik.touched, currentProps.name)
+            getIn(currentProps.formik.touched, currentProps.name)
     );
 };
 

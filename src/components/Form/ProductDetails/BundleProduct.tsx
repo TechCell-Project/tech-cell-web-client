@@ -28,10 +28,13 @@ export const BundleProduct = () => {
     return (
         <>
             {bundledItems.map((bundleds, index) => (
-                <div key={`${bundleds.imgBundle}/${index}`} className={styles.product_bundled_content}>
+                <div
+                    key={`${bundleds.imgBundle}/${index}`}
+                    className={styles.product_bundled_content}
+                >
                     <div className={styles.product_bundled_left}>
                         <div className={styles.product_bundled_img}>
-                            <Image src={bundleds.imgBundle} width={68} height={68} alt="" />
+                            <Image src={bundleds.imgBundle} width={68} height={68} alt='' />
                         </div>
                     </div>
                     <div className={styles.product_bundled_right}>
@@ -46,7 +49,7 @@ export const BundleProduct = () => {
                                 </div>
 
                                 <div className={styles.product_bundled_btn}>
-                                    <a href="#">Thêm vào giỏ hàng</a>
+                                    <a href='#'>Thêm vào giỏ hàng</a>
                                 </div>
                             </div>
                         </div>

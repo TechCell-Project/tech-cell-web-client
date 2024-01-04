@@ -18,7 +18,11 @@ interface SearchProps {
 }
 
 const ResultsPage: FC<SearchProps> = async ({ searchData, keyword }) => {
-    const headMessage = getMessage(searchData.messageStatusCode, keyword, searchData.data?.totalRecord);
+    const headMessage = getMessage(
+        searchData.messageStatusCode,
+        keyword,
+        searchData.data?.totalRecord,
+    );
 
     const getDataLabels = (products: ProductModel[]) => {
         return products.map((product) => formatProductLabel(product));
@@ -43,8 +47,11 @@ const ResultsPage: FC<SearchProps> = async ({ searchData, keyword }) => {
                         <div dangerouslySetInnerHTML={{ __html: headMessage }} />
                     </Typography>
                     {searchData.data !== null && (
-                        <ResultsSection currentData={getDataLabels(searchData.data.data)} keyword={keyword}
-                                        totalPage={searchData.data.totalPage} />
+                        <ResultsSection
+                            currentData={getDataLabels(searchData.data.data)}
+                            keyword={keyword}
+                            totalPage={searchData.data.totalPage}
+                        />
                     )}
                 </Stack>
             </Container>

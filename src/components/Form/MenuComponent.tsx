@@ -70,7 +70,10 @@ export function MenuComponent(props: Readonly<Props>) {
                     }}
                 >
                     {options?.map((menuItem) => (
-                        <MenuItem key={menuItem.value} sx={{ fontSize: '14px', fontWeight: 500, py: '8px' }}>
+                        <MenuItem
+                            key={menuItem.value}
+                            sx={{ fontSize: '14px', fontWeight: 500, py: '8px' }}
+                        >
                             {menuItem.label}
                         </MenuItem>
                     ))}
