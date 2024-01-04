@@ -15,7 +15,7 @@ interface Props {
     badgeContent?: number;
     badgeVariant?: 'standard' | 'dot';
     tooltip?: string;
-    iconProps?: ExtendButtonBase<IconButtonTypeMap<{}, 'button'>>;
+    iconProps?: ExtendButtonBase<IconButtonTypeMap<object, 'button'>>;
 }
 
 export const IconBtn = ({
