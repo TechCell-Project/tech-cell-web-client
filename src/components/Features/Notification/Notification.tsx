@@ -70,11 +70,15 @@ export const Notification = memo(() => {
                     padding='12px 20px'
                 >
                     <Stack flexDirection='row' alignItems='center' gap={1} width='100%'>
-                        <Typography variant='h6' fontWeight={700}>Thông báo</Typography>
+                        <Typography variant='h6' fontWeight={700}>
+                            Thông báo
+                        </Typography>
                     </Stack>
                     <Tabs
                         value={tabNotifyIndex}
-                        onChange={(_: React.SyntheticEvent, index: number) => setTabNotifyIndex(index)}
+                        onChange={(_: React.SyntheticEvent, index: number) =>
+                            setTabNotifyIndex(index)
+                        }
                         aria-label='tabs'
                         sx={{
                             '& .MuiTabs-indicator': {

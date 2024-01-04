@@ -23,7 +23,6 @@ interface ProductDataProps {
 }
 
 const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
-
     return (
         <div className={styles.product}>
             <div className={styles.productInfoContainer}>
@@ -32,7 +31,11 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
                         <div className={styles.productImgContent}>
                             <div className={styles.productImgitem}>
                                 <Image
-                                    src={initialData !== undefined ? initialData.image : '/product_img/phone1.webp'}
+                                    src={
+                                        initialData !== undefined
+                                            ? initialData.image
+                                            : '/product_img/phone1.webp'
+                                    }
                                     width={160}
                                     height={160}
                                     alt='product thumbnail'
@@ -40,13 +43,12 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
                             </div>
                         </div>
                         <div>
-                            <h3 className={styles.productNameproduct}>
-                                {initialData.name}
-                            </h3>
+                            <h3 className={styles.productNameproduct}>{initialData.name}</h3>
                         </div>
                         <div className={styles.productPrice}>
                             <div className={styles.productNewprice}>
-                                {currencyFormat(Number(initialData.price.sale))}<sup>đ</sup>
+                                {currencyFormat(Number(initialData.price.sale))}
+                                <sup>đ</sup>
                             </div>
                             <div className={styles.productOldprice}>
                                 {currencyFormat(Number(initialData.price.base))}

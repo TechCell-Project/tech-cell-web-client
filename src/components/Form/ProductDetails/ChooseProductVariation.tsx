@@ -24,13 +24,16 @@ function ChooseProductVariation({
     const attributeKeys = getUniqueAttributeKeys(variations);
 
     // Group attributes by their keys
-    const groupedAttributes = variations.reduce((grouped, variation) => {
-        variation.attributes.forEach((attribute) => {
-            grouped[attribute.k] = grouped[attribute.k] || new Map();
-            grouped[attribute.k].set(attribute.v, attribute);
-        });
-        return grouped;
-    }, {} as Record<string, Map<string, AttributeDynamics>>);
+    const groupedAttributes = variations.reduce(
+        (grouped, variation) => {
+            variation.attributes.forEach((attribute) => {
+                grouped[attribute.k] = grouped[attribute.k] || new Map();
+                grouped[attribute.k].set(attribute.v, attribute);
+            });
+            return grouped;
+        },
+        {} as Record<string, Map<string, AttributeDynamics>>,
+    );
 
     // const attributeAmountNeedToSelect = Object.entries(groupedAttributes).length;
 
@@ -98,10 +101,13 @@ function ChooseProductVariation({
                                 selectedAttributes,
                             )
                                 .filter(([selectedKey]) => selectedKey !== key)
-                                .reduce((obj, [selectedKey, selectedAttribute]) => {
-                                    obj[selectedKey] = selectedAttribute;
-                                    return obj;
-                                }, {} as Record<string, AttributeDynamics>);
+                                .reduce(
+                                    (obj, [selectedKey, selectedAttribute]) => {
+                                        obj[selectedKey] = selectedAttribute;
+                                        return obj;
+                                    },
+                                    {} as Record<string, AttributeDynamics>,
+                                );
 
                             const variationsWithSelectedAttributesForOtherKeys = variations.filter(
                                 (variation) =>
@@ -149,15 +155,17 @@ function ChooseProductVariation({
                             return (
                                 <button
                                     key={attribute.v}
-                                    type="button"
+                                    type='button'
                                     onClick={() => handleAttributeSelection(attribute)}
                                     className={classNameOfButton}
                                     disabled={!isSelectable}
                                 >
                                     <div className={styles.product_internal_block}>
                                         <div className={styles.product_internal_text}>
-                                            <p>{upperCase(attribute.v)}{' '}{attribute.u}</p>
-                                            <p>{' '}</p>
+                                            <p>
+                                                {upperCase(attribute.v)} {attribute.u}
+                                            </p>
+                                            <p> </p>
                                         </div>
                                     </div>
                                 </button>

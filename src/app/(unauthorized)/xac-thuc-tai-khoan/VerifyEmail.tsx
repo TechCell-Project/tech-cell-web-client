@@ -81,7 +81,7 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
     });
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
             <CssBaseline />
             <Box
                 sx={{
@@ -93,17 +93,17 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
                 <Avatar sx={{ mg: 1, bgcolor: '#ee4949' }}>
                     <PhoneIphone />
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component='h1' variant='h5'>
                     Xác thực Email
                 </Typography>
-                <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
+                <Box component='form' onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
                     <TextField
                         disabled={formik.initialValues.email.length > 0}
-                        margin="normal"
+                        margin='normal'
                         fullWidth
-                        id="email"
-                        label="Email"
-                        name="email"
+                        id='email'
+                        label='Email'
+                        name='email'
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -111,11 +111,11 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
                         helperText={formik.touched.email && formik.errors.email}
                     />
                     <TextField
-                        margin="normal"
+                        margin='normal'
                         fullWidth
-                        id="otpCode"
-                        label="OTP Code"
-                        name="otpCode"
+                        id='otpCode'
+                        label='OTP Code'
+                        name='otpCode'
                         value={formik.values.otpCode}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -125,55 +125,55 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
                     {countdown ? (
                         <>
                             {countdown[2] >= 0 && countdown[3] >= 0 ? (
-                                <VerificationEmailTimer direction="column">
-                                    <Typography variant="h6" className="timer">
+                                <VerificationEmailTimer direction='column'>
+                                    <Typography variant='h6' className='timer'>
                                         {'OTP hết hạn sau '}
                                         {padWithZero(countdown[2])}:{padWithZero(countdown[3])}
                                     </Typography>
-                                    <Button variant="text" disabled>
+                                    <Button variant='text' disabled>
                                         Gửi lại OTP
                                     </Button>
                                 </VerificationEmailTimer>
                             ) : (
-                                <VerificationEmailTimer direction="column">
-                                    <Typography variant="h6" className="timer">
+                                <VerificationEmailTimer direction='column'>
+                                    <Typography variant='h6' className='timer'>
                                         OTP hiện tại đã hết hạn
                                     </Typography>
                                     <Button
-                                        variant="text"
+                                        variant='text'
                                         onClick={() => handleResendOtp(formik.values.email)}
                                     >
-                                        <Typography variant="subtitle2">Gửi lại OTP</Typography>
+                                        <Typography variant='subtitle2'>Gửi lại OTP</Typography>
                                         {isLoading && <CircularProgress />}
                                     </Button>
                                 </VerificationEmailTimer>
                             )}
                         </>
                     ) : (
-                        <VerificationEmailTimer direction="column">
+                        <VerificationEmailTimer direction='column'>
                             <Button
                                 disabled={!isEmail(formik.values.email)}
-                                variant="text"
+                                variant='text'
                                 onClick={() => handleResendOtp(formik.values.email)}
                             >
-                                <Typography variant="subtitle2">Gửi lại OTP</Typography>
+                                <Typography variant='subtitle2'>Gửi lại OTP</Typography>
                                 {isLoading && <CircularProgress />}
                             </Button>
                         </VerificationEmailTimer>
                     )}
                     <CommonBtn
-                        type="submit"
+                        type='submit'
                         fullWidth
-                        content="Xác nhận"
+                        content='Xác nhận'
                         loading={formik.isSubmitting}
                         disabled={formik.isSubmitting}
                         styles={{ fontWeight: 600 }}
                     />
                     <Grid container>
                         <Grid item>
-                            <Link href="/dang-ky-tai-khoan">
+                            <Link href='/dang-ky-tai-khoan'>
                                 <Typography
-                                    variant="body2"
+                                    variant='body2'
                                     sx={{
                                         '& span': {
                                             textDecoration: 'underline',

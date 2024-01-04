@@ -61,7 +61,8 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
 
     useEffect(() => {
         getProvinces().then(({ data }) => {
-            setProvinces(data);
+            // TODO: to fix type
+            setProvinces(data as any);
         });
         //triggerRefreshUserProfile();
     }, []);
@@ -113,7 +114,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
         <ShowDialog
             isOpen={isOpen}
             handleClose={handleClose}
-            dialogTitle="Địa chỉ mới"
+            dialogTitle='Địa chỉ mới'
             dialogStyle={{ minWidth: 560 }}
         >
             <ToastContainer />
@@ -131,25 +132,25 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                         <Grid container spacing={2}>
                             <Grid item md={6}>
                                 <SelectInputCustom
-                                    name="address.addressName"
+                                    name='address.addressName'
                                     label={'Địa chỉ'}
                                     options={addressName}
                                 />
                             </Grid>
                             <Grid item md={6}>
-                                <TextFieldCustom name="address.customerName" label={'Họ và tên'} />
+                                <TextFieldCustom name='address.customerName' label={'Họ và tên'} />
                             </Grid>
                             <Grid item md={6}>
                                 <TextFieldCustom
-                                    name="address.phoneNumbers"
+                                    name='address.phoneNumbers'
                                     label={'Số điện thoại'}
                                 />
                             </Grid>
                             <Grid item md={6}>
                                 <AutocompleteCustom
-                                    label="Chọn Thành Phố"
-                                    displaySelected="province_id"
-                                    displayLabel="province_name"
+                                    label='Chọn Thành Phố'
+                                    displaySelected='province_id'
+                                    displayLabel='province_name'
                                     name={'address.provinceLevel'}
                                     options={provinces}
                                     handleChange={async (value) => {
@@ -164,15 +165,17 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
 
                                             return newValue;
                                         });
-                                        getDataDistricts((value as Province)?.province_id!);
+                                        getDataDistricts(
+                                            (value as Province)?.province_id ?? undefined,
+                                        );
                                     }}
                                 />
                             </Grid>
                             <Grid item md={6}>
                                 <AutocompleteCustom
-                                    label="Chọn Quận / Huyện"
-                                    displaySelected="district_name"
-                                    displayLabel="district_name"
+                                    label='Chọn Quận / Huyện'
+                                    displaySelected='district_name'
+                                    displayLabel='district_name'
                                     name={'address.districtLevel'}
                                     options={districts}
                                     handleChange={(value) => {
@@ -186,15 +189,15 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
 
                                             return newValue;
                                         });
-                                        getDataWards((value as District)?.district_id!);
+                                        getDataWards((value as District)?.district_id ?? undefined);
                                     }}
                                 />
                             </Grid>
                             <Grid item md={6}>
                                 <AutocompleteCustom
-                                    label="Chọn Thị / Xã"
-                                    displaySelected="ward_name"
-                                    displayLabel="ward_name"
+                                    label='Chọn Thị / Xã'
+                                    displaySelected='ward_name'
+                                    displayLabel='ward_name'
                                     name={'address.wardLevel'}
                                     options={wards}
                                 />
@@ -202,7 +205,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
 
                             <Grid item md={12}>
                                 <TextFieldCustom
-                                    name="address.detail"
+                                    name='address.detail'
                                     label={'Địa chỉ cụ thể'}
                                     isTextArea
                                     minRowArea={3}
@@ -217,7 +220,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                                 justifyContent: 'flex-end',
                                 alignItems: 'center',
                                 marginTop: '10px',
-                                fontSize:{xs:'12px',sm:'15px'}
+                                fontSize: { xs: '12px', sm: '15px' },
                             }}
                         >
                             <Button
@@ -231,7 +234,7 @@ export const DialogAddressEdit = (props: DialogAddressEditProps) => {
                                 Hủy
                             </Button>
                             <Button
-                                type="submit"
+                                type='submit'
                                 sx={{
                                     borderRadius: '5px',
                                     backgroundColor: '#ee4949',

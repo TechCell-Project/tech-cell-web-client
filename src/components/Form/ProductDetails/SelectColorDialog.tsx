@@ -111,17 +111,17 @@ const CustomizedDialogs: FC<DialogButtonContent> = ({ productCart }) => {
             </Button>
             <BootstrapDialog
                 onClose={handleClose}
-                aria-labelledby="customized-dialog-title"
+                aria-labelledby='customized-dialog-title'
                 open={open.isOpen}
             >
                 <DialogTitle
                     sx={{ m: 0, p: 2, textAlign: 'center', borderBottom: '1px solid #d3d3d3' }}
-                    id="customized-dialog-title"
+                    id='customized-dialog-title'
                 >
                     {open.title}
                 </DialogTitle>
                 <DialogContent sx={{ width: '500px' }}>
-                    <Stack spacing={3} alignItems="center" justifyContent="center">
+                    <Stack spacing={3} alignItems='center' justifyContent='center'>
                         <HighlightOffOutlinedIcon sx={{ fontSize: '180px', color: '#ee4949' }} />
                         <Typography gutterBottom>Bạn chưa chọn đủ các thuộc tính</Typography>
                     </Stack>

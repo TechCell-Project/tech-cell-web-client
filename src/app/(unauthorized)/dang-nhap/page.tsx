@@ -57,8 +57,7 @@ export default function Login() {
 
             if (res?.ok) {
                 toast.success('Đăng nhập thành công');
-            }
-            else {
+            } else {
                 // Extract the status code from the error message
                 const statusCode = parseInt(res?.error?.split('|')[1] as string);
                 if (statusCode === 406 || statusCode === 422) {
@@ -90,7 +89,7 @@ export default function Login() {
 
     return (
         <>
-            <Container component="main" maxWidth="sm">
+            <Container component='main' maxWidth='sm'>
                 <CssBaseline />
                 <Box
                     sx={{
@@ -103,10 +102,10 @@ export default function Login() {
                     <Avatar sx={{ mg: 1, bgcolor: '#ee4949', width: '50px', height: '50px' }}>
                         <PhoneIphone />
                     </Avatar>
-                    <Typography component="h2" fontWeight={500} fontSize="27px" mt={2}>
+                    <Typography component='h2' fontWeight={500} fontSize='27px' mt={2}>
                         Đăng nhập
                     </Typography>
-                    <Typography component="span" fontWeight={400} fontSize="14px" mt={1}>
+                    <Typography component='span' fontWeight={400} fontSize='14px' mt={1}>
                         Chào mừng bạn đến với Techcell !!
                     </Typography>
                     <Formik
@@ -119,8 +118,8 @@ export default function Login() {
                         {({ isSubmitting }) => (
                             <Form style={{ marginTop: '30px', width: '100%' }}>
                                 <TextFieldCustom
-                                    name="emailOrUsername"
-                                    label="Tài khoản hoặc email"
+                                    name='emailOrUsername'
+                                    label='Tài khoản hoặc email'
                                     styles={{ marginBottom: '25px' }}
                                     notDelay
                                 />
@@ -132,15 +131,15 @@ export default function Login() {
                                 />
                                 <Stack width='100%' alignItems='center' mt={5}>
                                     <CommonBtn
-                                        type="submit"
-                                        content="Đăng nhập"
+                                        type='submit'
+                                        content='Đăng nhập'
                                         loading={isSubmitting}
                                         disabled={isSubmitting}
                                         styles={{ fontWeight: 600 }}
                                     />
                                 </Stack>
-                                <Stack direction="row" justifyContent="space-between" mt={4}>
-                                    <Typography fontSize="14px" fontWeight={500}>
+                                <Stack direction='row' justifyContent='space-between' mt={4}>
+                                    <Typography fontSize='14px' fontWeight={500}>
                                         Chưa có tài khoản?{' '}
                                         <span
                                             onClick={() => push(RootPath.Register)}
@@ -155,8 +154,8 @@ export default function Login() {
                                     </Typography>
                                     <Typography
                                         onClick={() => setOpenForgotPassword(true)}
-                                        color="primary"
-                                        fontSize="14px"
+                                        color='primary'
+                                        fontSize='14px'
                                         fontWeight={500}
                                         sx={{ textDecoration: 'underline', cursor: 'pointer' }}
                                     >
@@ -171,8 +170,8 @@ export default function Login() {
                                             if (reason && reason === 'backdropClick') return;
                                             setOpenVerify(false);
                                         }}
-                                        aria-labelledby="alert-dialog-title"
-                                        aria-describedby="alert-dialog-description"
+                                        aria-labelledby='alert-dialog-title'
+                                        aria-describedby='alert-dialog-description'
                                     >
                                         <DialogContent
                                             sx={{
@@ -187,7 +186,7 @@ export default function Login() {
                                         </DialogContent>
                                         <DialogContent sx={{ padding: 0 }}>
                                             <VerifyEmail
-                                                email=""
+                                                email=''
                                                 countdown={countdownTimer}
                                                 handleResendOtp={handleResendVerifyOtp}
                                             />
@@ -198,15 +197,15 @@ export default function Login() {
                         )}
                     </Formik>
 
-                    <Grid container spacing={4} alignItems="center" mt={1}>
+                    <Grid container spacing={4} alignItems='center' mt={1}>
                         <Grid item xs={4}>
                             <Divider />
                         </Grid>
                         <Grid item xs={4}>
                             <Typography
-                                textAlign="center"
+                                textAlign='center'
                                 fontWeight={600}
-                                fontSize="14px"
+                                fontSize='14px'
                                 sx={{ opacity: 0.6 }}
                             >
                                 Hoặc đăng nhập bằng
@@ -222,7 +221,7 @@ export default function Login() {
                         onClick={() => signIn('google', { callbackUrl: process.env.NEXTAUTH_URL })}
                         mt={5}
                     >
-                        <Google color="primary" />
+                        <Google color='primary' />
                         <span>Đăng nhập với Google</span>
                     </Box>
                 </Box>

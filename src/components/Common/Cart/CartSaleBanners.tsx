@@ -19,10 +19,10 @@ const CartSaleBanners = () => {
                     <div className={styles.card_product}>
                         <div className={styles.card_product_img}>
                             <Image
-                                src="/img_productDetail/ip14_2.webp"
+                                src='/img_productDetail/ip14_2.webp'
                                 width={70}
                                 height={70}
-                                alt="product"
+                                alt='product'
                             />
                         </div>
                         <div className={styles.card_product_name}>
@@ -38,10 +38,10 @@ const CartSaleBanners = () => {
                     <div className={styles.card_product}>
                         <div className={styles.card_product_img}>
                             <Image
-                                src="/img_productDetail/ip14_2.webp"
+                                src='/img_productDetail/ip14_2.webp'
                                 width={70}
                                 height={70}
-                                alt="product"
+                                alt='product'
                             />
                         </div>
                         <div className={styles.card_product_name}>
@@ -57,10 +57,10 @@ const CartSaleBanners = () => {
                     <div className={styles.card_product}>
                         <div className={styles.card_product_img}>
                             <Image
-                                src="/img_productDetail/ip14_2.webp"
+                                src='/img_productDetail/ip14_2.webp'
                                 width={70}
                                 height={70}
-                                alt="product"
+                                alt='product'
                             />
                         </div>
                         <div className={styles.card_product_name}>

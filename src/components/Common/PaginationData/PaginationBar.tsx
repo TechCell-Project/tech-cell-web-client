@@ -32,7 +32,7 @@ const PaginationBar: FC<PaginationProps> = ({ pagingData, handleChange }) => {
                     color: 'white',
                 },
             }}
-            shape="rounded"
+            shape='rounded'
             onChange={handleChange}
             page={pagingData.page + 1}
             count={pagingData.totalPage}

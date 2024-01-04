@@ -30,15 +30,15 @@ const ResultsSection: FC<ResultsDataProps> = ({ currentData, keyword, totalPage 
 
     useSkipFirstRender(() => {
         dispatch(getAllProduct(searchProduct));
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchProduct]);
 
     useSkipFirstRender(() => {
         const formatProducts = products.data.map((product) => formatProductLabel(product));
 
         setCurrentProducts(formatProducts);
-    }, [products])
+    }, [products]);
 
     const handleChange = (event: ChangeEvent<unknown>, page: number) => {
         setSearchProduct({
@@ -57,7 +57,7 @@ const ResultsSection: FC<ResultsDataProps> = ({ currentData, keyword, totalPage 
                     <Box sx={{ width: '100%' }}>
                         <SortingToolbarVSearch />
                     </Box>
-                    <PaginationData 
+                    <PaginationData
                         initialData={currentProducts}
                         pagingData={{ page: searchProduct.page, totalPage }}
                         handleChange={handleChange}

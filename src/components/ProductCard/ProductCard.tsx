@@ -23,10 +23,10 @@ const ProductCard = () => {
                 <Paper elevation={3} square>
                     <div className={styles.product_card}>
                         <Stack alignItems={'center'}>
-                            <Link href="/">
+                            <Link href='/'>
                                 <Image
-                                    src="https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg"
-                                    alt="product"
+                                    src='https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg'
+                                    alt='product'
                                     width={171}
                                     height={240}
                                 />
@@ -35,36 +35,36 @@ const ProductCard = () => {
                         <div className={styles.product_details}>
                             <Stack spacing={2}>
                                 <Stack spacing={1}>
-                                    <Link href="/">
-                                        <h6 className="brand">Apple</h6>
+                                    <Link href='/'>
+                                        <h6 className='brand'>Apple</h6>
                                     </Link>
-                                    <Link href="/">
-                                        <h4 className="product-title" onClick={() => {}}>
+                                    <Link href='/'>
+                                        <h4 className='product-title' onClick={() => {}}>
                                             Iphone 14 Promax
                                         </h4>
                                     </Link>
 
                                     <Rating
                                         sx={{ marginTop: '5px', marginBottom: '20px' }}
-                                        name="simple-controlled"
-                                        size="small"
+                                        name='simple-controlled'
+                                        size='small'
                                         value={4}
                                         readOnly
                                     />
                                 </Stack>
                                 <p>25.000.000 VND</p>
-                                <Stack direction="row" spacing={1} justifyContent="flex-start">
+                                <Stack direction='row' spacing={1} justifyContent='flex-start'>
                                     <Button
                                         className={styledButton.addToCart}
-                                        variant="outlined"
+                                        variant='outlined'
                                         startIcon={<ShoppingCartOutlinedIcon />}
                                         onClick={handleAddToCart}
                                     >
                                         Thêm vào giỏ hàng
                                     </Button>
                                     <Button
-                                        variant="outlined"
-                                        size="small"
+                                        variant='outlined'
+                                        size='small'
                                         className={styledButton.addToWishlist}
                                         onClick={handleAddToWishlist}
                                     >
@@ -80,10 +80,10 @@ const ProductCard = () => {
                 <Paper elevation={3} square>
                     <div className={styles.product_card}>
                         <Stack alignItems={'center'}>
-                            <Link href="/">
+                            <Link href='/'>
                                 <Image
-                                    src="https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg"
-                                    alt="product"
+                                    src='https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg'
+                                    alt='product'
                                     width={171}
                                     height={240}
                                 />
@@ -92,36 +92,36 @@ const ProductCard = () => {
                         <div className={styles.product_details}>
                             <Stack spacing={2}>
                                 <Stack spacing={1}>
-                                    <Link href="/">
-                                        <h6 className="brand">Apple</h6>
+                                    <Link href='/'>
+                                        <h6 className='brand'>Apple</h6>
                                     </Link>
-                                    <Link href="/">
-                                        <h4 className="product-title" onClick={() => {}}>
+                                    <Link href='/'>
+                                        <h4 className='product-title' onClick={() => {}}>
                                             Iphone 14 Promax
                                         </h4>
                                     </Link>
 
                                     <Rating
                                         sx={{ marginTop: '5px', marginBottom: '20px' }}
-                                        name="simple-controlled"
-                                        size="small"
+                                        name='simple-controlled'
+                                        size='small'
                                         value={4}
                                         readOnly
                                     />
                                 </Stack>
                                 <p>25.000.000 VND</p>
-                                <Stack direction="row" spacing={1} justifyContent="flex-start">
+                                <Stack direction='row' spacing={1} justifyContent='flex-start'>
                                     <Button
                                         className={styledButton.addToCart}
-                                        variant="outlined"
+                                        variant='outlined'
                                         startIcon={<ShoppingCartOutlinedIcon />}
                                         onClick={handleAddToCart}
                                     >
                                         Thêm vào giỏ hàng
                                     </Button>
                                     <Button
-                                        variant="outlined"
-                                        size="small"
+                                        variant='outlined'
+                                        size='small'
                                         className={styledButton.addToWishlist}
                                         onClick={handleAddToWishlist}
                                     >
@@ -137,10 +137,10 @@ const ProductCard = () => {
                 <Paper elevation={3} square>
                     <div className={styles.product_card}>
                         <Stack alignItems={'center'}>
-                            <Link href="/">
+                            <Link href='/'>
                                 <Image
-                                    src="https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg"
-                                    alt="product"
+                                    src='https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg'
+                                    alt='product'
                                     width={171}
                                     height={240}
                                 />
@@ -149,36 +149,36 @@ const ProductCard = () => {
                         <div className={styles.product_details}>
                             <Stack spacing={2}>
                                 <Stack spacing={1}>
-                                    <Link href="/">
-                                        <h6 className="brand">Apple</h6>
+                                    <Link href='/'>
+                                        <h6 className='brand'>Apple</h6>
                                     </Link>
-                                    <Link href="/">
-                                        <h4 className="product-title" onClick={() => {}}>
+                                    <Link href='/'>
+                                        <h4 className='product-title' onClick={() => {}}>
                                             Iphone 14 Promax
                                         </h4>
                                     </Link>
 
                                     <Rating
                                         sx={{ marginTop: '5px', marginBottom: '20px' }}
-                                        name="simple-controlled"
-                                        size="small"
+                                        name='simple-controlled'
+                                        size='small'
                                         value={4}
                                         readOnly
                                     />
                                 </Stack>
                                 <p>25.000.000 VND</p>
-                                <Stack direction="row" spacing={1} justifyContent="flex-start">
+                                <Stack direction='row' spacing={1} justifyContent='flex-start'>
                                     <Button
                                         className={styledButton.addToCart}
-                                        variant="outlined"
+                                        variant='outlined'
                                         startIcon={<ShoppingCartOutlinedIcon />}
                                         onClick={handleAddToCart}
                                     >
                                         Thêm vào giỏ hàng
                                     </Button>
                                     <Button
-                                        variant="outlined"
-                                        size="small"
+                                        variant='outlined'
+                                        size='small'
                                         className={styledButton.addToWishlist}
                                         onClick={handleAddToWishlist}
                                     >
@@ -194,10 +194,10 @@ const ProductCard = () => {
                 <Paper elevation={3} square>
                     <div className={styles.product_card}>
                         <Stack alignItems={'center'}>
-                            <Link href="/">
+                            <Link href='/'>
                                 <Image
-                                    src="https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg"
-                                    alt="product"
+                                    src='https://res.cloudinary.com/dzoykqusl/image/upload/v1686850711/iphone-14-pro-deep-purple-rz-2_uqgmen.jpg'
+                                    alt='product'
                                     width={171}
                                     height={240}
                                 />
@@ -206,36 +206,36 @@ const ProductCard = () => {
                         <div className={styles.product_details}>
                             <Stack spacing={2}>
                                 <Stack spacing={1}>
-                                    <Link href="/">
-                                        <h6 className="brand">Apple</h6>
+                                    <Link href='/'>
+                                        <h6 className='brand'>Apple</h6>
                                     </Link>
-                                    <Link href="/">
-                                        <h4 className="product-title" onClick={() => {}}>
+                                    <Link href='/'>
+                                        <h4 className='product-title' onClick={() => {}}>
                                             Iphone 14 Promax
                                         </h4>
                                     </Link>
 
                                     <Rating
                                         sx={{ marginTop: '5px', marginBottom: '20px' }}
-                                        name="simple-controlled"
-                                        size="small"
+                                        name='simple-controlled'
+                                        size='small'
                                         value={4}
                                         readOnly
                                     />
                                 </Stack>
                                 <p>25.000.000 VND</p>
-                                <Stack direction="row" spacing={1} justifyContent="flex-start">
+                                <Stack direction='row' spacing={1} justifyContent='flex-start'>
                                     <Button
                                         className={styledButton.addToCart}
-                                        variant="outlined"
+                                        variant='outlined'
                                         startIcon={<ShoppingCartOutlinedIcon />}
                                         onClick={handleAddToCart}
                                     >
                                         Thêm vào giỏ hàng
                                     </Button>
                                     <Button
-                                        variant="outlined"
-                                        size="small"
+                                        variant='outlined'
+                                        size='small'
                                         className={styledButton.addToWishlist}
                                         onClick={handleAddToWishlist}
                                     >

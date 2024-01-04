@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 
 export const LoadingPage = ({ isLoading }: { isLoading?: boolean }) => {
-
     return (
         <Box marginTop='20px'>
             {/*<Container maxWidth="lg">*/}
@@ -20,8 +19,13 @@ export const LoadingPage = ({ isLoading }: { isLoading?: boolean }) => {
                     }}
                     spacing={3}
                 >
-                    <MoonLoader color='#ee4949' speedMultiplier={0.75} size={60} loading={isLoading} />
-                    <Typography variant="subtitle1">Đang tải ...</Typography>
+                    <MoonLoader
+                        color='#ee4949'
+                        speedMultiplier={0.75}
+                        size={60}
+                        loading={isLoading}
+                    />
+                    <Typography variant='subtitle1'>Đang tải ...</Typography>
                 </Stack>
             </Container>
         </Box>

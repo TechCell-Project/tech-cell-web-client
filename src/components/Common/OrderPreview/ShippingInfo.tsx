@@ -15,7 +15,9 @@ const ShippingInfo: FC<infoProps> = ({ address }) => {
     return (
         <Box>
             <Box sx={{ textAlign: 'center' }}>
-                <Typography variant='h5' sx={{ fontSize: '18px'}}>THÔNG TIN NHẬN HÀNG</Typography>
+                <Typography variant='h5' sx={{ fontSize: '18px' }}>
+                    THÔNG TIN NHẬN HÀNG
+                </Typography>
             </Box>
             <div className={styles.address_main}>
                 <div className={styles.address_block}>

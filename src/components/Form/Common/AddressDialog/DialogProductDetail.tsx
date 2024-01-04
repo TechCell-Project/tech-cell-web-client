@@ -22,11 +22,11 @@ export const DialogProdutDetail = (props: Props) => {
             <Dialog
                 className={styles.dialog_content}
                 // onClose={handleClose}
-                aria-labelledby="customized-dialog-title"
+                aria-labelledby='customized-dialog-title'
                 open={props.isOpen}
             >
                 <DialogTitle className={styles.dialogtitle_h6}>
-                    <Typography variant="h6">Thông số kĩ thuật</Typography>
+                    <Typography variant='h6'>Thông số kĩ thuật</Typography>
                 </DialogTitle>
                 <DialogContent dividers>
                     <div className={styles.dialog_table}>
