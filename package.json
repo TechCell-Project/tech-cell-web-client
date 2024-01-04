@@ -9,10 +9,13 @@
         "lint": "next lint",
         "format": "prettier --write '**/*.{ts,tsx,js,jsx,json,css,scss}'",
         "clean": "rimraf ./node_modules",
-        "sdk": "yarn add TechCell-Project/tech-cell-server-node-sdk"
+        "sdk": "yarn add TechCell-Project/tech-cell-server-node-sdk",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "**/*": "prettier --write --ignore-unknown"
     },
     "dependencies": {
-        "@TechCell-Project/tech-cell-server-node-sdk": "TechCell-Project/tech-cell-server-node-sdk",
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
         "@mui/icons-material": "5.14.19",
@@ -22,6 +25,7 @@
         "@react-native-async-storage/async-storage": "^1.19.3",
         "@reduxjs/toolkit": "^1.9.5",
         "@svgr/webpack": "^8.0.1",
+        "@TechCell-Project/tech-cell-server-node-sdk": "TechCell-Project/tech-cell-server-node-sdk",
         "axios": "^1.4.0",
         "formik": "^2.4.1",
         "jwt-decode": "^3.1.2",
@@ -57,6 +61,8 @@
         "eslint-config-next": "13.4.4",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-prettier": "^5.1.2",
+        "husky": "^8.0.3",
+        "lint-staged": "^15.2.0",
         "prettier": "^3.1.1",
         "rimraf": "^5.0.5",
         "sass": "^1.62.1",
