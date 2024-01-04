@@ -25,7 +25,8 @@ export const SignupSchema = yup.object({
 export const ProfileSchema = yup.object({
     firstName: yup.string().required('Bạn cần điền tên'),
     lastName: yup.string().required('Bạn cần điền họ'),
-    phoneNumbers: yup.string()
+    phoneNumbers: yup
+        .string()
         .min(10, 'Số điện thoại phải đủ 10 số!')
         .max(10, 'Số điện thoại phải đủ 10 số!'),
     referralCode: yup.string(),
