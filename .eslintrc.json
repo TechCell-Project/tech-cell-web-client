@@ -1,8 +1,10 @@
 {
-    "extends": "next",
+    "extends": ["next", "plugin:prettier/recommended"],
+    "plugins": ["@typescript-eslint/eslint-plugin"],
     "rules": {
         "react/no-unescaped-entities": "off",
         "@next/next/no-page-custom-font": "off",
-        "react/display-name": "off"
+        "react/display-name": "off",
+        "prettier/prettier": ["warn"]
     }
 }
