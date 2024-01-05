@@ -74,7 +74,7 @@ export default function Signup() {
     }, 2000);
 
     return (
-        <Container component="main" maxWidth="sm">
+        <Container component='main' maxWidth='sm'>
             <CssBaseline />
             <Box
                 sx={{
@@ -87,14 +87,14 @@ export default function Signup() {
                 <Avatar sx={{ mg: 1, bgcolor: '#ee4949', width: '50px', height: '50px' }}>
                     <PhoneIphone />
                 </Avatar>
-                <Typography component="h2" fontWeight={500} fontSize="27px" mt={2}>
+                <Typography component='h2' fontWeight={500} fontSize='27px' mt={2}>
                     Đăng ký
                 </Typography>
                 <Typography
-                    component="span"
+                    component='span'
                     fontWeight={400}
-                    fontSize="14px"
-                    textAlign="center"
+                    fontSize='14px'
+                    textAlign='center'
                     mt={1}
                 >
                     Tạo tài khoản để cùng đồng hành, trải nghiệm với Techcell !
@@ -109,44 +109,44 @@ export default function Signup() {
                         <Form style={{ marginTop: '30px', width: '100%' }}>
                             <Grid container columnSpacing={4} rowSpacing={5}>
                                 <Grid item xs={6}>
-                                    <TextFieldCustom name="firstName" label="Tên" />
+                                    <TextFieldCustom name='firstName' label='Tên' />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextFieldCustom name="lastName" label="Họ" />
+                                    <TextFieldCustom name='lastName' label='Họ' />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextFieldCustom name="email" label="Email" />
+                                    <TextFieldCustom name='email' label='Email' />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextFieldCustom name="userName" label="Tài khoản" />
+                                    <TextFieldCustom name='userName' label='Tài khoản' />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextFieldCustom
-                                        name="password"
-                                        label="Mật khẩu"
-                                        type="password"
+                                        name='password'
+                                        label='Mật khẩu'
+                                        type='password'
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextFieldCustom
-                                        name="re_password"
-                                        label="Nhập lại mật khẩu"
-                                        type="password"
+                                        name='re_password'
+                                        label='Nhập lại mật khẩu'
+                                        type='password'
                                     />
                                 </Grid>
                             </Grid>
 
-                            <Stack width="100%" alignItems="center" mt={5}>
+                            <Stack width='100%' alignItems='center' mt={5}>
                                 <CommonBtn
-                                    type="submit"
-                                    content="Đăng ký"
+                                    type='submit'
+                                    content='Đăng ký'
                                     loading={isLoading}
                                     disabled={isLoading}
                                     styles={{ fontWeight: 600 }}
                                 />
                             </Stack>
 
-                            <Typography fontSize="14px" fontWeight={500} textAlign="center" mt={5}>
+                            <Typography fontSize='14px' fontWeight={500} textAlign='center' mt={5}>
                                 Bạn đã có tài khoản?{' '}
                                 <span
                                     onClick={() => push(RootPath.Login)}
@@ -170,8 +170,8 @@ export default function Signup() {
                                             isOpen: false,
                                         });
                                     }}
-                                    aria-labelledby="alert-dialog-title"
-                                    aria-describedby="alert-dialog-description"
+                                    aria-labelledby='alert-dialog-title'
+                                    aria-describedby='alert-dialog-description'
                                 >
                                     <DialogContent
                                         sx={{

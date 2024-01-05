@@ -53,43 +53,43 @@ const SortingToolbarVSearch = () => {
 
     return (
         <Box sx={{ padding: '0 !important', margin: '20px 0px' }}>
-                <Stack spacing={2} sx={{ alignItems: 'flex-start', justifyContent: 'center' }}>
-                    <Typography variant="h5" fontWeight={600} fontSize={18}>
-                        Sắp xếp theo
-                    </Typography>
-                    <Box className={styles.list_brands}>
-                        <ToggleButtonGroup
-                            sx={{
-                                display: 'grid',
-                                gridTemplateColumns: 'auto auto auto auto',
-                                padding: '0px',
-                                '& .MuiToggleButtonGroup-grouped': {
-                                    border: 0,
-                                    '&:not(:first-of-type)': {
-                                        borderRadius: '10px',
-                                    },
-                                    '&:first-of-type': {
-                                        borderRadius: '10px',
-                                    },
+            <Stack spacing={2} sx={{ alignItems: 'flex-start', justifyContent: 'center' }}>
+                <Typography variant='h5' fontWeight={600} fontSize={18}>
+                    Sắp xếp theo
+                </Typography>
+                <Box className={styles.list_brands}>
+                    <ToggleButtonGroup
+                        sx={{
+                            display: 'grid',
+                            gridTemplateColumns: 'auto auto auto auto',
+                            padding: '0px',
+                            '& .MuiToggleButtonGroup-grouped': {
+                                border: 0,
+                                '&:not(:first-of-type)': {
+                                    borderRadius: '10px',
                                 },
-                            }}
-                            {...sortByTagControl}
-                        >
-                            <ToggleButtonStyled value="relevant" key="relevant">
-                                Liên quan
-                            </ToggleButtonStyled>
-                            <ToggleButtonStyled value="ascending" key="ascending">
-                                <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
-                                Giá Cao - Thấp
-                            </ToggleButtonStyled>
-                            <ToggleButtonStyled value="descending" key="descending">
-                                <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
-                                Giá Thấp - Cao
-                            </ToggleButtonStyled>
-                        </ToggleButtonGroup>
-                    </Box>
-                </Stack>
-            </Box>
+                                '&:first-of-type': {
+                                    borderRadius: '10px',
+                                },
+                            },
+                        }}
+                        {...sortByTagControl}
+                    >
+                        <ToggleButtonStyled value='relevant' key='relevant'>
+                            Liên quan
+                        </ToggleButtonStyled>
+                        <ToggleButtonStyled value='ascending' key='ascending'>
+                            <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            Giá Cao - Thấp
+                        </ToggleButtonStyled>
+                        <ToggleButtonStyled value='descending' key='descending'>
+                            <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            Giá Thấp - Cao
+                        </ToggleButtonStyled>
+                    </ToggleButtonGroup>
+                </Box>
+            </Stack>
+        </Box>
     );
 };
 

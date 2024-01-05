@@ -25,7 +25,7 @@ const CategorySelect = () => {
     let initCategoriesData: CategorySelecting[] = [];
 
     DETAIL_CATEGORIES.forEach((item) => {
-        let arr = item.categories.map((cat) => ({
+        const arr = item.categories.map((cat) => ({
             key: cat.key,
             value: cat.value,
             chosen: false,
@@ -55,7 +55,7 @@ const CategorySelect = () => {
         <>
             <Box sx={{ padding: '0 !important', marginBottom: '20px' }}>
                 <Stack spacing={2} sx={{ alignItems: 'flex-start', justifyContent: 'center' }}>
-                    <Typography variant="h5" fontWeight={600} fontSize={18}>
+                    <Typography variant='h5' fontWeight={600} fontSize={18}>
                         Chọn theo tiêu chí
                     </Typography>
                     <Box
@@ -81,7 +81,7 @@ const CategorySelect = () => {
                 </Stack>
             </Box>
             {categories.length > 0 && (
-                <Stack direction="row" spacing={1}>
+                <Stack direction='row' spacing={1}>
                     <Box
                         sx={{
                             borderBottom: '2px solid black',
@@ -96,7 +96,7 @@ const CategorySelect = () => {
                         )}
                     </Box>
                     <Box>
-                        <IconButton aria-label="search" sx={{ borderRadius: '0' }}>
+                        <IconButton aria-label='search' sx={{ borderRadius: '0' }}>
                             <Search />
                         </IconButton>
                     </Box>

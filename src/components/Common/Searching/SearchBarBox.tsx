@@ -22,7 +22,7 @@ type ProductStatement = {
     isLoading: boolean;
 };
 
-const SearchBarBox = ({ isDisplay, minWidth }: { isDisplay?: boolean, minWidth?: string }) => {
+const SearchBarBox = ({ isDisplay, minWidth }: { isDisplay?: boolean; minWidth?: string }) => {
     const router = useRouter();
     const isPathnameChanged = usePathnameChange();
     const dispatch = useAppDispatch();

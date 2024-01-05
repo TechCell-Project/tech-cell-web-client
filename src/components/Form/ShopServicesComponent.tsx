@@ -12,7 +12,6 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-
 const Service = styled(Paper)(() => ({
     backgroundColor: 'rgba(238, 73, 73, 0.2)',
     border: '3px solid rgba(238, 73, 73, 0.4)',

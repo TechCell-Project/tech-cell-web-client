@@ -73,7 +73,7 @@ const CartPage = () => {
     }, [checkedList]);
 
     const handleCalculateTotal = (id: string, sku: string, price: number) => {
-        let currentAmount = totalAmount;
+        const currentAmount = totalAmount;
         const itemAmount = currentAmount.findIndex(
             (item) => item.itemId === id && item.sku === sku,
         );

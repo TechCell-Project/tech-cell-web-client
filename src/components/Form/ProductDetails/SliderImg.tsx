@@ -57,7 +57,7 @@ export const SliderImgProductDetail: FC<SliderImgProps> = ({ images }) => {
     };
 
     const dragOver = (e: any) => {
-        let touch = e.clientX;
+        const touch = e.clientX;
         setChange(start - touch);
     };
 
@@ -107,13 +107,13 @@ export const SliderImgProductDetail: FC<SliderImgProps> = ({ images }) => {
 
                         <div className={styles.product_details_btn}>
                             <a
-                                href="#!"
+                                href='#!'
                                 className={styles.prev_icon}
                                 onClick={() => plusSlider(-1)}
                             >
                                 <ArrowBackIosNewIcon />
                             </a>
-                            <a href="#!" className={styles.next_icon} onClick={() => plusSlider(1)}>
+                            <a href='#!' className={styles.next_icon} onClick={() => plusSlider(1)}>
                                 <ArrowForwardIosIcon />
                             </a>
                         </div>

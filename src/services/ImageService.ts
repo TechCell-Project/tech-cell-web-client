@@ -1,9 +1,8 @@
-import instancePublic from '@config/instancePublic.config';
 import { IMAGES_ENDPOINT } from '@constants/Services';
 import { axiosAuth } from '@libs/axios';
 import { ImageModel } from '@models/Product';
 
-export const getImageById = (id: string) => instancePublic.get(`$${IMAGES_ENDPOINT}/${id}`);
+export const getImageById = (id: string) => axiosAuth.get(`$${IMAGES_ENDPOINT}/${id}`);
 
 export const postImage = (payload: FormData) =>
     axiosAuth.post<ImageModel>(IMAGES_ENDPOINT, payload, {

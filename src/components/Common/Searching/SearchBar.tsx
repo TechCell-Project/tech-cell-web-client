@@ -56,9 +56,15 @@ interface SearchValueProps {
 
     // add inputProps so that we can listen to onFocus / onBlur events if needed
     inputProps: InputBaseProps;
-};
+}
 
-const SearchBar: FC<SearchValueProps> = ({ onSubmit, defaultValue, alreadyInputSomething, handleLengthSituations, inputProps }) => {
+const SearchBar: FC<SearchValueProps> = ({
+    onSubmit,
+    defaultValue,
+    alreadyInputSomething,
+    handleLengthSituations,
+    inputProps,
+}) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [isError, setIsError] = useState<boolean>(false);
 
@@ -111,4 +117,3 @@ const SearchBar: FC<SearchValueProps> = ({ onSubmit, defaultValue, alreadyInputS
 };
 
 export default SearchBar;
-

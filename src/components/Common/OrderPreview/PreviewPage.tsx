@@ -44,12 +44,15 @@ const PreviewPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            router.push('/gio-hang');
-        }, 2 * 60 * 1000);
+        const timer = setTimeout(
+            () => {
+                router.push('/gio-hang');
+            },
+            2 * 60 * 1000,
+        );
 
         return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const dispatch = useAppDispatch();
@@ -113,8 +116,8 @@ const PreviewPage = () => {
 
     return (
         <BoxOrderContainer>
-            <Box className="payment_content">
-                <Box className="payment_block">
+            <Box className='payment_content'>
+                <Box className='payment_block'>
                     <Box
                         sx={{
                             display: 'flex',
@@ -129,7 +132,7 @@ const PreviewPage = () => {
                             </Button>
                         </Box>
                         <Box>
-                            <Typography variant="h5" sx={{ fontWeight: '500', fontSize: '20px' }}>
+                            <Typography variant='h5' sx={{ fontWeight: '500', fontSize: '20px' }}>
                                 Thanh toán
                             </Typography>
                         </Box>
@@ -138,8 +141,8 @@ const PreviewPage = () => {
                     {isLoadingProfile ? (
                         <Box sx={{ padding: '15px' }}>
                             <Skeleton
-                                animation="wave"
-                                variant="rectangular"
+                                animation='wave'
+                                variant='rectangular'
                                 height={200}
                                 sx={{ width: '100%' }}
                             />
@@ -155,11 +158,11 @@ const PreviewPage = () => {
                                 shipping={currentOrder.shipping}
                             />
                             <CheckoutButton>
-                                <CommonBtn 
+                                <CommonBtn
                                     content='Đặt Hàng'
                                     loading={isLoadingDetails}
                                     disabled={isLoadingDetails}
-                                    styles={{ width: '100%'}}
+                                    styles={{ width: '100%' }}
                                     handleClick={handleClickCheckout}
                                 />
                             </CheckoutButton>

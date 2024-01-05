@@ -9,7 +9,7 @@ export const getDistricts = (province_id: string | undefined) =>
 export const getWards = (district_id: string | undefined) =>
     instancePublic.get<Array<Ward>>(`${GET_WARDS_ENDPOINT}/${district_id}`);
 
-const addressApi = new AddressApi(undefined, undefined, instancePublic);
-export function getProvinces() {
-    return addressApi.getProvinces();
-}
+// const addressApi = new AddressApi(undefined, undefined, instancePublic);
+// export function getProvinces() {
+//     return addressApi.getProvinces();
+// }

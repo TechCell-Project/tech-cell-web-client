@@ -9,13 +9,24 @@ import Container from '@mui/material/Container';
 const Item = ({ imageURL }: { imageURL: string }) => {
     return (
         <Paper>
-            <Image src={imageURL} alt='img' width={0} height={0} sizes='100vw'
-                   style={{ width: '100%', height: 'auto' }} />
+            <Image
+                src={imageURL}
+                alt='img'
+                width={0}
+                height={0}
+                sizes='100vw'
+                style={{ width: '100%', height: 'auto' }}
+            />
         </Paper>
     );
 };
 
-const carousels = ['/carousel_img/img1.png', '/carousel_img/im2.jpg', '/carousel_img/img3.png', '/carousel_img/img4.jpg'];
+const carousels = [
+    '/carousel_img/img1.png',
+    '/carousel_img/im2.jpg',
+    '/carousel_img/img3.png',
+    '/carousel_img/img4.jpg',
+];
 
 export const CarouselComponent = () => {
     return (

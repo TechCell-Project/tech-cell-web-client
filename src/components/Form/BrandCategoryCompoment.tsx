@@ -35,7 +35,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -45,7 +45,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/1.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/1.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -74,7 +74,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -84,7 +84,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/2.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/2.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -113,7 +113,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -123,7 +123,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/3.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/3.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -152,7 +152,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -162,7 +162,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/4.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/4.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -191,7 +191,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -201,7 +201,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/5.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/5.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -230,7 +230,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -240,7 +240,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/6.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/6.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -269,7 +269,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -279,7 +279,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/7.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/7.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -308,7 +308,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -318,7 +318,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/8.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/8.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -347,7 +347,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -357,7 +357,7 @@ export const BrandCategoryCompoment = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Image src="/brand_category_img/9.webp" width={60} height={60} alt="" />
+                            <Image src='/brand_category_img/9.webp' width={60} height={60} alt='' />
                         </Box>
                         <Box
                             sx={{
@@ -386,7 +386,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -397,10 +397,10 @@ export const BrandCategoryCompoment = () => {
                             }}
                         >
                             <Image
-                                src="/brand_category_img/10.webp"
+                                src='/brand_category_img/10.webp'
                                 width={60}
                                 height={60}
-                                alt=""
+                                alt=''
                             />
                         </Box>
                         <Box
@@ -430,7 +430,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -441,10 +441,10 @@ export const BrandCategoryCompoment = () => {
                             }}
                         >
                             <Image
-                                src="/brand_category_img/11.webp"
+                                src='/brand_category_img/11.webp'
                                 width={60}
                                 height={60}
-                                alt=""
+                                alt=''
                             />
                         </Box>
                         <Box
@@ -474,7 +474,7 @@ export const BrandCategoryCompoment = () => {
                         },
                     }}
                 >
-                    <Link href="#">
+                    <Link href='#'>
                         <Box
                             sx={{
                                 width: { lg: '95px', xs: '65px' },
@@ -485,10 +485,10 @@ export const BrandCategoryCompoment = () => {
                             }}
                         >
                             <Image
-                                src="/brand_category_img/12.webp"
+                                src='/brand_category_img/12.webp'
                                 width={60}
                                 height={60}
-                                alt=""
+                                alt=''
                             />
                         </Box>
                         <Box

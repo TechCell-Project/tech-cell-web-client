@@ -86,4 +86,4 @@ export const SliderProduct = () => {
             </Slider>
         </div>
     );
-}
+};
