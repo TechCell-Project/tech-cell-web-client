@@ -12,10 +12,10 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 type Props = {
-    data: UserAccount
+    data: UserAccount;
     isOpen: boolean;
-    handleClose: () => void
-}
+    handleClose: () => void;
+};
 
 const UpdateInfo = ({ data, isOpen, handleClose }: Props) => {
     const dispatch = useAppDispatch();

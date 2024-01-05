@@ -158,7 +158,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
     };
 
     useEffect(() => {
-        const color = selectedColor.filter(item => item.isSelected).shift()?.color;
+        const color = selectedColor.filter((item) => item.isSelected).shift()?.color;
         const currentVariant = getVariant(selectedStorage, color);
 
         if (currentVariant !== undefined) {
@@ -171,7 +171,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                 sku: currentVariant.sku ?? 'not available',
             });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedStorage, selectedColor]);
 
     return (
@@ -190,7 +190,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                                 </button>
                             ) : (
                                 <button
-                                    type="button"
+                                    type='button'
                                     className={`${
                                         variant.storage === selectedStorage
                                             ? `${styles.activeInternal}`
@@ -213,12 +213,14 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                 <div className={styles.product_potions}>
                     {selectedColor.map((color) => {
                         const currentVariant = getVariant(selectedStorage, color.color);
-                        const variantImage = currentVariant?.images.filter(image => image.isThumbnail).shift();
+                        const variantImage = currentVariant?.images
+                            .filter((image) => image.isThumbnail)
+                            .shift();
 
                         return (
                             <div key={color.color}>
                                 <button
-                                    type="button"
+                                    type='button'
                                     className={color.isSelected ? styles.activecolor : ''}
                                     disabled={!color.selectable}
                                     onClick={() => handleSelectColor(color.color)}
@@ -229,7 +231,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                                                 src={variantImage.url}
                                                 width={30}
                                                 height={30}
-                                                alt=""
+                                                alt=''
                                             />
                                         )}
                                         <div className={styles.product_option_content_text}>

@@ -18,8 +18,14 @@ const ProfileInfor = () => {
         <>
             <Stack direction='row' justifyContent='space-between' alignItems='flex-start'>
                 <div>
-                    <Typography variant='h4' fontWeight={600} fontSize='30px'>{`${user?.firstName} ${user?.lastName}`}</Typography>
-                    <Typography variant='body1' fontWeight={500} fontSize='15px' mt={1}>{getRole(user?.role)}</Typography>
+                    <Typography
+                        variant='h4'
+                        fontWeight={600}
+                        fontSize='30px'
+                    >{`${user?.firstName} ${user?.lastName}`}</Typography>
+                    <Typography variant='body1' fontWeight={500} fontSize='15px' mt={1}>
+                        {getRole(user?.role)}
+                    </Typography>
                 </div>
                 <CommonBtn
                     content='Chỉnh sửa thông tin'
@@ -29,24 +35,29 @@ const ProfileInfor = () => {
                     handleClick={() => setOpenUpdate(true)}
                 />
             </Stack>
-            <Typography fontWeight={600} fontSize='15px' mt={5}>1. Thông tin người dùng</Typography>
+            <Typography fontWeight={600} fontSize='15px' mt={5}>
+                1. Thông tin người dùng
+            </Typography>
             <Grid container spacing={2} mt={1}>
                 <Grid item md={6}>
-                    <TextView
-                        label='Id'
-                        content={user?._id as string}
-                    />
+                    <TextView label='Id' content={user?._id as string} />
                 </Grid>
                 <Grid item md={6}>
                     <TextView
                         label='Email'
                         content={user?.email as string}
-                        unit={user?.emailVerified && <CheckCircleRoundedIcon fontSize='small' color='primary' />}
+                        unit={
+                            user?.emailVerified && (
+                                <CheckCircleRoundedIcon fontSize='small' color='primary' />
+                            )
+                        }
                     />
                 </Grid>
                 <Grid item md={6}>
-                    <TextView label='Trạng thái'
-                              content={user?.block && user?.block?.isBlocked ? 'Bị chặn' : 'Hoạt động'} />
+                    <TextView
+                        label='Trạng thái'
+                        content={user?.block && user?.block?.isBlocked ? 'Bị chặn' : 'Hoạt động'}
+                    />
                 </Grid>
                 <Grid item md={6}>
                     <TextView label='Trạng thái' content={user?.userName as string} />
@@ -55,7 +66,10 @@ const ProfileInfor = () => {
                     <TextView label='TG lập' content={formatDateViVN(user?.createdAt as string)} />
                 </Grid>
                 <Grid item md={6}>
-                    <TextView label='TG chỉnh sửa' content={formatDateViVN(user?.updatedAt as string)} />
+                    <TextView
+                        label='TG chỉnh sửa'
+                        content={formatDateViVN(user?.updatedAt as string)}
+                    />
                 </Grid>
             </Grid>
 

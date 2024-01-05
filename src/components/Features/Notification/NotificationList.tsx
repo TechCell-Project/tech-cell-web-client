@@ -74,7 +74,9 @@ const NotificationList = ({ status, onClose }: Props) => {
         return (
             <div style={{ padding: '20px' }}>
                 <NotifyIcon />
-                <Typography variant='body2' mt='10px' fontWeight={500}>{content}</Typography>
+                <Typography variant='body2' mt='10px' fontWeight={500}>
+                    {content}
+                </Typography>
             </div>
         );
     };

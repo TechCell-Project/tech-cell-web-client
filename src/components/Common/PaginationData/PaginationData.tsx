@@ -95,7 +95,7 @@ const PaginationData: FC<PaginationProps> = ({ initialData, pagingData, handleCh
                         color: 'white',
                     },
                 }}
-                shape="rounded"
+                shape='rounded'
                 onChange={handleChange}
                 page={pagingData.page + 1}
                 count={pagingData.totalPage}

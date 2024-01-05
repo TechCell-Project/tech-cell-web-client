@@ -23,10 +23,10 @@ const ProfileAddress = () => {
 
     const handleSetDefault = (index: number) => {
         setLoadingDefault(true);
-        const newValue: Array<Address> | undefined = user?.address.map(
-            (item, i) => (
-                { ...item, isDefault: i === index }
-            ));
+        const newValue: Array<Address> | undefined = user?.address.map((item, i) => ({
+            ...item,
+            isDefault: i === index,
+        }));
         if (newValue) {
             const values = new ProfileAddressRequest(newValue);
 
@@ -42,14 +42,27 @@ const ProfileAddress = () => {
 
     return (
         <>
-            <Typography fontWeight={600} fontSize='15px' mt={5} mb={3}>2. Địa chỉ người dùng</Typography>
+            <Typography fontWeight={600} fontSize='15px' mt={5} mb={3}>
+                2. Địa chỉ người dùng
+            </Typography>
             {user?.address?.map((item, i) => (
                 <Box key={i} mb={4}>
-                    <Stack direction='row' justifyContent='space-between' alignItems='center' mb={2}>
+                    <Stack
+                        direction='row'
+                        justifyContent='space-between'
+                        alignItems='center'
+                        mb={2}
+                    >
                         <Stack direction='row' gap={4} alignItems='center'>
-                            <Typography fontWeight={500} fontSize='15px'>2.{i + 1} {item.addressName}</Typography>
+                            <Typography fontWeight={500} fontSize='15px'>
+                                2.{i + 1} {item.addressName}
+                            </Typography>
                             {item.isDefault ? (
-                                <Chip icon={<CheckCircleRoundedIcon />} label='Mặc dịnh' color='primary' />
+                                <Chip
+                                    icon={<CheckCircleRoundedIcon />}
+                                    label='Mặc dịnh'
+                                    color='primary'
+                                />
                             ) : (
                                 <CommonBtn
                                     content='Chọn mặc định'
@@ -60,14 +73,23 @@ const ProfileAddress = () => {
                             )}
                         </Stack>
                         <Stack direction='row' gap={2}>
-                            <IconBtn icon={<EditRoundedIcon fontSize='small' />} tooltip='Chỉnh sửa' size='small' />
-                            <IconBtn icon={<HighlightOffRoundedIcon fontSize='small' />} tooltip='Xóa' size='small' />
+                            <IconBtn
+                                icon={<EditRoundedIcon fontSize='small' />}
+                                tooltip='Chỉnh sửa'
+                                size='small'
+                            />
+                            <IconBtn
+                                icon={<HighlightOffRoundedIcon fontSize='small' />}
+                                tooltip='Xóa'
+                                size='small'
+                            />
                         </Stack>
                     </Stack>
                     <Stack direction='row' gap='10px' alignItems='center'>
-                        <Typography fontSize='18px' fontWeight={500}>{item.customerName}</Typography>
-                        |
-                        <Typography fontSize='15px'>{item.phoneNumbers}</Typography>
+                        <Typography fontSize='18px' fontWeight={500}>
+                            {item.customerName}
+                        </Typography>
+                        |<Typography fontSize='15px'>{item.phoneNumbers}</Typography>
                     </Stack>
                     <Typography fontSize='15px' mt={1}>
                         {[

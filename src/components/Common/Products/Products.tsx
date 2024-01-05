@@ -22,7 +22,6 @@ import { getThumbnail } from 'utils';
 import { ProductLabel } from '@interfaces/product';
 import { LoadingSection } from '../Display/LoadingSection';
 
-
 interface ProductsPageProps {
     className?: string;
 }

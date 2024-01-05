@@ -38,7 +38,7 @@ const RecentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     if (!anchorEl) return null;
 
     return (
-        <Popper open={open} anchorEl={anchorEl} disablePortal placement="bottom-start">
+        <Popper open={open} anchorEl={anchorEl} disablePortal placement='bottom-start'>
             <Paper sx={{ width: el.clientWidth, marginTop: '5px' }} ref={paperRef}>
                 <MenuList sx={{ padding: 0 }}>
                     {!recentSearches.length ? (
@@ -56,7 +56,7 @@ const RecentSearches: FC<RecentSearchValueProps & PopperProps> = ({
                                 }}
                             >
                                 <Typography
-                                    variant="h4"
+                                    variant='h4'
                                     sx={{ fontWeight: 700, fontSize: '16px', color: '#777777' }}
                                 >
                                     Lịch sử tìm kiếm

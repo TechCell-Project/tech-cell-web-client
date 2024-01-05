@@ -43,7 +43,7 @@
     flex-direction: column;
     align-items: center;
 
-    & > div[role="presentation"] > canvas {
+    & > div[role='presentation'] > canvas {
         border-radius: 20px;
     }
 }

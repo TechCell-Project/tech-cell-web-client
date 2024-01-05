@@ -68,33 +68,33 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
             >
                 <Stack spacing={0} sx={{ alignItems: 'center' }}>
                     <FormControl
-                        variant="standard"
+                        variant='standard'
                         sx={{
                             display: { sm: 'none', xs: 'flex' },
                             minWidth: '120px',
                         }}
                     >
-                        <InputLabel id="select-tag">Tag</InputLabel>
-                        <Select labelId="select-tag" value={selectedTag} onChange={handleTagChange}>
-                            <MenuItem value="latest">
+                        <InputLabel id='select-tag'>Tag</InputLabel>
+                        <Select labelId='select-tag' value={selectedTag} onChange={handleTagChange}>
+                            <MenuItem value='latest'>
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{ fontWeight: 'bold', fontSize: '15px' }}
                                 >
                                     Sản phẩm mới nhất
                                 </Typography>
                             </MenuItem>
-                            <MenuItem value="best-selling">
+                            <MenuItem value='best-selling'>
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{ fontWeight: 'bold', fontSize: '15px' }}
                                 >
                                     Bán chạy nhất
                                 </Typography>
                             </MenuItem>
-                            <MenuItem value="featured">
+                            <MenuItem value='featured'>
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{ fontWeight: 'bold', fontSize: '15px' }}
                                 >
                                     Sản phẩm nổi bật
@@ -103,7 +103,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </Select>
                     </FormControl>
                     <List
-                        component="a"
+                        component='a'
                         sx={{
                             display: { sm: 'flex', xs: 'none' },
                             flexDirection: 'row',
@@ -113,7 +113,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                     >
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                         <StyledListItemButton
@@ -124,7 +124,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 disableTypography
                                 primary={
                                     <Typography
-                                        variant="h6"
+                                        variant='h6'
                                         sx={{ fontWeight: 'bold', fontSize: '16px' }}
                                     >
                                         Sản phẩm mới nhất
@@ -134,7 +134,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </StyledListItemButton>
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                         <StyledListItemButton
@@ -145,7 +145,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 disableTypography
                                 primary={
                                     <Typography
-                                        variant="h6"
+                                        variant='h6'
                                         sx={{ fontWeight: 'bold', fontSize: '16px' }}
                                     >
                                         Bán chạy nhất
@@ -155,7 +155,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </StyledListItemButton>
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                         <StyledListItemButton
@@ -166,7 +166,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 disableTypography
                                 primary={
                                     <Typography
-                                        variant="h6"
+                                        variant='h6'
                                         sx={{ fontWeight: 'bold', fontSize: '16px' }}
                                     >
                                         Sản phẩm nổi bật
@@ -176,13 +176,13 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </StyledListItemButton>
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                     </List>
 
                     <Divider
-                        component="div"
+                        component='div'
                         sx={{
                             width: '100%',
                             height: '2px',

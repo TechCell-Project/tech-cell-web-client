@@ -31,7 +31,7 @@ export class OrderPayment {
     method: string | null = null;
     status: string | null = null;
     paymentUrl?: string | null;
-    orderData?: Object | null;
+    orderData?: object | null;
 }
 
 export class OrderReviewRequest {

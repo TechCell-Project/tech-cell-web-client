@@ -42,7 +42,6 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     removeItem,
     getHistoryKey,
 }) => {
-
     const paperRef = useRef<HTMLDivElement>(null);
 
     const [currentProducts, setCurrentProducts] = useState<ProductLabel[]>([]);
@@ -61,13 +60,13 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     if (!anchorEl) return null;
 
     return (
-        <Popper open={open} anchorEl={anchorEl} disablePortal placement="bottom-start">
+        <Popper open={open} anchorEl={anchorEl} disablePortal placement='bottom-start'>
             <Paper sx={{ width: '500px', marginTop: '5px' }} ref={paperRef}>
                 <MenuList sx={{ padding: 0 }}>
                     {isLoading ? (
                         <MenuItem sx={{ alignItems: 'center', justifyContent: 'center' }}>
                             <PulseLoader
-                                color="#ee4949"
+                                color='#ee4949'
                                 cssOverride={{}}
                                 margin={10}
                                 size={10}
@@ -92,7 +91,7 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
                                         }}
                                     >
                                         <Typography
-                                            variant="h4"
+                                            variant='h4'
                                             sx={{
                                                 fontWeight: 700,
                                                 fontSize: '16px',
@@ -101,7 +100,7 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
                                             Lịch sử tìm kiếm
                                         </Typography>
                                         <Button
-                                            size="small"
+                                            size='small'
                                             endIcon={<DeleteOutlineIcon />}
                                             sx={{ color: 'inherit' }}
                                         >

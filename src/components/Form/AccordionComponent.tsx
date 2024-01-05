@@ -16,16 +16,18 @@ interface Props {
 export const AccordionComponent = (props: Props) => {
     return (
         <>
-            <Accordion sx={{
-                boxShadow: 'unset !important',
-                '&.Mui-expanded': {
-                    m: 0,
-                },
-                '&::before': {
-                    display: 'none',
-                    position: 'unset !important',
-                },
-            }}>
+            <Accordion
+                sx={{
+                    boxShadow: 'unset !important',
+                    '&.Mui-expanded': {
+                        m: 0,
+                    },
+                    '&::before': {
+                        display: 'none',
+                        position: 'unset !important',
+                    },
+                }}
+            >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     sx={{
@@ -37,16 +39,14 @@ export const AccordionComponent = (props: Props) => {
                     }}
                 >
                     {props.icon && props.icon}
-                    <Typography fontSize='15px' fontWeight={500}>{props.content}</Typography>
+                    <Typography fontSize='15px' fontWeight={500}>
+                        {props.content}
+                    </Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ maxHeight: '230px', overflow: 'auto' }}>
                     {props.options &&
                         props.options.map((item, i) => (
-                            <Link
-                                href={item?.to}
-                                key={i}
-                                className={styles.accordion_link}
-                            >
+                            <Link href={item?.to} key={i} className={styles.accordion_link}>
                                 • {item.label}
                             </Link>
                         ))}

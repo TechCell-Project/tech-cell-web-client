@@ -29,9 +29,9 @@ interface Props {
 
 const ProductAttachedScrolling: FC<Props & HTMLAttributes<HTMLDivElement>> = ({ className }) => {
     return (
-        <Box className={className} >
+        <Box className={className}>
             {PRODUCT_ATTACHED.map((product) => (
-                <ProductAttached elevation={0} key={product.value} >
+                <ProductAttached elevation={0} key={product.value}>
                     <div className={styles.cart_buy_card}>
                         <div className={styles.card_product}>
                             <div className={styles.card_product_img}>

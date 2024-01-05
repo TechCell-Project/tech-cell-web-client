@@ -118,14 +118,14 @@ export const ProductDetail = ({ id }: { id: string }) => {
             {productDetail && (
                 <div className={styles.productDetails_content}>
                     <Stack
-                        direction="row"
+                        direction='row'
                         spacing={2}
-                        alignItems="center"
+                        alignItems='center'
                         className={styles.nav_links}
                     >
-                        <Link href="/">Trang chủ</Link>
-                        <ArrowForwardIosIcon fontSize="small" sx={{ color: theme.color.red }} />
-                        <Link href="/danh-sach-san-pham">Điện Thoại</Link>
+                        <Link href='/'>Trang chủ</Link>
+                        <ArrowForwardIosIcon fontSize='small' sx={{ color: theme.color.red }} />
+                        <Link href='/danh-sach-san-pham'>Điện Thoại</Link>
                     </Stack>
 
                     {/* productname_evaluate */}
@@ -263,13 +263,13 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                     </div>
 
                                     <Dialog
-                                        aria-labelledby="customized-dialog-title"
+                                        aria-labelledby='customized-dialog-title'
                                         open={showDialog}
                                     >
                                         <DialogTitle
                                             sx={{ backgroundColor: '#ee4949', color: 'white' }}
                                         >
-                                            <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                                            <Typography variant='h6' sx={{ textAlign: 'center' }}>
                                                 Thông số kĩ thuật
                                             </Typography>
                                         </DialogTitle>

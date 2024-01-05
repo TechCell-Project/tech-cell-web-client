@@ -13,7 +13,6 @@ import IconButton from '@mui/material/IconButton';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-
 interface IDialog {
     isOpen: boolean;
     handleClose: (event?: any) => void;
@@ -23,7 +22,6 @@ interface IDialog {
     dialogDesc?: string | React.ReactNode;
     children: React.ReactNode;
 }
-
 
 export const ShowDialog: FC<IDialog> = memo((props) => {
     const theme = useTheme();
@@ -56,13 +54,19 @@ export const ShowDialog: FC<IDialog> = memo((props) => {
                         {props.dialogTitle}
                     </Typography>
                 </Stack>
-                <IconButton onClick={props.handleClose} aria-label='close' sx={{ fill: theme.color.black }}>
+                <IconButton
+                    onClick={props.handleClose}
+                    aria-label='close'
+                    sx={{ fill: theme.color.black }}
+                >
                     <CloseRoundedIcon />
                 </IconButton>
             </DialogTitle>
             {props.dialogDesc && (
                 <DialogContent>
-                    <DialogContentText id='dialog-description'>{props.dialogDesc}</DialogContentText>
+                    <DialogContentText id='dialog-description'>
+                        {props.dialogDesc}
+                    </DialogContentText>
                 </DialogContent>
             )}
             <DialogActions sx={{ padding: '0 24px 16px 24px', gap: '10px', display: 'inline' }}>

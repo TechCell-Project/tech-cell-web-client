@@ -15,10 +15,14 @@ import { RootPath } from '@constants/enum';
 export default function AuthorizedLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>): JSX.Element {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
 
     const router = useRouter();
     const pathname = usePathname();
+
+    if (status === 'loading') {
+        return <LoadingPageMnt isLoading />;
+    }
 
     if (!session?.user) {
         const loginUrlCallback = `${RootPath.Login}?callbackUrl=${pathname ?? '/'}`;

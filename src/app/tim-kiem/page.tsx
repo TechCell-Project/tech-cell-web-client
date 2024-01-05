@@ -2,11 +2,7 @@ import React, { Suspense } from 'react';
 
 import { getProductsCustom } from 'utils/get-products';
 import ResultsPage from '@components/Common/Searching/ResultsPage';
-import {
-    FOUND_CODE,
-    NOTFOUND_ERROR_CODE,
-    SERVER_ERROR_CODE,
-} from '@constants/errorCode';
+import { FOUND_CODE, NOTFOUND_ERROR_CODE, SERVER_ERROR_CODE } from '@constants/errorCode';
 import { ProductSearchingStatus } from '@interfaces/product';
 import Loading from './loading';
 
@@ -36,7 +32,7 @@ const SearchPage = async ({ searchParams }: { searchParams: { search?: string } 
             }
         });
     console.log(searchData);
-    
+
     return (
         <Suspense fallback={<Loading />}>
             <ResultsPage searchData={searchData} keyword={decodeKeyword} />

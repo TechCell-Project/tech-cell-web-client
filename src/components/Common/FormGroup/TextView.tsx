@@ -11,19 +11,19 @@ interface Props {
     unit?: React.ReactNode;
 }
 
-export const TextView = (
-    {
-        label,
-        content,
-        titleNoContent = '.......',
-        stylesLabel,
-        unit,
-    }: Props) => {
-
+export const TextView = ({
+    label,
+    content,
+    titleNoContent = '.......',
+    stylesLabel,
+    unit,
+}: Props) => {
     return (
         <Typography
             sx={{
-                ...stylesLabel, fontSize: '15px', '& svg': {
+                ...stylesLabel,
+                fontSize: '15px',
+                '& svg': {
                     verticalAlign: 'sub',
                 },
             }}

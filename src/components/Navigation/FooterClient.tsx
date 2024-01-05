@@ -54,36 +54,40 @@ export const FooterClient = () => {
                     <Grid item md={6}>
                         <Box width='150px' mb={3}>
                             <Image
-                                src='/logo-red.png' alt=''
+                                src='/logo-red.png'
+                                alt=''
                                 width={0}
                                 height={0}
                                 sizes='100vw'
                                 style={{ width: '100%', height: 'auto' }}
                             />
                         </Box>
-                        <Typography fontSize='13px' fontWeight={500} sx={{ opacity: 0.9 }}>Tận hưởng Cuộc Sống Kỹ Thuật
-                            Số với Techcell -
-                            Nơi Nâng Tầm Trải Nghiệm Điện Thoại.
-                            Sự hoàn hảo gặp gỡ thiết kế đẳng cấp, để mỗi cuộc gọi, mỗi cử chỉ đều trở thành một trải
-                            nghiệm không thể quên.
-                            Khám phá ngay với Techcell - Nơi Thăng Hoa Công Nghệ!</Typography>
+                        <Typography fontSize='13px' fontWeight={500} sx={{ opacity: 0.9 }}>
+                            Tận hưởng Cuộc Sống Kỹ Thuật Số với Techcell - Nơi Nâng Tầm Trải Nghiệm
+                            Điện Thoại. Sự hoàn hảo gặp gỡ thiết kế đẳng cấp, để mỗi cuộc gọi, mỗi
+                            cử chỉ đều trở thành một trải nghiệm không thể quên. Khám phá ngay với
+                            Techcell - Nơi Thăng Hoa Công Nghệ!
+                        </Typography>
                         <Stack direction='row' gap={3} mt={4}>
                             {socialsIcon.map((Icon, i) => (
-                                <IconButton key={i} sx={{ bgcolor: 'rgba(0, 0, 0, 0.04)', p: '8px' }}>
+                                <IconButton
+                                    key={i}
+                                    sx={{ bgcolor: 'rgba(0, 0, 0, 0.04)', p: '8px' }}
+                                >
                                     <Icon />
                                 </IconButton>
                             ))}
                         </Stack>
                     </Grid>
-                    {links.map(link => (
+                    {links.map((link) => (
                         <Grid item md={2} key={link.title}>
-                            <Typography fontSize='18px' fontWeight={600}>{link.title}</Typography>
+                            <Typography fontSize='18px' fontWeight={600}>
+                                {link.title}
+                            </Typography>
                             <ul className={styles.footerLinks}>
                                 {link.children.map((item, i) => (
                                     <li key={i}>
-                                        <Link href={item.href}>
-                                            {item.title}
-                                        </Link>
+                                        <Link href={item.href}>{item.title}</Link>
                                     </li>
                                 ))}
                             </ul>
@@ -94,16 +98,36 @@ export const FooterClient = () => {
                 <hr className={styles.footerDivider} />
 
                 <Stack direction='row' alignItems='center' justifyContent='space-between' mb='25px'>
-                    <Typography fontSize='14px'>© 2023, made with ❤️ by <b>Techcell Team</b></Typography>
-                    <Stack direction='row' gap={5} sx={{
-                        display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' },
-                    }}>
-                        <Link href='https://admin.techcell.cloud' target='_blank'
-                              style={{ fontWeight: 600, fontSize: '14px' }}>Admin</Link>
-                        <Link href='https://docs.techcell.cloud' target='_blank'
-                              style={{ fontWeight: 600, fontSize: '14px' }}>Documentation</Link>
-                        <Link href='mailto:teams@techcell.cloud'
-                              style={{ fontWeight: 600, fontSize: '14px' }}>Contact</Link>
+                    <Typography fontSize='14px'>
+                        © 2023, made with ❤️ by <b>Techcell Team</b>
+                    </Typography>
+                    <Stack
+                        direction='row'
+                        gap={5}
+                        sx={{
+                            display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' },
+                        }}
+                    >
+                        <Link
+                            href='https://admin.techcell.cloud'
+                            target='_blank'
+                            style={{ fontWeight: 600, fontSize: '14px' }}
+                        >
+                            Admin
+                        </Link>
+                        <Link
+                            href='https://docs.techcell.cloud'
+                            target='_blank'
+                            style={{ fontWeight: 600, fontSize: '14px' }}
+                        >
+                            Documentation
+                        </Link>
+                        <Link
+                            href='mailto:teams@techcell.cloud'
+                            style={{ fontWeight: 600, fontSize: '14px' }}
+                        >
+                            Contact
+                        </Link>
                     </Stack>
                 </Stack>
             </Container>

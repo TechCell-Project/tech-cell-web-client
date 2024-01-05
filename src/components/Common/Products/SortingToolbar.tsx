@@ -57,7 +57,7 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
     return (
         <Box sx={{ padding: '0 !important', margin: '20px 0px' }}>
             <Stack spacing={2} sx={{ alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Typography variant="h5" fontWeight={600} fontSize={18}>
+                <Typography variant='h5' fontWeight={600} fontSize={18}>
                     Sắp xếp theo
                 </Typography>
                 <Box className={className}>
@@ -78,19 +78,19 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
                         }}
                         {...sortByTagControl}
                     >
-                        <ToggleButtonStyled value="ascending" key="ascending">
+                        <ToggleButtonStyled value='ascending' key='ascending'>
                             <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
                             Giá Cao - Thấp
                         </ToggleButtonStyled>
-                        <ToggleButtonStyled value="descending" key="descending">
+                        <ToggleButtonStyled value='descending' key='descending'>
                             <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
                             Giá Thấp - Cao
                         </ToggleButtonStyled>
-                        <ToggleButtonStyled value="hot-promo" key="hot-promo">
+                        <ToggleButtonStyled value='hot-promo' key='hot-promo'>
                             <Percent sx={{ fontSize: '20px', marginRight: '5px' }} />
                             Khuyến mãi hot
                         </ToggleButtonStyled>
-                        <ToggleButtonStyled value="popular" key="popular">
+                        <ToggleButtonStyled value='popular' key='popular'>
                             <Visibility sx={{ fontSize: '20px', marginRight: '5px' }} />
                             Xem nhiều
                         </ToggleButtonStyled>

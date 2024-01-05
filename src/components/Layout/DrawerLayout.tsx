@@ -58,7 +58,12 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
             </Stack>
             {NAV_ITEMS.map((item) => {
                 return item.isNav ? (
-                    <AccordionComponent key={item.name} content={item.name} options={item?.menu} icon={<item.icon />} />
+                    <AccordionComponent
+                        key={item.name}
+                        content={item.name}
+                        options={item?.menu}
+                        icon={<item.icon />}
+                    />
                 ) : (
                     <Stack
                         direction='row'
@@ -93,7 +98,7 @@ const style = {
     padding: '20px 30px',
 };
 
-const ModelSearch = ({ open, handleClose }: { open: boolean, handleClose: () => void }) => {
+const ModelSearch = ({ open, handleClose }: { open: boolean; handleClose: () => void }) => {
     return (
         <Modal
             open={open}

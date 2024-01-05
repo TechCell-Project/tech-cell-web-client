@@ -29,9 +29,7 @@ export const CommonBtn = memo((props: IButtonProps) => {
     const theme = useTheme();
 
     const outlinedStyle: SxProps = {
-        color: props.colorWhite
-            ? '#fff !important'
-            : `${theme.color.red} !important`,
+        color: props.colorWhite ? '#fff !important' : `${theme.color.red} !important`,
         border: props.colorWhite
             ? '1px solid #fff !important'
             : `1px solid ${theme.color.red} !important`,
@@ -51,9 +49,7 @@ export const CommonBtn = memo((props: IButtonProps) => {
     };
 
     const textStyle: SxProps = {
-        color: props.colorWhite
-            ? `#fff !important`
-            : `${theme.color.red} !important`,
+        color: props.colorWhite ? `#fff !important` : `${theme.color.red} !important`,
         bgcolor: 'transparent',
         padding: '8px 20px',
         whiteSpace: 'nowrap',
@@ -94,7 +90,10 @@ export const CommonBtn = memo((props: IButtonProps) => {
                             width: '20px !important',
                             height: '20px !important',
                             '& .MuiCircularProgress-svg': {
-                                color: props.variant === 'contained' || props.variant === undefined ? '#fff' : theme.color.red,
+                                color:
+                                    props.variant === 'contained' || props.variant === undefined
+                                        ? '#fff'
+                                        : theme.color.red,
                             },
                         }}
                     />
@@ -104,9 +103,7 @@ export const CommonBtn = memo((props: IButtonProps) => {
     };
 
     return !props.isBadge ? (
-        <>
-            {renderBtn()}
-        </>
+        <>{renderBtn()}</>
     ) : (
         <Badge
             badgeContent={props.badgeCount}

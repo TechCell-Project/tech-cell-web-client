@@ -57,9 +57,7 @@ export const ForgotPassword = (props: Props) => {
                 }
                 toast.success(`Đã gửi mã OTP dến ${email}`);
             })
-            .catch(
-                () => toast.error(`Có lỗi xảy ra, Gửi mã thất bại!`),
-            );
+            .catch(() => toast.error(`Có lỗi xảy ra, Gửi mã thất bại!`));
     };
 
     const handleSubmit = (
@@ -72,9 +70,7 @@ export const ForgotPassword = (props: Props) => {
                 resetForm();
                 props.handleClose();
             })
-            .catch(
-                () => toast.error('Đổi mật khẩu thất bại!'),
-            )
+            .catch(() => toast.error('Đổi mật khẩu thất bại!'))
             .finally(() => {
                 setSubmitting(false);
             });
@@ -86,8 +82,8 @@ export const ForgotPassword = (props: Props) => {
             <Dialog
                 open={props.isOpen}
                 onClose={props.handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
+                aria-labelledby='alert-dialog-title'
+                aria-describedby='alert-dialog-description'
                 style={{ height: 'auto' }}
             >
                 <DialogTitle style={{ textAlign: 'center', marginTop: 20 }}>
@@ -102,32 +98,32 @@ export const ForgotPassword = (props: Props) => {
                     {({ isSubmitting }) => (
                         <Form style={{ width: '100%' }}>
                             <Stack
-                                direction="column"
+                                direction='column'
                                 gap={2}
                                 style={{ width: 500, padding: '0px 50px 50px 50px' }}
                             >
                                 <ForgotForm sendCode={sendCode} />
 
                                 {isActive && (
-                                    <Typography variant="body2" fontSize="14px" textAlign="center">
+                                    <Typography variant='body2' fontSize='14px' textAlign='center'>
                                         Mã OTP còn hiệu lực trong vòng:{' '}
                                         <b>{formatTime(countdown)}</b>
                                     </Typography>
                                 )}
 
                                 <Stack
-                                    direction="row"
-                                    justifyContent="flex-end"
+                                    direction='row'
+                                    justifyContent='flex-end'
                                     gap={1}
                                     sx={{ mt: 1 }}
                                 >
-                                    <Button variant="outlined" onClick={props.handleClose}>
+                                    <Button variant='outlined' onClick={props.handleClose}>
                                         Hủy bỏ
                                     </Button>
 
                                     <Button
-                                        variant="contained"
-                                        type="submit"
+                                        variant='contained'
+                                        type='submit'
                                         disabled={isSubmitting}
                                     >
                                         Xác nhận
