@@ -11,7 +11,7 @@ import { ImageModel } from '@models/Product';
 import { postImage } from '@services/ImageService';
 import { HttpStatusCode } from 'axios';
 import { toast } from 'react-toastify';
-import { patchProfileAddress, patchProfileInfo } from '@services/ProfileService';
+import { patchProfileInfo } from '@services/ProfileService';
 import { getCurrentUser } from '@store/slices/authSlice';
 
 const ProfileAvatar = () => {
@@ -19,6 +19,7 @@ const ProfileAvatar = () => {
     const { user } = useAppSelector((state) => state.auth);
     const [avatar, setAvatar] = useState<string | File>((user?.avatar as ImageModel).url);
     const [dropped, setDropped] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleDrop = (dropped: File[]) => {
         if (dropped.length > 0) {
@@ -28,6 +29,7 @@ const ProfileAvatar = () => {
     };
 
     const handleSave = async () => {
+        setIsLoading(true);
         try {
             const value: Partial<UserAccount> = {};
             const formData = new FormData();
@@ -45,6 +47,8 @@ const ProfileAvatar = () => {
             }
         } catch {
             toast.error('Lưu ảnh đại diện thất bại!');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -66,11 +70,11 @@ const ProfileAvatar = () => {
                     </div>
                     <CommonBtn
                         content='Lưu ảnh'
-                        startIcon={<CloudUploadRoundedIcon />}
+                        // startIcon={<CloudUploadRoundedIcon />}
                         variant='text'
-                        styles={{ gap: '0px !important' }}
                         handleClick={handleSave}
-                        disabled={!dropped}
+                        disabled={!dropped || isLoading}
+                        loading={isLoading}
                     />
                 </div>
             )}

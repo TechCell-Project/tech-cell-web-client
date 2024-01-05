@@ -8,7 +8,13 @@ import ProfileAddress from './ProfileAddress';
 export const Profile = () => {
     return (
         <Container sx={{ maxWidth: '960px !important', p: '30px 0' }}>
-            <Stack direction='row' gap='40px' alignItems='flex-start'>
+            <Stack
+                sx={{
+                    flexDirection: { xs: 'column', md: 'row' },
+                    alignItems: { xs: 'center', md: 'flex-start' },
+                    gap: { xs: '20px', md: '40px' },
+                }}
+            >
                 <ProfileAvatar />
                 <Stack direction='column' width='100%' pt='40px'>
                     <ProfileInfor />

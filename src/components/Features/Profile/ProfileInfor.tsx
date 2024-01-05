@@ -60,7 +60,7 @@ const ProfileInfor = () => {
                     />
                 </Grid>
                 <Grid item md={6}>
-                    <TextView label='Trạng thái' content={user?.userName as string} />
+                    <TextView label='Tài khoản' content={user?.userName as string} />
                 </Grid>
                 <Grid item md={6}>
                     <TextView label='TG lập' content={formatDateViVN(user?.createdAt as string)} />
