@@ -4,7 +4,6 @@ import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getCartItems } from '@store/slices/cartSlice';
-import { Paging } from '@models/Common';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -21,9 +20,6 @@ import CartSaleBanners from './CartSaleBanners';
 import { scrollToTop, addOrRemoveFromArray } from 'utils';
 import CartFooterInformation from './CartFooter';
 import { LoadingSection } from '../Display';
-import PaginationBar from '../PaginationData/PaginationBar';
-
-import { CART_PAGING } from '@constants/CartPaging';
 import IconButton from '@mui/material/IconButton';
 
 interface CartsProps {
@@ -36,21 +32,17 @@ type CartItemPrice = {
     price: number;
 };
 
-const CartPage: FC<CartsProps> = ({ userCartData }) => {
-    const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
+const CartPage = () => {
     const dispatch = useAppDispatch();
-
+    
     const { carts } = useAppSelector((state) => state.cart);
 
-    const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
+    const [thisCart, setThisCart] = useState<CartModel | null>(carts);
+
     const [checkedList, setCheckedList] = useState<string[]>([]);
     const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
     const [totalAmount, setTotalAmount] = useState<CartItemPrice[]>([]);
     const [checkedTotal, setCheckedTotal] = useState<number>(0);
-
-    useSkipFirstRender(() => {
-        dispatch(getCartItems(pagingData));
-    }, [pagingData]);
 
     useSkipFirstRender(() => {
         setThisCart(carts);
@@ -108,7 +100,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
     };
 
     const handleRefreshCart = () => {
-        dispatch(getCartItems(pagingData));
+        dispatch(getCartItems());
     };
 
     const handleCheckProduct = (id: string) => {
@@ -123,13 +115,6 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
             setShowUncheckMsg(true);
             scrollToTop();
         } else setShowUncheckMsg(false);
-    };
-
-    const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
-        setPagingData({
-            ...pagingData,
-            page: page - 1,
-        });
     };
 
     const saveProductQuery = (e: MouseEvent<HTMLElement>) => {

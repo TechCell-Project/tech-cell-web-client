@@ -12,7 +12,7 @@ export const login = async (values: Required<LoginModel>, callbackUrl?: string |
         await signIn('credentials', {
             emailOrUsername,
             password,
-            //redirectTo: callbackUrl ?? RootPath.Home,
+            redirectTo: callbackUrl ?? RootPath.Home,
         });
     } catch (error) {
         console.log(error);

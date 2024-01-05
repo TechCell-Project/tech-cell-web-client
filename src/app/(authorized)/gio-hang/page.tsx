@@ -8,34 +8,28 @@ import { useSession } from 'next-auth/react';
 import { getCartItemsCustom } from 'utils/get-cartItems';
 import { debounce } from 'utils/funcs';
 import { axiosAuth } from '@libs/axios';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { getCartItems } from '@/store/slices/cartSlice';
 
 const Cart = () => {
     const { data: session } = useSession();
+    const dispatch = useAppDispatch();
 
-    const [isDataFetched, setIsDataFetched] = useState<boolean>(false);
-    const [currentCartData, setCurrentCartData] = useState<CartModel | null>(null);
+    const { isLoading } = useAppSelector((state) => state.cart);
 
     useEffect(() => {
-        const fetchCartData = debounce(async () => {
-            const cartData = await getCartItemsCustom();
-            setCurrentCartData(cartData);
-            setIsDataFetched(true);
-        }, 5000);
-
         if (session) {
             axiosAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`;
 
-            if (!isDataFetched) {
-                fetchCartData();
-            }
+            dispatch(getCartItems());
         }
-    }, [isDataFetched, session]);
+    }, [session]);
 
-    if (!isDataFetched) {
+    if (isLoading) {
         return <LoadingPage isLoading />;
     }
 
-    return <CartPage userCartData={currentCartData} />;
+    return <CartPage />;
 };
 
 export default Cart;
