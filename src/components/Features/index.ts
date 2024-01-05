@@ -1,4 +1,2 @@
 export * from './Notification/Notification';
-
-export * from './Profile/ProfileAddress';
-export * from './Profile/ProfileInfor';
+export * from './Profile/Profile';

@@ -15,7 +15,7 @@ interface Props {
     badgeContent?: number;
     badgeVariant?: 'standard' | 'dot';
     tooltip?: string;
-    iconProps?: ExtendButtonBase<IconButtonTypeMap<object, 'button'>>;
+    size?: 'small' | 'medium' | 'large';
 }
 
 export const IconBtn = ({
@@ -27,14 +27,14 @@ export const IconBtn = ({
     badgeContent,
     badgeVariant = 'standard',
     tooltip = undefined,
-    iconProps,
+    size = 'medium',
 }: Props) => {
     const renderButton = () => {
         return (
             <IconButton
                 onClick={onClick}
                 sx={{ bgcolor: 'rgba(0, 0, 0, 0.04)', p: '8px', ...styles }}
-                {...iconProps}
+                size={size}
             >
                 {isBadge ? (
                     <Badge
