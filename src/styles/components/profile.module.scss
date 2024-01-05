@@ -34,3 +34,16 @@
         }
     }
 }
+
+.dropzoneAvatar {
+    width: max-content;
+    position: relative;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+
+    & > div[role="presentation"] > canvas {
+        border-radius: 20px;
+    }
+}
