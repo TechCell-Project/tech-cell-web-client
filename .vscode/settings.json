@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "cloudinary",
         "formik",
         "Macbook",
         "NEXTAUTH",
@@ -11,6 +12,7 @@
         "Shawshank",
         "signin",
         "Signout",
+        "svgr",
         "tanstack",
         "toastify",
         "unauth",
