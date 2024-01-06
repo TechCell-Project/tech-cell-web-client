@@ -26,6 +26,7 @@
         "hooks",
         "app",
         "actions",
-        "utils"
+        "utils",
+        "deps"
     ]
 }
