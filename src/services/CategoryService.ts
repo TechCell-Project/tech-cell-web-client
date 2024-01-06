@@ -1,4 +1,4 @@
-import instance from './Instance';
+import { axiosPublic } from '@libs/axios';
 import { CATEGORIES_ENDPOINT } from '@constants/Services';
 import { Paging } from '@models/Common';
 
@@ -10,8 +10,8 @@ export const getCategories = (payload: Paging) => {
         url += `&keyword=${keyword}`;
     }
 
-    return instance.get<Paging>(url);
+    return axiosPublic.get<Paging>(url);
 };
 
 export const getCategoryByLabel = (label: string) =>
-    instance.get(`${CATEGORIES_ENDPOINT}/label/${label}`);
+    axiosPublic.get(`${CATEGORIES_ENDPOINT}/label/${label}`);
