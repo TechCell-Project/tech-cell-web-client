@@ -11,7 +11,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { ProfileAddressSchema } from 'validate/auth.validate';
 import { District, Location, Province, Ward } from '@models/Location';
 import { TextFieldCustom } from '@components/Common/FormFormik/TextFieldCustom';
-import { getDistricts, getWards, getProvincess } from '@services/LocationService';
+import { getDistricts, getWards, getProvinces } from '@services/LocationService';
 import { ProfileAddressRequest } from '@models/Profile';
 import { toastConfig } from '@constants/ToastMsgConfig';
 import { Address } from '@models/Account';
@@ -51,7 +51,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
     const { user } = useAppSelector((state) => state.auth);
 
     useEffect(() => {
-        getProvincess()
+        getProvinces()
             .then(({ data }) => {
                 // TODO: fix wrong data type set
                 setProvinces(data);

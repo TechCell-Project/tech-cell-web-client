@@ -29,7 +29,7 @@ export const authConfig = {
                     emailOrUsername: credentials?.emailOrUsername as string,
                     password: credentials?.password as string,
                 };
-                
+
                 return fetchLogin(payload)
                     .then((res) => {
                         console.log(res.status);
@@ -38,7 +38,7 @@ export const authConfig = {
                     .catch((error) => {
                         if (isAxiosError(error)) {
                             console.error(error.response?.status);
-                            throw new Error(`statusCode|${error.response?.status}`);
+                            throw error;
                         }
                         return null;
                     });

@@ -55,31 +55,42 @@ export default function Login() {
                     password: payload.password as string,
                 },
                 backUrl,
-            ).then((res) => {
-                if (res) {
-                    const statusCode = parseInt(res.errorMsg.split('|')[1]);
+            )
+                .then((res) => {
+                    if (res) {
+                        const statusCode = res.code;
 
-                    if (statusCode === 406 || statusCode === 422) {
-                        toast.error(
-                            'Email của bạn chưa được xác thực! Hãy kiểm tra mail và tiến hành xác thực',
-                        );
-                        setOpenVerify(true);
-                    } else if (statusCode === 400) {
-                        toast.error('Đăng nhập thất bại. Tài khoản hoặc mật khẩu không hợp lệ');
-                    } else if (statusCode === 401) {
-                        toast.error('Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng');
-                    } else if (statusCode === 404) {
-                        toast.error('Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng');
+                        if (statusCode) {
+                            if (statusCode === 406 || statusCode === 422) {
+                                toast.error(
+                                    'Email của bạn chưa được xác thực! Hãy kiểm tra mail và tiến hành xác thực',
+                                );
+                                setOpenVerify(true);
+                            } else if (statusCode === 400) {
+                                toast.error(
+                                    'Đăng nhập thất bại. Tài khoản hoặc mật khẩu không hợp lệ',
+                                );
+                            } else if (statusCode === 401) {
+                                toast.error(
+                                    'Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng',
+                                );
+                            } else if (statusCode === 404) {
+                                toast.error(
+                                    'Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng',
+                                );
+                            } else {
+                                toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
+                            }
+                        } else {
+                            toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
+                        }
                     } else {
-                        toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
+                        toast.success('Đăng nhập thành công');
+                        window.location.href = backUrl ?? '/';
                     }
-                }
-                else {
-                    toast.success('Đăng nhập thành công');
-                    push(backUrl ?? '/');
-                }
-            });
-            setSubmitting(false);
+                })
+                .catch((err) => console.log(err))
+                .finally(() => setSubmitting(false));
             // const res = await signIn('credentials', {
             //     emailOrUsername: payload.emailOrUsername,
             //     password: payload.password,
