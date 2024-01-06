@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -9,11 +9,9 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import styles from '@styles/components/productdetail.module.scss';
-import { addItemToCart, authAddItemToCart } from '@store/slices/cartSlice';
-import { useAppDispatch, useAppSelector } from '@store/store';
 import { toast } from 'react-toastify';
-import { AddCartItemModel, CartItemModel } from '@models/Cart';
-import { useAxiosAuth } from '@hooks/useAxiosAuth';
+import { useCart } from '@hooks/userCart';
+import { AddCartRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk/models';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -28,28 +26,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 interface DialogButtonContent {
-    productCart: AddCartItemModel;
+    productCart: AddCartRequestDTO;
 }
 
-const CustomizedDialogs: FC<DialogButtonContent> = ({ productCart }) => {
-    const axiosAuth = useAxiosAuth();
-    const dispatch = useAppDispatch();
-
-    const [currentCartData, setCurrentCartData] = useState<CartItemModel[] | null>(null);
+function CustomizedDialogs({ productCart }: Readonly<DialogButtonContent>) {
+    const { addItemToCart } = useCart();
     const [open, setOpen] = useState<{ title: string; isOpen: boolean }>({
         title: '',
         isOpen: false,
     });
-
-    const { carts } = useAppSelector((state) => state.cart);
-
-    useEffect(() => {
-        if (carts) {
-            setCurrentCartData(carts.products);
-        }
-    }, [carts]);
-
-    console.log(currentCartData);
 
     const addCartClickOpen = async () => {
         if (productCart.sku === null) {
@@ -58,23 +43,9 @@ const CustomizedDialogs: FC<DialogButtonContent> = ({ productCart }) => {
                 isOpen: true,
             });
         } else {
-            const productToAdd = currentCartData?.find(
-                (item) => item.productId === productCart.productId && item.sku === productCart.sku,
-            );
-
-            console.log(productToAdd);
             try {
-                const response = await dispatch(
-                    authAddItemToCart(
-                        productToAdd
-                            ? { ...productCart, quantity: productToAdd.quantity + 1 }
-                            : productCart,
-                        axiosAuth,
-                    ),
-                );
-
-                console.log(response);
-                if (response?.success) {
+                const isSuccess = await addItemToCart(productCart);
+                if (isSuccess) {
                     toast.success('Thêm vào giỏ hàng thành công');
                 } else {
                     toast.error('Có lỗi xảy ra. Thêm vào giỏ hàng thất bại');
@@ -134,6 +105,6 @@ const CustomizedDialogs: FC<DialogButtonContent> = ({ productCart }) => {
             </BootstrapDialog>
         </div>
     );
-};
+}
 
 export default CustomizedDialogs;

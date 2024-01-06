@@ -1,11 +1,7 @@
 'use client';
 
-import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
-
-import { useAppDispatch, useAppSelector } from '@store/store';
-import { getCartItems } from '@store/slices/cartSlice';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Paging } from '@models/Common';
-
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -14,21 +10,15 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import CartItemCard from './CartItemCard';
-import { CartModel } from '@models/Cart';
-import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
 import CartPromotions from './CartPromotions';
 import CartSaleBanners from './CartSaleBanners';
 import { scrollToTop, addOrRemoveFromArray } from 'utils';
 import CartFooterInformation from './CartFooter';
 import { LoadingSection } from '../Display';
 import PaginationBar from '../PaginationData/PaginationBar';
-
 import { CART_PAGING } from '@constants/CartPaging';
 import IconButton from '@mui/material/IconButton';
-
-interface CartsProps {
-    userCartData: CartModel | null;
-}
+import { useCart } from '@hooks/userCart';
 
 type CartItemPrice = {
     itemId: string;
@@ -36,24 +26,14 @@ type CartItemPrice = {
     price: number;
 };
 
-const CartPage: FC<CartsProps> = ({ userCartData }) => {
-    const [thisCart, setThisCart] = useState<CartModel | null>(userCartData);
-    const dispatch = useAppDispatch();
-    const { carts } = useAppSelector((state) => state.cart);
+function CartPage() {
+    const { carts, status } = useCart();
 
     const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
     const [checkedList, setCheckedList] = useState<string[]>([]);
     const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
     const [totalAmount, setTotalAmount] = useState<CartItemPrice[]>([]);
     const [checkedTotal, setCheckedTotal] = useState<number>(0);
-
-    useSkipFirstRender(() => {
-        dispatch(getCartItems(pagingData));
-    }, [pagingData]);
-
-    useSkipFirstRender(() => {
-        setThisCart(carts);
-    }, [carts]);
 
     useEffect(() => {
         console.log(checkedList);
@@ -77,7 +57,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
             });
             setCheckedTotal(total);
         }
-    }, [checkedList]);
+    }, [checkedList, totalAmount]);
 
     const handleCalculateTotal = (id: string, sku: string, price: number) => {
         const currentAmount = totalAmount;
@@ -95,19 +75,15 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
         setTotalAmount(currentAmount);
     };
 
-    const handleCheckAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheckAll = () => {
         let arr: string[] = [];
-        if (checkedList.length !== thisCart?.products.length) {
-            arr = thisCart?.products.map(
+        if (checkedList.length !== carts?.products?.length) {
+            arr = carts?.products?.map(
                 (product) => `${product.productId}-/-${product.sku}-/-${product.quantity}`,
             ) as string[];
         }
         setCheckedList(arr);
         handleShowMsg(true);
-    };
-
-    const handleRefreshCart = () => {
-        dispatch(getCartItems(pagingData));
     };
 
     const handleCheckProduct = (id: string) => {
@@ -143,7 +119,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                 minHeight: '60vh',
             }}
         >
-            {thisCart ? (
+            {carts ? (
                 <>
                     <Container
                         maxWidth={false}
@@ -174,7 +150,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                 </Typography>
                             </Box>
 
-                            {thisCart.cartCountProducts === 0 ? (
+                            {carts.cartCountProducts <= 0 ? (
                                 <Typography
                                     variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
@@ -209,7 +185,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                                     //defaultChecked
                                                     checked={
                                                         checkedList.length ===
-                                                        thisCart.products.length
+                                                        carts?.products?.length
                                                     }
                                                     onChange={handleCheckAll}
                                                     sx={{
@@ -231,11 +207,12 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                             width: '100%',
                                         }}
                                     >
-                                        {thisCart.products.map((item) => (
+                                        {carts?.products?.map((item, i) => (
                                             <CartItemCard
-                                                key={`${item.productId}-/-${item.sku}`}
+                                                key={`${item.productId}_${
+                                                    item.sku
+                                                }_${i.toString()}`}
                                                 itemData={item}
-                                                refreshCart={handleRefreshCart}
                                                 isSelected={checkedList.includes(
                                                     `${item.productId}-/-${item.sku}-/-${item.quantity}`,
                                                 )}
@@ -243,12 +220,15 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                                                 passThisItemPrice={handleCalculateTotal}
                                             />
                                         ))}
-                                        {thisCart && (
+                                        {carts && (
                                             <Box>
                                                 <PaginationBar
                                                     pagingData={{
                                                         page: pagingData.page,
-                                                        totalPage: thisCart.totalPage,
+                                                        totalPage: Math.ceil(
+                                                            carts.cartCountProducts /
+                                                                CART_PAGING.pageSize,
+                                                        ),
                                                     }}
                                                     handleChange={handleChangePage}
                                                 />
@@ -261,7 +241,7 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
                             )}
                         </Stack>
                     </Container>
-                    {thisCart.cartCountProducts !== 0 && (
+                    {carts.cartCountProducts !== 0 && (
                         <Box sx={{ padding: '10px' }}>
                             <CartFooterInformation
                                 isSelectedProduct={checkedList.length !== 0}
@@ -279,6 +259,6 @@ const CartPage: FC<CartsProps> = ({ userCartData }) => {
             )}
         </Box>
     );
-};
+}
 
 export default CartPage;
