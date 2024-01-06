@@ -11,6 +11,7 @@ import {
     productSlice,
     notificationSlice,
     profileSlice,
+    productSlice2,
 } from './slices';
 
 const createNoopStorage = () => {
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
     order: orderSlice.reducer,
     notifications: notificationSlice.reducer,
     profile: profileSlice.reducer,
+    product2: productSlice2.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
