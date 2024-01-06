@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { HeaderClient, FooterClient } from 'components/Navigation';
-import { SocketProvider, ThemeProviderMui } from 'components/Provider';
-import { ReduxProvider } from '@components/Provider/ReduxProvider';
+import { ReduxProvider, SocketProvider, ThemeProviderMui } from '@components/Provider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'styles/base/index.scss';
