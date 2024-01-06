@@ -17,3 +17,10 @@ export function resolveCallbackUrl({
     }
     return callBackUrl;
 }
+
+export function isStatusSuccess(status?: number): boolean {
+    if (!status) {
+        return false;
+    }
+    return status >= 200 && status < 300;
+}
