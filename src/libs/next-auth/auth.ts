@@ -1,10 +1,10 @@
 import NextAuth, { User, NextAuthConfig, Session, Account } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import instanceAuth from '@config/instanceAuth.config';
 import { AuthenticationApi, LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { axiosAuth } from '@libs/axios';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { AxiosError } from 'axios';
 
 const authApi = new AuthenticationApi();
 
@@ -22,7 +22,7 @@ export const nextAuthConfig: NextAuthConfig = {
                 },
                 password: { label: 'password', type: 'password' },
             },
-            async authorize(credentials, req) {
+            async authorize(credentials) {
                 const payload: LoginRequestDTO = {
                     emailOrUsername: (credentials?.emailOrUsername as string) ?? '',
                     password: (credentials?.password as string) ?? '',
@@ -33,9 +33,9 @@ export const nextAuthConfig: NextAuthConfig = {
                     .then((response) => {
                         return response.data as unknown as User;
                     })
-                    .catch((err) => {
-                        console.error(err.message);
-                        return null;
+                    .catch((err: AxiosError) => {
+                        console.error(err);
+                        throw err;
                     });
             },
         }),
@@ -75,7 +75,7 @@ export const nextAuthConfig: NextAuthConfig = {
             }
             return true;
         },
-        async jwt({ token, user }: { token: any; user: User | null; account: any }) {
+        async jwt({ token, user }: { token: any; user: User | null }) {
             if (user) {
                 token = { ...token, ...user };
             }
@@ -109,7 +109,6 @@ export const nextAuthConfig: NextAuthConfig = {
         async session({ session, token }: { session: Session; token: any }) {
             if (token) {
                 session.user = token;
-                instanceAuth.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`;
                 axiosAuth.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`;
             }
             return session;

@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "cloudinary",
         "formik",
         "Macbook",
         "NEXTAUTH",
@@ -11,11 +12,20 @@
         "Shawshank",
         "signin",
         "Signout",
+        "svgr",
         "tanstack",
         "toastify",
         "unauth",
         "usehooks",
         "webp"
     ],
-    "conventionalCommits.scopes": ["deps", "utils", "setting", "hooks", "app", "actions"]
+    "conventionalCommits.scopes": [
+        "deps",
+        "utils",
+        "setting",
+        "hooks",
+        "app",
+        "actions",
+        "utils"
+    ]
 }

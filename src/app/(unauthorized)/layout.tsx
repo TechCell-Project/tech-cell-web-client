@@ -1,9 +1,10 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { LoadingPageMnt } from '@components/Common/Display/loading';
 import { RootPath } from '@constants/enum';
+import { resolveCallbackUrl } from '@utils/shared.util';
 
 /**
  * Renders the UnauthorizedLayout component.
@@ -16,13 +17,19 @@ export default function UnauthorizedLayout({
 }: Readonly<{ children: React.ReactNode }>): JSX.Element {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     if (status === 'loading') {
         return <LoadingPageMnt isLoading />;
     }
 
     if (session?.user) {
-        router.replace(RootPath.Home);
+        router.replace(
+            resolveCallbackUrl({
+                callBackUrl: searchParams.get('callbackUrl'),
+                fallback: RootPath.Home,
+            }),
+        );
         return <LoadingPageMnt isLoading />;
     }
 

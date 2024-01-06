@@ -1,6 +1,6 @@
-import { CreateAttributeModel, PagingAttribute } from '@models/Attribute';
-import instance from './Instance';
+import { PagingAttribute } from '@models/Attribute';
 import { ATTRIBUTES_ENDPOINT } from '@constants/Services';
+import { axiosPublic } from '@libs/axios';
 
 export const getAttributes = (payload: PagingAttribute) => {
     const { keyword, select_type, page, pageSize } = payload;
@@ -14,10 +14,10 @@ export const getAttributes = (payload: PagingAttribute) => {
         url += `&keyword=${keyword}`;
     }
 
-    return instance.get<PagingAttribute>(url);
+    return axiosPublic.get<PagingAttribute>(url);
 };
 
-export const getByIdAttribute = (id: string) => instance.get(`${ATTRIBUTES_ENDPOINT}/${id}`);
+export const getByIdAttribute = (id: string) => axiosPublic.get(`${ATTRIBUTES_ENDPOINT}/${id}`);
 
 export const getByLabelAttribute = (label: string) =>
-    instance.get(`${ATTRIBUTES_ENDPOINT}/label/${label}`);
+    axiosPublic.get(`${ATTRIBUTES_ENDPOINT}/label/${label}`);
