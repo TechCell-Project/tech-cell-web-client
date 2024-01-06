@@ -1,6 +1,7 @@
-export function createInitialValues<T extends Record<string, unknown>>(): T {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createInitialValues<T extends Record<string, any>>(): T {
     return new Proxy({} as T, {
-        get: () => '',
+        get: () => null,
     });
 }
 
