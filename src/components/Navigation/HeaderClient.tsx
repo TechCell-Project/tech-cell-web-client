@@ -27,7 +27,7 @@ import Popover from '@mui/material/Popover';
 import { usePathname, useRouter } from 'next/navigation';
 import { IconBtn } from '@components/Common';
 import Typography from '@mui/material/Typography';
-import { getRole } from '@utils/index';
+import { getRole, resolveCallbackUrl } from '@utils/index';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { RootPath } from '@constants/enum';
 import { CATEGORY } from '@constants/PhoneConstant';
@@ -279,7 +279,14 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     ) : (
         <IconBtn
             icon={<PersonOutlineOutlinedIcon />}
-            onClick={() => push(`${RootPath.Login}?callbackUrl=${pathname ?? RootPath.Home}`)}
+            onClick={() =>
+                push(
+                    `${RootPath.Login}?callbackUrl=${resolveCallbackUrl({
+                        callBackUrl: pathname,
+                        fallback: RootPath.Home,
+                    })}`,
+                )
+            }
             tooltip='Tài khoản'
         />
     );

@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { LoadingPageMnt } from '@components/Common/Display/loading';
 import { RootPath } from '@constants/enum';
+import { resolveCallbackUrl } from '@utils/shared.util';
 
 /**
  * Renders the authorized layout component.
@@ -25,7 +26,10 @@ export default function AuthorizedLayout({
     }
 
     if (!session?.user) {
-        const loginUrlCallback = `${RootPath.Login}?callbackUrl=${pathname ?? '/'}`;
+        const loginUrlCallback = `${RootPath.Login}?callbackUrl=${resolveCallbackUrl({
+            callBackUrl: pathname,
+            fallback: RootPath.Home,
+        })}`;
         router.replace(loginUrlCallback);
         return <LoadingPageMnt isLoading />;
     }

@@ -32,6 +32,7 @@ import { useCountdown } from '@hooks/useCountdownTimer';
 import { useAppDispatch } from '@store/store';
 import { resendVerifyEmail } from '@store/slices/authSlice';
 import VerifyEmail from '@app/xac-thuc-tai-khoan/VerifyEmail';
+import { resolveCallbackUrl } from '@utils/shared.util';
 
 export default function Login() {
     const { push } = useRouter();
@@ -44,8 +45,10 @@ export default function Login() {
 
     const countdownTimer = useCountdown(targetTime);
 
-    const backUrl = searchParams.has('callbackUrl') ? `/${searchParams.get('callbackUrl')}` : '/';
-
+    const backUrl = resolveCallbackUrl({
+        callBackUrl: searchParams.get('callbackUrl'),
+        fallback: RootPath.Home,
+    });
     const debouncedSignIn = debounce(
         async (payload: LoginModel, { setSubmitting }: FormikHelpers<LoginModel>) => {
             const res = await signIn('credentials', {
@@ -53,7 +56,6 @@ export default function Login() {
                 password: payload.password,
                 callbackUrl: backUrl,
             });
-            console.log('response: ', res);
 
             if (res?.ok) {
                 toast.success('Đăng nhập thành công');
