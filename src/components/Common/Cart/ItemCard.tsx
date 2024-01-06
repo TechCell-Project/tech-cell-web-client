@@ -5,7 +5,6 @@ import Image from 'next/image';
 import styles from '@styles/components/cart.module.scss';
 import { AddCartItemModel } from '@models/Cart';
 import { currencyFormat } from 'utils';
-import { useAppDispatch } from '@store/store';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -47,8 +46,8 @@ export const ItemCard = (props: productDataProps) => {
         if (updateInfo) {
             const timer1 = setTimeout(() => {
                 addItemToCart({
-                    productId: updateInfo.productId!,
-                    sku: updateInfo.sku!,
+                    productId: updateInfo.productId ?? '',
+                    sku: updateInfo.sku ?? '',
                     quantity: updateInfo.quantity,
                 });
 

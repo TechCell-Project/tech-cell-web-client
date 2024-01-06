@@ -27,7 +27,7 @@ type CartItemPrice = {
 };
 
 function CartPage() {
-    const { carts, status } = useCart();
+    const { carts } = useCart();
 
     const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
     const [checkedList, setCheckedList] = useState<string[]>([]);
@@ -46,7 +46,6 @@ function CartPage() {
                     sku: data[1],
                 };
             });
-            console.log(itemsChecked);
             totalAmount.forEach((item) => {
                 for (const element of itemsChecked) {
                     if (element.id === item.itemId && element.sku === item.sku) {
