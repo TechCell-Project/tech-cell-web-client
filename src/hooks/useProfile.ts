@@ -6,11 +6,14 @@ import {
 } from '@store/slices/profileSlice';
 import { useCallback, useEffect } from 'react';
 import { profileApi } from '@services/ProfileService';
-import { AddressSchemaDTO, UserMntResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
+import {
+    AddressSchemaDTO,
+    UpdateUserRequestDTO,
+} from '@TechCell-Project/tech-cell-server-node-sdk';
 
 type UseProfile = ProfileState & {
     refreshProfile: () => void;
-    updateProfileInfo: (dataChanges: Partial<UserMntResponseDTO>) => Promise<boolean>;
+    updateProfileInfo: (dataChanges: UpdateUserRequestDTO) => Promise<boolean>;
     updateProfileAddress: (addressChanges: AddressSchemaDTO[]) => Promise<boolean>;
     resetProfile: () => Promise<void>;
 };
@@ -35,7 +38,7 @@ export function useProfile(): UseProfile {
     }, [dispatch]);
 
     const updateProfileInfo = useCallback(
-        async (dataChanges: Partial<UserMntResponseDTO>) => {
+        async (dataChanges: UpdateUserRequestDTO) => {
             return profileApi
                 .updateUserInfo({
                     updateUserRequestDTO: dataChanges,
