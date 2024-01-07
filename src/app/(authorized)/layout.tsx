@@ -1,7 +1,4 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
-import { LoadingPageMnt } from '@components/Common/Display/loading';
+import React from 'react';
 
 /**
  * Renders the authorized layout component.
@@ -10,14 +7,8 @@ import { LoadingPageMnt } from '@components/Common/Display/loading';
  * @param {Readonly<{ children: React.ReactNode }>} children - The children elements to be rendered within the layout.
  * @return {JSX.Element} The rendered component.
  */
-export default function AuthorizedLayout({
+export default async function AuthorizedLayout({
     children,
-}: Readonly<{ children: React.ReactNode }>): JSX.Element {
-    const { data: session, status } = useSession();
-
-    if (status === 'loading') {
-        return <LoadingPageMnt isLoading />;
-    }
-
+}: Readonly<{ children: React.ReactNode }>) {
     return <>{children}</>;
 }

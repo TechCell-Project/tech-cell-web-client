@@ -1,11 +1,15 @@
 import { auth } from '@libs/next-auth';
 import { apiAuthPrefix, authRoutes, needAuthRoutes, publicRoutes } from './routes';
 import { RootPath } from './constants/enum';
+import { NextAuthRequest } from 'next-auth/lib';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 
-export default auth((req) => {
+export default auth((req: NextAuthRequest) => {
     const { nextUrl } = req;
     const path = nextUrl.pathname;
     const isLoggedIn = !!req.auth;
+    const response = NextResponse.next();
     console.log('ROUTE: ', req.nextUrl.pathname);
     console.log('IS LOGGEDIN: ', isLoggedIn);
 
@@ -14,14 +18,16 @@ export default auth((req) => {
     const isAuthRoute = authRoutes.includes(path);
     const isNeedAuthRoutes = needAuthRoutes.includes(path);
 
-    console.log('Is Api auth route: ', isApiAuthRoute);
-    console.log('Is public route: ', isPublicRoute);
-    console.log('Is auth route: ', isAuthRoute);
-    console.log('Is need auth route: ', isNeedAuthRoutes);
+    if (!isAuthRoute && !isApiAuthRoute) response.cookies.set('stored-pathname', path);
 
     if (isAuthRoute) {
         if (isLoggedIn) {
-            return Response.redirect(new URL(RootPath.Home, nextUrl));
+            const storedPathname = cookies().get('stored-pathname');
+
+            console.log(storedPathname);
+            return storedPathname
+                ? Response.redirect(new URL(storedPathname.value, nextUrl))
+                : Response.redirect(new URL(RootPath.Home, nextUrl));
         }
         return null;
     }
@@ -39,7 +45,7 @@ export default auth((req) => {
         );
     }
 
-    return null;
+    return response;
 });
 
 // Optionally, don't invoke Middleware on some paths
