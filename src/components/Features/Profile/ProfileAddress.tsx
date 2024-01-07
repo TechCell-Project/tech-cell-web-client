@@ -143,7 +143,7 @@ const ProfileAddress = () => {
                         setAddressIndex(null);
                     }}
                     data={currentAddress}
-                    addressIndex={addressIndex as number}
+                    addressIndex={addressIndex}
                 />
             )}
 

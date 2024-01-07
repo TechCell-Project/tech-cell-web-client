@@ -14,12 +14,11 @@ import {
     GhnWardDTO,
     GhnDistrictDTO,
 } from '@TechCell-Project/tech-cell-server-node-sdk/models';
-import { createInitialValues } from '@utils/shared.util';
 import { useAddress } from '@hooks/useAddress';
 
 type Props = {
     data: AddressSchemaDTO;
-    addressIndex: number;
+    addressIndex: number | null;
     isOpen: boolean;
     handleClose: () => void;
 };
@@ -77,7 +76,8 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
     };
 
     return (
-        user?.address && (
+        user?.address &&
+        addresses?.districts && (
             <ShowDialog
                 dialogTitle={`${addressIndex === null ? 'Thêm mới' : 'Cập nhật'} địa chỉ`}
                 isOpen={isOpen}
@@ -99,7 +99,7 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                                         name={`provinceLevel`}
                                         isNotCheckbox
                                         label='Tỉnh / thành'
-                                        options={addresses?.provinces ?? createInitialValues()}
+                                        options={addresses?.provinces ?? []}
                                         displayLabel='province_name'
                                         displaySelected='province_id'
                                         handleChange={(value) => {
@@ -126,9 +126,9 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                                         options={
                                             addresses?.districts?.[
                                                 currentProvince ||
-                                                    user.address[addressIndex].provinceLevel
-                                                        .province_id
-                                            ] ?? createInitialValues()
+                                                    user.address[addressIndex as number]
+                                                        ?.provinceLevel?.province_id
+                                            ] ?? []
                                         }
                                         displayLabel='district_name'
                                         displaySelected='district_id'
@@ -154,9 +154,9 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                                         options={
                                             addresses?.wards?.[
                                                 currentDistrict ||
-                                                    user?.address[addressIndex].districtLevel
-                                                        .district_id
-                                            ] ?? createInitialValues()
+                                                    user?.address[addressIndex as number]
+                                                        ?.districtLevel?.district_id
+                                            ] ?? []
                                         }
                                         displayLabel='ward_name'
                                         displaySelected='ward_code'
