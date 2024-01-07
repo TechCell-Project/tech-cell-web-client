@@ -3,7 +3,6 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import Stack from '@mui/system/Stack';
 import Grid from '@mui/material/Grid';
 import { toast } from 'react-toastify';
-import { HttpStatusCode } from 'axios';
 import { CommonBtn } from '@components/Common';
 import { AutocompleteCustom, TextFieldCustom } from '@components/Common/FormFormik';
 import { ShowDialog } from '@components/Common/Display';
@@ -11,16 +10,15 @@ import * as Yup from 'yup';
 import { useProfile } from '@hooks/useProfile';
 import {
     AddressSchemaDTO,
-    WardSchemaDTO,
     GhnProvinceDTO,
+    GhnWardDTO,
     GhnDistrictDTO,
 } from '@TechCell-Project/tech-cell-server-node-sdk/models';
-import { createInitialValues } from '@utils/shared.util';
 import { useAddress } from '@hooks/useAddress';
 
 type Props = {
     data: AddressSchemaDTO;
-    addressIndex: number;
+    addressIndex: number | null;
     isOpen: boolean;
     handleClose: () => void;
 };
@@ -68,11 +66,8 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                 );
             })
             .catch((error) => {
-                if (error.response && error.response.status !== HttpStatusCode.Unauthorized) {
-                    toast.error(
-                        `${addressIndex === null ? 'Thêm mới' : 'Cập nhật'} địa chỉ thất bại!`,
-                    );
-                }
+                console.error(error);
+                toast.error(`${addressIndex === null ? 'Thêm mới' : 'Cập nhật'} địa chỉ thất bại!`);
             })
             .finally(() => {
                 setSubmitting(false);
@@ -81,127 +76,138 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
     };
 
     return (
-        <ShowDialog
-            dialogTitle={`${addressIndex === null ? 'Thêm mới' : 'Cập nhật'} địa chỉ`}
-            isOpen={isOpen}
-            handleClose={handleClose}
-            dialogStyle={{ minWidth: { lg: '40%', xs: '80%' } }}
-        >
-            <Formik
-                initialValues={data}
-                enableReinitialize
-                validationSchema={profileAddressValidate}
-                onSubmit={handleSubmit}
+        user?.address && (
+            <ShowDialog
+                dialogTitle={`${addressIndex === null ? 'Thêm mới' : 'Cập nhật'} địa chỉ`}
+                isOpen={isOpen}
+                handleClose={handleClose}
+                dialogStyle={{ minWidth: { lg: '40%', xs: '80%' } }}
             >
-                {({ setValues, isSubmitting }) => (
-                    <Form style={{ width: '100%' }}>
-                        <Grid container columnSpacing={3} rowSpacing={4}>
-                            <Grid item md={6}>
-                                <AutocompleteCustom<GhnProvinceDTO>
-                                    disabled={addressStatus === 'loading'}
-                                    name={`provinceLevel`}
-                                    isNotCheckbox
-                                    label='Tỉnh / thành'
-                                    options={addresses?.provinces ?? createInitialValues()}
-                                    displayLabel='province_name'
-                                    displaySelected='province_id'
-                                    handleChange={(value) => {
-                                        setCurrentProvince((value as GhnProvinceDTO).province_id);
+                <Formik
+                    initialValues={data}
+                    enableReinitialize
+                    validationSchema={profileAddressValidate}
+                    onSubmit={handleSubmit}
+                >
+                    {({ setValues, isSubmitting }) => (
+                        <Form style={{ width: '100%' }}>
+                            <Grid container columnSpacing={3} rowSpacing={4}>
+                                <Grid item md={6}>
+                                    <AutocompleteCustom<GhnProvinceDTO>
+                                        disabled={addressStatus === 'loading'}
+                                        name={`provinceLevel`}
+                                        isNotCheckbox
+                                        label='Tỉnh / thành'
+                                        options={addresses?.provinces ?? []}
+                                        displayLabel='province_name'
+                                        displaySelected='province_id'
+                                        handleChange={(value) => {
+                                            setCurrentProvince(
+                                                (value as GhnProvinceDTO).province_id,
+                                            );
+                                            setValues((prev) => {
+                                                const newValue = { ...prev };
+                                                newValue.provinceLevel = value as GhnProvinceDTO;
+                                                newValue.districtLevel =
+                                                    null as unknown as GhnDistrictDTO;
+                                                newValue.wardLevel = null as unknown as GhnWardDTO;
+                                                return newValue;
+                                            }).then();
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <AutocompleteCustom<GhnDistrictDTO>
+                                        disabled={addressStatus === 'loading'}
+                                        name={`districtLevel`}
+                                        label='Quận / huyện'
+                                        isNotCheckbox
+                                        options={
+                                            addresses?.districts?.[
+                                                currentProvince ||
+                                                    user.address[addressIndex as number]
+                                                        ?.provinceLevel?.province_id
+                                            ] ?? []
+                                        }
+                                        displayLabel='district_name'
+                                        displaySelected='district_id'
+                                        handleChange={(value) => {
+                                            setCurrentDistrict(
+                                                (value as GhnDistrictDTO).district_id,
+                                            );
+                                            setValues((prev) => {
+                                                const newValue = { ...prev };
+                                                newValue.districtLevel = value as GhnDistrictDTO;
+                                                newValue.wardLevel = null as unknown as GhnWardDTO;
+                                                return newValue;
+                                            }).then();
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <AutocompleteCustom<GhnWardDTO>
+                                        disabled={addressStatus === 'loading'}
+                                        name={`wardLevel`}
+                                        label='Xã / phường'
+                                        isNotCheckbox
+                                        options={
+                                            addresses?.wards?.[
+                                                currentDistrict ||
+                                                    user?.address[addressIndex as number]
+                                                        ?.districtLevel?.district_id
+                                            ] ?? []
+                                        }
+                                        displayLabel='ward_name'
+                                        displaySelected='ward_code'
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <TextFieldCustom
+                                        name={`addressName`}
+                                        label='Địa chỉ'
+                                        placeholder='Nhà, công ty,...'
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <TextFieldCustom name={`customerName`} label='Tên khách hàng' />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <TextFieldCustom
+                                        name={`phoneNumbers`}
+                                        label='Số điện thoại'
+                                        type='number'
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextFieldCustom
+                                        name={`detail`}
+                                        label='Địa chỉ cụ thể'
+                                        isTextArea
+                                        minRowArea={2}
+                                        maxRowArea={3}
+                                    />
+                                </Grid>
+                            </Grid>
 
-                                        setValues((prev) => {
-                                            const newValue = { ...prev };
-                                            newValue.provinceLevel = value as GhnProvinceDTO;
-                                            newValue.districtLevel =
-                                                null as unknown as GhnDistrictDTO;
-                                            newValue.wardLevel = null as unknown as WardSchemaDTO;
-                                            return newValue;
-                                        }).then();
-                                    }}
+                            <Stack direction='row' justifyContent='flex-end' gap={2} mt={5}>
+                                <CommonBtn
+                                    content='Hủy bỏ'
+                                    variant='outlined'
+                                    handleClick={handleClose}
                                 />
-                            </Grid>
-                            <Grid item md={6}>
-                                <AutocompleteCustom<GhnDistrictDTO>
-                                    disabled={addressStatus === 'loading'}
-                                    name={`districtLevel`}
-                                    label='Quận / huyện'
-                                    isNotCheckbox
-                                    options={
-                                        addresses?.districts?.[currentProvince] ??
-                                        createInitialValues()
-                                    }
-                                    displayLabel='district_name'
-                                    displaySelected='district_id'
-                                    handleChange={(value) => {
-                                        setCurrentDistrict((value as GhnDistrictDTO).district_id);
-
-                                        setValues((prev) => {
-                                            const newValue = { ...prev };
-                                            newValue.districtLevel = value as GhnDistrictDTO;
-                                            newValue.wardLevel = null as unknown as WardSchemaDTO;
-                                            return newValue;
-                                        }).then();
-                                    }}
+                                <CommonBtn
+                                    content='Lưu'
+                                    variant='contained'
+                                    type='submit'
+                                    disabled={isSubmitting}
+                                    loading={isSubmitting}
                                 />
-                            </Grid>
-                            <Grid item md={6}>
-                                <AutocompleteCustom<WardSchemaDTO>
-                                    disabled={addressStatus === 'loading'}
-                                    name={`wardLevel`}
-                                    label='Xã / phường'
-                                    isNotCheckbox
-                                    options={
-                                        addresses?.wards?.[currentDistrict] ?? createInitialValues()
-                                    }
-                                    displayLabel='ward_name'
-                                    displaySelected='ward_code'
-                                />
-                            </Grid>
-                            <Grid item md={6}>
-                                <TextFieldCustom
-                                    name={`addressName`}
-                                    label='Địa chỉ'
-                                    placeholder='Nhà, công ty,...'
-                                />
-                            </Grid>
-                            <Grid item md={6}>
-                                <TextFieldCustom name={`customerName`} label='Tên khách hàng' />
-                            </Grid>
-                            <Grid item md={6}>
-                                <TextFieldCustom
-                                    name={`phoneNumbers`}
-                                    label='Số điện thoại'
-                                    type='number'
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextFieldCustom
-                                    name={`detail`}
-                                    label='Địa chỉ cụ thể'
-                                    isTextArea
-                                    minRowArea={2}
-                                    maxRowArea={3}
-                                />
-                            </Grid>
-                        </Grid>
-
-                        <Stack direction='row' justifyContent='flex-end' gap={2} mt={5}>
-                            <CommonBtn
-                                content='Hủy bỏ'
-                                variant='outlined'
-                                handleClick={handleClose}
-                            />
-                            <CommonBtn
-                                content='Lưu'
-                                variant='contained'
-                                type='submit'
-                                disabled={isSubmitting}
-                                loading={isSubmitting}
-                            />
-                        </Stack>
-                    </Form>
-                )}
-            </Formik>
-        </ShowDialog>
+                            </Stack>
+                        </Form>
+                    )}
+                </Formik>
+            </ShowDialog>
+        )
     );
 };
 

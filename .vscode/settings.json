@@ -27,6 +27,7 @@
         "app",
         "actions",
         "utils",
-        "deps"
+        "deps",
+        "components"
     ]
 }
