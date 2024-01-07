@@ -76,8 +76,7 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
     };
 
     return (
-        user?.address &&
-        addresses?.districts && (
+        user?.address && (
             <ShowDialog
                 dialogTitle={`${addressIndex === null ? 'Thêm mới' : 'Cập nhật'} địa chỉ`}
                 isOpen={isOpen}
