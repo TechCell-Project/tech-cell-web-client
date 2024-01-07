@@ -27,7 +27,7 @@ type CartItemPrice = {
 };
 
 function CartPage() {
-    const { carts } = useCart();
+    const { carts, status } = useCart();
 
     const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
     const [checkedList, setCheckedList] = useState<string[]>([]);
@@ -118,7 +118,8 @@ function CartPage() {
                 minHeight: '60vh',
             }}
         >
-            {carts ? (
+            {!carts && status === 'loading' && <LoadingSection isLoading={true} />}
+            {status === 'success' && (
                 <>
                     <Container
                         maxWidth={false}
@@ -149,7 +150,7 @@ function CartPage() {
                                 </Typography>
                             </Box>
 
-                            {carts.cartCountProducts <= 0 ? (
+                            {carts?.cartCountProducts && carts.cartCountProducts <= 0 ? (
                                 <Typography
                                     variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
@@ -240,7 +241,7 @@ function CartPage() {
                             )}
                         </Stack>
                     </Container>
-                    {carts.cartCountProducts !== 0 && (
+                    {carts?.cartCountProducts !== 0 && (
                         <Box sx={{ padding: '10px' }}>
                             <CartFooterInformation
                                 isSelectedProduct={checkedList.length !== 0}
@@ -253,8 +254,6 @@ function CartPage() {
                         </Box>
                     )}
                 </>
-            ) : (
-                <LoadingSection isLoading={true} />
             )}
         </Box>
     );

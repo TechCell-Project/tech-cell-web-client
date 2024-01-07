@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@store/store';
+
 import {
     AddCartRequestDTO,
     DeleteProductsCartRequestDTO,
@@ -9,11 +10,14 @@ import {
     getCart,
     addItemToCart as addItemToCartAction,
     deleteProductCart as deleteProductCartAction,
+    resetCart as resetCartAction,
 } from '@store/slices/cartSlice';
+
 type UseCart = CartState & {
     refreshCart: () => void;
     addItemToCart: (addCartData: AddCartRequestDTO) => Promise<boolean>;
     deleteProductCart: (deleteCartData: DeleteProductsCartRequestDTO) => Promise<boolean>;
+    resetCart: () => Promise<void>;
 };
 
 /**
@@ -23,13 +27,13 @@ type UseCart = CartState & {
  */
 export function useCart(): UseCart {
     const dispatch = useAppDispatch();
-    const cartState = useAppSelector((state) => state.cart);
+    const cartState = useAppSelector((state) => state.carts);
 
     useEffect(() => {
-        if (!cartState.carts) {
+        if (cartState.status === 'idle') {
             dispatch(getCart());
         }
-    }, [dispatch, cartState.carts]);
+    }, [dispatch, cartState.status]);
 
     const refreshCart = useCallback(() => {
         dispatch(getCart());
@@ -51,5 +55,9 @@ export function useCart(): UseCart {
         [dispatch],
     );
 
-    return { ...cartState, refreshCart, addItemToCart, deleteProductCart };
+    const resetCart = useCallback(async (): Promise<void> => {
+        return dispatch(resetCartAction());
+    }, [dispatch]);
+
+    return { ...cartState, refreshCart, addItemToCart, deleteProductCart, resetCart };
 }

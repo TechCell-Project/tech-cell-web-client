@@ -7,13 +7,13 @@ import {
 import { productApi } from '@services/ProductService';
 
 export type ProductState = {
-    status: 'loading' | 'success' | 'error';
+    status: 'loading' | 'success' | 'error' | 'idle';
     products: Record<string, ProductDTO>;
     listProducts: Record<string, ListProductResponseDTO>;
 };
 
 const initialState: ProductState = {
-    status: 'loading',
+    status: 'idle',
     products: {},
     listProducts: {},
 };
@@ -33,6 +33,11 @@ export const productSlice = createSlice({
             { payload }: PayloadAction<{ key: string; data: ListProductResponseDTO }>,
         ) => {
             state.listProducts[payload.key] = payload.data;
+        },
+        resetProduct: (state) => {
+            state.status = initialState.status;
+            state.products = initialState.products;
+            state.listProducts = initialState.listProducts;
         },
     },
 });

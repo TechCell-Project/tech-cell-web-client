@@ -1,5 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@store/store';
-import { ProfileState, getProfile } from '@store/slices/profileSlice';
+import {
+    ProfileState,
+    getProfile,
+    resetProfile as resetProfileAction,
+} from '@store/slices/profileSlice';
 import { useCallback, useEffect } from 'react';
 import { profileApi } from '@services/ProfileService';
 import { AddressSchemaDTO, UserMntResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
@@ -8,6 +12,7 @@ type UseProfile = ProfileState & {
     refreshProfile: () => void;
     updateProfileInfo: (dataChanges: Partial<UserMntResponseDTO>) => Promise<boolean>;
     updateProfileAddress: (addressChanges: AddressSchemaDTO[]) => Promise<boolean>;
+    resetProfile: () => Promise<void>;
 };
 
 /**
@@ -18,6 +23,12 @@ type UseProfile = ProfileState & {
 export function useProfile(): UseProfile {
     const dispatch = useAppDispatch();
     const profileState = useAppSelector((state) => state.profile);
+
+    useEffect(() => {
+        if (profileState.status === 'idle') {
+            dispatch(getProfile());
+        }
+    }, [dispatch, profileState.status]);
 
     const refreshProfile = useCallback(() => {
         dispatch(getProfile());
@@ -59,11 +70,15 @@ export function useProfile(): UseProfile {
         [refreshProfile],
     );
 
-    useEffect(() => {
-        if (!profileState.profile) {
-            dispatch(getProfile());
-        }
-    }, [dispatch, profileState.profile]);
+    const resetProfile = useCallback(async (): Promise<void> => {
+        return dispatch(resetProfileAction());
+    }, [dispatch]);
 
-    return { ...profileState, refreshProfile, updateProfileInfo, updateProfileAddress };
+    return {
+        ...profileState,
+        refreshProfile,
+        updateProfileInfo,
+        updateProfileAddress,
+        resetProfile,
+    };
 }
