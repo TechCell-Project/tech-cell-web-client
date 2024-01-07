@@ -2,6 +2,9 @@ import { PRODUCTS_ENDPOINT } from '@constants/Services';
 import { PagingProduct, ProductModel } from '@models/Product';
 import { PagingResponse } from '@models/Common';
 import { axiosPublic } from '@libs/axios';
+import { ProductsApi } from '@TechCell-Project/tech-cell-server-node-sdk';
+
+export const productApi = new ProductsApi(undefined, undefined, axiosPublic);
 
 export const getProducts = (payload: PagingProduct) => {
     const { page, pageSize, keyword } = payload;

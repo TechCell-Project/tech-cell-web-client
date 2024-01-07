@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import createWebStorage from 'redux-persist/es/storage/createWebStorage';
 import {
@@ -11,6 +11,8 @@ import {
     productSlice,
     notificationSlice,
     profileSlice,
+    productSlice2,
+    addressSlice,
 } from './slices';
 
 const createNoopStorage = () => {
@@ -29,22 +31,34 @@ const createNoopStorage = () => {
 
 const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
 
-const persistConfig = {
+const rootReducer = combineReducers({
+    [authSlice.name]: authSlice.reducer,
+    [addressSlice.name]: addressSlice.reducer,
+    [productSlice.name]: productSlice.reducer,
+    [cartsSlice.name]: cartsSlice.reducer,
+    [attributeSlice.name]: attributeSlice.reducer,
+    [categorySlice.name]: categorySlice.reducer,
+    [orderSlice.name]: orderSlice.reducer,
+    [notificationSlice.name]: notificationSlice.reducer,
+    [profileSlice.name]: profileSlice.reducer,
+    [productSlice2.name]: productSlice2.reducer,
+});
+
+const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
     key: 'root',
     storage,
-    blacklist: ['product', 'attribute', 'category', 'carts', 'order', 'notifications'],
+    blacklist: [
+        authSlice.name,
+        attributeSlice.name,
+        cartsSlice.name,
+        categorySlice.name,
+        profileSlice.name,
+        productSlice.name,
+        productSlice2.name,
+        orderSlice.name,
+        notificationSlice.name,
+    ],
 };
-
-const rootReducer = combineReducers({
-    auth: authSlice.reducer,
-    product: productSlice.reducer,
-    cart: cartsSlice.reducer,
-    attribute: attributeSlice.reducer,
-    category: categorySlice.reducer,
-    order: orderSlice.reducer,
-    notifications: notificationSlice.reducer,
-    profile: profileSlice.reducer,
-});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

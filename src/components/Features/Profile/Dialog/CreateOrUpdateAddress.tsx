@@ -1,23 +1,25 @@
-import React, { memo, useState, useEffect } from 'react';
-import { Address } from '@models/Account';
-import { useAppDispatch, useAppSelector } from '@store/store';
-import { District, Province, Ward } from '@models/Location';
-import { getDistricts, getProvinces, getWards } from '@services/LocationService';
+import React, { memo } from 'react';
 import { Form, Formik, FormikHelpers } from 'formik';
-import { ProfileAddressRequest } from '@models/Profile';
-import { patchProfileAddress } from '@services/ProfileService';
 import Stack from '@mui/system/Stack';
 import Grid from '@mui/material/Grid';
 import { toast } from 'react-toastify';
-import { getCurrentUser } from '@store/slices/authSlice';
 import { HttpStatusCode } from 'axios';
 import { CommonBtn } from '@components/Common';
 import { AutocompleteCustom, TextFieldCustom } from '@components/Common/FormFormik';
 import { ShowDialog } from '@components/Common/Display';
 import * as Yup from 'yup';
+import { useProfile } from '@hooks/useProfile';
+import {
+    AddressSchemaDTO,
+    WardSchemaDTO,
+    GhnProvinceDTO,
+    GhnDistrictDTO,
+} from '@TechCell-Project/tech-cell-server-node-sdk/models';
+import { createInitialValues } from '@utils/shared.util';
+import { useAddress } from '@hooks/useAddress';
 
 type Props = {
-    data: Address;
+    data: AddressSchemaDTO;
     addressIndex: number;
     isOpen: boolean;
     handleClose: () => void;
@@ -37,41 +39,21 @@ const profileAddressValidate = Yup.object({
 });
 
 const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Props) => {
-    const dispatch = useAppDispatch();
-    const { user } = useAppSelector((state) => state.auth);
+    const { profile: user, updateProfileAddress } = useProfile();
+    const {
+        addresses,
+        status: addressStatus,
+        currentProvince,
+        currentDistrict,
+        setCurrentProvince,
+        setCurrentDistrict,
+    } = useAddress();
 
-    const [provinces, setProvinces] = useState<Array<Province>>(new Array<Province>());
-    const [districts, setDistricts] = useState<Array<District>>(new Array<District>());
-    const [wards, setWards] = useState<Array<Ward>>(new Array<Ward>());
-
-    useEffect(() => {
-        getProvinces()
-            .then(({ data }) => setProvinces(data))
-            .catch(() => setProvinces(new Array<Province>()));
-
-        if (data.provinceLevel !== null) {
-            loadDistricts(String((data.provinceLevel as Province).province_id));
-        }
-
-        if (data.districtLevel !== null) {
-            loadWards(String((data.districtLevel as District).district_id));
-        }
-    }, []);
-
-    const loadDistricts = (province_id: string) => {
-        getDistricts(province_id)
-            .then(({ data }) => setDistricts(data))
-            .catch(() => setDistricts(new Array<District>()));
-    };
-
-    const loadWards = (district_id: string) => {
-        getWards(district_id)
-            .then(({ data }) => setWards(data))
-            .catch(() => setWards(new Array<Ward>()));
-    };
-
-    const handleSubmit = (values: Address, { setSubmitting }: FormikHelpers<Address>) => {
-        const cloneAddress = [...(user?.address as Address[])];
+    const handleSubmit = (
+        values: AddressSchemaDTO,
+        { setSubmitting }: FormikHelpers<AddressSchemaDTO>,
+    ) => {
+        const cloneAddress = [...(user?.address as AddressSchemaDTO[])];
 
         if (addressIndex === null) {
             cloneAddress.push(values);
@@ -79,13 +61,11 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
             cloneAddress[addressIndex] = values;
         }
 
-        const payload = new ProfileAddressRequest(cloneAddress);
-        patchProfileAddress(payload)
+        updateProfileAddress(cloneAddress)
             .then(() => {
                 toast.success(
                     `${addressIndex === null ? 'Thêm mới' : 'Cập nhật'} địa chỉ thành công!`,
                 );
-                dispatch(getCurrentUser()).then();
             })
             .catch((error) => {
                 if (error.response && error.response.status !== HttpStatusCode.Unauthorized) {
@@ -117,63 +97,61 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                     <Form style={{ width: '100%' }}>
                         <Grid container columnSpacing={3} rowSpacing={4}>
                             <Grid item md={6}>
-                                <AutocompleteCustom<Province>
+                                <AutocompleteCustom<GhnProvinceDTO>
+                                    disabled={addressStatus === 'loading'}
                                     name={`provinceLevel`}
                                     isNotCheckbox
                                     label='Tỉnh / thành'
-                                    options={provinces}
+                                    options={addresses?.provinces ?? createInitialValues()}
                                     displayLabel='province_name'
                                     displaySelected='province_id'
                                     handleChange={(value) => {
-                                        if (value !== null) {
-                                            loadDistricts(String((value as Province).province_id));
-                                        } else {
-                                            setDistricts(new Array<District>());
-                                            setWards(new Array<Ward>());
-                                        }
+                                        setCurrentProvince((value as GhnProvinceDTO).province_id);
+
                                         setValues((prev) => {
                                             const newValue = { ...prev };
-
-                                            newValue.provinceLevel = value;
-                                            newValue.districtLevel = null;
-                                            newValue.wardLevel = null;
-
+                                            newValue.provinceLevel = value as GhnProvinceDTO;
+                                            newValue.districtLevel =
+                                                null as unknown as GhnDistrictDTO;
+                                            newValue.wardLevel = null as unknown as WardSchemaDTO;
                                             return newValue;
                                         }).then();
                                     }}
                                 />
                             </Grid>
                             <Grid item md={6}>
-                                <AutocompleteCustom<District>
+                                <AutocompleteCustom<GhnDistrictDTO>
+                                    disabled={addressStatus === 'loading'}
                                     name={`districtLevel`}
                                     label='Quận / huyện'
                                     isNotCheckbox
-                                    options={districts}
+                                    options={
+                                        addresses?.districts?.[currentProvince] ??
+                                        createInitialValues()
+                                    }
                                     displayLabel='district_name'
                                     displaySelected='district_id'
                                     handleChange={(value) => {
-                                        if (value !== null) {
-                                            loadWards(String((value as District).district_id));
-                                        } else {
-                                            setWards(new Array<Ward>());
-                                        }
+                                        setCurrentDistrict((value as GhnDistrictDTO).district_id);
+
                                         setValues((prev) => {
                                             const newValue = { ...prev };
-
-                                            newValue.districtLevel = value;
-                                            newValue.wardLevel = null;
-
+                                            newValue.districtLevel = value as GhnDistrictDTO;
+                                            newValue.wardLevel = null as unknown as WardSchemaDTO;
                                             return newValue;
                                         }).then();
                                     }}
                                 />
                             </Grid>
                             <Grid item md={6}>
-                                <AutocompleteCustom<Ward>
+                                <AutocompleteCustom<WardSchemaDTO>
+                                    disabled={addressStatus === 'loading'}
                                     name={`wardLevel`}
                                     label='Xã / phường'
                                     isNotCheckbox
-                                    options={wards}
+                                    options={
+                                        addresses?.wards?.[currentDistrict] ?? createInitialValues()
+                                    }
                                     displayLabel='ward_name'
                                     displaySelected='ward_code'
                                 />

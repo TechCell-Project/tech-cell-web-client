@@ -1,5 +1,4 @@
 import React, { memo, useState } from 'react';
-import { useAppSelector } from '@store/store';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/system/Stack';
@@ -8,11 +7,16 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { formatDateViVN, getRole } from '@utils/funcs';
 import { CommonBtn, TextView } from '@components/Common';
 import UpdateInfo from '@components/Features/Profile/Dialog/UpdateInfo';
-import { UserAccount } from '@models/Account';
+import { useProfile } from '@hooks/useProfile';
+import { LoadingPage } from '@components/Common/Display';
 
-const ProfileInfor = () => {
+const ProfileInfo = () => {
+    const { profile: user, status } = useProfile();
     const [openUpdate, setOpenUpdate] = useState<boolean>(false);
-    const { user } = useAppSelector((state) => state.auth);
+
+    if (status === 'loading' && !user) {
+        return <LoadingPage isLoading />;
+    }
 
     return (
         <>
@@ -74,14 +78,10 @@ const ProfileInfor = () => {
             </Grid>
 
             {openUpdate && (
-                <UpdateInfo
-                    isOpen={openUpdate}
-                    handleClose={() => setOpenUpdate(false)}
-                    data={user as UserAccount}
-                />
+                <UpdateInfo isOpen={openUpdate} handleClose={() => setOpenUpdate(false)} />
             )}
         </>
     );
 };
 
-export default memo(ProfileInfor);
+export default memo(ProfileInfo);

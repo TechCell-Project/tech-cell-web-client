@@ -1,64 +1,51 @@
 'use client';
 
-import React, { FC, useEffect } from 'react';
-
-import SkeletonCartItem from '../Display/SkeletionCartItem';
-
+import React, { useEffect, useState } from 'react';
+import SkeletonCartItem from '../Display/SkeletonCartItem';
 import { ItemCard } from './ItemCard';
-import { CartItemModel } from '@models/Cart';
-import { formatProductLabel, getCurrentVariant } from 'utils';
-import { useAppDispatch, useAppSelector } from '@store/store';
-import { getDetailsProduct } from '@store/slices/productSlice';
+import { useProduct } from '@hooks/useProduct';
+import { ProductCartSchemaDTO, ProductDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
 interface CartItemPropsValues {
-    itemData: CartItemModel;
-    refreshCart: () => void;
+    itemData: ProductCartSchemaDTO;
     isSelected: boolean;
     handleCheckBox: (id: string) => void;
     passThisItemPrice: (id: string, sku: string, price: number) => void;
 }
 
-const CartItemCard: FC<CartItemPropsValues> = ({
+function CartItemCard({
     itemData,
-    refreshCart,
     isSelected,
     handleCheckBox,
     passThisItemPrice,
-}) => {
-    const dispatch = useAppDispatch();
+}: CartItemPropsValues) {
+    const { status, products, getProductById } = useProduct();
+    const [currentProduct, setCurrentProduct] = useState<ProductDTO | undefined>(undefined);
 
     useEffect(() => {
-        if (itemData.productId) {
-            dispatch(getDetailsProduct(itemData.productId));
+        if (itemData && !currentProduct) {
+            getProductById(itemData.productId);
+            setCurrentProduct(products[itemData.productId]);
         }
-    }, [itemData]);
+    }, [getProductById, itemData, currentProduct, products]);
+    console.log(status);
+    console.log(currentProduct);
 
-    const { product, isLoadingDetails } = useAppSelector((state) => state.product);
-
-    // console.log(itemData);
-    // console.log(product);
-
-    return isLoadingDetails ? (
+    return status === 'loading' ? (
         <SkeletonCartItem />
     ) : (
         <>
-            {product && (
-                <>
-                    <ItemCard
-                        label={formatProductLabel(product)}
-                        currentVariant={getCurrentVariant(product, itemData.sku!)}
-                        currentProduct={product}
-                        itemData={itemData}
-                        refreshCart={refreshCart}
-                        isChecked={isSelected}
-                        handleCheckBox={handleCheckBox}
-                        passThisItemPrice={passThisItemPrice}
-                    />
-                    {isLoadingDetails && <SkeletonCartItem />}
-                </>
+            {currentProduct && (
+                <ItemCard
+                    currentProduct={currentProduct}
+                    productCart={itemData}
+                    isChecked={isSelected}
+                    handleCheckBox={handleCheckBox}
+                    passThisItemPrice={passThisItemPrice}
+                />
             )}
         </>
     );
-};
+}
 
 export default CartItemCard;

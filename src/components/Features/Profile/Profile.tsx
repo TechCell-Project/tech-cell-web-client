@@ -2,7 +2,7 @@ import React from 'react';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import ProfileAvatar from './ProfileAvatar';
-import ProfileInfor from './ProfileInfor';
+import ProfileInfo from './ProfileInfo';
 import ProfileAddress from './ProfileAddress';
 
 export const Profile = () => {
@@ -17,7 +17,7 @@ export const Profile = () => {
             >
                 <ProfileAvatar />
                 <Stack direction='column' width='100%' pt='40px'>
-                    <ProfileInfor />
+                    <ProfileInfo />
                     <ProfileAddress />
                 </Stack>
             </Stack>

@@ -5,6 +5,9 @@ import {
 } from '@constants/Services';
 import { District, Province, Ward } from 'models/Location';
 import { axiosPublic } from '@libs/axios';
+import { AddressApi } from '@TechCell-Project/tech-cell-server-node-sdk';
+
+export const addressApi = new AddressApi(undefined, undefined, axiosPublic);
 
 export const getProvinces = () => axiosPublic.get<Array<Province>>(LOCATION_PROVINCES_ENDPOINT);
 export const getDistricts = (province_id: string | undefined) =>

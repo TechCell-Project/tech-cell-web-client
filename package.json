@@ -16,6 +16,7 @@
         "**/*": "prettier --write --ignore-unknown"
     },
     "dependencies": {
+        "@TechCell-Project/tech-cell-server-node-sdk": "TechCell-Project/tech-cell-server-node-sdk",
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
         "@mui/icons-material": "5.14.19",
@@ -25,7 +26,6 @@
         "@react-native-async-storage/async-storage": "^1.19.3",
         "@reduxjs/toolkit": "^1.9.5",
         "@svgr/webpack": "^8.0.1",
-        "@TechCell-Project/tech-cell-server-node-sdk": "TechCell-Project/tech-cell-server-node-sdk",
         "axios": "^1.4.0",
         "formik": "^2.4.1",
         "jwt-decode": "^3.1.2",

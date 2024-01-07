@@ -1,35 +1,18 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { CartModel } from '@models/Cart';
+import React from 'react';
 import { LoadingPage } from '@components/Common/Display/LoadingPage';
 import CartPage from '@components/Common/Cart/CartPage';
-import { useSession } from 'next-auth/react';
-import { getCartItemsCustom } from 'utils/get-cartItems';
-import { debounce } from 'utils/funcs';
-import { axiosAuth } from '@libs/axios';
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { getCartItems } from '@/store/slices/cartSlice';
+import { useCart } from '@hooks/userCart';
 
-const Cart = () => {
-    const { data: session } = useSession();
-    const dispatch = useAppDispatch();
+function Cart() {
+    const { status } = useCart();
 
-    const { isLoading } = useAppSelector((state) => state.cart);
-
-    useEffect(() => {
-        if (session) {
-            axiosAuth.defaults.headers.common.Authorization = `Bearer ${session.user.accessToken}`;
-
-            dispatch(getCartItems());
-        }
-    }, [session]);
-
-    if (isLoading) {
+    if (status === 'loading') {
         return <LoadingPage isLoading />;
     }
 
     return <CartPage />;
-};
+}
 
 export default Cart;

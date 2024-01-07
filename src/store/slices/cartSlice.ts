@@ -1,94 +1,99 @@
-import { createSlice, Dispatch } from '@reduxjs/toolkit';
-import { AddCartItemModel, CartModel, CartsSlice } from '@models/Cart';
-import { addToCart, getCarts } from '@services/index';
-import { AxiosInstance } from 'axios';
-import { CART_ENDPOINT } from '@constants/Services';
+import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
+import {
+    AddCartRequestDTO,
+    CartDTO,
+    DeleteProductsCartRequestDTO,
+} from '@TechCell-Project/tech-cell-server-node-sdk';
+import { cartApi } from '@services/CartService';
+import { isStatusSuccess } from '@utils/shared.util';
+import { isAxiosError } from 'axios';
 
-const initialState: CartsSlice = {
-    carts: new CartModel(),
-    isLoading: false,
-    isUpdating: false,
+export type CartState = {
+    carts?: CartDTO;
+    status: 'loading' | 'success' | 'error' | 'idle';
+};
+
+const initialState: CartState = {
+    carts: undefined,
+    status: 'idle',
 };
 
 export const cartsSlice = createSlice({
     name: 'carts',
     initialState,
     reducers: {
-        isFetching: (state) => {
-            state.isLoading = true;
+        setStatus: (state, { payload }: PayloadAction<Pick<CartState, 'status'>>) => {
+            state.status = payload.status;
         },
-        isAddingItem: (state) => {
-            state.isUpdating = true;
+        setCart: (state, { payload }: PayloadAction<Pick<CartState, 'carts'>>) => {
+            state.carts = payload.carts;
         },
-        getAllSuccess: (state, { payload }) => {
-            state.carts = payload;
-            state.isLoading = false;
-        },
-        getAllFailure: (state) => {
-            state.carts = new CartModel();
-            state.isLoading = false;
-        },
-        fetchedDone: (state) => {
-            state.isLoading = false;
-        },
-        addedItemDone: (state) => {
-            state.isUpdating = false;
+        resetCart: (state) => {
+            state.carts = initialState.carts;
+            state.status = initialState.status;
         },
     },
 });
 
 // Thunk
-export const getCartItems = () => async (dispatch: Dispatch) => {
-    dispatch(isFetching());
+export const getCart = () => async (dispatch: Dispatch) => {
+    dispatch(setStatus({ status: 'loading' }));
     try {
-        const response = await getCarts();
-        if (response.data) {
-            dispatch(getAllSuccess(response.data));
+        const { data } = await cartApi.getCarts();
+        if (data) {
+            dispatch(setCart({ carts: data }));
+            dispatch(setStatus({ status: 'success' }));
         }
     } catch (error) {
-        console.log(error);
-        dispatch(getAllFailure());
-    }
-};
-
-export const addItemToCart = (payload: AddCartItemModel) => async (dispatch: Dispatch) => {
-    dispatch(isAddingItem());
-    try {
-        const response = await addToCart(payload);
-        if (response.data) {
-            return { success: true };
-        }
-    } catch (error) {
-        return { success: false, error };
-    } finally {
-        dispatch(addedItemDone());
-    }
-};
-
-export const authAddItemToCart =
-    (payload: AddCartItemModel, instance: AxiosInstance) => async (dispatch: Dispatch) => {
-        dispatch(isAddingItem());
-        try {
-            const response = await instance.post(`${CART_ENDPOINT}`, payload);
-            if (response.data) {
-                return { success: true };
+        dispatch(setStatus({ status: 'error' }));
+        if (isAxiosError(error)) {
+            if (error.response && error.response.status === 404) {
+                dispatch(setStatus({ status: 'success' }));
             }
+        }
+    }
+};
+
+export const addItemToCart = (addCartData: AddCartRequestDTO) => async (dispatch: Dispatch) => {
+    try {
+        const { status } = await cartApi.addCart({
+            addCartRequestDTO: addCartData,
+        });
+        if (!isStatusSuccess(status)) {
+            return false;
+        }
+        // refresh data
+        getCart()(dispatch);
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
+
+export function deleteProductCart(deleteCartData: DeleteProductsCartRequestDTO) {
+    return async (dispatch: Dispatch) => {
+        try {
+            const { status } = await cartApi.deleteProductsCart({
+                deleteProductsCartRequestDTO: deleteCartData,
+            });
+            if (!isStatusSuccess(status)) {
+                return false;
+            }
+            // refresh data
+            getCart()(dispatch);
+            return true;
         } catch (error) {
-            return { success: false, error };
-        } finally {
-            dispatch(addedItemDone());
+            return false;
         }
     };
+}
+
+export function resetCart() {
+    return (dispatch: Dispatch) => {
+        dispatch(cartsSlice.actions.resetCart());
+    };
+}
 
 const { actions, reducer } = cartsSlice;
-
-export const {
-    isFetching,
-    isAddingItem,
-    getAllSuccess,
-    getAllFailure,
-    fetchedDone,
-    addedItemDone,
-} = actions;
-
+export const { setStatus, setCart } = actions;
 export default reducer;
