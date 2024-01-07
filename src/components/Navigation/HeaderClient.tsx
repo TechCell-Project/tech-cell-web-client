@@ -37,6 +37,8 @@ import { Notification } from '@components/Features';
 
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
+import { useProfile } from '@hooks/useProfile';
+
 interface Props {
     window?: () => Window;
 }
@@ -204,16 +206,17 @@ export const HeaderClient = ({ window }: Props) => {
 };
 
 const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
+    const { profile } = useProfile();
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
     const { push } = useRouter();
     const pathname = usePathname();
 
-    return session ? (
+    return session && profile ? (
         <>
             <Avatar
-                src={session?.user?.avatar?.url ?? AlternateAvatar.src}
+                src={profile?.avatar?.url ?? AlternateAvatar.src}
                 alt='User Avatar'
                 sx={{ height: '38px', width: '38px', cursor: 'pointer' }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -242,10 +245,10 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                 }}
             >
                 <Typography fontSize='18px' fontWeight={600}>
-                    {`${session.user.firstName} ${session.user.lastName}`}
+                    {`${profile.firstName} ${profile.lastName}`}
                 </Typography>
                 <Typography fontSize='12px' fontWeight={500}>
-                    {getRole(session.user.role)}
+                    {getRole(profile.role)}
                 </Typography>
 
                 <hr
