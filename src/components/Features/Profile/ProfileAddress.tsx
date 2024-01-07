@@ -1,5 +1,4 @@
 import React, { memo, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@store/store';
 import Typography from '@mui/material/Typography';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -10,36 +9,30 @@ import Stack from '@mui/system/Stack';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { CommonBtn, IconBtn } from '@components/Common';
-import { District, Province, Ward } from '@models/Location';
-import { ProfileAddressRequest } from '@models/Profile';
-import { Address } from '@models/Account';
-import { patchProfileAddress } from '@services/ProfileService';
 import { toast } from 'react-toastify';
-import { getCurrentUser } from '@store/slices/authSlice';
 import CreateOrUpdateAddress from '@components/Features/Profile/Dialog/CreateOrUpdateAddress';
+import { useProfile } from '@hooks/useProfile';
+import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk/models';
+import { createInitialValues } from '@utils/shared.util';
 
 const ProfileAddress = () => {
-    const dispatch = useAppDispatch();
-    const { user } = useAppSelector((state) => state.auth);
+    const { profile: user, updateProfileAddress } = useProfile();
 
     const [loadingDefault, setLoadingDefault] = useState<boolean>(false);
     const [openDelete, setOpenDelete] = useState<boolean>(false);
-    const [currentAddress, setCurrentAddress] = useState<Address | null>(null);
+    const [currentAddress, setCurrentAddress] = useState<AddressSchemaDTO | null>(null);
     const [addressIndex, setAddressIndex] = useState<number | null>(null);
 
     const handleSetDefault = (index: number) => {
         setLoadingDefault(true);
-        const newValue: Array<Address> | undefined = user?.address.map((item, i) => ({
+        const newValue: Array<AddressSchemaDTO> | undefined = user?.address.map((item, i) => ({
             ...item,
             isDefault: i === index,
         }));
         if (newValue) {
-            const values = new ProfileAddressRequest(newValue);
-
-            patchProfileAddress(values)
+            updateProfileAddress(newValue)
                 .then(() => {
                     toast.success('Đổi địa chỉ mặc định thành công!');
-                    dispatch(getCurrentUser()).then();
                 })
                 .catch(() => toast.error('Đổi địa chỉ mặc định thất bại!'))
                 .finally(() => setLoadingDefault(false));
@@ -66,7 +59,7 @@ const ProfileAddress = () => {
                             {item.isDefault ? (
                                 <Chip
                                     icon={<CheckCircleRoundedIcon />}
-                                    label='Mặc dịnh'
+                                    label='Mặc định'
                                     color='primary'
                                 />
                             ) : (
@@ -108,9 +101,9 @@ const ProfileAddress = () => {
                     <Typography fontSize='15px' mt={1}>
                         {[
                             item.detail,
-                            (item.provinceLevel as Province).province_name,
-                            (item.districtLevel as District).district_name,
-                            (item.wardLevel as Ward).ward_name,
+                            item.provinceLevel.province_name,
+                            item.districtLevel.district_name,
+                            item.wardLevel.ward_name,
                         ].join(', ')}
                     </Typography>
 
@@ -130,7 +123,7 @@ const ProfileAddress = () => {
                 variant='outlined'
                 styles={{ gap: '0px !important', width: 'max-content' }}
                 endIcon={<AddCircleRoundedIcon />}
-                handleClick={() => setCurrentAddress(new Address())}
+                handleClick={() => setCurrentAddress(createInitialValues<AddressSchemaDTO>())}
             />
 
             {Boolean(currentAddress) && (
@@ -140,7 +133,7 @@ const ProfileAddress = () => {
                         setCurrentAddress(null);
                         setAddressIndex(null);
                     }}
-                    data={currentAddress as Address}
+                    data={currentAddress as any}
                     addressIndex={addressIndex as number}
                 />
             )}
