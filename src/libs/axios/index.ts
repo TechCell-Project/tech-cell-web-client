@@ -3,7 +3,7 @@ import { AuthenticationApi } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { getSession } from 'next-auth/react';
 import { API_ENDPOINT } from '@constants/Services';
 
-import { update } from 'auth';
+import { update } from '@libs/next-auth';
 
 export const axiosPublic = axios.create({
     baseURL: API_ENDPOINT,

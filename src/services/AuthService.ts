@@ -1,4 +1,3 @@
-import instancePublic from '@config/instancePublic.config';
 import {
     LOGIN_ENDPOINT,
     REGISTER_ENDPOINT,
@@ -11,27 +10,26 @@ import {
 } from '@constants/Services';
 import { ILogin, IRegister } from '@interfaces/auth';
 import { User } from 'next-auth';
-import { axiosAuth } from '@libs/axios';
+import { axiosAuth, axiosPublic } from '@libs/axios';
 import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from '@/models/Auth';
 
-export const fetchLogin = (data: ILogin) => instancePublic.post(LOGIN_ENDPOINT, data);
+export const fetchLogin = (data: ILogin) => axiosPublic.post(LOGIN_ENDPOINT, data);
 
-export const fetchRegister = (data: IRegister) => instancePublic.post(REGISTER_ENDPOINT, data);
+export const fetchRegister = (data: IRegister) => axiosPublic.post(REGISTER_ENDPOINT, data);
 
 export const fetchVerifyEmail = (payload: VerifyEmailModel) =>
-    instancePublic.post(VERIFY_EMAIL_ENDPOINT, payload);
+    axiosPublic.post(VERIFY_EMAIL_ENDPOINT, payload);
 
 export const fetchResendVerify = (payload: Omit<VerifyEmailModel, 'otpCode'>) =>
-    instancePublic.post(RESEND_VERIFY_ENDPOINT, payload);
+    axiosPublic.post(RESEND_VERIFY_ENDPOINT, payload);
 
 export const fetchRefresh = (refreshToken: string) =>
-    instancePublic.post<User>(REFRESH_TOKEN_ENDPOINT, { refreshToken });
+    axiosPublic.post<User>(REFRESH_TOKEN_ENDPOINT, { refreshToken });
 
-export const fetchForgotPassword = (email: string) =>
-    instancePublic.post(FORGOT_PASSWORD, { email });
+export const fetchForgotPassword = (email: string) => axiosPublic.post(FORGOT_PASSWORD, { email });
 
 export const fetchVerifyForgotPassword = (payload: ForgotPasswordModel) =>
-    instancePublic.post(VERIFY_FORGOT_PASSWORD, payload);
+    axiosPublic.post(VERIFY_FORGOT_PASSWORD, payload);
 
 export const postChangePassword = (payload: AccountChangePass) =>
     axiosAuth.post(CHANGE_PASSWORD_ENDPOINT, payload);

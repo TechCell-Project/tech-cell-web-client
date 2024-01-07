@@ -1,9 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { ProfileState, getProfile } from '@store/slices/profileSlice';
 import { useCallback, useEffect } from 'react';
+import { profileApi } from '@services/ProfileService';
+import { AddressSchemaDTO, UserMntResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
 type UseProfile = ProfileState & {
     refreshProfile: () => void;
+    updateProfileInfo: (dataChanges: Partial<UserMntResponseDTO>) => Promise<boolean>;
+    updateProfileAddress: (addressChanges: AddressSchemaDTO[]) => Promise<boolean>;
 };
 
 /**
@@ -19,9 +23,47 @@ export function useProfile(): UseProfile {
         dispatch(getProfile());
     }, [dispatch]);
 
-    useEffect(() => {
-        refreshProfile();
-    }, [refreshProfile]);
+    const updateProfileInfo = useCallback(
+        async (dataChanges: Partial<UserMntResponseDTO>) => {
+            return profileApi
+                .updateUserInfo({
+                    updateUserRequestDTO: dataChanges,
+                })
+                .then(() => {
+                    refreshProfile();
+                    return true;
+                })
+                .catch(() => {
+                    return false;
+                });
+        },
+        [refreshProfile],
+    );
 
-    return { ...profileState, refreshProfile };
+    const updateProfileAddress = useCallback(
+        async (addressChanges: AddressSchemaDTO[]) => {
+            return profileApi
+                .updateUserAddress({
+                    updateUserAddressRequestDTO: {
+                        address: addressChanges,
+                    },
+                })
+                .then(() => {
+                    refreshProfile();
+                    return true;
+                })
+                .catch(() => {
+                    return false;
+                });
+        },
+        [refreshProfile],
+    );
+
+    useEffect(() => {
+        if (!profileState.profile) {
+            dispatch(getProfile());
+        }
+    }, [dispatch, profileState.profile]);
+
+    return { ...profileState, refreshProfile, updateProfileInfo, updateProfileAddress };
 }

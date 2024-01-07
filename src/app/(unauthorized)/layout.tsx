@@ -1,16 +1,10 @@
-import { headers } from "next/headers";
-import { auth } from '@/auth';
+import React, { ReactNode } from 'react';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { RootPath } from "@/constants/enum";
+import { RootPath } from '@constants/enum';
+import { auth } from '@libs/next-auth';
+import { getSession } from 'next-auth/react';
 
-export default async function UnauthorizedLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const heads = headers();
-    const pathname = heads.get('next-url');
-    const session = await auth();
-
-    if (session?.user) {
-        return redirect(`/`);
-    }
-
+export default async function UnAuthorizedLayout({ children }: Readonly<{ children: ReactNode }>) {
     return <>{children}</>;
 }

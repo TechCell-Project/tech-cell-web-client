@@ -1,2 +1,1 @@
-export * from './instanceAuth.config';
-export * from './instancePublic.config';
+export * from './moment.config';

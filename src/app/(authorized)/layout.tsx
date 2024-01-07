@@ -1,17 +1,22 @@
-import React, { ReactNode } from 'react';
-import { headers } from "next/headers";
-import { redirect } from 'next/navigation';
-import { RootPath } from '@constants/enum';
-import { auth } from '@/auth';
+'use client';
 
-export default async function AuthorizedLayout({ children }: Readonly<{ children: ReactNode }>) {
-    const heads = headers();
-    const pathname = heads.get('next-url');
+import { useSession } from 'next-auth/react';
+import { LoadingPageMnt } from '@components/Common/Display/loading';
 
-    const session = await auth();
+/**
+ * Renders the authorized layout component.
+ * @description Require user to be logged in to access the page
+ *
+ * @param {Readonly<{ children: React.ReactNode }>} children - The children elements to be rendered within the layout.
+ * @return {JSX.Element} The rendered component.
+ */
+export default function AuthorizedLayout({
+    children,
+}: Readonly<{ children: React.ReactNode }>): JSX.Element {
+    const { data: session, status } = useSession();
 
-    if (!session?.user) {
-        redirect(`${RootPath.Login}?callbackUrl=${pathname}`);
+    if (status === 'loading') {
+        return <LoadingPageMnt isLoading />;
     }
 
     return <>{children}</>;

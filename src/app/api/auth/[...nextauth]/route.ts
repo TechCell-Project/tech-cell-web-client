@@ -1,1 +1,1 @@
-export { GET, POST } from '@/auth';
+export { GET, POST } from '@libs/next-auth';

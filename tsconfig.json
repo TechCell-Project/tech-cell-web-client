@@ -34,7 +34,8 @@
             "@hooks/*": ["hooks/*"],
             "@libs/*": ["libs/*"],
             "@config/*": ["config/*"],
-            "@utils/*": ["utils/*"]
+            "@utils/*": ["utils/*"],
+            "@routes/*": ["routes/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

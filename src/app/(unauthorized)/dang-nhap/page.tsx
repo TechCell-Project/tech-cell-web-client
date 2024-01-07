@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { signIn } from '@/auth';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { useSearchParams, usePathname } from 'next/navigation';
 
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
@@ -20,7 +20,6 @@ import IconButton from '@mui/material/IconButton';
 
 import { Form, Formik, FormikHelpers } from 'formik';
 import { LoginSchema } from 'validate/auth.validate';
-import { LoginModel } from 'models';
 import { ForgotPassword } from '@app/quen-mat-khau/FromForgotPassword';
 import { debounce } from 'utils/funcs';
 import { RootPath } from '@constants/enum';
@@ -31,12 +30,15 @@ import { useCountdown } from '@hooks/useCountdownTimer';
 import { useAppDispatch } from '@store/store';
 import { resendVerifyEmail } from '@store/slices/authSlice';
 import VerifyEmail from '@app/xac-thuc-tai-khoan/VerifyEmail';
-import { login } from '@/libs/next-auth/actions/login';
+import { createInitialValues, resolveCallbackUrl } from '@utils/shared.util';
+import { signinAction } from 'actions/signin';
+import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 
 export default function Login() {
-    const { push } = useRouter();
     const dispatch = useAppDispatch();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
 
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
@@ -45,82 +47,59 @@ export default function Login() {
 
     const countdownTimer = useCountdown(targetTime);
 
-    const backUrl = searchParams.get('callbackUrl');
+    const backUrl = resolveCallbackUrl({
+        callBackUrl: searchParams.get('callbackUrl'),
+        fallback: RootPath.Home,
+    });
+
+    const url = new URL(pathname, process.env.NEXTAUTH_URL);
+    url.searchParams.append('callbackUrl', backUrl);
+
+    const googleCallbackUrl = url.toString();
 
     const debouncedSignIn = debounce(
-        async (payload: LoginModel, { setSubmitting }: FormikHelpers<LoginModel>) => {
-            login(
-                {
-                    emailOrUsername: payload.emailOrUsername as string,
-                    password: payload.password as string,
-                },
-                backUrl,
-            )
+        (payload: LoginRequestDTO, { setSubmitting }: FormikHelpers<LoginRequestDTO>) => {
+            signinAction(payload)
                 .then((res) => {
-                    if (res) {
-                        const statusCode = res.code;
-
-                        if (statusCode) {
-                            if (statusCode === 406 || statusCode === 422) {
-                                toast.error(
-                                    'Email của bạn chưa được xác thực! Hãy kiểm tra mail và tiến hành xác thực',
-                                );
-                                setOpenVerify(true);
-                            } else if (statusCode === 400) {
-                                toast.error(
-                                    'Đăng nhập thất bại. Tài khoản hoặc mật khẩu không hợp lệ',
-                                );
-                            } else if (statusCode === 401) {
-                                toast.error(
-                                    'Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng',
-                                );
-                            } else if (statusCode === 404) {
-                                toast.error(
-                                    'Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng',
-                                );
-                            } else {
-                                toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
-                            }
-                        } else {
+                    console.log(res?.code);
+                    const statusCode = res?.code;
+                    switch (statusCode) {
+                        case 200:
+                            toast.success('Đăng nhập thành công');
+                            window.location.href = backUrl;
+                            break;
+                        case 400:
+                        case 401:
+                        case 404:
+                            toast.error('Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng');
+                            break;
+                        case 403:
+                            toast.error(
+                                'Tài khoản của bạn đã bị khoá, liên hệ hỗ trợ để biết thêm thông tin.',
+                            );
+                            break;
+                        case 406:
+                        case 422:
+                            toast.error(
+                                'Email của bạn chưa được xác thực! Hãy kiểm tra mail và tiến hành xác thực',
+                            );
+                            setOpenVerify(true);
+                            break;
+                        case 429:
+                            toast.error('Đăng nhập thất bại. Bạn đã đăng nhập quá nhiều lần');
+                            break;
+                        default:
                             toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
-                        }
-                    } else {
-                        toast.success('Đăng nhập thành công');
-                        window.location.href = backUrl ?? '/';
+                            break;
                     }
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
+                    console.error(err);
+                })
                 .finally(() => setSubmitting(false));
-            // const res = await signIn('credentials', {
-            //     emailOrUsername: payload.emailOrUsername,
-            //     password: payload.password,
-            //     redirectTo: backUrl,
-            // });
-            // console.log('response: ', res);
-
-            // if (res?.ok) {
-            //     toast.success('Đăng nhập thành công');
-            //     push(backUrl);
-            // }
-            // else {
-            //     // Extract the status code from the error message
-            //     const statusCode = parseInt(res?.error?.split('|')[1] as string);
-            //     if (statusCode === 406 || statusCode === 422) {
-            //         toast.error(
-            //             'Email của bạn chưa được xác thực! Hãy kiểm tra mail và tiến hành xác thực',
-            //         );
-            //         setOpenVerify(true);
-            //     } else if (statusCode === 401) {
-            //         toast.error('Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng');
-            //     } else if (statusCode === 404) {
-            //         toast.error('Đăng nhập thất bại. Tài khoản hoặc mật khẩu không đúng');
-            //     } else {
-            //         toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
-            //     }
-            // }
-            // setSubmitting(false);
         },
-        1500,
+        5000,
     );
 
     const handleResendVerifyOtp = debounce(async (email: string) => {
@@ -154,7 +133,7 @@ export default function Login() {
                         Chào mừng bạn đến với Techcell !!
                     </Typography>
                     <Formik
-                        initialValues={new LoginModel()}
+                        initialValues={createInitialValues<LoginRequestDTO>()}
                         validationSchema={LoginSchema}
                         onSubmit={(values, formikHelpers) => {
                             debouncedSignIn(values, formikHelpers);
@@ -186,16 +165,17 @@ export default function Login() {
                                 <Stack direction='row' justifyContent='space-between' mt={4}>
                                     <Typography fontSize='14px' fontWeight={500}>
                                         Chưa có tài khoản?{' '}
-                                        <span
-                                            onClick={() => push(RootPath.Register)}
-                                            style={{
-                                                color: '#ee4949',
-                                                cursor: 'pointer',
-                                                textDecoration: 'underline',
-                                            }}
-                                        >
-                                            Đăng ký
-                                        </span>
+                                        <Link href={RootPath.Register}>
+                                            <span
+                                                style={{
+                                                    color: '#ee4949',
+                                                    cursor: 'pointer',
+                                                    textDecoration: 'underline',
+                                                }}
+                                            >
+                                                Đăng ký
+                                            </span>
+                                        </Link>
                                     </Typography>
                                     <Typography
                                         onClick={() => setOpenForgotPassword(true)}
@@ -263,7 +243,7 @@ export default function Login() {
 
                     <Box
                         className={styles.login_socials}
-                        onClick={() => signIn('google', { callbackUrl: process.env.NEXTAUTH_URL })}
+                        onClick={() => signIn('google', { callbackUrl: googleCallbackUrl })}
                         mt={5}
                     >
                         <Google color='primary' />
