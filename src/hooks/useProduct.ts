@@ -12,13 +12,13 @@ type UseProduct = ProductState & {
 
 export function useProduct(): UseProduct {
     const dispatch = useAppDispatch();
-    const productState = useAppSelector((state) => state.product2);
+    const productState = useAppSelector((state) => state['product-v2']);
 
     useEffect(() => {
-        if (!productState.listProducts || Object.keys(productState.listProducts)?.length === 0) {
+        if (productState.status === 'idle') {
             dispatch(getListProduct({}));
         }
-    }, [dispatch, productState.listProducts]);
+    }, [dispatch, productState.status]);
 
     // useEffect(() => {
     //     if (productState.listProducts) {

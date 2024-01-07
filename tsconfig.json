@@ -22,6 +22,7 @@
         "baseUrl": "./src/",
         "paths": {
             "@public/*": ["../public/*"],
+            "@action/*": ["actions/*"],
             "@styles/*": ["styles/*"],
             "@app/*": ["app/(authorized)/*", "app/(unauthorized)/*", "app/*"],
             "@components/*": ["components/*"],
