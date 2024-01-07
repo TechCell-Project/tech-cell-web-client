@@ -24,3 +24,5 @@ export function isStatusSuccess(status?: number): boolean {
     }
     return status >= 200 && status < 300;
 }
+
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

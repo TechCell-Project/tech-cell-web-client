@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -14,6 +14,7 @@ import CreateOrUpdateAddress from '@components/Features/Profile/Dialog/CreateOrU
 import { useProfile } from '@hooks/useProfile';
 import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk/models';
 import { createInitialValues } from '@utils/shared.util';
+import { useAddress } from '@hooks/useAddress';
 
 const ProfileAddress = () => {
     const { profile: user, updateProfileAddress } = useProfile();
@@ -22,6 +23,14 @@ const ProfileAddress = () => {
     const [openDelete, setOpenDelete] = useState<boolean>(false);
     const [currentAddress, setCurrentAddress] = useState<AddressSchemaDTO | null>(null);
     const [addressIndex, setAddressIndex] = useState<number | null>(null);
+
+    const { syncUserAddress } = useAddress();
+
+    useEffect(() => {
+        if (user) {
+            syncUserAddress(user);
+        }
+    }, [user, syncUserAddress]);
 
     const handleSetDefault = (index: number) => {
         setLoadingDefault(true);
@@ -45,7 +54,7 @@ const ProfileAddress = () => {
                 2. Địa chỉ người dùng
             </Typography>
             {user?.address?.map((item, i) => (
-                <Box key={i}>
+                <Box key={`${item.addressName}_${i.toString()}`}>
                     <Stack
                         direction='row'
                         justifyContent='space-between'
@@ -126,14 +135,14 @@ const ProfileAddress = () => {
                 handleClick={() => setCurrentAddress(createInitialValues<AddressSchemaDTO>())}
             />
 
-            {Boolean(currentAddress) && (
+            {currentAddress && (
                 <CreateOrUpdateAddress
-                    isOpen={Boolean(currentAddress)}
+                    isOpen={!!currentAddress}
                     handleClose={() => {
                         setCurrentAddress(null);
                         setAddressIndex(null);
                     }}
-                    data={currentAddress as any}
+                    data={currentAddress}
                     addressIndex={addressIndex as number}
                 />
             )}
