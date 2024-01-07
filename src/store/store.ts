@@ -12,6 +12,7 @@ import {
     notificationSlice,
     profileSlice,
     productSlice2,
+    addressSlice,
 } from './slices';
 
 const createNoopStorage = () => {
@@ -32,6 +33,7 @@ const storage = typeof window !== 'undefined' ? createWebStorage('local') : crea
 
 const rootReducer = combineReducers({
     [authSlice.name]: authSlice.reducer,
+    [addressSlice.name]: addressSlice.reducer,
     [productSlice.name]: productSlice.reducer,
     [cartsSlice.name]: cartsSlice.reducer,
     [attributeSlice.name]: attributeSlice.reducer,
