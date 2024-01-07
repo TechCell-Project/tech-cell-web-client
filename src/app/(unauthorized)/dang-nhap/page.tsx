@@ -102,6 +102,10 @@ export default function Login() {
         5000,
     );
 
+    const debouncedGoogleSignIn = debounce(async () => {
+        await signIn('google', { callbackUrl: googleCallbackUrl });
+    }, 5000);
+
     const handleResendVerifyOtp = debounce(async (email: string) => {
         const res = await dispatch(resendVerifyEmail({ email }));
 
