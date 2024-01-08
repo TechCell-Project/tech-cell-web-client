@@ -1,7 +1,7 @@
 import moment from 'moment';
 import 'moment/locale/vi';
 
-moment.locale('vi', {
+moment.updateLocale('vi', {
     relativeTime: {
         s: 'Vài giây',
         m: '%d phút',
