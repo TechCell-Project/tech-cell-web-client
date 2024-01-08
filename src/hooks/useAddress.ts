@@ -8,13 +8,16 @@ import {
 } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { sleep } from '@utils/shared.util';
 
-type UseAddress = AddressState & {
+export type UseAddress = AddressState & {
     syncUserAddress: (user: UserMntResponseDTO) => Promise<void>;
     currentProvince: GhnProvinceDTO['province_id'];
     setCurrentProvince: React.Dispatch<React.SetStateAction<GhnProvinceDTO['province_id']>>;
     currentDistrict: GhnDistrictDTO['district_id'];
     setCurrentDistrict: React.Dispatch<React.SetStateAction<GhnDistrictDTO['district_id']>>;
 };
+
+export const INIT_CURRENT_DISTRICT = 0;
+export const MANUAL_CHANGE_DISTRICT = -1;
 
 export function useAddress(): UseAddress {
     const dispatch = useAppDispatch();
