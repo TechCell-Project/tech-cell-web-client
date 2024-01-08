@@ -1,24 +1,14 @@
 import React from 'react';
 import { HomePage } from '@components/Common';
 import Typography from '@mui/material/Typography';
-import { CarouselComponent, CarouselComponentProps } from '@components/Form';
+import { CarouselComponent } from '@components/Form';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { HOME_SLOGAN, BENEFIT_SECTION } from '@constants/contents/common.constant';
-import { getPublicContents } from '@utils/directory.util';
-
-function getStaticContents(): CarouselComponentProps {
-    const carouselImages = getPublicContents('carousel_img');
-    return {
-        carouselImages,
-    };
-}
+import { HOME_SLOGAN, BENEFIT_SECTION, IMAGE_CAROUSEL } from '@constants/contents';
 
 export default function Home() {
-    const { carouselImages } = getStaticContents();
-
     return (
         <>
             <Typography
@@ -34,7 +24,7 @@ export default function Home() {
                 {HOME_SLOGAN}
             </Typography>
 
-            <CarouselComponent carouselImages={carouselImages} />
+            <CarouselComponent carouselImages={IMAGE_CAROUSEL} />
 
             <HomePage />
 
