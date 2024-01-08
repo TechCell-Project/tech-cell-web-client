@@ -139,7 +139,7 @@ function CartPage() {
                                 </Typography>
                             </Box>
 
-                            {carts?.cartCountProducts && carts.cartCountProducts <= 0 ? (
+                            {carts !== undefined && carts.cartCountProducts === 0 ? (
                                 <Typography
                                     variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
