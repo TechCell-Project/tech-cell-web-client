@@ -10,7 +10,7 @@ export function getPublicContents(directory: string): string[] {
     directory = directory.replace(/^\/|\/$|^\\|\\$/g, '');
 
     const publicPrefix = '/public';
-    const directoryPath = path.join(process.cwd(), `${publicPrefix}\\${directory}`);
+    const directoryPath = path.join(__dirname, `${publicPrefix}\\${directory}`);
 
     try {
         const files = fs.readdirSync(directoryPath);
