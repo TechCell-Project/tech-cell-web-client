@@ -18,6 +18,9 @@ function getStaticContents(): CarouselComponentProps {
 
 export default function Home() {
     const { carouselImages } = getStaticContents();
+    console.debug({
+        carouselImages,
+    });
 
     return (
         <>
