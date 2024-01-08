@@ -23,8 +23,8 @@ const checkedIcon = <CheckBoxIcon fontSize='small' />;
 interface Props<T> {
     name: string;
     options: T[];
-    displayLabel?: string;
-    displaySelected?: string;
+    displayLabel?: keyof T;
+    displaySelected?: keyof T;
     label?: string | React.JSX.Element;
     searchValue?: string;
     handleChangeSearchValue?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -68,7 +68,7 @@ function AutocompleteComponent<T>(props: MultiSelectProps<T>) {
         handleBlur,
     } = props;
 
-    const getDefaultOptionLabel = (option: T) => getIn(option, displayLabel) ?? '';
+    const getDefaultOptionLabel = (option: T) => getIn(option, displayLabel as string) ?? '';
 
     const defaultHandleChange = (
         event: React.SyntheticEvent<Element, Event>,
@@ -96,7 +96,7 @@ function AutocompleteComponent<T>(props: MultiSelectProps<T>) {
             disabled={disabled}
             options={options ?? []}
             isOptionEqualToValue={(option, value) =>
-                getIn(option, displaySelected) === getIn(value, displaySelected)
+                getIn(option, displaySelected as string) === getIn(value, displaySelected as string)
             }
             onBlur={handleBlur}
             renderOption={(props, option, { selected }) => {
@@ -110,7 +110,7 @@ function AutocompleteComponent<T>(props: MultiSelectProps<T>) {
                                 checked={selected}
                             />
                         )}
-                        {getIn(option, displayLabel)}
+                        {getIn(option, displayLabel as string)}
                     </li>
                 );
             }}
