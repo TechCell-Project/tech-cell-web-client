@@ -99,9 +99,9 @@ function AutocompleteComponent<T>(props: MultiSelectProps<T>) {
                 getIn(option, displaySelected as string) === getIn(value, displaySelected as string)
             }
             onBlur={handleBlur}
-            renderOption={(props, option, { selected }) => {
+            renderOption={({ key, ...props }, option, { selected }) => {
                 return (
-                    <li {...props}>
+                    <li key={key} {...props}>
                         {!isNotCheckbox && (
                             <Checkbox
                                 icon={icon}
