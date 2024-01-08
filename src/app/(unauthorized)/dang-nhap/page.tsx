@@ -35,6 +35,7 @@ import { signinAction } from 'actions/signin';
 import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import Button from '@mui/material/Button';
 
 export default function Login() {
     const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ export default function Login() {
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
     const [openVerify, setOpenVerify] = useState<boolean>(false);
     const [targetTime, setTargetTime] = useState<Date | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const countdownTimer = useCountdown(targetTime);
 
@@ -103,7 +105,15 @@ export default function Login() {
     );
 
     const debouncedGoogleSignIn = debounce(async () => {
-        await signIn('google', { callbackUrl: googleCallbackUrl });
+        setIsLoading(true);
+        const res = await signIn('google', { callbackUrl: backUrl });
+
+        if (res?.ok) {
+            toast.success('Đăng nhập thành công');
+        }
+        console.log(googleCallbackUrl);
+        console.log(res);
+        setIsLoading(false);
     }, 5000);
 
     const handleResendVerifyOtp = debounce(async (email: string) => {
@@ -245,14 +255,14 @@ export default function Login() {
                         </Grid>
                     </Grid>
 
-                    <Box
-                        className={styles.login_socials}
-                        onClick={() => signIn('google', { callbackUrl: googleCallbackUrl })}
-                        mt={5}
+                    <Button
+                        onClick={() => debouncedGoogleSignIn()}
+                        sx={{ marginTop: '5' }}
+                        disabled={isLoading}
                     >
                         <Google color='primary' />
                         <span>Đăng nhập với Google</span>
-                    </Box>
+                    </Button>
                 </Box>
             </Container>
 
