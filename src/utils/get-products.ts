@@ -13,4 +13,4 @@ export const getProductsCustom = cache(async (keyword: string) => {
     };
     const { data } = await getProductsPublic(searchProduct);
     return data;
-})
+});

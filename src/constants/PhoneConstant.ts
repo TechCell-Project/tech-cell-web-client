@@ -78,6 +78,37 @@ export const BRANDS = [
     },
 ];
 
+// sản phẩm đính kèm attached
+export const PRODUCT_ATTACHED = [
+    {
+        value: 1,
+        img: '/img_productDetail/ip14_2.webp',
+        name: 'Mua kèm bàn ghế công thái học',
+        discount: 'Giảm thêm 10%',
+        alt: 'img',
+    },
+    {
+        value: 2,
+        img: '/img_productDetail/ip14_2.webp',
+        name: 'Mua kèm bàn ghế công thái học',
+        discount: 'Giảm thêm 10%',
+        alt: 'img',
+    },
+    {
+        value: 3,
+        img: '/img_productDetail/ip14_2.webp',
+        name: 'Mua kèm bàn ghế công thái học',
+        discount: 'Giảm thêm 10%',
+        alt: 'img',
+    },
+    {
+        value: 4,
+        img: '/img_productDetail/ip14_2.webp',
+        name: 'Mua kèm bàn ghế công thái học',
+        discount: 'Giảm thêm 10%',
+        alt: 'img',
+    },
+];
 
 export const DETAIL_CATEGORIES = [
     {

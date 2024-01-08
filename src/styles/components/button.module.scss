@@ -1,48 +1,51 @@
-.body{
-    padding-right: 0px !important;
+@import '../base/variables';
+
+.body {
+    padding-right: 0 !important;
+}
+
+.text_link {
+    padding: 10px;
+    background-color: #ee4949;
+    border-radius: 5px;
+
+    a {
+        text-decoration: none;
+        background-color: #ee4949 !important;
+    }
 }
 
 .buttonMenu {
     position: relative;
-    // &::after {
-    //   content: '';
-    //   position: absolute;
-    //   width: 100%;
-    //   transform: scaleX(0);
-    //   height: 2px;
-    //   bottom: 0;
-    //   left: 0;
-    //   background-color: rgba(255, 255, 255, 0.8);
-    //   transform-origin: bottom right;
-    //   transition: transform 0.45s ease-out;
-    // }
-
-    // &:hover::after {
-    //   transform: scaleX(1);
-    //   transform-origin: bottom left;
-    // }
 }
 
 .menu_nav {
     display: flex;
     align-items: center;
+    justify-content: center;
     color: #fff;
 }
 
-// Button modal search
-
-.button_search {
-    background-color: #ee4949;
-    color: #eaeaea;
-    width: 125px;
-    padding: 10px;
-    margin: 10px auto;
-    border-radius: 5px;
+.login_socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 10px 40px;
     cursor: pointer;
-}
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid $primaryLightColor;
+    background: $primaryLightColor;
 
+    &:hover {
+        border: 1px solid $primaryColor;
+        background: transparent;
+    }
 
-// DrawerLayout Css 
-.css-1elwnq4-MuiPaper-root-MuiAccordion-root:before {
-    background-color: #fff;
+    span {
+        font-weight: 600;
+        color: #ee4949;
+        font-size: 14px;
+    }
 }

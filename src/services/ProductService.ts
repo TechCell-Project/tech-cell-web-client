@@ -1,8 +1,10 @@
 import { PRODUCTS_ENDPOINT } from '@constants/Services';
-import instance from './Instance';
-import { PagingProduct, ProductData } from '@models/Product';
+import { PagingProduct, ProductModel } from '@models/Product';
+import { PagingResponse } from '@models/Common';
+import { axiosPublic } from '@libs/axios';
+import { ProductsApi } from '@TechCell-Project/tech-cell-server-node-sdk';
 
-import instancePublic from './InstancePublic';
+export const productApi = new ProductsApi(undefined, undefined, axiosPublic);
 
 export const getProducts = (payload: PagingProduct) => {
     const { page, pageSize, keyword } = payload;
@@ -12,7 +14,7 @@ export const getProducts = (payload: PagingProduct) => {
         url += `&keyword=${keyword}`;
     }
 
-    return instance.get<PagingProduct>(url);
+    return axiosPublic.get<PagingProduct>(url);
 };
 
 export const getProductsPublic = (payload: PagingProduct) => {
@@ -23,7 +25,7 @@ export const getProductsPublic = (payload: PagingProduct) => {
         url += `&keyword=${keyword}`;
     }
 
-    return instancePublic.get<ProductData>(url);
+    return axiosPublic.get<PagingResponse<ProductModel>>(url);
 };
 
 export const getProductById = (id: string, isDetails?: boolean) => {
@@ -32,5 +34,5 @@ export const getProductById = (id: string, isDetails?: boolean) => {
     if (isDetails) {
         url += `?detail=${isDetails}`;
     }
-    return instance.get(url);
-}
+    return axiosPublic.get<ProductModel>(url);
+};

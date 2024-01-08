@@ -95,14 +95,14 @@ const FilterCard = (props: Props) => {
 
     return (
         <>
-            <Box marginRight="10px">
+            <Box marginRight='10px'>
                 <Button
                     endIcon={<KeyboardArrowRight />}
                     ref={anchorRef}
-                    id="composition-button"
+                    id='composition-button'
                     aria-controls={open ? 'composition-menu' : undefined}
                     aria-expanded={open ? 'true' : undefined}
-                    aria-haspopup="true"
+                    aria-haspopup='true'
                     onClick={handleToggle}
                     sx={{
                         lineHeight: '1.5',
@@ -128,7 +128,7 @@ const FilterCard = (props: Props) => {
                     open={open}
                     anchorEl={anchorRef.current}
                     role={undefined}
-                    placement="bottom-start"
+                    placement='bottom-start'
                     transition
                 >
                     {({ TransitionProps }) => (
@@ -137,8 +137,8 @@ const FilterCard = (props: Props) => {
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <MenuList
                                         autoFocusItem={open}
-                                        id="composition-menu"
-                                        aria-labelledby="composition-button"
+                                        id='composition-menu'
+                                        aria-labelledby='composition-button'
                                         onKeyDown={handleListKeyDown}
                                         sx={{
                                             display: 'flex',

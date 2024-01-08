@@ -22,7 +22,7 @@ const HotSalesSection = () => {
             >
                 <LocalMallIcon sx={{ display: 'inline-block' }} />
                 <Typography
-                    variant="h4"
+                    variant='h4'
                     sx={{
                         fontSize: { sm: '22px', xs: '18px' },
                         display: 'inline-block',

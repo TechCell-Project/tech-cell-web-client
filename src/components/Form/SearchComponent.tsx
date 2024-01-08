@@ -87,7 +87,7 @@ export const SearchComponent = () => {
 
     const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
         setAnchorEl(e.currentTarget);
-    }
+    };
 
     useEffect(() => {
         if (searchProduct.keyword) {
@@ -120,7 +120,7 @@ export const SearchComponent = () => {
                 <StyledInputBase
                     aria-describedby={id}
                     type='search'
-                    placeholder="Tìm kiếm..."
+                    placeholder='Tìm kiếm...'
                     inputProps={{ 'aria-label': 'search' }}
                     onChange={handleChange}
                     onFocus={handleFocus}

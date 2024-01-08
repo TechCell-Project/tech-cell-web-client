@@ -1,4 +1,3 @@
-
 export class Paging {
     page: number;
     pageSize: number;
@@ -10,9 +9,10 @@ export class Paging {
     }
 }
 
-export class PagingResponse {
+export class PagingResponse<T = unknown> {
     page: number = 0;
     pageSize: number = 0;
     totalPage: number = 0;
     totalRecord: number = 0;
+    data: T[] = [];
 }

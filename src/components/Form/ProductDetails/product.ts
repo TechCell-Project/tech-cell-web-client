@@ -5,9 +5,9 @@ export const product = [
         slug: 'iphone14-proMax',
         img: '/img_productDetail/ip14_1.webp',
         price: {
-            base:200000,
-            sale:200000,
-            special:200000,
+            base: 200000,
+            sale: 200000,
+            special: 200000,
         },
         desc: 'iPhone 14 Pro Max đem đến những trải nghiệm không thể tìm thấy trên mọi thế hệ iPhone trước đó với màu Tím Deep Purple sang trọng, camera 48MP lần đầu xuất hiện, chip A16 Bionic và màn hình “viên thuốc” Dynamic Island linh hoạt, nịnh mắt.',
         images: [
@@ -32,7 +32,7 @@ export const product = [
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
-    
+
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
@@ -93,7 +93,7 @@ export const product = [
                 content: 'adadaassdddssddsadasd',
             },
         ],
-    
+
         internal: [
             {
                 capacity: '1TB',
@@ -112,7 +112,7 @@ export const product = [
                 price_capacity: 270000000,
             },
         ],
-    
+
         bundledItems: [
             {
                 imgBundle: '/img_productDetail/ip14_1.webp',
@@ -167,7 +167,7 @@ export const product = [
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
-    
+
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
@@ -228,7 +228,7 @@ export const product = [
                 content: 'adadaassdddssddsadasd',
             },
         ],
-    
+
         internal: [
             {
                 capacity: '1TB',
@@ -247,7 +247,7 @@ export const product = [
                 price_capacity: 270000000,
             },
         ],
-    
+
         bundledItems: [
             {
                 imgBundle: '/img_productDetail/ip14_1.webp',
@@ -302,7 +302,7 @@ export const product = [
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
-    
+
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
@@ -363,7 +363,7 @@ export const product = [
                 content: 'adadaassdddssddsadasd',
             },
         ],
-    
+
         internal: [
             {
                 capacity: '1TB',
@@ -382,7 +382,7 @@ export const product = [
                 price_capacity: 270000000,
             },
         ],
-    
+
         bundledItems: [
             {
                 imgBundle: '/img_productDetail/ip14_1.webp',
@@ -437,7 +437,7 @@ export const product = [
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
-    
+
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
@@ -498,7 +498,7 @@ export const product = [
                 content: 'adadaassdddssddsadasd',
             },
         ],
-    
+
         internal: [
             {
                 capacity: '1TB',
@@ -517,7 +517,7 @@ export const product = [
                 price_capacity: 270000000,
             },
         ],
-    
+
         bundledItems: [
             {
                 imgBundle: '/img_productDetail/ip14_1.webp',
@@ -572,7 +572,7 @@ export const product = [
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
-    
+
             {
                 src: '/img_productDetail/ip14_3.webp',
             },
@@ -633,7 +633,7 @@ export const product = [
                 content: 'adadaassdddssddsadasd',
             },
         ],
-    
+
         internal: [
             {
                 capacity: '1TB',
@@ -652,7 +652,7 @@ export const product = [
                 price_capacity: 270000000,
             },
         ],
-    
+
         bundledItems: [
             {
                 imgBundle: '/img_productDetail/ip14_1.webp',
@@ -678,4 +678,4 @@ export const product = [
         category: 'Điện thoại',
         brand: 'Apple',
     },
-]
+];

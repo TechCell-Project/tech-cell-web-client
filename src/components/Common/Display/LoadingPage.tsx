@@ -1,20 +1,16 @@
 'use client';
 
-import React from 'react';
-
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MoonLoader from 'react-spinners/MoonLoader';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
 
-const LoadingPage = () => {
-    const theme = useTheme();
-
+export const LoadingPage = ({ isLoading }: { isLoading?: boolean }) => {
     return (
-        <Box marginTop="20px">
-            <Container maxWidth="lg">
+        <Box marginTop='20px'>
+            {/*<Container maxWidth="lg">*/}
+            <Container sx={{ maxWidth: '1320px !important' }}>
                 <Stack
                     sx={{
                         minHeight: '80vh',
@@ -24,15 +20,14 @@ const LoadingPage = () => {
                     spacing={3}
                 >
                     <MoonLoader
-                        color={theme.color.red}
+                        color='#ee4949'
                         speedMultiplier={0.75}
                         size={60}
+                        loading={isLoading}
                     />
-                    <Typography variant="subtitle1">Đang tải ...</Typography>
+                    <Typography variant='subtitle1'>Đang tải ...</Typography>
                 </Stack>
             </Container>
         </Box>
     );
 };
-
-export default LoadingPage;

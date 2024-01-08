@@ -3,14 +3,12 @@
 import React, { useState, MouseEvent, FC } from 'react';
 
 import List from '@mui/material/List';
-import { styled } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { useTheme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import { SelectChangeEvent } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
 import Stack from '@mui/material/Stack';
@@ -70,33 +68,33 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
             >
                 <Stack spacing={0} sx={{ alignItems: 'center' }}>
                     <FormControl
-                        variant="standard"
+                        variant='standard'
                         sx={{
                             display: { sm: 'none', xs: 'flex' },
                             minWidth: '120px',
                         }}
                     >
-                        <InputLabel id="select-tag">Tag</InputLabel>
-                        <Select labelId="select-tag" value={selectedTag} onChange={handleTagChange}>
-                            <MenuItem value="latest">
+                        <InputLabel id='select-tag'>Tag</InputLabel>
+                        <Select labelId='select-tag' value={selectedTag} onChange={handleTagChange}>
+                            <MenuItem value='latest'>
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{ fontWeight: 'bold', fontSize: '15px' }}
                                 >
                                     Sản phẩm mới nhất
                                 </Typography>
                             </MenuItem>
-                            <MenuItem value="best-selling">
+                            <MenuItem value='best-selling'>
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{ fontWeight: 'bold', fontSize: '15px' }}
                                 >
                                     Bán chạy nhất
                                 </Typography>
                             </MenuItem>
-                            <MenuItem value="featured">
+                            <MenuItem value='featured'>
                                 <Typography
-                                    variant="h6"
+                                    variant='h6'
                                     sx={{ fontWeight: 'bold', fontSize: '15px' }}
                                 >
                                     Sản phẩm nổi bật
@@ -105,7 +103,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </Select>
                     </FormControl>
                     <List
-                        component="a"
+                        component='a'
                         sx={{
                             display: { sm: 'flex', xs: 'none' },
                             flexDirection: 'row',
@@ -115,7 +113,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                     >
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                         <StyledListItemButton
@@ -126,7 +124,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 disableTypography
                                 primary={
                                     <Typography
-                                        variant="h6"
+                                        variant='h6'
                                         sx={{ fontWeight: 'bold', fontSize: '16px' }}
                                     >
                                         Sản phẩm mới nhất
@@ -136,7 +134,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </StyledListItemButton>
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                         <StyledListItemButton
@@ -147,7 +145,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 disableTypography
                                 primary={
                                     <Typography
-                                        variant="h6"
+                                        variant='h6'
                                         sx={{ fontWeight: 'bold', fontSize: '16px' }}
                                     >
                                         Bán chạy nhất
@@ -157,7 +155,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </StyledListItemButton>
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                         <StyledListItemButton
@@ -168,7 +166,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 disableTypography
                                 primary={
                                     <Typography
-                                        variant="h6"
+                                        variant='h6'
                                         sx={{ fontWeight: 'bold', fontSize: '16px' }}
                                     >
                                         Sản phẩm nổi bật
@@ -178,13 +176,13 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                         </StyledListItemButton>
                         <Divider
                             flexItem
-                            orientation="vertical"
+                            orientation='vertical'
                             sx={{ mx: 0.5, my: 1, width: '1px' }}
                         />
                     </List>
 
                     <Divider
-                        component="div"
+                        component='div'
                         sx={{
                             width: '100%',
                             height: '2px',
@@ -229,6 +227,7 @@ const FeaturedSection: FC<ProductsListProps> = ({ initialData }) => {
                                 >
                                     {initialData.map((product) => (
                                         <Grid
+                                            item
                                             sx={{ padding: '12.5px' }}
                                             xs={6}
                                             lg={3}

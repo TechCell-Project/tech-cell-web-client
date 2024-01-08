@@ -1,10 +1,10 @@
 export interface IMenu {
-  name?: string;
-  menu?: IMenuOptions[];
+    name?: string;
+    menu?: IMenuOptions[];
 }
 
 export interface IMenuOptions {
-  label?: string;
-  value?: number;
-  to?: string;
+    label?: string;
+    value?: number;
+    to?: string;
 }

@@ -1,9 +1,10 @@
-import { PagingProduct, ProductData, ProductSlice } from '@models/Product';
+import { PagingResponse } from '@models/Common';
+import { PagingProduct, ProductModel, ProductSlice } from '@models/Product';
 import { createSlice, Dispatch } from '@reduxjs/toolkit';
-import { getProductById, getProducts } from '@services/ProductService';
+import { getProductById, getProducts, getProductsPublic } from '@services/index';
 
 const initialState: ProductSlice = {
-    products: new ProductData(),
+    products: new PagingResponse<ProductModel>(),
     product: null,
     isLoading: false,
     isLoadingDetails: false,
@@ -24,7 +25,7 @@ export const productSlice = createSlice({
             state.isLoading = false;
         },
         getAllFailure: (state) => {
-            state.products = new ProductData();
+            state.products = new PagingResponse<ProductModel>();
             state.isLoading = false;
         },
         getDetailsSuccess: (state, { payload }) => {
@@ -38,6 +39,9 @@ export const productSlice = createSlice({
         fetchedDone: (state) => {
             state.isLoading = false;
         },
+        fetchedDetailsDone: (state) => {
+            state.isLoadingDetails = false;
+        },
     },
 });
 
@@ -45,7 +49,7 @@ export const productSlice = createSlice({
 export const getAllProduct = (payload: PagingProduct) => async (dispatch: Dispatch) => {
     dispatch(isFetching());
     try {
-        const response = await getProducts(payload);
+        const response = await getProductsPublic(payload);
         if (response.data) {
             dispatch(getAllSuccess(response.data));
         }
@@ -55,17 +59,19 @@ export const getAllProduct = (payload: PagingProduct) => async (dispatch: Dispat
     }
 };
 
-export const getDetailsProduct = (id: string, isDetails: boolean = true) => async (dispatch: Dispatch) => {
-    dispatch(isFetchingDetails());
-    try {
-        const response = await getProductById(id, isDetails);
-        if (response.data) {
-            dispatch(getDetailsSuccess(response.data));
+export const getDetailsProduct =
+    (id: string, isDetails: boolean = true) =>
+    async (dispatch: Dispatch) => {
+        dispatch(isFetchingDetails());
+        try {
+            const response = await getProductById(id, isDetails);
+            if (response.data) {
+                dispatch(getDetailsSuccess(response.data));
+            }
+        } catch (error) {
+            dispatch(getDetailsFailure());
         }
-    } catch (error) {
-        dispatch(getDetailsFailure());
-    }
-};
+    };
 
 const { actions, reducer } = productSlice;
 

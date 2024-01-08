@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 import SortingToolbarVSearch from './SortingToolbar-vSearch';
 import { formatProductLabel } from 'utils';
 import PaginationData from '../PaginationData/PaginationData';
-import LoadingSection from '../Display/LoadingSection';
+import { LoadingSection } from '../Display/LoadingSection';
 
 interface ResultsDataProps {
     currentData: ProductLabel[];
@@ -30,15 +30,15 @@ const ResultsSection: FC<ResultsDataProps> = ({ currentData, keyword, totalPage 
 
     useSkipFirstRender(() => {
         dispatch(getAllProduct(searchProduct));
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchProduct]);
 
     useSkipFirstRender(() => {
-        const formatProducts = formatProductLabel(products);
+        const formatProducts = products.data.map((product) => formatProductLabel(product));
 
         setCurrentProducts(formatProducts);
-    }, [products])
+    }, [products]);
 
     const handleChange = (event: ChangeEvent<unknown>, page: number) => {
         setSearchProduct({
@@ -57,7 +57,7 @@ const ResultsSection: FC<ResultsDataProps> = ({ currentData, keyword, totalPage 
                     <Box sx={{ width: '100%' }}>
                         <SortingToolbarVSearch />
                     </Box>
-                    <PaginationData 
+                    <PaginationData
                         initialData={currentProducts}
                         pagingData={{ page: searchProduct.page, totalPage }}
                         handleChange={handleChange}

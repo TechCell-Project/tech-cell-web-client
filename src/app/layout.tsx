@@ -1,35 +1,54 @@
 import { Metadata } from 'next';
-import { Montserrat } from 'next/font/google';
 import { HeaderClient, FooterClient } from 'components/Navigation';
+import { ReduxProvider, SocketProvider, ThemeProviderMui } from '@components/Provider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'styles/base/index.scss';
-import { ThemeProviderMui } from 'components/Provider';
-import styles from '../styles/components/button.module.scss';
-import { ReduxProvider } from '@components/Provider/ReduxProvider';
-import Provider from '@components/Provider/ProviderAuth';
-
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700'] });
+import { auth } from '@libs/next-auth';
+import { SessionProvider as NextAuthSessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const session = await auth();
+
     return (
-        <html lang="en">
-            <head>
-                <link rel="icon" href="/favicon.ico" />
-            </head>
-            <body className={`${montserrat.className} ${styles.body}`}>
-                <Provider>
+        <NextAuthSessionProvider session={session}>
+            <html lang='en'>
+                <head>
+                    <link rel='icon' href='/public/favicon.ico' />
+                    <link rel='preconnect' href='https://fonts.googleapis.com' />
+                    <link
+                        rel='preconnect'
+                        href='https://fonts.gstatic.com'
+                        crossOrigin='anonymous'
+                    />
+                    <link
+                        href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap'
+                        rel='stylesheet'
+                    />
+                </head>
+                <body>
+                    <ToastContainer
+                        theme='colored'
+                        autoClose={3000}
+                        newestOnTop
+                        closeOnClick
+                        position='top-right'
+                    />
                     <ThemeProviderMui>
                         <ReduxProvider>
-                            <HeaderClient />
-                            {children}
-                            <FooterClient />
+                            <SocketProvider>
+                                <HeaderClient />
+                                {children}
+                                <FooterClient />
+                            </SocketProvider>
                         </ReduxProvider>
                     </ThemeProviderMui>
-                </Provider>
-            </body>
-        </html>
+                </body>
+            </html>
+        </NextAuthSessionProvider>
     );
 }

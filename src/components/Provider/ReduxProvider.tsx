@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
 import { persistor, store } from '@store/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import React from 'react';
-import {authSlice} from 'store/slices/authSlice'
 
-export function ReduxProvider({ children }: { children: React.ReactNode }) {
+export function ReduxProvider({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>

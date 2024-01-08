@@ -1,21 +1,37 @@
-export class Province {
-    province_id: string | undefined;
-    province_name: string | undefined;
-    provnce_type: string | undefined;
+import { Address } from './Account';
+
+export class LocationExtended {
+    name_extension: Array<string> = [];
+    status: number | null = null;
 }
 
-export class Districs {
-    district_id: string | undefined;
-    district_name: string | undefined;
+export class Province<T = string> extends LocationExtended {
+    province_id: T | null = null;
+    province_name: T | null = null;
+    country_id: number | null = null;
 }
 
-export class Ward {
-    ward_id: string | undefined;
-    ward_name: string | undefined;
+export class District<T = string> extends LocationExtended {
+    province_id: T | null = null;
+    district_id: T | null = null;
+    district_name: T | null = null;
+    support_type: number | null = null;
+    can_update_cod: boolean = false;
 }
 
-export class Location{
-    province: string | undefined;
-    district: string | undefined;
-    ward: string | undefined;
+export class Ward<T = string> extends LocationExtended {
+    district_id: T | null = null;
+    ward_code: T | null = null;
+    ward_name: T | null = null;
+    support_type: number | null = null;
+    can_update_cod: boolean = false;
+}
+
+export class Location {
+    address: Address = new Address();
+    constructor(values?: Address) {
+        if (values) {
+            Object.assign(this, { address: values });
+        }
+    }
 }

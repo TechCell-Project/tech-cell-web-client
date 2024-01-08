@@ -3,12 +3,13 @@ import {
     AttributeModel,
     AttributeSlice,
     PagingAttribute,
-    AttributeData,
+    //AttributeData,
 } from '@models/Attribute';
 import { getAttributes, getByIdAttribute } from '@services/AttributeService';
+import { PagingResponse } from '@models/Common';
 
 const initialState: AttributeSlice = {
-    attributes: new AttributeData(),
+    attributes: new PagingResponse<AttributeModel>(),
     attribute: null,
     isLoading: false,
     isLoadingDetail: false,
@@ -29,7 +30,7 @@ export const attributeSlice = createSlice({
             state.isLoading = false;
         },
         getAllFailure: (state) => {
-            state.attributes = new AttributeData();
+            state.attributes = new PagingResponse<AttributeModel>();
             state.isLoading = false;
         },
         getDetailsSuccess: (state, { payload }: { payload: AttributeModel }) => {
@@ -82,4 +83,5 @@ export const {
     getDetailsSuccess,
     fetchedDone,
 } = actions;
+
 export default reducer;

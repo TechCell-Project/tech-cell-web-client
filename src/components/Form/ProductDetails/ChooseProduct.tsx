@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '../../../styles/components/productdetail.module.scss';
 import { VariationModel } from '@models/Product';
-import { getSingleAttribute, sortByCustomOrder } from 'utils';
+import { currencyFormat, getSingleAttribute, sortByCustomOrder } from 'utils';
 import { VariantInfo, VariantStorage } from '@interfaces/product';
 
 interface ProductVariationProps {
@@ -29,6 +29,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
             images: variant.images,
             price: variant.price,
             stock: variant.stock,
+            sku: variant.sku,
         };
     });
 
@@ -157,18 +158,20 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
     };
 
     useEffect(() => {
-        const color = selectedColor.filter(item => item.isSelected).shift()?.color;
+        const color = selectedColor.filter((item) => item.isSelected).shift()?.color;
         const currentVariant = getVariant(selectedStorage, color);
 
         if (currentVariant !== undefined) {
             handleSelectVariant({
+                variantThumbnail: currentVariant.images[0].url,
                 storage: currentVariant.storage,
                 color: currentVariant.color,
                 price: currentVariant.price,
                 isSelectedColor: color !== undefined,
+                sku: currentVariant.sku ?? 'not available',
             });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedStorage, selectedColor]);
 
     return (
@@ -187,7 +190,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                                 </button>
                             ) : (
                                 <button
-                                    type="button"
+                                    type='button'
                                     className={`${
                                         variant.storage === selectedStorage
                                             ? `${styles.activeInternal}`
@@ -197,7 +200,7 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                                 >
                                     <div className={styles.product_internal_text}>
                                         <p>{variant.storage}</p>
-                                        <p>{variant.price.sale}</p>
+                                        <p>{currencyFormat(variant.price.sale)}</p>
                                     </div>
                                 </button>
                             )}
@@ -210,12 +213,14 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                 <div className={styles.product_potions}>
                     {selectedColor.map((color) => {
                         const currentVariant = getVariant(selectedStorage, color.color);
-                        const variantImage = currentVariant?.images.filter(image => image.isThumbnail).shift();
+                        const variantImage = currentVariant?.images
+                            .filter((image) => image.isThumbnail)
+                            .shift();
 
                         return (
                             <div key={color.color}>
                                 <button
-                                    type="button"
+                                    type='button'
                                     className={color.isSelected ? styles.activecolor : ''}
                                     disabled={!color.selectable}
                                     onClick={() => handleSelectColor(color.color)}
@@ -226,14 +231,14 @@ const ChooseProduct: FC<ProductVariationProps> = ({ variations, handleSelectVari
                                                 src={variantImage.url}
                                                 width={30}
                                                 height={30}
-                                                alt=""
+                                                alt=''
                                             />
                                         )}
                                         <div className={styles.product_option_content_text}>
                                             <p>{color.color}</p>
                                             <p>
                                                 {currentVariant !== undefined
-                                                    ? currentVariant.price.sale
+                                                    ? currencyFormat(currentVariant.price.sale)
                                                     : ''}
                                             </p>
                                         </div>

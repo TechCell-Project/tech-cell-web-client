@@ -1,14 +1,59 @@
 // Common class
 .MuiButtonBase-root,
 .MuiInputBase-root {
-  font-family: $primaryFont;
-  letter-spacing: 0;
+    font-family: $primaryFont;
+    letter-spacing: 0;
 }
 
 .MuiInputBase-root {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .MuiChip-root {
-  font-weight: 600;
+    font-weight: 600;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded {
+    box-shadow: 0 8px 45px #03004717;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary {
+    box-shadow: 0 4px 40px #0000001a;
+    background-color: #fff;
+
+    .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular {
+        min-height: 68px;
+    }
+}
+
+.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary {
+    &:hover {
+        background-color: transparent;
+    }
+}
+
+.MuiToolbar-root {
+    .MuiButtonBase-root.MuiIconButton-root.MuiIconButton-edgeStart.MuiIconButton-sizeMedium {
+        width: 40px;
+        height: 40px;
+        background-color: $primaryLightColor;
+        color: $primaryColor;
+        margin-left: unset;
+        border-radius: 0.5rem;
+    }
+}
+
+.MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl {
+    font-size: 15px;
+    left: 2px;
+    font-weight: 600;
+    //color: rgba(0, 0, 0, 0.85);
+}
+
+//.MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.Mui-error {
+//  color: #d32f2f !important;
+//}
+
+.MuiButtonBase-root.MuiButton-root.MuiButton-text.Mui-disabled.MuiButton-root {
+    opacity: 0.6;
 }

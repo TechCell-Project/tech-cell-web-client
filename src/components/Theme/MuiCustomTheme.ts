@@ -13,6 +13,7 @@ declare module '@mui/material/styles' {
             lightBlack: string;
             gray: string;
             lightGray: string;
+            rice: string;
         };
         fontFamily: {
             primary: string;
@@ -31,6 +32,7 @@ declare module '@mui/material/styles' {
             lightBlack?: string;
             gray?: string;
             lightGray?: string;
+            rice?: string;
         };
         fontFamily?: {
             primary: string;
@@ -42,7 +44,10 @@ export const theme: Theme = createTheme({
     palette: {
         primary: {
             main: '#ee4949',
-        }
+        },
+        action: {
+            disabledBackground: 'rgba(238, 73, 73, 0.15)',
+        },
     },
     primary: {
         main: '#ee4949',
@@ -55,6 +60,7 @@ export const theme: Theme = createTheme({
         lightBlack: 'rgba(59, 59, 59, 0.15)',
         gray: '#777777',
         lightGray: '#d3d3d3',
+        rice: '#f4f6f8',
     },
     fontFamily: {
         primary: "'Montserrat', sans-serif",
@@ -63,6 +69,15 @@ export const theme: Theme = createTheme({
         fontFamily: ['Montserrat', 'sans-serif'].join(','),
     },
     spacing: 5,
+    // breakpoints: {
+    //     values: {
+    //         xs: 0,
+    //         sm: 600,
+    //         md: 900,
+    //         lg: 1320,
+    //         xl: 1536,
+    //     },
+    // },
     components: {
         MuiFormControl: {
             variants: [

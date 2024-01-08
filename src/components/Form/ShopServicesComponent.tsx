@@ -1,16 +1,20 @@
-import { Box } from '@mui/material';
-import { Grid } from '@mui/material';
-import { Paper } from '@mui/material';
-import { styled } from '@mui/material';
+'use client';
+
 import React from 'react';
-import { LocalShipping } from '@mui/icons-material';
-import { Discount } from '@mui/icons-material';
-import { HeadsetMic } from '@mui/icons-material';
-import { MonetizationOn } from '@mui/icons-material';
+
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import DiscountIcon from '@mui/icons-material/Discount';
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 const Service = styled(Paper)(() => ({
-    backgroundColor: 'lightGray',
-    border: '3px solid lightGray',
+    backgroundColor: 'rgba(238, 73, 73, 0.2)',
+    border: '3px solid rgba(238, 73, 73, 0.4)',
     height: '100px',
     alignItems: 'center',
     justifyContent: 'center',
@@ -24,7 +28,7 @@ const Service = styled(Paper)(() => ({
     },
     svg: {
         fontSize: 40,
-        color: 'gray',
+        color: 'rgba(238, 73, 73, 0.6)',
     },
     transition: '.5s',
     '&:hover': {
@@ -50,7 +54,7 @@ export const ShopServicesComponent = () => {
             >
                 <Grid item xs={12} lg={3} sm={6} md={4}>
                     <Service square elevation={0}>
-                        <LocalShipping />
+                        <LocalShippingIcon />
                         <div>
                             <h6>Free Shipping</h6>
                             <p>
@@ -63,7 +67,7 @@ export const ShopServicesComponent = () => {
                 </Grid>
                 <Grid item xs={12} lg={3} sm={6} md={4}>
                     <Service square elevation={0}>
-                        <Discount />
+                        <DiscountIcon />
                         <div>
                             <h6>
                                 Ưu đãi bất ngờ
@@ -76,7 +80,7 @@ export const ShopServicesComponent = () => {
                 </Grid>
                 <Grid item xs={12} lg={3} sm={6} md={4}>
                     <Service square elevation={0}>
-                        <HeadsetMic />
+                        <HeadsetMicIcon />
                         <div>
                             <h6>Support 24/7</h6>
                             <p>
@@ -89,7 +93,7 @@ export const ShopServicesComponent = () => {
                 </Grid>
                 <Grid item xs={12} lg={3} sm={6} md={4}>
                     <Service square elevation={0}>
-                        <MonetizationOn />
+                        <MonetizationOnIcon />
                         <div>
                             <h6>Mức giá ưu đãi</h6>
                             <p>
