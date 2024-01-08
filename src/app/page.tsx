@@ -21,6 +21,9 @@ export default function Home() {
     console.debug({
         carouselImages,
     });
+    console.log({
+        carouselImages,
+    });
 
     return (
         <>
