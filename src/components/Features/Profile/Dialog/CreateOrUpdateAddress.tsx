@@ -16,7 +16,8 @@ import {
 } from '@TechCell-Project/tech-cell-server-node-sdk/models';
 import {
     INIT_CURRENT_DISTRICT,
-    MANUAL_CHANGE_DISTRICT,
+    RESET_DISTRICT,
+    RESET_PROVINCE,
     useAddress,
     UseAddress,
 } from '@hooks/useAddress';
@@ -35,7 +36,7 @@ function resolveWardsOptions(
     currentDistrict: number,
     addressIndex: number | null,
 ): GhnWardDTO[] | [] {
-    if (currentDistrict === MANUAL_CHANGE_DISTRICT) {
+    if (currentDistrict === RESET_DISTRICT) {
         return [];
     } else if (currentDistrict === INIT_CURRENT_DISTRICT) {
         if (addressIndex === null) {
@@ -118,24 +119,23 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                                         displayLabel='province_name'
                                         displaySelected='province_id'
                                         handleChange={(value) => {
-                                            setCurrentProvince(
-                                                (value as GhnProvinceDTO).province_id,
-                                            );
-                                            setCurrentDistrict(MANUAL_CHANGE_DISTRICT);
                                             setValues((prev) => {
                                                 const newValue = { ...prev };
 
-                                                if (value && !Array.isArray(value)) {
-                                                    newValue.provinceLevel = {
-                                                        province_id: value.province_id,
-                                                        province_name: value.province_name,
-                                                    };
-                                                    newValue.districtLevel =
-                                                        null as unknown as GhnDistrictDTO;
-                                                    newValue.wardLevel =
-                                                        null as unknown as GhnWardDTO;
-                                                }
+                                                const oldValue = value as GhnProvinceDTO;
+                                                newValue.provinceLevel = {
+                                                    province_id: oldValue?.province_id,
+                                                    province_name: oldValue?.province_name,
+                                                };
+                                                newValue.districtLevel =
+                                                    null as unknown as GhnDistrictDTO;
+                                                newValue.wardLevel = null as unknown as GhnWardDTO;
 
+                                                setCurrentProvince(
+                                                    newValue.provinceLevel?.province_id ??
+                                                        RESET_PROVINCE,
+                                                );
+                                                setCurrentDistrict(RESET_DISTRICT);
                                                 return newValue;
                                             }).then();
                                         }}
@@ -148,30 +148,31 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                                         label='Quận / huyện'
                                         isNotCheckbox
                                         options={
-                                            addresses?.districts?.[
-                                                currentProvince ||
-                                                    user.address[addressIndex as number]
-                                                        ?.provinceLevel?.province_id
-                                            ] ?? []
+                                            currentProvince === RESET_PROVINCE
+                                                ? []
+                                                : addresses?.districts?.[
+                                                      currentProvince ||
+                                                          user.address[addressIndex as number]
+                                                              ?.provinceLevel?.province_id
+                                                  ] ?? []
                                         }
                                         displayLabel='district_name'
                                         displaySelected='district_id'
                                         handleChange={(value) => {
-                                            setCurrentDistrict(
-                                                (value as GhnDistrictDTO).district_id,
-                                            );
                                             setValues((prev) => {
                                                 const newValue = { ...prev };
 
-                                                if (value && !Array.isArray(value)) {
-                                                    newValue.districtLevel = {
-                                                        district_id: value.district_id,
-                                                        district_name: value.district_name,
-                                                    };
-                                                    newValue.wardLevel =
-                                                        null as unknown as GhnWardDTO;
-                                                }
+                                                const oldValue = value as GhnDistrictDTO;
+                                                newValue.districtLevel = {
+                                                    district_id: oldValue?.district_id,
+                                                    district_name: oldValue?.district_name,
+                                                };
+                                                newValue.wardLevel = null as unknown as GhnWardDTO;
 
+                                                setCurrentDistrict(
+                                                    newValue.districtLevel?.district_id ??
+                                                        RESET_DISTRICT,
+                                                );
                                                 return newValue;
                                             }).then();
                                         }}

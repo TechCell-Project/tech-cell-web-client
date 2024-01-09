@@ -17,7 +17,8 @@ export type UseAddress = AddressState & {
 };
 
 export const INIT_CURRENT_DISTRICT = 0;
-export const MANUAL_CHANGE_DISTRICT = -1;
+export const RESET_PROVINCE = -1;
+export const RESET_DISTRICT = -1;
 
 export function useAddress(): UseAddress {
     const dispatch = useAppDispatch();
