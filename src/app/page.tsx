@@ -6,7 +6,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { HOME_SLOGAN, BENEFIT_SECTION, IMAGE_CAROUSEL } from '@constants/contents';
+import { HOME_SLOGAN, BENEFIT_SECTION } from '@constants/contents/common.constant';
+import { IMAGE_CAROUSEL } from '@/constants/contents/carousel.constant';
 
 export default function Home() {
     return (
@@ -31,21 +32,21 @@ export default function Home() {
             <Box sx={{ bgcolor: '#fafafa', p: '40px 0' }}>
                 <Container sx={{ maxWidth: '1320px !important' }}>
                     <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                        {BENEFIT_SECTION.map(({ Icon, title, desc }) => (
-                            <Grid item xs={6} md={3} key={title}>
+                        {BENEFIT_SECTION.map((benefit) => (
+                            <Grid item xs={6} md={3} key={benefit.title}>
                                 <Stack
                                     direction='row'
                                     gap={3}
                                     alignItems='center'
                                     justifyContent={{ md: 'center', xs: 'flex-start' }}
                                 >
-                                    <Icon sx={{ height: '32px', width: 'auto' }} />
+                                    <benefit.Icon sx={{ height: '32px', width: 'auto' }} />
                                     <Stack direction='column'>
                                         <Typography fontSize='16px' fontWeight={600} mb='4px'>
-                                            {title}
+                                            {benefit.title}
                                         </Typography>
                                         <Typography fontSize='13px' sx={{ opacity: 0.9 }}>
-                                            {desc}
+                                            {benefit.desc}
                                         </Typography>
                                     </Stack>
                                 </Stack>
