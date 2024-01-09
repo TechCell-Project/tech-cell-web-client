@@ -47,7 +47,7 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
                         </div>
                         <div className={styles.productPrice}>
                             <div className={styles.productNewprice}>
-                                {currencyFormat(Number(initialData.price.sale))}
+                                {currencyFormat(Number(initialData.price.special))}
                                 <sup>đ</sup>
                             </div>
                             <div className={styles.productOldprice}>
