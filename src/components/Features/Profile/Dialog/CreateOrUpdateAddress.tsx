@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { CommonBtn } from '@components/Common';
 import { AutocompleteCustom, TextFieldCustom } from '@components/Common/FormFormik';
 import { ShowDialog } from '@components/Common/Display';
-import * as Yup from 'yup';
 import { useProfile } from '@hooks/useProfile';
 import {
     AddressSchemaDTO,
@@ -21,6 +20,7 @@ import {
     useAddress,
     UseAddress,
 } from '@hooks/useAddress';
+import { ProfileAddressSchema } from '@/validate/auth.validate';
 
 type Props = {
     data: AddressSchemaDTO;
@@ -28,19 +28,6 @@ type Props = {
     isOpen: boolean;
     handleClose: () => void;
 };
-
-const profileAddressValidate = Yup.object({
-    addressName: Yup.string().required('Vui lòng nhập địa chỉ!'),
-    customerName: Yup.string().required('Vui lòng nhập tên khách hàng!'),
-    phoneNumbers: Yup.string()
-        .min(10, 'Số điện thoại phải đủ 10 số!')
-        .max(10, 'Số điện thoại phải đủ 10 số!')
-        .required('Vui lòng nhập số điện thoại!'),
-    provinceLevel: Yup.object().required('Vui lòng chọn tỉnh / thành!'),
-    districtLevel: Yup.object().required('Vui lòng chọn quận / huyện!'),
-    wardLevel: Yup.object().required('Vui lòng chọn xã / phường!'),
-    detail: Yup.string().required('Vui lòng nhập địa chỉ cụ thể!'),
-});
 
 function resolveWardsOptions(
     user: UserMntResponseDTO,
@@ -115,7 +102,7 @@ const CreateOrUpdateAddress = ({ data, addressIndex, isOpen, handleClose }: Prop
                 <Formik
                     initialValues={data}
                     enableReinitialize
-                    validationSchema={profileAddressValidate}
+                    validationSchema={ProfileAddressSchema}
                     onSubmit={handleSubmit}
                 >
                     {({ setValues, isSubmitting }) => (
