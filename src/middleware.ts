@@ -1,5 +1,5 @@
 import { auth } from '@libs/next-auth';
-import { apiAuthPrefix, authRoutes, needAuthRoutes, publicRoutes } from './routes';
+import { apiAuthPrefix, authRoutes, needAuthRoutes, publicRoutes } from './routes/appRoutes';
 import { RootPath } from './constants/enum';
 import { NextAuthRequest } from 'next-auth/lib';
 import { cookies } from 'next/headers';
