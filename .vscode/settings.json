@@ -28,6 +28,8 @@
         "actions",
         "utils",
         "deps",
-        "components"
+        "components",
+        "type",
+        "typo/spell"
     ]
 }

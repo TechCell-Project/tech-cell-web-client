@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
-import { BrandCategoryCompoment } from '@components/Form';
+import { BrandCategoryComponent } from '@components/Form';
 import FeaturedSection from './FeaturedSection';
 import HotSalesSection from './HotSalesSection';
 
@@ -43,7 +43,7 @@ export const HomePage = () => {
                 ) : (
                     <FeaturedSection initialData={newestProducts} />
                 )}
-                <BrandCategoryCompoment />
+                <BrandCategoryComponent />
                 <Box sx={{ maxWidth: { lg: '100%', xs: '100%' } }}>
                     <Image
                         src='/background_img/2.webp'
