@@ -1,13 +1,9 @@
 import React, { memo, useState } from 'react';
 import { ShowDialog } from '@components/Common/Display';
 import { CommonBtn } from '@components/Common';
-import { ProfileAddressRequest } from '@models/Profile';
-import { patchProfileAddress } from '@services/ProfileService';
 import { toast } from 'react-toastify';
-import { HttpStatusCode } from 'axios';
-import { getCurrentUser } from '@store/slices/authSlice';
-import { useAppDispatch, useAppSelector } from '@store/store';
 import Stack from '@mui/system/Stack';
+import { useProfile } from '@hooks/useProfile';
 
 type Props = {
     isOpen: boolean;
@@ -16,30 +12,28 @@ type Props = {
 };
 
 const DeleteConfirmInfo = ({ isOpen, handleClose, addressIndex }: Props) => {
-    const { user } = useAppSelector((state) => state.auth);
-    const dispatch = useAppDispatch();
+    const { profile, updateProfileAddress } = useProfile();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleConfirm = () => {
-        const newValue = user?.address.filter((_, i) => i !== addressIndex);
+        const newValue = profile?.address.filter((_, i) => i !== addressIndex);
 
         if (newValue) {
-            const values = new ProfileAddressRequest(newValue);
             setIsLoading(true);
-            patchProfileAddress(values)
+            updateProfileAddress(newValue)
                 .then(() => {
                     toast.success('Xóa địa chỉ thành công!');
-                    dispatch(getCurrentUser()).then();
                 })
-                .catch((error) => {
-                    if (error.response && error.response.status !== HttpStatusCode.Unauthorized) {
-                        toast.error('Xóa địa chỉ thất bại!');
-                    }
+                .catch(() => {
+                    toast.error('Xóa địa chỉ thất bại!');
                 })
                 .finally(() => {
                     setIsLoading(false);
                     handleClose();
                 });
+        } else {
+            toast.error('Xóa địa chỉ thất bại!');
+            handleClose();
         }
     };
 
