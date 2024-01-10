@@ -1,12 +1,11 @@
 import NextAuth, { User, NextAuthConfig, Session, Account } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { AuthenticationApi, LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
+import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { axiosAuth } from '@libs/axios';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { AxiosError } from 'axios';
-
-const authApi = new AuthenticationApi();
+import { authApi } from '@services/AuthService';
 
 /**
  * @see https://authjs.dev/
@@ -28,7 +27,7 @@ export const nextAuthConfig: NextAuthConfig = {
                     password: (credentials?.password as string) ?? '',
                 };
 
-                return authApi
+                return authApi()
                     .login({ loginRequestDTO: payload })
                     .then((response) => {
                         return response.data as unknown as User;
@@ -48,7 +47,7 @@ export const nextAuthConfig: NextAuthConfig = {
         async signIn({ user, account }: { user: User; account: Account | null }) {
             if (account?.provider === 'google') {
                 try {
-                    const { data: userData } = await authApi.google({
+                    const { data: userData } = await authApi().google({
                         googleLoginRequestDTO: {
                             idToken: account.id_token ?? '',
                         },
@@ -91,7 +90,7 @@ export const nextAuthConfig: NextAuthConfig = {
                     }
 
                     try {
-                        const { data } = await authApi.getNewToken({
+                        const { data } = await authApi().getNewToken({
                             newTokenRequestDTO: {
                                 refreshToken: token.refreshToken,
                             },
