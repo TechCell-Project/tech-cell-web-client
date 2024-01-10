@@ -15,6 +15,7 @@
         "svgr",
         "tanstack",
         "toastify",
+        "trpc",
         "unauth",
         "usehooks",
         "webp"
