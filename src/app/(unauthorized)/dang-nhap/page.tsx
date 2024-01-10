@@ -101,7 +101,7 @@ export default function Login() {
                 })
                 .finally(() => setSubmitting(false));
         },
-        5000,
+        500,
     );
 
     const debouncedGoogleSignIn = debounce(async () => {
@@ -114,7 +114,7 @@ export default function Login() {
         console.log(googleCallbackUrl);
         console.log(res);
         setIsLoading(false);
-    }, 5000);
+    }, 500);
 
     const handleResendVerifyOtp = debounce(async (email: string) => {
         const res = await dispatch(resendVerifyEmail({ email }));
@@ -260,8 +260,10 @@ export default function Login() {
                         sx={{ marginTop: '5' }}
                         disabled={isLoading}
                     >
-                        <Google color='primary' />
-                        <span>Đăng nhập với Google</span>
+                        <Box className={styles.login_socials}>
+                            <Google color='primary' />
+                            <span>Đăng nhập với Google</span>
+                        </Box>
                     </Button>
                 </Box>
             </Container>
