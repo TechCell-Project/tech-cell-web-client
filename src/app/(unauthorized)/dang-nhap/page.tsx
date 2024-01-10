@@ -260,8 +260,10 @@ export default function Login() {
                         sx={{ marginTop: '5' }}
                         disabled={isLoading}
                     >
-                        <Google color='primary' />
-                        <span>Đăng nhập với Google</span>
+                        <Box className={styles.login_socials}>
+                            <Google color='primary' />
+                            <span>Đăng nhập với Google</span>
+                        </Box>
                     </Button>
                 </Box>
             </Container>
