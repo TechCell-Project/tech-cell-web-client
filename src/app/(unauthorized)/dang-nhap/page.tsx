@@ -101,7 +101,7 @@ export default function Login() {
                 })
                 .finally(() => setSubmitting(false));
         },
-        5000,
+        500,
     );
 
     const debouncedGoogleSignIn = debounce(async () => {
@@ -114,7 +114,7 @@ export default function Login() {
         console.log(googleCallbackUrl);
         console.log(res);
         setIsLoading(false);
-    }, 5000);
+    }, 500);
 
     const handleResendVerifyOtp = debounce(async (email: string) => {
         const res = await dispatch(resendVerifyEmail({ email }));
