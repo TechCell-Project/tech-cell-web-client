@@ -11,7 +11,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 import { StarRateComponent } from '../StarRate/StarRate';
 import { SliderImgProductDetail } from './SliderImg';
-import ChooseProduct from './ChooseProduct';
+
 import { EndowProduct } from './EndowProduct';
 import { BundleProduct } from './BundleProduct';
 import { SalientFeatures } from './SalientFeatures';
@@ -23,7 +23,6 @@ import { useAppDispatch, useAppSelector } from '@store/store';
 import { getDetailsProduct } from '@store/slices/productSlice';
 import { PriceModel, ProductModel, VariationModel } from '@models/Product';
 import { currencyFormat, getSingleAttribute } from 'utils';
-import { VariantInfo } from '@interfaces/product';
 import CustomizedDialogs from './SelectColorDialog';
 
 import { useTheme } from '@mui/material/styles';
@@ -94,7 +93,7 @@ export const ProductDetail = ({ id }: { id: string }) => {
                     if (prev !== null) {
                         return {
                             ...prev,
-                            sku: null,
+                            sku: '',
                         };
                     } else {
                         return {
@@ -162,10 +161,10 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                     {/* giá sản phẩm */}
                                     {variant !== null && (
                                         <>
-                                            {variant.price.sale !== 0 ? (
+                                            {variant.price.special !== 0 ? (
                                                 <>
                                                     <p className={styles.product_price}>
-                                                        {currencyFormat(variant.price.sale)}VND
+                                                        {currencyFormat(variant.price.special)}VND
                                                         <del className={styles.old_price}>
                                                             {currencyFormat(variant.price.base)}VND
                                                         </del>
@@ -183,7 +182,7 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                                                 />{' '}
                                                                 {100 -
                                                                     Math.round(
-                                                                        (variant.price.sale /
+                                                                        (variant.price.special /
                                                                             variant.price.base) *
                                                                             100,
                                                                     )}{' '}
@@ -215,7 +214,7 @@ export const ProductDetail = ({ id }: { id: string }) => {
                                 <CustomizedDialogs
                                     productCart={{
                                         productId: id,
-                                        sku: variant ? variant.sku : null,
+                                        sku: variant ? variant.sku : '',
                                         quantity: 1,
                                     }}
                                 />

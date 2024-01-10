@@ -9,9 +9,14 @@ import {
     RESEND_VERIFY_ENDPOINT,
 } from '@constants/Services';
 import { ILogin, IRegister } from '@interfaces/auth';
-import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from 'models';
 import { User } from 'next-auth';
 import { axiosAuth, axiosPublic } from '@libs/axios';
+import { AccountChangePass, ForgotPasswordModel, VerifyEmailModel } from '@/models/Auth';
+import { AuthenticationApi } from '@TechCell-Project/tech-cell-server-node-sdk/api';
+
+export function authApi() {
+    return new AuthenticationApi(undefined, undefined, axiosPublic);
+}
 
 export const fetchLogin = (data: ILogin) => axiosPublic.post(LOGIN_ENDPOINT, data);
 

@@ -22,6 +22,7 @@
         "baseUrl": "./src/",
         "paths": {
             "@public": ["../public"],
+            "@/*": ["./*"],
             "@public/*": ["../public/*"],
             "@action": ["actions"],
             "@action/*": ["actions/*"],
@@ -48,7 +49,8 @@
             "@config": ["config"],
             "@config/*": ["config/*"],
             "@utils": ["utils"],
-            "@utils/*": ["utils/*"]
+            "@utils/*": ["utils/*"],
+            "@routes/*": ["routes/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

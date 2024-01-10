@@ -17,7 +17,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
-import { toast } from 'react-toastify';
 
 import { Form, Formik, FormikHelpers } from 'formik';
 import { LoginSchema } from 'validate/auth.validate';
@@ -35,6 +34,8 @@ import { createInitialValues, resolveCallbackUrl } from '@utils/shared.util';
 import { signinAction } from 'actions/signin';
 import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
+import Button from '@mui/material/Button';
 
 export default function Login() {
     const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ export default function Login() {
     const [openForgotPassword, setOpenForgotPassword] = useState(false);
     const [openVerify, setOpenVerify] = useState<boolean>(false);
     const [targetTime, setTargetTime] = useState<Date | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const countdownTimer = useCountdown(targetTime);
 
@@ -58,11 +60,10 @@ export default function Login() {
     const googleCallbackUrl = url.toString();
 
     const debouncedSignIn = debounce(
-        async (payload: LoginRequestDTO, { setSubmitting }: FormikHelpers<LoginRequestDTO>) => {
-            return signinAction(payload)
+        (payload: LoginRequestDTO, { setSubmitting }: FormikHelpers<LoginRequestDTO>) => {
+            signinAction(payload)
                 .then((res) => {
                     console.log(res?.code);
-                    setSubmitting(false);
                     const statusCode = res?.code;
                     switch (statusCode) {
                         case 200:
@@ -97,10 +98,23 @@ export default function Login() {
                 .catch((err) => {
                     toast.error('Có lỗi xảy ra. Đăng nhập thất bại');
                     console.error(err);
-                });
+                })
+                .finally(() => setSubmitting(false));
         },
-        1500,
+        500,
     );
+
+    const debouncedGoogleSignIn = debounce(async () => {
+        setIsLoading(true);
+        const res = await signIn('google', { callbackUrl: backUrl });
+
+        if (res?.ok) {
+            toast.success('Đăng nhập thành công');
+        }
+        console.log(googleCallbackUrl);
+        console.log(res);
+        setIsLoading(false);
+    }, 500);
 
     const handleResendVerifyOtp = debounce(async (email: string) => {
         const res = await dispatch(resendVerifyEmail({ email }));
@@ -241,14 +255,16 @@ export default function Login() {
                         </Grid>
                     </Grid>
 
-                    <Box
-                        className={styles.login_socials}
-                        onClick={() => signIn('google', { callbackUrl: googleCallbackUrl })}
-                        mt={5}
+                    <Button
+                        onClick={() => debouncedGoogleSignIn()}
+                        sx={{ marginTop: '5' }}
+                        disabled={isLoading}
                     >
-                        <Google color='primary' />
-                        <span>Đăng nhập với Google</span>
-                    </Box>
+                        <Box className={styles.login_socials}>
+                            <Google color='primary' />
+                            <span>Đăng nhập với Google</span>
+                        </Box>
+                    </Button>
                 </Box>
             </Container>
 

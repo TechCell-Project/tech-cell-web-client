@@ -15,6 +15,7 @@ import { Paging } from '@models/Common';
 import { useAppDispatch } from '@store/store';
 import { getAllProduct } from '@store/slices/productSlice';
 import { Urlify } from 'utils';
+import { usePathnameChange } from '@/hooks/usePathnameChange';
 
 type ProductStatement = {
     products: ProductLabel[];
@@ -23,6 +24,7 @@ type ProductStatement = {
 
 const SearchBarBox = ({ isDisplay, minWidth }: { isDisplay?: boolean; minWidth?: string }) => {
     const router = useRouter();
+    const isPathnameChanged = usePathnameChange();
     const dispatch = useAppDispatch();
 
     const { recentSearches, setRecentSearches } = useRecentSearches();
@@ -79,11 +81,16 @@ const SearchBarBox = ({ isDisplay, minWidth }: { isDisplay?: boolean; minWidth?:
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchProduct]);
 
+    useEffect(() => {
+        setOpenRecents(false);
+        setOpenCurrents(false);
+    }, [isPathnameChanged])
+
     return (
         <Box
             sx={{
                 display: { xs: !isDisplay ? 'none' : 'flex', lg: 'flex' },
-                minWidth: minWidth ? minWidth : '260px',
+                minWidth: minWidth ?? '260px',
                 justifyContent: 'flex-end',
             }}
             ref={anchorEl}

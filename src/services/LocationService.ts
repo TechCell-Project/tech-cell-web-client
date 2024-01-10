@@ -1,4 +1,8 @@
-import { LOCATION_PROVINCES_ENDPOINT } from '@constants/Services';
+import {
+    GET_DISTRICTS_ENDPOINT,
+    GET_PROVINCES_ENDPOINT,
+    GET_WARDS_ENDPOINT,
+} from '@constants/Services';
 import { District, Province, Ward } from 'models/Location';
 import { axiosPublic } from '@libs/axios';
 import { AddressApi } from '@TechCell-Project/tech-cell-server-node-sdk';

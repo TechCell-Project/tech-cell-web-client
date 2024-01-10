@@ -1,7 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { Paging } from '@models/Common';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -15,8 +14,6 @@ import CartSaleBanners from './CartSaleBanners';
 import { scrollToTop, addOrRemoveFromArray } from 'utils';
 import CartFooterInformation from './CartFooter';
 import { LoadingSection } from '../Display';
-import PaginationBar from '../PaginationData/PaginationBar';
-import { CART_PAGING } from '@constants/CartPaging';
 import IconButton from '@mui/material/IconButton';
 import { useCart } from '@hooks/userCart';
 
@@ -29,7 +26,6 @@ type CartItemPrice = {
 function CartPage() {
     const { carts, status } = useCart();
 
-    const [pagingData, setPagingData] = useState<Paging>(CART_PAGING);
     const [checkedList, setCheckedList] = useState<string[]>([]);
     const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
     const [totalAmount, setTotalAmount] = useState<CartItemPrice[]>([]);
@@ -55,8 +51,8 @@ function CartPage() {
                 }
             });
             setCheckedTotal(total);
-        }
-    }, [checkedList, totalAmount]);
+        } else setCheckedTotal(0);
+    }, [checkedList]);
 
     const handleCalculateTotal = (id: string, sku: string, price: number) => {
         const currentAmount = totalAmount;
@@ -97,13 +93,6 @@ function CartPage() {
             setShowUncheckMsg(true);
             scrollToTop();
         } else setShowUncheckMsg(false);
-    };
-
-    const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
-        setPagingData({
-            ...pagingData,
-            page: page - 1,
-        });
     };
 
     const saveProductQuery = (e: MouseEvent<HTMLElement>) => {
@@ -150,7 +139,7 @@ function CartPage() {
                                 </Typography>
                             </Box>
 
-                            {carts?.cartCountProducts && carts.cartCountProducts <= 0 ? (
+                            {carts !== undefined && carts.cartCountProducts === 0 ? (
                                 <Typography
                                     variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
@@ -220,20 +209,6 @@ function CartPage() {
                                                 passThisItemPrice={handleCalculateTotal}
                                             />
                                         ))}
-                                        {carts && (
-                                            <Box>
-                                                <PaginationBar
-                                                    pagingData={{
-                                                        page: pagingData.page,
-                                                        totalPage: Math.ceil(
-                                                            carts.cartCountProducts /
-                                                                CART_PAGING.pageSize,
-                                                        ),
-                                                    }}
-                                                    handleChange={handleChangePage}
-                                                />
-                                            </Box>
-                                        )}
                                         <CartPromotions />
                                         <CartSaleBanners />
                                     </Box>
