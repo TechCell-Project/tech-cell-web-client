@@ -1,5 +1,10 @@
+import process from 'process';
+
 export const API_ENDPOINT = process.env.API_ENDPOINT;
 export const URL_HOST_SOCKET_IO = process.env.URL_HOST_SOCKET_IO;
+
+export const BASE_URL =
+    process.env.NODE_ENV === 'production' ? 'https://techcell.cloud' : 'http://localhost:3000';
 
 // Authentication
 export const LOGIN_ENDPOINT = '/auth/login';

@@ -15,6 +15,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { CATEGORY } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import { usePathnameChange } from '@hooks/usePathnameChange';
 
 interface Props {
     handleDrawerToggle: () => void;
@@ -99,6 +100,14 @@ const style = {
 };
 
 const ModelSearch = ({ open, handleClose }: { open: boolean; handleClose: () => void }) => {
+    const isPathnameChanged = usePathnameChange();
+
+    useEffect(() => {
+        if (isPathnameChanged) {
+            handleClose();
+        }
+    }, [handleClose, isPathnameChanged]);
+
     return (
         <Modal
             open={open}

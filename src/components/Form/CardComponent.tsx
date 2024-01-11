@@ -8,7 +8,7 @@ import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { PriceModel } from '@models/Product';
-import { currencyFormat } from 'utils';
+import { convertSlugUrl, currencyFormat } from 'utils';
 import { RootPath } from '@constants/enum';
 
 interface ProductDataProps {
@@ -26,7 +26,11 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
     return (
         <div className={styles.product}>
             <div className={styles.productInfoContainer}>
-                <Link href={RootPath.ProductDetails + '/' + initialData.id}>
+                <Link
+                    href={`${RootPath.ProductDetails}/${convertSlugUrl(initialData.name)}-${
+                        initialData.id
+                    }.html`}
+                >
                     <div className={styles.productInfo}>
                         <div className={styles.productImgContent}>
                             <div className={styles.productImgitem}>
@@ -42,9 +46,7 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
                                 />
                             </div>
                         </div>
-                        <div>
-                            <h3 className={styles.productNameproduct}>{initialData.name}</h3>
-                        </div>
+                        <h3 className={styles.productNameproduct}>{initialData.name}</h3>
                         <div className={styles.productPrice}>
                             <div className={styles.productNewprice}>
                                 {currencyFormat(Number(initialData.price.special))}

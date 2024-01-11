@@ -257,7 +257,7 @@ export default function Login() {
 
                     <Button
                         onClick={() => debouncedGoogleSignIn()}
-                        sx={{ marginTop: '5' }}
+                        sx={{ marginTop: 5 }}
                         disabled={isLoading}
                     >
                         <Box className={styles.login_socials}>
