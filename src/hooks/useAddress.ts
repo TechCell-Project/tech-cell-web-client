@@ -9,7 +9,7 @@ import {
 import { sleep } from '@utils/shared.util';
 
 export type UseAddress = AddressState & {
-    syncUserAddress: (user: UserMntResponseDTO) => Promise<void>;
+    preLoadAddressDataFromUser: (user: UserMntResponseDTO) => Promise<void>;
     currentProvince: GhnProvinceDTO['province_id'];
     setCurrentProvince: React.Dispatch<React.SetStateAction<GhnProvinceDTO['province_id']>>;
     currentDistrict: GhnDistrictDTO['district_id'];
@@ -46,7 +46,7 @@ export function useAddress(): UseAddress {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, currentDistrict]);
 
-    const syncUserAddress = useCallback(
+    const preLoadAddressDataFromUser = useCallback(
         async (user: UserMntResponseDTO) => {
             if (user.address && user.address.length > 0) {
                 const uniqueProvinces = new Set<number>();
@@ -78,7 +78,7 @@ export function useAddress(): UseAddress {
 
     return {
         ...addressState,
-        syncUserAddress,
+        preLoadAddressDataFromUser,
         currentProvince,
         setCurrentProvince,
         currentDistrict,
