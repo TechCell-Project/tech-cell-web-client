@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-
+import { useRouter, useSearchParams } from 'next/navigation';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
@@ -29,7 +28,7 @@ import styles from '@styles/components/button.module.scss';
 import { useCountdown } from '@hooks/useCountdownTimer';
 import { useAppDispatch } from '@store/store';
 import { resendVerifyEmail } from '@store/slices/authSlice';
-import VerifyEmail from '@app/xac-thuc-tai-khoan/VerifyEmail';
+import VerifyEmail from '@components/Pages/Register/VerifyEmail';
 import { createInitialValues, resolveCallbackUrl } from '@utils/shared.util';
 import { signinAction } from 'actions/signin';
 import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';

@@ -32,7 +32,7 @@ type VerifyCondition = {
     isOpen: boolean;
 };
 
-export default function RegisterPage() {
+export function RegisterPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -212,3 +212,5 @@ export default function RegisterPage() {
         </Container>
     );
 }
+
+export default RegisterPage;
