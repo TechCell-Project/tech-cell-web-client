@@ -18,8 +18,7 @@ export default function LoginParallel() {
         if (session?.user && status === 'authenticated') {
             window.location.reload();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [session?.user]);
+    }, [session?.user, status]);
 
     return (
         <ShowDialog dialogTitle='Đăng nhập' isOpen={true} handleClose={handleClose}>
