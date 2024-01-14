@@ -1,6 +1,5 @@
 'use client';
 
-import React, { FC, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -59,7 +58,7 @@ interface VerifyEmailProps {
     handleResendOtp: (email: string) => void;
 }
 
-const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }) => {
+function VerifyEmailPage({ email, countdown, handleResendOtp }: Readonly<VerifyEmailProps>) {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -74,7 +73,7 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
 
             if (response?.success) {
                 setSubmitting(false);
-                router.refresh();
+                window.location.reload();
             }
             setSubmitting(false);
         },
@@ -192,6 +191,6 @@ const VerifyEmail: FC<VerifyEmailProps> = ({ email, countdown, handleResendOtp }
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
     );
-};
+}
 
-export default VerifyEmail;
+export default VerifyEmailPage;

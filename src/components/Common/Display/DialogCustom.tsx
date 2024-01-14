@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, memo } from 'react';
+import React, { memo } from 'react';
 import { useTheme } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -23,7 +23,7 @@ interface IDialog {
     children: React.ReactNode;
 }
 
-export const ShowDialog: FC<IDialog> = memo((props) => {
+function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
     const theme = useTheme();
 
     const handleCloseDialog = (_: React.SyntheticEvent<Element, Event>, reason: string) => {
@@ -74,4 +74,7 @@ export const ShowDialog: FC<IDialog> = memo((props) => {
             </DialogActions>
         </Dialog>
     );
-});
+}
+
+export const ShowDialog = memo(ShowDialogWithoutMemo);
+export default memo(ShowDialogWithoutMemo);
