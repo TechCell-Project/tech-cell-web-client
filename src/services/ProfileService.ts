@@ -1,5 +1,9 @@
 import { ProfileApi } from '@TechCell-Project/tech-cell-server-node-sdk';
-import { PROFILE_ENDPOINT, UPDATE_PROFILE_ADDRESS_ENDPOINT, UPDATE_PROFILE_INFO_ENDPOINT } from '@constants/Services';
+import {
+    PROFILE_ENDPOINT,
+    UPDATE_PROFILE_ADDRESS_ENDPOINT,
+    UPDATE_PROFILE_INFO_ENDPOINT,
+} from '@constants/Services';
 import { axiosAuth } from '@libs/axios';
 import { UserAccount } from '@models/Account';
 import { ProfileAddressRequest } from '@models/Profile';

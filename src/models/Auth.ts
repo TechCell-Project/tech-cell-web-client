@@ -15,9 +15,7 @@ export class RegisterModel {
     lastName?: string | null = null;
 }
 
-export class ProfileUpdateRequest implements UpdateUserRequestDTO {
-
-}
+export class ProfileUpdateRequest implements UpdateUserRequestDTO {}
 
 export class VerifyEmailModel {
     email?: string = '';
