@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import { AttributeDynamics } from '@models/Attribute';
 import { styled } from '@mui/material/styles';
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
     '&:nth-of-type(odd)': {
         backgroundColor: '#f3f4f7',
     },

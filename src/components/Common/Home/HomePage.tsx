@@ -2,10 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
-import { BrandCategoryComponent } from '@components/Form';
 import FeaturedSection from './FeaturedSection';
 import HotSalesSection from './HotSalesSection';
 import BannerSection from './BannerSection';
