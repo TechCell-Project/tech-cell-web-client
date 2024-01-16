@@ -19,7 +19,7 @@
         "@TechCell-Project/tech-cell-server-node-sdk": "TechCell-Project/tech-cell-server-node-sdk",
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
-        "@mui/icons-material": "5.14.19",
+        "@mui/icons-material": "5.15.2",
         "@mui/material": "5.14.19",
         "@mui/styles": "5.14.19",
         "@mui/system": "5.14.19",
