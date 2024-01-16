@@ -127,7 +127,7 @@ export default function Login() {
 
     return (
         <>
-            <Container component='main' maxWidth='sm'>
+            <Container component='main' maxWidth='sm' sx={{ pb: 8 }}>
                 <CssBaseline />
                 <Box
                     sx={{

@@ -283,6 +283,6 @@ export const convertSlugUrl = (str: string) => {
 };
 
 export const extractIdFromSlug = (slug: string) => {
-    const id = slug.split('.html')[0].split('-');
+    const id = slug.split('-');
     return id[id.length - 1];
 };

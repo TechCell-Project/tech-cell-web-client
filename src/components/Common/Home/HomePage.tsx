@@ -8,13 +8,13 @@ import Box from '@mui/material/Box';
 import { BrandCategoryComponent } from '@components/Form';
 import FeaturedSection from './FeaturedSection';
 import HotSalesSection from './HotSalesSection';
+import BannerSection from './BannerSection';
 
 import Image from 'next/image';
-
 import { Paging } from '@models/Common';
 import { useAppDispatch, useAppSelector } from '@store/store';
-import { getAllProduct } from '@store/slices/productSlice';
 
+import { getAllProduct } from '@store/slices/productSlice';
 import { formatProductLabel } from 'utils';
 import { ProductLabel } from '@interfaces/product';
 import { LoadingSection } from '../Display/LoadingSection';
@@ -37,25 +37,24 @@ export const HomePage = () => {
 
     return (
         <Container sx={{ maxWidth: '1320px !important' }}>
-            <Stack spacing={3}>
-                {isLoading ? (
-                    <LoadingSection isLoading={isLoading} />
-                ) : (
-                    <FeaturedSection initialData={newestProducts} />
-                )}
-                <BrandCategoryComponent />
-                <Box sx={{ maxWidth: { lg: '100%', xs: '100%' } }}>
-                    <Image
-                        src='/background_img/2.webp'
-                        width={0}
-                        height={0}
-                        sizes='100vw'
-                        style={{ width: '100%', height: 'auto', borderRadius: '5px' }}
-                        alt='img1'
-                    />
-                </Box>
-                <HotSalesSection />
-            </Stack>
+            <BannerSection />
+            {isLoading ? (
+                <LoadingSection isLoading={isLoading} />
+            ) : (
+                <FeaturedSection initialData={newestProducts} />
+            )}
+            {/*<BrandCategoryComponent />*/}
+            <Box sx={{ maxWidth: { lg: '100%', xs: '100%' }, mt: 8 }}>
+                <Image
+                    src='/background_img/2.webp'
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    style={{ width: '100%', height: 'auto', borderRadius: '5px' }}
+                    alt='img1'
+                />
+            </Box>
+            <HotSalesSection />
         </Container>
     );
 };

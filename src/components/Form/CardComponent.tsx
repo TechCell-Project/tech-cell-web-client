@@ -29,7 +29,7 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
                 <Link
                     href={`${RootPath.ProductDetails}/${convertSlugUrl(initialData.name)}-${
                         initialData.id
-                    }.html`}
+                    }`}
                 >
                     <div className={styles.productInfo}>
                         <div className={styles.productImgContent}>

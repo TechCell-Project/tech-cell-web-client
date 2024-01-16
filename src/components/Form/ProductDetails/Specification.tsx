@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-        backgroundColor: theme.color.lightGray,
+        backgroundColor: '#f3f4f7',
     },
     // hide last border
     '&:last-child td, &:last-child th': {
@@ -36,7 +36,9 @@ export const Specification: FC<TechnologyInformation> = ({ techInfo }) => {
                     return (
                         <StyledTableRow key={attribute.k}>
                             <TableCell>{name}</TableCell>
-                            <TableCell>{attribute.v}</TableCell>
+                            <TableCell>
+                                {attribute.v} {attribute?.u && `(${attribute.u.toLowerCase()})`}
+                            </TableCell>
                         </StyledTableRow>
                     );
                 })}

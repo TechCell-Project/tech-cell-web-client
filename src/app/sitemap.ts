@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             return {
                 url: `${BASE_URL}${RootPath.ProductDetails}/${convertSlugUrl(
                     product.name as string,
-                )}-${product._id}.html`,
+                )}-${product._id}`,
                 lastModified: new Date(),
                 changeFrequency: 'daily',
             };
