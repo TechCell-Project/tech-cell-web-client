@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -14,7 +14,6 @@ import CreateOrUpdateAddress from '@components/Features/Profile/Dialog/CreateOrU
 import { useProfile } from '@hooks/useProfile';
 import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk/models';
 import { createInitialValues } from '@utils/shared.util';
-import { useAddress } from '@hooks/useAddress';
 
 const ProfileAddress = () => {
     const { profile: user, updateProfileAddress } = useProfile();
@@ -23,14 +22,6 @@ const ProfileAddress = () => {
     const [openDelete, setOpenDelete] = useState<boolean>(false);
     const [currentAddress, setCurrentAddress] = useState<AddressSchemaDTO | null>(null);
     const [addressIndex, setAddressIndex] = useState<number | null>(null);
-
-    const { syncUserAddress } = useAddress();
-
-    useEffect(() => {
-        if (user) {
-            syncUserAddress(user);
-        }
-    }, [user, syncUserAddress]);
 
     const handleSetDefault = (index: number) => {
         setLoadingDefault(true);

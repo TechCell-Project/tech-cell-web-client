@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Metadata } from 'next';
 import { HeaderClient, FooterClient } from 'components/Navigation';
 import { ReduxProvider, SocketProvider, ThemeProviderMui } from '@components/Provider';
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
     description: 'Khám phá ngay với Techcell - Nơi Thăng Hoa Công Nghệ!',
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({
+    children,
+    modal,
+}: Readonly<{ children: ReactNode; modal: ReactNode }>) {
     const session = await auth();
 
     return (
@@ -46,6 +50,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                             <SocketProvider>
                                 <HeaderClient />
                                 {children}
+                                {modal}
                                 <FooterClient />
                             </SocketProvider>
                         </ReduxProvider>

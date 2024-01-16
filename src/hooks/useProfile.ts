@@ -10,6 +10,7 @@ import {
     AddressSchemaDTO,
     UpdateUserRequestDTO,
 } from '@TechCell-Project/tech-cell-server-node-sdk';
+import { useAddress } from '@hooks/useAddress';
 
 type UseProfile = ProfileState & {
     refreshProfile: () => void;
@@ -27,11 +28,19 @@ export function useProfile(): UseProfile {
     const dispatch = useAppDispatch();
     const profileState = useAppSelector((state) => state.profile);
 
+    const { preLoadAddressDataFromUser } = useAddress();
+
     useEffect(() => {
         if (profileState.status === 'idle') {
             dispatch(getProfile());
         }
     }, [dispatch, profileState.status]);
+
+    useEffect(() => {
+        if (profileState?.profile) {
+            preLoadAddressDataFromUser(profileState.profile);
+        }
+    }, [profileState.profile, preLoadAddressDataFromUser]);
 
     const refreshProfile = useCallback(() => {
         dispatch(getProfile());
