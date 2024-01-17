@@ -37,10 +37,10 @@ export function useProfile(): UseProfile {
     }, [dispatch, profileState.status]);
 
     useEffect(() => {
-        if (profileState?.profile) {
-            preLoadAddressDataFromUser(profileState.profile);
+        if (profileState?.profile?.address) {
+            preLoadAddressDataFromUser(profileState.profile?.address);
         }
-    }, [profileState.profile, preLoadAddressDataFromUser]);
+    }, [profileState.profile?.address, preLoadAddressDataFromUser]);
 
     const refreshProfile = useCallback(() => {
         dispatch(getProfile());
