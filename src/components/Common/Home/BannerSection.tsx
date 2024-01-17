@@ -12,13 +12,7 @@ const BannerSection = () => {
     return (
         <section className={styles.home_banner}>
             <div className={styles.home_banner_left}>
-                <Image
-                    src={AppleBg}
-                    alt='apple banner'
-                    fill={true}
-                    placeholder='blur'
-                    quality={100}
-                />
+                <Image src={AppleBg} alt='apple banner' fill={true} placeholder='blur' />
                 <div className={styles.home_banner_left_content}>
                     <span>Apple</span>
                     <h4>
@@ -31,13 +25,7 @@ const BannerSection = () => {
             </div>
             <div className={styles.home_banner_right}>
                 <div>
-                    <Image
-                        src={SamsungBg}
-                        alt='samsung banner'
-                        fill={true}
-                        placeholder='blur'
-                        quality={100}
-                    />
+                    <Image src={SamsungBg} alt='samsung banner' fill={true} placeholder='blur' />
                     <div className={styles.home_banner_right_content}>
                         <span>SAMSUNG</span>
                         <h4>
@@ -49,13 +37,7 @@ const BannerSection = () => {
                     </div>
                 </div>
                 <div>
-                    <Image
-                        src={ProductBg}
-                        alt='product banner'
-                        fill={true}
-                        placeholder='blur'
-                        quality={100}
-                    />
+                    <Image src={ProductBg} alt='product banner' fill={true} placeholder='blur' />
                     <div className={styles.home_banner_right_content}>
                         <span>Sản phẩm, Phụ kiện</span>
                         <h4>
