@@ -1,4 +1,16 @@
 @mixin responsive($breakpoint) {
+    @if $breakpoint ==min_xs {
+        @media (min-width: $xs) {
+            @content;
+        }
+    }
+
+    @if $breakpoint ==max_xs {
+        @media (max-width: $xs) {
+            @content;
+        }
+    }
+
     @if $breakpoint ==min_sm {
         @media (min-width: $sm) {
             @content;

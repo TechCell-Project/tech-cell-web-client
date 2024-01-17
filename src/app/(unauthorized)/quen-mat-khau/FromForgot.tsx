@@ -1,5 +1,7 @@
+'use client';
+
 /* eslint-disable react/display-name */
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -13,10 +15,14 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { ForgotPasswordModel } from 'models';
+import { TextFieldCustom } from '@/components/Common/FormFormik';
+import { isEmail } from '@/utils';
+import Box from '@mui/system/Box';
 
 export const ForgotForm = memo(({ sendCode }: { sendCode: (email: string) => void }) => {
     const [showNewPass, setShowNewPass] = useState<boolean>(false);
     const [showRePass, setShowRePass] = useState<boolean>(false);
+    const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
 
     const { touched, values, handleChange, errors } = useFormikContext<ForgotPasswordModel>();
 
@@ -25,29 +31,35 @@ export const ForgotForm = memo(({ sendCode }: { sendCode: (email: string) => voi
             sendCode(values.email);
         }
     };
+
+    useEffect(() => {
+        if (values.email) {
+            setIsValidEmail(isEmail(values.email));
+        }
+    }, [values.email]);
+
     return (
         <>
-            <Stack direction='row' gap={2} alignItems='baseline'>
-                <TextField
-                    id='email'
-                    name='email'
-                    label='Email'
-                    error={touched.email && Boolean(errors.email)}
-                    helperText={touched.email && errors.email}
-                    onChange={handleChange}
-                    variant='outlined'
-                    fullWidth
-                    size='small'
-                />
+            <Stack
+                direction='row'
+                sx={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}
+            >
+                <Box sx={{ width: { sm: '70%', xs: '65%' } }}>
+                    <TextFieldCustom name='email' label='Email' placeholder='Email' />
+                </Box>
 
-                <Button
-                    variant='text'
-                    onClick={handleClick}
-                    disabled={!values.email}
-                    style={{ fontSize: '12px', width: 120 }}
-                >
-                    Gửi OTP
-                </Button>
+                <Box>
+                    <Button
+                        variant='outlined'
+                        onClick={handleClick}
+                        disabled={!isValidEmail}
+                        sx={{
+                            fontSize: { sm: '14px', xs: '12px' },
+                        }}
+                    >
+                        Gửi OTP
+                    </Button>
+                </Box>
                 {/* <ButtonCustom
                     content="Gửi OTP"
                     variant="text"

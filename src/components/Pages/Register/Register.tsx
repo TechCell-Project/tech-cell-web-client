@@ -27,6 +27,8 @@ import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import { debounce } from '@utils/funcs';
 
+import styles from '@styles/components/display.module.scss';
+
 type VerifyCondition = {
     isExpired: boolean;
     isOpen: boolean;
@@ -75,11 +77,15 @@ export function RegisterPage() {
     }, 2000);
 
     return (
-        <Container component='main' maxWidth='sm'>
+        <Container
+            className={styles.hide_ScrollBar}
+            component='main'
+            maxWidth='sm'
+            sx={{ padding: '30px 10px', overflow: 'hidden' }}
+        >
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: '30px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -108,7 +114,11 @@ export function RegisterPage() {
                 >
                     {({ values }) => (
                         <Form style={{ marginTop: '30px', width: '100%' }}>
-                            <Grid container columnSpacing={4} rowSpacing={5}>
+                            <Grid
+                                container
+                                columnSpacing={4}
+                                sx={{ rowGap: { sm: '15px', xs: '10px' } }}
+                            >
                                 <Grid item xs={6}>
                                     <TextFieldCustom name='firstName' label='Tên' />
                                 </Grid>
@@ -137,7 +147,16 @@ export function RegisterPage() {
                                 </Grid>
                             </Grid>
 
-                            <Stack width='100%' alignItems='center' mt={5}>
+                            <Stack
+                                sx={{
+                                    display: 'flex',
+                                    width: '100%',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginTop: '15px',
+                                    gap: '10px',
+                                }}
+                            >
                                 <CommonBtn
                                     type='submit'
                                     content='Đăng ký'
@@ -145,28 +164,23 @@ export function RegisterPage() {
                                     disabled={isLoading}
                                     styles={{ fontWeight: 600 }}
                                 />
+                                <Stack direction='row' spacing={2}>
+                                    <Typography fontSize='14px' fontWeight={500} textAlign='center'>
+                                        Đã có tài khoản?{' '}
+                                    </Typography>
+                                    <Typography
+                                        onClick={() => {
+                                            router.replace(`${RootPath.Login}?${searchParams}`);
+                                        }}
+                                        color='primary'
+                                        fontSize='14px'
+                                        fontWeight={500}
+                                        sx={{ textDecoration: 'underline', cursor: 'pointer' }}
+                                    >
+                                        Đăng nhập
+                                    </Typography>
+                                </Stack>
                             </Stack>
-                            <Typography>
-                                <Typography
-                                    fontSize='14px'
-                                    fontWeight={500}
-                                    textAlign='center'
-                                    mt={5}
-                                >
-                                    Bạn đã có tài khoản?{' '}
-                                </Typography>
-                                <Typography
-                                    onClick={() => {
-                                        router.replace(`${RootPath.Login}?${searchParams}`);
-                                    }}
-                                    color='primary'
-                                    fontSize='14px'
-                                    fontWeight={500}
-                                    sx={{ textDecoration: 'underline', cursor: 'pointer' }}
-                                >
-                                    Đăng nhập
-                                </Typography>
-                            </Typography>
 
                             {openVerify.isOpen && (
                                 <Dialog

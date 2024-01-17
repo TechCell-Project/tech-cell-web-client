@@ -34,6 +34,7 @@ import { signinAction } from 'actions/signin';
 import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
+import { ShowDialog } from '@/components/Common/Display';
 
 export function LoginPage() {
     const dispatch = useAppDispatch();
@@ -119,11 +120,10 @@ export function LoginPage() {
 
     return (
         <>
-            <Container component='main' maxWidth='sm'>
+            <Container component='main' maxWidth='sm' sx={{ padding: '30px 10px' }}>
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: '30px',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -139,7 +139,7 @@ export function LoginPage() {
                         Chào mừng bạn đến với Techcell !!
                     </Typography>
                     <Formik
-                        initialValues={createInitialValues<LoginRequestDTO>()}
+                        initialValues={{ emailOrUsername: '', password: '' }}
                         validationSchema={LoginSchema}
                         onSubmit={(values, formikHelpers) => {
                             debouncedSignIn(values, formikHelpers);
@@ -151,14 +151,8 @@ export function LoginPage() {
                                     name='emailOrUsername'
                                     label='Tài khoản hoặc email'
                                     styles={{ marginBottom: '25px' }}
-                                    notDelay
                                 />
-                                <TextFieldCustom
-                                    name='password'
-                                    type='password'
-                                    label='Mật khẩu'
-                                    notDelay
-                                />
+                                <TextFieldCustom name='password' type='password' label='Mật khẩu' />
                                 <Stack width='100%' alignItems='center' mt={5}>
                                     <CommonBtn
                                         type='submit'
@@ -168,11 +162,19 @@ export function LoginPage() {
                                         styles={{ fontWeight: 600 }}
                                     />
                                 </Stack>
-                                <Stack direction='row' justifyContent='space-between' mt={4}>
+                                <Stack
+                                    direction='row'
+                                    justifyContent='space-between'
+                                    mt={4}
+                                    sx={{
+                                        '& .MuiTypography-root': {
+                                            fontSize: { sm: '14px', xs: '13px' },
+                                            fontWeight: 500,
+                                        },
+                                    }}
+                                >
                                     <Typography>
-                                        <Typography fontSize='14px' fontWeight={500}>
-                                            Chưa có tài khoản?
-                                        </Typography>{' '}
+                                        <Typography>Chưa có tài khoản?</Typography>{' '}
                                         <Typography
                                             onClick={() => {
                                                 console.log(backUrl);
@@ -181,8 +183,6 @@ export function LoginPage() {
                                                 );
                                             }}
                                             color='primary'
-                                            fontSize='14px'
-                                            fontWeight={500}
                                             sx={{ textDecoration: 'underline', cursor: 'pointer' }}
                                         >
                                             Đăng ký
@@ -191,8 +191,6 @@ export function LoginPage() {
                                     <Typography
                                         onClick={() => setOpenForgotPassword(true)}
                                         color='primary'
-                                        fontSize='14px'
-                                        fontWeight={500}
                                         sx={{ textDecoration: 'underline', cursor: 'pointer' }}
                                     >
                                         Quên mật khẩu
@@ -233,28 +231,27 @@ export function LoginPage() {
                         )}
                     </Formik>
 
-                    <Grid container spacing={4} alignItems='center' mt={1}>
-                        <Grid item xs={4}>
+                    <Grid container spacing={4} alignItems='center' mt={1} sx={{ padding: 0 }}>
+                        <Grid item sm={4} xs={2} alignItems='flex-end' justifyItems='flex-end'>
                             <Divider />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item sm={4} xs={8} sx={{}}>
                             <Typography
                                 textAlign='center'
                                 fontWeight={600}
-                                fontSize='14px'
-                                sx={{ opacity: 0.6 }}
+                                sx={{ opacity: 0.6, fontSize: { sm: '14px', xs: '12px' } }}
                             >
                                 Hoặc đăng nhập bằng
                             </Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item sm={4} xs={2}>
                             <Divider />
                         </Grid>
                     </Grid>
 
                     <Button
                         onClick={() => debouncedGoogleSignIn()}
-                        sx={{ marginTop: '5' }}
+                        sx={{ marginTop: { sm: '20px', xs: '10px' }, padding: 0 }}
                         disabled={isLoading}
                     >
                         <Box className={styles.login_socials}>
@@ -266,10 +263,14 @@ export function LoginPage() {
             </Container>
 
             {openForgotPassword && (
-                <ForgotPassword
+                <ShowDialog
                     isOpen={openForgotPassword}
                     handleClose={() => setOpenForgotPassword(false)}
-                />
+                    dialogTitle='Quên mật khẩu'
+                    isSmall={true}
+                >
+                    <ForgotPassword handleClose={() => setOpenForgotPassword(false)} />
+                </ShowDialog>
             )}
         </>
     );
