@@ -8,10 +8,13 @@ import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import styles from '@styles/components/productdetail.module.scss';
 import { toast } from 'react-toastify';
 import { useCart } from '@hooks/userCart';
 import { AddCartRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk/models';
+import { CommonBtn } from '@components/Common';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -74,12 +77,20 @@ function CustomizedDialogs({ productCart }: Readonly<DialogButtonContent>) {
 
     return (
         <div className={styles.btn_cart}>
-            <Button onClick={addCartClickOpen} className={styles.add_cart}>
-                Thêm giỏ hàng
-            </Button>
-            <Button onClick={buyNowClickOpen} className={styles.buy_now}>
-                Mua ngay
-            </Button>
+            <CommonBtn
+                variant='outlined'
+                handleClick={addCartClickOpen}
+                content='Thêm giỏ hàng'
+                className={styles.add_cart}
+                endIcon={<AddShoppingCartOutlinedIcon />}
+            />
+            <CommonBtn
+                variant='contained'
+                handleClick={buyNowClickOpen}
+                content='Mua ngay'
+                className={styles.buy_now}
+                endIcon={<ShoppingBagOutlinedIcon />}
+            />
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby='customized-dialog-title'

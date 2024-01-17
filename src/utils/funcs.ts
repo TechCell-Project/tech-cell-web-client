@@ -12,6 +12,7 @@ import { getCurrentUserRole } from './local';
 import { PagingResponse } from '@models/Common';
 import { UserAccount } from '@models/Account';
 import { UserModel } from '@models/Profile';
+import slugify from 'slugify';
 
 // common functions
 export const getRole = (role?: string | null) => {
@@ -272,3 +273,16 @@ export function isEmail(email: string): boolean {
     const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
     return regex.test(email);
 }
+
+export const convertSlugUrl = (str: string) => {
+    return slugify(str, {
+        locale: 'vi',
+        trim: true,
+        lower: true,
+    });
+};
+
+export const extractIdFromSlug = (slug: string) => {
+    const id = slug.split('-');
+    return id[id.length - 1];
+};

@@ -5,7 +5,7 @@ import { RootPath } from '@constants/enum';
 // import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 // import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 
-export const DRAWER_WIDTH: number = 340;
+export const DRAWER_WIDTH: number = 280;
 
 // export const NAV_ITEMS = [
 //     { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },

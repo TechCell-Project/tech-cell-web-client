@@ -1,0 +1,186 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.home_banner {
+    height: 600px;
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-gap: 20px;
+
+    @include responsive(max_md) {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        height: unset;
+    }
+
+    &_left {
+        background-size: cover;
+        background-position: center left;
+        background-repeat: no-repeat;
+        position: relative;
+        cursor: pointer;
+        border-radius: 6px;
+
+        @include responsive(max_md) {
+            height: 350px;
+        }
+
+        &::before {
+            content: '';
+            display: block;
+            width: 100%;
+            background-color: #f4f4f4;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 30px;
+            right: 30px;
+            top: 30px;
+            bottom: 30px;
+            border: 0.35rem solid hsla(0, 0%, 100%, 0.3);
+            -webkit-transition: all 0.45s ease;
+            transition: all 0.45s ease;
+            pointer-events: none;
+            border-radius: 6px;
+        }
+
+        &:hover::after {
+            background-color: hsla(0, 0%, 100%, 0.2);
+        }
+
+        &_content {
+            position: absolute;
+            left: 4rem;
+            top: 50%;
+            transform: translateY(-30%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 70%;
+
+            @include responsive(max_md) {
+                transform: translateY(-50%);
+            }
+
+            span {
+                font-weight: 500;
+                font-size: 15px;
+                text-transform: uppercase;
+            }
+
+            h4 {
+                font-size: 26px;
+                font-weight: 600;
+            }
+
+            a {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                width: max-content;
+                font-weight: 500;
+                font-size: 14px;
+                padding: 0.8rem 0;
+                border-radius: 0;
+                border: none;
+                text-transform: uppercase;
+                position: relative;
+                border-bottom: 1px solid transparent;
+                transition: all ease 0.25s;
+
+                &:hover {
+                    color: $primaryColor;
+                    background-color: transparent;
+                    border-bottom: 1px solid $primaryColor;
+                }
+            }
+        }
+    }
+
+    &_right {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        & > div {
+            flex-grow: 1;
+            background-size: cover;
+            background-position: center left;
+            background-repeat: no-repeat;
+            position: relative;
+            cursor: pointer;
+            border-radius: 6px;
+
+            @include responsive(max_md) {
+                height: 350px;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                left: 30px;
+                right: 30px;
+                top: 30px;
+                bottom: 30px;
+                border: 0.35rem solid hsla(0, 0%, 100%, 0.3);
+                -webkit-transition: all 0.45s ease;
+                transition: all 0.45s ease;
+                pointer-events: none;
+                border-radius: 6px;
+                opacity: 0;
+            }
+
+            &:hover::after {
+                background-color: hsla(0, 0%, 100%, 0.2);
+                opacity: 1;
+            }
+
+            .home_banner_right_content {
+                position: absolute;
+                left: 4rem;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                width: 70%;
+
+                span {
+                    font-weight: 500;
+                    font-size: 15px;
+                    text-transform: uppercase;
+                }
+
+                h4 {
+                    font-size: 26px;
+                    font-weight: 600;
+                }
+
+                a {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    width: max-content;
+                    font-weight: 500;
+                    font-size: 14px;
+                    padding: 0.8rem 0;
+                    border-radius: 0;
+                    border: none;
+                    text-transform: uppercase;
+                    position: relative;
+                    border-bottom: 1px solid transparent;
+                    transition: all ease 0.25s;
+
+                    &:hover {
+                        color: $primaryColor;
+                        background-color: transparent;
+                        border-bottom: 1px solid $primaryColor;
+                    }
+                }
+            }
+        }
+    }
+}
