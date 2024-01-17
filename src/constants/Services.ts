@@ -1,5 +1,3 @@
-import process from 'process';
-
 export const API_ENDPOINT = process.env.API_ENDPOINT;
 export const URL_HOST_SOCKET_IO = process.env.URL_HOST_SOCKET_IO;
 
