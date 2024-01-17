@@ -1,24 +1,22 @@
-import React, { memo, useState, useEffect } from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { ForgotPasswordModel } from 'models';
 
 import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { fetchForgotPassword, fetchVerifyForgotPassword } from 'services/AuthService';
 import { forgotPasswordValidate } from 'validate/auth.validate';
 import { ForgotForm } from './FromForgot';
-import Dialog from '@mui/material/Dialog';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-interface Props {
-    isOpen: boolean;
+type ForgotPasswordProps = {
     handleClose: () => void;
-}
+};
 
-export const ForgotPassword = (props: Props) => {
+export function ForgotPassword(props: Readonly<ForgotPasswordProps>) {
     const [countdown, setCountdown] = useState<number>(5 * 60);
     const [isActive, setIsActive] = useState<boolean>(false);
 
@@ -68,7 +66,6 @@ export const ForgotPassword = (props: Props) => {
             .then(() => {
                 toast.success('Đổi mật khẩu thành công!');
                 resetForm();
-                props.handleClose();
             })
             .catch(() => toast.error('Đổi mật khẩu thất bại!'))
             .finally(() => {
@@ -77,63 +74,52 @@ export const ForgotPassword = (props: Props) => {
     };
 
     return (
-        <>
-            <ToastContainer />
-            <Dialog
-                open={props.isOpen}
-                onClose={props.handleClose}
-                aria-labelledby='alert-dialog-title'
-                aria-describedby='alert-dialog-description'
-                style={{ height: 'auto' }}
-            >
-                <DialogTitle style={{ textAlign: 'center', marginTop: 20 }}>
-                    {'Quên Mật Khẩu'}
-                </DialogTitle>
-                <Formik
-                    enableReinitialize
-                    initialValues={new ForgotPasswordModel()}
-                    validationSchema={forgotPasswordValidate}
-                    onSubmit={handleSubmit}
-                >
-                    {({ isSubmitting }) => (
-                        <Form style={{ width: '100%' }}>
-                            <Stack
-                                direction='column'
-                                gap={2}
-                                style={{ width: 500, padding: '0px 50px 50px 50px' }}
-                            >
-                                <ForgotForm sendCode={sendCode} />
+        <Formik
+            enableReinitialize
+            initialValues={new ForgotPasswordModel()}
+            validationSchema={forgotPasswordValidate}
+            onSubmit={handleSubmit}
+        >
+            {({ isSubmitting }) => (
+                <Form>
+                    <Stack
+                        direction='column'
+                        gap={2}
+                        sx={{
+                            padding: { sm: '20px 15px', xs: '10px 15px' },
+                            width: '100%',
+                        }}
+                    >
+                        <ForgotForm sendCode={sendCode} />
 
-                                {isActive && (
-                                    <Typography variant='body2' fontSize='14px' textAlign='center'>
-                                        Mã OTP còn hiệu lực trong vòng:{' '}
-                                        <b>{formatTime(countdown)}</b>
-                                    </Typography>
-                                )}
+                        {isActive && (
+                            <Typography variant='body2' fontSize='14px' textAlign='center'>
+                                Mã OTP còn hiệu lực trong vòng: <b>{formatTime(countdown)}</b>
+                            </Typography>
+                        )}
 
-                                <Stack
-                                    direction='row'
-                                    justifyContent='flex-end'
-                                    gap={1}
-                                    sx={{ mt: 1 }}
-                                >
-                                    <Button variant='outlined' onClick={props.handleClose}>
-                                        Hủy bỏ
-                                    </Button>
+                        <Stack
+                            direction='row'
+                            justifyContent='flex-end'
+                            gap={1}
+                            sx={{
+                                mt: 1,
+                                '& button': {
+                                    fontSize: { sm: '14px', xs: '12px' },
+                                },
+                            }}
+                        >
+                            <Button variant='outlined' onClick={props.handleClose}>
+                                Hủy
+                            </Button>
 
-                                    <Button
-                                        variant='contained'
-                                        type='submit'
-                                        disabled={isSubmitting}
-                                    >
-                                        Xác nhận
-                                    </Button>
-                                </Stack>
-                            </Stack>
-                        </Form>
-                    )}
-                </Formik>
-            </Dialog>
-        </>
+                            <Button variant='contained' type='submit' disabled={isSubmitting}>
+                                Xác nhận
+                            </Button>
+                        </Stack>
+                    </Stack>
+                </Form>
+            )}
+        </Formik>
     );
-};
+}

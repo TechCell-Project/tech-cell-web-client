@@ -90,7 +90,15 @@ const TextFieldComponent = (props: TextFieldProps) => {
             value={value}
             size='small'
             fullWidth
-            sx={styles}
+            sx={{
+                ...styles,
+                '& .MuiFormHelperText-root': {
+                    xs: {
+                        margin: 0,
+                        marginTop: '4px',
+                    },
+                },
+            }}
             label={label}
             onChange={onChange}
             placeholder={placeholder}
