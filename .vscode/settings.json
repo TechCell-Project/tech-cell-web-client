@@ -32,6 +32,7 @@
         "components",
         "type",
         "typo/spell",
-        "seo"
+        "seo",
+        "images"
     ]
 }
