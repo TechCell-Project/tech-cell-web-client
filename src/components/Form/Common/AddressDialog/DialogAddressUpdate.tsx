@@ -264,8 +264,9 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                     color: 'white',
                                     marginLeft: '10px',
                                     border: '1px solid #ee4949',
-                                    ':hover': {
-                                        backgroundColor: '#ee4949',
+                                    '&:hover': {
+                                        backgroundColor: '#ee4949 !important',
+                                        // color: '#ee4949 !important',
                                     },
                                 }}
                             >
