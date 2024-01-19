@@ -274,17 +274,23 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                         </button>
                     </li>
 
-                    <li>
-                        <ShoppingCartIcon />
-                        <button
-                            onClick={() => {
-                                push(RootPath.OrderHistory);
-                                setAnchorEl(null);
-                            }}
-                        >
-                            Đơn hàng
-                        </button>
-                    </li>
+                    <Box
+                        sx={{
+                            marginTop: '10px',
+                        }}
+                    >
+                        <li>
+                            <ShoppingCartIcon />
+                            <button
+                                onClick={() => {
+                                    push(RootPath.OrderHistory);
+                                    setAnchorEl(null);
+                                }}
+                            >
+                                Đơn hàng
+                            </button>
+                        </li>
+                    </Box>
                     <li>
                         <LogoutRoundedIcon />
                         <button onClick={() => signOut()}>Đăng xuất</button>

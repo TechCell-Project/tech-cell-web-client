@@ -1,0 +1,122 @@
+.content_purchase_history {
+    width: 1200px;
+    background-color: #f4f6f8;
+    margin: 40px auto;
+    height: auto;
+    padding: 40px 20px;
+    border-radius: 10px;
+
+    // Block user name
+    .block_user_name {
+        display: flex;
+        align-items: center;
+        .avatar_purchase_history {
+            border-radius: 50%;
+            padding: 10px;
+            background-color: #fff;
+            width: 70px;
+            height: 70px;
+        }
+        .text_purchase_history {
+            font-weight: 600;
+            font-size: 20px;
+            margin-left: 25px;
+            position: relative;
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: -4px;
+                width: 40px;
+                height: 1px;
+                background-color: #ee4949;
+            }
+        }
+    }
+
+    // Block homegae menu
+    .block_hompage_menu {
+        height: 100px;
+        background-color: white;
+        padding: 5px 0px;
+        margin: 15px 10px;
+        display: flex;
+        align-items: center;
+        .block_item_left {
+            width: 50%;
+            text-align: center;
+            position: relative;
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                right: 0;
+                width: 0.5px;
+                height: 40px;
+                background-color: black;
+            }
+            .item_left_number {
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+        }
+
+        .block_item_right {
+            text-align: center;
+            width: 50%;
+            .item_right_number {
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+        }
+    }
+    // Block Order
+    .block_order {
+        .order_button {
+            padding: 10px 0px 0px;
+            background-color: #f4f6f8;
+            margin: 0px 10px;
+            z-index: 10;
+            .list_button {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr;
+                gap: 15px;
+                margin: 0px 40px;
+                .item_button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    padding: 7px 15px;
+                    border: 1px solid #eaedef;
+                    border-radius: 5px;
+                    white-space: nowrap;
+                    background-color: #fff;
+                    cursor: pointer;
+                    transition: all 0.3s ease-in-out;
+                    &:hover {
+                        color: white;
+                        background-color: #ee4949;
+                    }
+                }
+            }
+        }
+
+        .list_order {
+            margin-top: 60px;
+            .no_order {
+                text-align: center;
+                .no_order_img {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .text_no_order {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}
