@@ -37,10 +37,10 @@ export function useProfile(): UseProfile {
     }, [dispatch, profileState.status]);
 
     useEffect(() => {
-        if (profileState?.profile) {
-            preLoadAddressDataFromUser(profileState.profile);
+        if (profileState?.profile?.address) {
+            preLoadAddressDataFromUser(profileState.profile?.address);
         }
-    }, [profileState.profile, preLoadAddressDataFromUser]);
+    }, [profileState.profile?.address, preLoadAddressDataFromUser]);
 
     const refreshProfile = useCallback(() => {
         dispatch(getProfile());
@@ -48,9 +48,34 @@ export function useProfile(): UseProfile {
 
     const updateProfileInfo = useCallback(
         async (dataChanges: UpdateUserRequestDTO) => {
+            const oldUserData = profileState?.profile;
+            const changes: Partial<UpdateUserRequestDTO> = {};
+
+            if (dataChanges?.avatarPublicId) {
+                if (dataChanges.avatarPublicId !== oldUserData?.avatar?.publicId) {
+                    changes.avatarPublicId = dataChanges.avatarPublicId;
+                }
+            }
+
+            if (oldUserData) {
+                for (const key in dataChanges) {
+                    if (key in dataChanges && key in oldUserData) {
+                        const typedKey = key as keyof Omit<UpdateUserRequestDTO, 'avatarPublicId'>;
+                        if (dataChanges[typedKey] !== oldUserData[typedKey]) {
+                            changes[typedKey] = dataChanges[typedKey];
+                        }
+                    }
+                }
+            }
+
+            if (Object.keys(changes).length === 0) {
+                // No changes, no need to call the API
+                return true;
+            }
+
             return profileApi
                 .updateUserInfo({
-                    updateUserRequestDTO: dataChanges,
+                    updateUserRequestDTO: changes,
                 })
                 .then(() => {
                     refreshProfile();
@@ -60,7 +85,7 @@ export function useProfile(): UseProfile {
                     return false;
                 });
         },
-        [refreshProfile],
+        [refreshProfile, profileState?.profile],
     );
 
     const updateProfileAddress = useCallback(
