@@ -11,6 +11,8 @@ import { ShippingData, VariantInCart } from '@interfaces/cart';
 import { currencyFormat, getSingleProductVariant } from 'utils';
 import Skeleton from '@mui/material/Skeleton';
 import { AddCartItemModel } from '@models/Cart';
+import Typography from '@mui/material/Typography';
+import OrderListItems from './OrderListItems';
 
 const SaleButton = styled(Button)(({ theme }) => ({
     border: `1px solid ${theme.color.red}`,
@@ -42,6 +44,23 @@ const PaymentInfoBox = styled(Box)(({ theme }) => ({
     },
 }));
 
+const OrderListTitle = styled(Box)(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: `1px solid ${theme.color.red}`,
+    borderRadius: '3px',
+    margin: '15px 0',
+    padding: '6px 0',
+    '& .MuiTypography-root': {
+        textTransform: 'capitalize',
+        fontWeight: 600,
+        fontSize: '14px',
+        color: theme.color.red,
+    },
+}));
+
 interface OrderProps {
     items: AddCartItemModel[];
     totalProductPrice: number;
@@ -49,7 +68,7 @@ interface OrderProps {
 }
 
 const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
-    const [openList, setOpenList] = useState<boolean>(false);
+    //const [openList, setOpenList] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [variants, setVariants] = useState<VariantInCart[]>([]);
 
@@ -78,28 +97,28 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
         return totalQuantity;
     };
 
-    const handleClickOpenDialog = () => {
-        setOpenList(true);
-    };
+    // const handleClickOpenDialog = () => {
+    //     setOpenList(true);
+    // };
 
-    const handleCloseDialog = () => {
-        setOpenList(false);
-    };
+    // const handleCloseDialog = () => {
+    //     setOpenList(false);
+    // };
     console.log(shipping);
 
     return (
         <Box sx={{ backgroundColor: 'white', borderRadius: '5px', padding: '5px 15px' }}>
-            <Button
-                sx={{ width: '100%', textTransform: 'capitalize', border: '1px solid #ee4949' }}
-                onClick={handleClickOpenDialog}
-            >
-                Kiểm tra danh sách sản phẩm
-            </Button>
-            <OrderListDialog
+            <OrderListTitle>
+                <Typography variant='subtitle1' fontSize='14px'>
+                    Danh sách sản phẩm
+                </Typography>
+            </OrderListTitle>
+            <OrderListItems list={variants} />
+            {/* <OrderListDialog
                 openList={openList}
                 handleCloseDialog={handleCloseDialog}
                 list={variants}
-            />
+            /> */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '15px 0' }}>
                 <TextField
                     id='standard-basic'

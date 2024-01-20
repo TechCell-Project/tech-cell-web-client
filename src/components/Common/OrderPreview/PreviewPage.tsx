@@ -148,7 +148,14 @@ const PreviewPage = () => {
                             />
                         </Box>
                     ) : (
-                        <>{userAddress && <ShippingInfo address={userAddress} />}</>
+                        <>
+                            {userAddress && (
+                                <ShippingInfo
+                                    address={userAddress}
+                                    email={user?.email ?? 'example@email.com'}
+                                />
+                            )}
+                        </>
                     )}
                     {currentOrder && (
                         <>

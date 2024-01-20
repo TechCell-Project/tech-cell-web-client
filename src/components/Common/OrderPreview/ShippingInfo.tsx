@@ -6,12 +6,14 @@ import { buildAddressString } from 'utils';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
-interface infoProps {
+type InfoProps = {
     address: Address;
-}
+    email: string;
+};
 
-const ShippingInfo: FC<infoProps> = ({ address }) => {
+const ShippingInfo: FC<InfoProps> = ({ address, email }) => {
     return (
         <Box>
             <Box sx={{ textAlign: 'center' }}>
@@ -33,12 +35,14 @@ const ShippingInfo: FC<infoProps> = ({ address }) => {
 
                     <div className={styles.address_item}>
                         <div className={styles.address_title}>Email</div>
-                        <div className={styles.address_value}>dangxuantien161202@gmail.com</div>
+                        <div className={styles.address_value}>{email}</div>
                     </div>
 
                     <div className={styles.address_item}>
                         <div className={styles.address_title}>Nhận hàng tại</div>
-                        <div className={styles.address_value}>{buildAddressString(address)}</div>
+                        <div className={styles.address_value}>
+                            {buildAddressString(address as unknown as AddressSchemaDTO)}
+                        </div>
                     </div>
 
                     <div className={styles.address_item}>

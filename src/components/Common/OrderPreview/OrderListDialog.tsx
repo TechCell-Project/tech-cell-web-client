@@ -85,7 +85,7 @@ const OrderListDialog: FC<DialogProps> = ({ openList, handleCloseDialog, list })
                                 </Typography>
                                 <div className={styles.payment_price}>
                                     <div className={styles.payment_price_new}>
-                                        {currencyFormat(item.data.price.sale * item.quantity)}
+                                        {currencyFormat(item.data.price.special * item.quantity)}
                                     </div>
                                     <div className={styles.payment_price_old}>
                                         {currencyFormat(item.data.price.base * item.quantity)}

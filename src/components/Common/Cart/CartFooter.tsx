@@ -162,6 +162,7 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                             handleClose={handleCloseListAddress}
                             dialogTitle='Địa chỉ của tôi'
                             dialogStyle={{ minWidth: 560 }}
+                            isSmall={false}
                         >
                             <AddressList
                                 handleCloseListItem={handleCloseListAddress}
@@ -217,9 +218,10 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                                         marginLeft: '10px',
                                         border: '1px solid #ee4949',
                                         ':hover': {
-                                            backgroundColor: '#ee4949',
+                                            color: '#ee4949',
                                         },
                                     }}
+                                    disabled={isLoadingDetails}
                                     onClick={saveInfoToLocalStorage}
                                 >
                                     {isLoadingDetails ? (
