@@ -3,10 +3,10 @@
 import React from 'react';
 import { LoadingPage } from '@components/Common/Display/LoadingPage';
 import CartPage from '@components/Common/Cart/CartPage';
-import { useCart } from '@hooks/userCart';
+import { useAppSelector } from '@/store/store';
 
 function Cart() {
-    const { status } = useCart();
+    const { status } = useAppSelector((state) => state.carts);
 
     if (status === 'loading') {
         return <LoadingPage isLoading />;
