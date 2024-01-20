@@ -13,6 +13,7 @@ import Skeleton from '@mui/material/Skeleton';
 import { AddCartItemModel } from '@models/Cart';
 import Typography from '@mui/material/Typography';
 import OrderListItems from './OrderListItems';
+import SkeletonCartItem from '../Display/SkeletonCartItem';
 
 const SaleButton = styled(Button)(({ theme }) => ({
     border: `1px solid ${theme.color.red}`,
@@ -44,7 +45,7 @@ const PaymentInfoBox = styled(Box)(({ theme }) => ({
     },
 }));
 
-const OrderListTitle = styled(Box)(({ theme }) => ({
+export const OrderListTitle = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -113,6 +114,8 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
                     Danh sách sản phẩm
                 </Typography>
             </OrderListTitle>
+            {isLoading &&
+                items.map((item) => <SkeletonCartItem key={item.productId! + item.sku!} />)}
             <OrderListItems list={variants} />
             {/* <OrderListDialog
                 openList={openList}

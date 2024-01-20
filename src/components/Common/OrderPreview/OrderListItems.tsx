@@ -31,7 +31,20 @@ const OrderListItems: FC<ListProps> = ({ list }) => {
                             justifyContent: 'space-between',
                         }}
                     >
-                        <Image src={item.data.images[0].url} width={80} height={80} alt='product' />
+                        <Box
+                            sx={{
+                                width: { sm: '80px', xs: '60px' },
+                                height: { sm: '60px', xs: '60px' },
+                            }}
+                        >
+                            <Image
+                                src={item.data.images[0].url}
+                                width={80}
+                                height={80}
+                                alt='product'
+                                style={{ width: '100%', height: '100%' }}
+                            />
+                        </Box>
 
                         <div className={styles.payment_card_info}>
                             <div className={styles.payment_name}>{item.name}</div>
