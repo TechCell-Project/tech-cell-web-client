@@ -16,7 +16,7 @@ const Item = ({ imageURL }: { imageURL: string }) => {
             <Image
                 src={imageURL}
                 alt='image slides'
-                width={0}
+                width={window.innerWidth}
                 height={0}
                 sizes='100vw'
                 style={{ width: '100%', height: 'auto' }}

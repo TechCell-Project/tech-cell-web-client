@@ -11,7 +11,7 @@ import { IMAGE_CAROUSEL } from '@/constants/contents/carousel.constant';
 
 export default function Home() {
     return (
-        <>
+        <Stack spacing={2}>
             <Typography
                 textAlign='center'
                 fontSize='13px'
@@ -29,7 +29,7 @@ export default function Home() {
 
             <HomePage />
 
-            <Box sx={{ bgcolor: '#fafafa', p: '40px 0' }}>
+            <Box sx={{ bgcolor: '#fafafa', p: '40px 0', marginTop: { sm: '20px', xs: '10px' } }}>
                 <Container sx={{ maxWidth: '1320px !important' }}>
                     <Grid container spacing={2} sx={{ alignItems: 'center' }}>
                         {BENEFIT_SECTION.map((benefit) => (
@@ -55,6 +55,6 @@ export default function Home() {
                     </Grid>
                 </Container>
             </Box>
-        </>
+        </Stack>
     );
 }
