@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import AppBar from '@mui/material/AppBar';
@@ -38,6 +38,8 @@ import { Notification } from '@components/Features';
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
 import { useProfile } from '@hooks/useProfile';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { getProfile } from '@/store/slices/profileSlice';
 
 interface Props {
     window?: () => Window;
@@ -206,7 +208,16 @@ export const HeaderClient = ({ window }: Props) => {
 };
 
 const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
-    const { profile } = useProfile();
+    const dispatch = useAppDispatch();
+
+    const { profile, status } = useAppSelector((state) => state.profile);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(getProfile());
+        }
+    }, [dispatch, status]);
+
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
