@@ -1,17 +1,17 @@
 'use client';
 import Image from 'next/image';
 import styles from '../../../styles/components/orderHistory.module.scss';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useProfile } from '@hooks/useProfile';
 import TableOrderList from '@/components/Common/OrderPreview/TableOrderList';
 // import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 
 const PurchaseHistory = () => {
-    const { profile: user, status } = useProfile();
-    const [isClicked, setIsClicked] = useState(false);
-    const handleClick = () => {
-        setIsClicked(!isClicked);
-    };
+    const { profile: user } = useProfile();
+    // const [isClicked, setIsClicked] = useState(false);
+    // const handleClick = () => {
+    //     setIsClicked(!isClicked);
+    // };
     return (
         <>
             <div className={styles.content_purchase_history}>
