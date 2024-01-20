@@ -8,6 +8,9 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
+import VnPayImg from '@public/img_payment/vnpay.webp';
+import CodPayImg from '@public/img_payment/COD.webp';
+
 interface DialogPaymentProps {
     open: boolean;
     handleClose: () => void;
@@ -76,19 +79,14 @@ const DialogPayment: React.FC<DialogPaymentProps> = ({ open, handleClose }) => {
                                 >
                                     <Box
                                         sx={{
-                                            width: '60px',
+                                            width: '70px',
                                             height: '50px',
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                         }}
                                     >
-                                        <Image
-                                            src={'/img_payment/COD.webp'}
-                                            width={50}
-                                            height={50}
-                                            alt=''
-                                        />
+                                        <Image src={CodPayImg} width={50} height={50} alt='COD' />
                                     </Box>
                                     <Box
                                         sx={{
@@ -123,7 +121,7 @@ const DialogPayment: React.FC<DialogPaymentProps> = ({ open, handleClose }) => {
                                 >
                                     <Box
                                         sx={{
-                                            width: '60px',
+                                            width: '70px',
                                             height: '50px',
                                             display: 'flex',
                                             justifyContent: 'center',
@@ -131,13 +129,12 @@ const DialogPayment: React.FC<DialogPaymentProps> = ({ open, handleClose }) => {
                                         }}
                                     >
                                         <Image
-                                            src={'/img_payment/vnpaydemo.webp'}
+                                            src={VnPayImg}
+                                            alt='VnPayImg'
                                             width={0}
-                                            height={0}
-                                            alt=''
+                                            height={25}
                                             style={{
                                                 width: '100%',
-                                                height: 'auto',
                                                 objectFit: 'fill',
                                             }}
                                         />

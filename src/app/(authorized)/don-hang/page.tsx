@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from '../../../styles/components/orderHistory.module.scss';
 import { useState } from 'react';
 import { useProfile } from '@hooks/useProfile';
+import TableOrderList from '@/components/Common/OrderPreview/TableOrderList';
 // import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 
 const PurchaseHistory = () => {
@@ -53,8 +54,12 @@ const PurchaseHistory = () => {
                     </div>
 
                     <div className={styles.list_order}>
+                        {/* Có sản phẩm */}
+                        <div className={styles.order}>
+                            <TableOrderList />
+                        </div>
                         {/* Không có sản phẩm */}
-                        <div className={styles.no_order}>
+                        {/* <div className={styles.no_order}>
                             <div className={styles.no_order_img}>
                                 <Image
                                     src={'/img_profile/Order-empty.webp'}
@@ -66,7 +71,7 @@ const PurchaseHistory = () => {
                             <div className={styles.text_no_order}>
                                 Không có đơn hàng nào thỏa mãn
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
