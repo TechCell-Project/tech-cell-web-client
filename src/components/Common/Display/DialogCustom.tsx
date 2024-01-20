@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import styles from '@styles/components/display.module.scss';
 
@@ -29,6 +30,8 @@ interface IDialog {
 function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
     const theme = useTheme();
 
+    const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+
     const handleCloseDialog = (_: React.SyntheticEvent<Element, Event>, reason: string) => {
         if (reason && reason === 'backdropClick') {
             return;
@@ -40,12 +43,13 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
         <Dialog
             open={props.isOpen}
             keepMounted
+            fullWidth={true}
+            maxWidth={'xs'}
             onClose={handleCloseDialog}
             aria-describedby='dialog-description'
             className={styles.hide_ScrollBar}
             sx={{
                 '& .MuiPaper-root.MuiDialog-paper': props.dialogStyle,
-                overflow: 'hidden',
                 padding: 0,
             }}
         >
@@ -85,7 +89,14 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
                     </DialogContentText>
                 </DialogContent>
             )}
-            <DialogActions sx={{ padding: '0 10px 16px 10px', gap: '10px', display: 'inline' }}>
+            <DialogActions
+                sx={{
+                    padding: '0 10px 15px 10px',
+                    gap: '10px',
+                    display: 'inline',
+                    margin: '0px !important',
+                }}
+            >
                 {props.children}
             </DialogActions>
         </Dialog>

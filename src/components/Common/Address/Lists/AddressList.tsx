@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState, Suspense, lazy } from 'react';
+
 import { LoadingPageMnt } from '@components/Common/Display/loading';
 import SkeletonLoading from '@components/Common/Display/loading/SkeletonLoading';
-import { Box } from '@mui/material';
+
+import Box from '@mui/material/Box';
+
 import { useProfile } from '@hooks/useProfile';
 import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
@@ -59,10 +62,6 @@ export function AddressList(props: Readonly<AddressListProps>) {
             setCheckedAddress(defaultAddressIndex);
         }
     }, [userProfile?.address]);
-
-    console.log(checkedAddress);
-    console.log(selectedAddressToUpdateIndex);
-    console.log(currentAddress);
 
     return (
         <>
