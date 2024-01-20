@@ -11,7 +11,7 @@ import { IMAGE_CAROUSEL } from '@/constants/contents/carousel.constant';
 
 export default function Home() {
     return (
-        <Stack spacing={2}>
+        <Stack>
             <Typography
                 textAlign='center'
                 fontSize='13px'
@@ -24,7 +24,6 @@ export default function Home() {
             >
                 {HOME_SLOGAN}
             </Typography>
-
             <CarouselComponent carouselImages={IMAGE_CAROUSEL} />
 
             <HomePage />
