@@ -34,6 +34,7 @@ import { CATEGORY } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Notification } from '@components/Features';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
@@ -283,6 +284,24 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                             Hồ sơ
                         </button>
                     </li>
+
+                    <Box
+                        sx={{
+                            marginTop: '10px',
+                        }}
+                    >
+                        <li>
+                            <ShoppingCartIcon />
+                            <button
+                                onClick={() => {
+                                    push(RootPath.OrderHistory);
+                                    setAnchorEl(null);
+                                }}
+                            >
+                                Đơn hàng
+                            </button>
+                        </li>
+                    </Box>
                     <li>
                         <LogoutRoundedIcon />
                         <button onClick={() => signOut()}>Đăng xuất</button>

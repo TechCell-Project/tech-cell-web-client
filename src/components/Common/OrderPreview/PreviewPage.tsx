@@ -14,6 +14,7 @@ import { Address } from '@models/Account';
 import Skeleton from '@mui/material/Skeleton';
 import ShippingInfo from './ShippingInfo';
 import OrderList from './OrderList';
+import PaymentMethodDialog from './PaymentDialog';
 import { OrderCreateRequest, OrderReviewResponse } from '@models/Order';
 import { createNewOrder } from '@store/slices/orderSlice';
 import { toast } from 'react-toastify';
@@ -157,6 +158,9 @@ const PreviewPage = () => {
                             )}
                         </>
                     )}
+
+                    <PaymentMethodDialog />
+
                     {currentOrder && (
                         <>
                             <OrderList
