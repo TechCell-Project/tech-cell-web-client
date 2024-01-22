@@ -3,8 +3,8 @@
 
 
 "@TechCell-Project/tech-cell-server-node-sdk@TechCell-Project/tech-cell-server-node-sdk":
-  version "0.0.1-726eb30"
-  resolved "https://codeload.github.com/TechCell-Project/tech-cell-server-node-sdk/tar.gz/179729e4061bba61c7070ea8cd21b2e1941a58dc"
+  version "0.0.1-acd1d1c"
+  resolved "https://codeload.github.com/TechCell-Project/tech-cell-server-node-sdk/tar.gz/61e18fbc12c66649fc21ffcdfa71c62777131342"
 
 "@aashutoshrathi/word-wrap@^1.2.3":
   version "1.2.6"

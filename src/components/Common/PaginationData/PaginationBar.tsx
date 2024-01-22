@@ -20,21 +20,23 @@ const PaginationBar: FC<PaginationProps> = ({ pagingData, handleChange }) => {
                 '& ul': {
                     justifyContent: 'center',
                 },
-                '& .MuiButtonBase-root': {
-                    backgroundColor: `#f3f4f6 !important`,
-                },
-                '& .Mui-selected': {
-                    backgroundColor: `${theme.color.red} !important`,
-                    color: 'white',
-                },
-                '& .MuiPaginationItem-previousNext': {
-                    backgroundColor: `${theme.color.red} !important`,
-                    color: 'white',
+                '& li': {
+                    '& .MuiButtonBase-root': {
+                        backgroundColor: `white`,
+                    },
+                    '& .Mui-selected': {
+                        backgroundColor: `${theme.color.red}`,
+                        color: 'white',
+                    },
+                    '& .MuiPaginationItem-previousNext': {
+                        backgroundColor: `${theme.color.red}`,
+                        color: 'white',
+                    },
                 },
             }}
             shape='rounded'
             onChange={handleChange}
-            page={pagingData.page + 1}
+            page={pagingData.page}
             count={pagingData.totalPage}
         />
     );
