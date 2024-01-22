@@ -7,6 +7,9 @@ import {
     OrderReviewRequest,
     OrderReviewResponse,
 } from '@models/Order';
+import { OrderApi } from '@TechCell-Project/tech-cell-server-node-sdk';
+
+export const orderApi = new OrderApi(undefined, undefined, axiosAuth);
 
 export const getUserOrders = () => axiosAuth.get<PagingResponse<OrderModel>>(ORDER_ENDPOINT);
 

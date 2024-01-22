@@ -2,6 +2,7 @@ import { ShippingData } from '@interfaces/cart';
 import { Address } from './Account';
 import { AddCartItemModel, CartItemModel } from './Cart';
 import { PagingResponse } from './Common';
+import { ListUserOrderResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
 export class OrderModel {
     _id: string | null = null;
@@ -49,7 +50,8 @@ export class OrderReviewResponse extends OrderReviewRequest {
 }
 
 export class OrderSlice {
-    orders: PagingResponse<OrderModel> = new PagingResponse<OrderModel>();
+    orders: PagingResponse<OrderModel> | ListUserOrderResponseDTO =
+        new PagingResponse<OrderModel>();
     order?: OrderModel | null = null;
     reviewedOrder: OrderReviewResponse | null = null;
     isLoading: boolean = false;
