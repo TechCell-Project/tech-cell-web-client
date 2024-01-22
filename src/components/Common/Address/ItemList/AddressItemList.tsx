@@ -113,10 +113,8 @@ const AddressItemList = (props: AddressItemListProps) => {
                             <Button
                                 variant='outlined'
                                 onClick={() => {
-                                    // handleCloseListItem(false);
                                     setLengthAddress(true);
-                                    // TODO: fix this any type
-                                    selectedAddressToUpdateIndex(addressIndex, address as any);
+                                    selectedAddressToUpdateIndex(addressIndex, address);
                                 }}
                             >
                                 Cập nhật
@@ -135,10 +133,8 @@ const AddressItemList = (props: AddressItemListProps) => {
             >
                 <Button
                     onClick={() => {
-                        // handleCloseListItem(false);
                         setLengthAddress(true);
-                        // TODO: fix this any type
-                        selectedAddressToUpdateIndex(addressIndex, address as any);
+                        selectedAddressToUpdateIndex(addressIndex, address);
                     }}
                 >
                     Cập nhật
