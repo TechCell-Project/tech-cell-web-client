@@ -70,7 +70,6 @@ interface OrderProps {
 }
 
 const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
-    //const [openList, setOpenList] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [variants, setVariants] = useState<VariantInCart[]>([]);
 
@@ -99,13 +98,6 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
         return totalQuantity;
     };
 
-    // const handleClickOpenDialog = () => {
-    //     setOpenList(true);
-    // };
-
-    // const handleCloseDialog = () => {
-    //     setOpenList(false);
-    // };
     console.log(shipping);
 
     return (
@@ -118,11 +110,6 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
             {isLoading &&
                 items.map((item) => <SkeletonCartItem key={item.productId! + item.sku!} />)}
             <OrderListItems list={variants} />
-            {/* <OrderListDialog
-                openList={openList}
-                handleCloseDialog={handleCloseDialog}
-                list={variants}
-            /> */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '15px 0' }}>
                 <TextField
                     id='standard-basic'

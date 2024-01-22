@@ -11,7 +11,7 @@ import {
     OrderSlice,
 } from '@models/Order';
 import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createOrder, getUserOrders, orderApi, reviewOrder } from '@services/OrderService';
+import { createOrder, orderApi, reviewOrder } from '@services/OrderService';
 import { HttpStatusCode } from 'axios';
 
 const initialState: OrderSlice = {

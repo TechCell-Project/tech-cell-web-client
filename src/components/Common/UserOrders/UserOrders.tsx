@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
