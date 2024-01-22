@@ -4,14 +4,15 @@ import React, { FC, useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import OrderListDialog from './OrderListDialog';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
-import { ShippingData, VariantInCart } from '@interfaces/cart';
-import { currencyFormat, getSingleProductVariant } from 'utils';
 import Skeleton from '@mui/material/Skeleton';
-import { AddCartItemModel } from '@models/Cart';
 import Typography from '@mui/material/Typography';
+
+import { ShippingData, VariantInCart } from '@interfaces/cart';
+import { AddCartItemModel } from '@models/Cart';
+import { currencyFormat, getSingleProductVariant } from 'utils';
+
 import OrderListItems from './OrderListItems';
 import SkeletonCartItem from '../Display/SkeletonCartItem';
 

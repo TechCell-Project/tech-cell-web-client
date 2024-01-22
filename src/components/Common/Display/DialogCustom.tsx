@@ -12,7 +12,6 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import styles from '@styles/components/display.module.scss';
 
@@ -29,8 +28,6 @@ interface IDialog {
 
 function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
     const theme = useTheme();
-
-    const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
     const handleCloseDialog = (_: React.SyntheticEvent<Element, Event>, reason: string) => {
         if (reason && reason === 'backdropClick') {

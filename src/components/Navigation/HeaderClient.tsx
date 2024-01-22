@@ -38,7 +38,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
-import { useProfile } from '@hooks/useProfile';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { getProfile } from '@/store/slices/profileSlice';
 

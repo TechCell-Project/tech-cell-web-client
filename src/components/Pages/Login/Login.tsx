@@ -29,7 +29,7 @@ import { useCountdown } from '@hooks/useCountdownTimer';
 import { useAppDispatch } from '@store/store';
 import { resendVerifyEmail } from '@store/slices/authSlice';
 import VerifyEmail from '@components/Pages/Register/VerifyEmail';
-import { createInitialValues, resolveCallbackUrl } from '@utils/shared.util';
+import { resolveCallbackUrl } from '@utils/shared.util';
 import { signinAction } from 'actions/signin';
 import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { toast } from 'react-toastify';

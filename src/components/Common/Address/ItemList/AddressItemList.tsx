@@ -3,7 +3,6 @@
 import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import Radio from '@mui/material/Radio';
 import Stack from '@mui/material/Stack';
 import { useState, useEffect } from 'react';

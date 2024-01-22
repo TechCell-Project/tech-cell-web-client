@@ -19,7 +19,11 @@ import { TextFieldCustom } from '@/components/Common/FormFormik';
 import { isEmail } from '@/utils';
 import Box from '@mui/system/Box';
 
-export const ForgotForm = memo(({ sendCode }: { sendCode: (email: string) => void }) => {
+type ForgotPasswordProps = {
+    sendCode: (email: string) => void;
+};
+
+export const ForgotForm = memo(({ sendCode }: ForgotPasswordProps) => {
     const [showNewPass, setShowNewPass] = useState<boolean>(false);
     const [showRePass, setShowRePass] = useState<boolean>(false);
     const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
