@@ -3,17 +3,20 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '@styles/components/cart.module.scss';
-import { AddCartItemModel } from '@models/Cart';
-import { currencyFormat } from 'utils';
-import IconButton from '@mui/material/IconButton';
-import Checkbox from '@mui/material/Checkbox';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { toast } from 'react-toastify';
 import {
     ProductDTO,
     ProductCartSchemaDTO,
     ProductVariationDTO,
 } from '@TechCell-Project/tech-cell-server-node-sdk';
+
+import { AddCartItemModel } from '@models/Cart';
+import { currencyFormat, upperCase } from 'utils/funcs';
+import IconButton from '@mui/material/IconButton';
+import Checkbox from '@mui/material/Checkbox';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Typography from '@mui/material/Typography';
+
 import { useCart } from '@hooks/userCart';
 
 type productDataProps = {
@@ -126,6 +129,15 @@ export const ItemCard = (props: productDataProps) => {
                     <div className={styles.product_info}>
                         <div className={styles.product_text}>
                             <div className={styles.product_heading}>{currentProduct.name}</div>
+                            <Typography variant='h6' sx={{ fontSize: '14px' }}>
+                                {currentVariant.attributes.map((attr, index) => {
+                                    let str = '';
+                                    const unit = attr.u ?? '';
+                                    const separate = index !== 0 ? ' - ' : ('' as string);
+                                    str += separate + upperCase(attr.v) + unit;
+                                    return str;
+                                })}
+                            </Typography>
                             <div className={styles.product_price}>
                                 <div className={styles.product_price_new}>
                                     {currencyFormat(

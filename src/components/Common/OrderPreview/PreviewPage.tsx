@@ -44,17 +44,17 @@ const CheckoutButton = styled(Box)(({ theme }) => ({
 const PreviewPage = () => {
     const router = useRouter();
 
-    useEffect(() => {
-        const timer = setTimeout(
-            () => {
-                router.push('/gio-hang');
-            },
-            2 * 60 * 1000,
-        );
+    // useEffect(() => {
+    //     const timer = setTimeout(
+    //         () => {
+    //             router.push('/gio-hang');
+    //         },
+    //         2 * 60 * 1000,
+    //     );
 
-        return () => clearTimeout(timer);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    //     return () => clearTimeout(timer);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     const dispatch = useAppDispatch();
 
@@ -149,29 +149,35 @@ const PreviewPage = () => {
                             />
                         </Box>
                     ) : (
-                        <>{userAddress && <ShippingInfo address={userAddress} />}</>
+                        <>
+                            {userAddress && (
+                                <ShippingInfo
+                                    address={userAddress}
+                                    email={user?.email ?? 'example@email.com'}
+                                />
+                            )}
+                        </>
+                    )}
+
+                    {currentOrder && (
+                        <OrderList
+                            items={currentOrder.productSelected}
+                            totalProductPrice={currentOrder.totalProductPrice!}
+                            shipping={currentOrder.shipping}
+                        />
                     )}
 
                     <PaymentMethodDialog />
 
-                    {currentOrder && (
-                        <>
-                            <OrderList
-                                items={currentOrder.productSelected}
-                                totalProductPrice={currentOrder.totalProductPrice!}
-                                shipping={currentOrder.shipping}
-                            />
-                            <CheckoutButton>
-                                <CommonBtn
-                                    content='Đặt Hàng'
-                                    loading={isLoadingDetails}
-                                    disabled={isLoadingDetails}
-                                    styles={{ width: '100%' }}
-                                    handleClick={handleClickCheckout}
-                                />
-                            </CheckoutButton>
-                        </>
-                    )}
+                    <CheckoutButton>
+                        <CommonBtn
+                            content='Đặt Hàng'
+                            loading={isLoadingDetails}
+                            disabled={isLoadingDetails}
+                            styles={{ width: '100%' }}
+                            handleClick={handleClickCheckout}
+                        />
+                    </CheckoutButton>
                 </Box>
             </Box>
         </BoxOrderContainer>

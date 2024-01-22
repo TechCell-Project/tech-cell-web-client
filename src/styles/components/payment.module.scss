@@ -1,3 +1,6 @@
+@import '../base/variables';
+@import '../base/mixins';
+
 .payment_container {
     background-color: #f4f6f8;
     .payment_content {
@@ -134,7 +137,7 @@
     border-radius: 5px;
     margin: 15px 0px;
     .address_block {
-        padding: 15px;
+        padding: 0 15px 15px;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -151,6 +154,17 @@
             .address_value {
                 color: #111;
                 font-size: 15px;
+            }
+            @include responsive(max_xs) {
+                align-items: flex-start;
+                justify-content: flex-start;
+                .address_title {
+                    width: 50%;
+                    font-size: 14px;
+                }
+                .address_value {
+                    font-size: 14px;
+                }
             }
         }
     }

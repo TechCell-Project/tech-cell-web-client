@@ -40,12 +40,13 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
         <Dialog
             open={props.isOpen}
             keepMounted
+            fullWidth={true}
+            maxWidth={'xs'}
             onClose={handleCloseDialog}
             aria-describedby='dialog-description'
             className={styles.hide_ScrollBar}
             sx={{
                 '& .MuiPaper-root.MuiDialog-paper': props.dialogStyle,
-                overflow: 'hidden',
                 padding: 0,
             }}
         >
@@ -85,7 +86,14 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
                     </DialogContentText>
                 </DialogContent>
             )}
-            <DialogActions sx={{ padding: '0 10px 16px 10px', gap: '10px', display: 'inline' }}>
+            <DialogActions
+                sx={{
+                    padding: '0 10px 15px 10px',
+                    gap: '10px',
+                    display: 'inline',
+                    margin: '0px !important',
+                }}
+            >
                 {props.children}
             </DialogActions>
         </Dialog>
