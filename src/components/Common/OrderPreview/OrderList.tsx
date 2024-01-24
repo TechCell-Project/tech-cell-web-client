@@ -21,6 +21,7 @@ const SaleButton = styled(Button)(({ theme }) => ({
     background: theme.color.red,
     color: 'white',
     '&:hover': { color: theme.color.red },
+    width: '100%',
 }));
 
 const PaymentInfoBox = styled(Box)(({ theme }) => ({
@@ -110,14 +111,28 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
             {isLoading &&
                 items.map((item) => <SkeletonCartItem key={item.productId! + item.sku!} />)}
             <OrderListItems list={variants} />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '15px 0' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    marginTop: { sm: '30px', xs: '24px' },
+                }}
+            >
                 <TextField
                     id='standard-basic'
                     label='Nhập mã giảm giá'
                     variant='standard'
-                    sx={{ width: '85%' }}
+                    sx={{ width: { md: '85%', sm: '75%', xs: '70%' } }}
                 />
-                <SaleButton>Áp dụng</SaleButton>
+                <Box
+                    sx={{
+                        width: { md: '15%', sm: '25%', xs: '30%' },
+                        marginLeft: { sm: '15px', xs: '10px' },
+                    }}
+                >
+                    <SaleButton>Áp dụng</SaleButton>
+                </Box>
             </Box>
             {isLoading ? (
                 <Skeleton

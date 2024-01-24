@@ -4,8 +4,9 @@ import Box from '@mui/material/Box';
 import Image from 'next/image';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useState } from 'react';
-import { Button } from '@mui/material';
 import DialogPayment from '@/components/Form/Common/PaymentDialog/DialogPayment';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 const PaymentMethodDialog = () => {
     const [open, setOpen] = useState(false);
@@ -38,7 +39,6 @@ const PaymentMethodDialog = () => {
                     width: '100%',
                     backgroundColor: 'white',
                     borderRadius: '5px',
-                    padding: '5px 15px',
                     height: '85px',
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -51,26 +51,28 @@ const PaymentMethodDialog = () => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        padding: '20px',
+                        padding: '15px 8px',
                     }}
                     onClick={handleClickOpen}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Image src={'/img_payment/payment1.png'} width={40} height={40} alt='img' />
                         <Box sx={{ marginLeft: '25px', textAlign: 'left' }}>
-                            <Box
+                            <Typography
+                                variant='h4'
                                 sx={{
-                                    fontSize: '18px',
+                                    fontSize: { sm: '18px', xs: '14px' },
                                     color: '#d70018',
                                     marginBottom: '5px',
                                     textTransform: 'none',
+                                    fontWeight: 500,
                                 }}
                             >
                                 Chọn phương thức thanh toán
-                            </Box>
-                            <Box sx={{ fontSize: '12px', color: '#637381' }}>
+                            </Typography>
+                            <Typography sx={{ fontSize: '12px', color: '#637381' }}>
                                 Giảm thêm tới 1.000.000đ
-                            </Box>
+                            </Typography>
                         </Box>
                     </Box>
                     <Box sx={{ color: '#d70018' }}>
