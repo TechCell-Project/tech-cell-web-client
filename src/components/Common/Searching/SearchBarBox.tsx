@@ -84,7 +84,7 @@ const SearchBarBox = ({ isDisplay, minWidth }: { isDisplay?: boolean; minWidth?:
     useEffect(() => {
         setOpenRecents(false);
         setOpenCurrents(false);
-    }, [isPathnameChanged])
+    }, [isPathnameChanged]);
 
     return (
         <Box

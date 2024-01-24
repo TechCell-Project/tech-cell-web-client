@@ -31,6 +31,8 @@
         "deps",
         "components",
         "type",
-        "typo/spell"
+        "typo/spell",
+        "seo",
+        "images"
     ]
 }

@@ -4,19 +4,24 @@ import React, { FC, useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import OrderListDialog from './OrderListDialog';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
-import { ShippingData, VariantInCart } from '@interfaces/cart';
-import { currencyFormat, getSingleProductVariant } from 'utils';
 import Skeleton from '@mui/material/Skeleton';
+import Typography from '@mui/material/Typography';
+
+import { ShippingData, VariantInCart } from '@interfaces/cart';
 import { AddCartItemModel } from '@models/Cart';
+import { currencyFormat, getSingleProductVariant } from 'utils';
+
+import OrderListItems from './OrderListItems';
+import SkeletonCartItem from '../Display/SkeletonCartItem';
 
 const SaleButton = styled(Button)(({ theme }) => ({
     border: `1px solid ${theme.color.red}`,
     background: theme.color.red,
     color: 'white',
     '&:hover': { color: theme.color.red },
+    width: '100%',
 }));
 
 const PaymentInfoBox = styled(Box)(({ theme }) => ({
@@ -42,6 +47,23 @@ const PaymentInfoBox = styled(Box)(({ theme }) => ({
     },
 }));
 
+export const OrderListTitle = styled(Box)(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: `1px solid ${theme.color.red}`,
+    borderRadius: '3px',
+    margin: '15px 0',
+    padding: '6px 0',
+    '& .MuiTypography-root': {
+        textTransform: 'capitalize',
+        fontWeight: 600,
+        fontSize: '14px',
+        color: theme.color.red,
+    },
+}));
+
 interface OrderProps {
     items: AddCartItemModel[];
     totalProductPrice: number;
@@ -49,7 +71,6 @@ interface OrderProps {
 }
 
 const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
-    const [openList, setOpenList] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [variants, setVariants] = useState<VariantInCart[]>([]);
 
@@ -78,36 +99,40 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
         return totalQuantity;
     };
 
-    const handleClickOpenDialog = () => {
-        setOpenList(true);
-    };
-
-    const handleCloseDialog = () => {
-        setOpenList(false);
-    };
     console.log(shipping);
 
     return (
         <Box sx={{ backgroundColor: 'white', borderRadius: '5px', padding: '5px 15px' }}>
-            <Button
-                sx={{ width: '100%', textTransform: 'capitalize', border: '1px solid #ee4949' }}
-                onClick={handleClickOpenDialog}
+            <OrderListTitle>
+                <Typography variant='subtitle1' fontSize='14px'>
+                    Danh sách sản phẩm
+                </Typography>
+            </OrderListTitle>
+            {isLoading &&
+                items.map((item) => <SkeletonCartItem key={item.productId! + item.sku!} />)}
+            <OrderListItems list={variants} />
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    marginTop: { sm: '30px', xs: '24px' },
+                }}
             >
-                Kiểm tra danh sách sản phẩm
-            </Button>
-            <OrderListDialog
-                openList={openList}
-                handleCloseDialog={handleCloseDialog}
-                list={variants}
-            />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '15px 0' }}>
                 <TextField
                     id='standard-basic'
                     label='Nhập mã giảm giá'
                     variant='standard'
-                    sx={{ width: '85%' }}
+                    sx={{ width: { md: '85%', sm: '75%', xs: '70%' } }}
                 />
-                <SaleButton>Áp dụng</SaleButton>
+                <Box
+                    sx={{
+                        width: { md: '15%', sm: '25%', xs: '30%' },
+                        marginLeft: { sm: '15px', xs: '10px' },
+                    }}
+                >
+                    <SaleButton>Áp dụng</SaleButton>
+                </Box>
             </Box>
             {isLoading ? (
                 <Skeleton

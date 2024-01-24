@@ -21,7 +21,7 @@ export default function LoginParallel() {
     }, [session?.user, status]);
 
     return (
-        <ShowDialog dialogTitle='Đăng nhập' isOpen={true} handleClose={handleClose}>
+        <ShowDialog dialogTitle='Đăng nhập' isOpen={true} handleClose={handleClose} isSmall={false}>
             <LoginPage />
         </ShowDialog>
     );

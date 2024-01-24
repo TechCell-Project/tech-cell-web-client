@@ -16,7 +16,7 @@ const Item = ({ imageURL }: { imageURL: string }) => {
             <Image
                 src={imageURL}
                 alt='image slides'
-                width={0}
+                width={window.innerWidth}
                 height={0}
                 sizes='100vw'
                 style={{ width: '100%', height: 'auto' }}
@@ -27,7 +27,7 @@ const Item = ({ imageURL }: { imageURL: string }) => {
 
 export const CarouselComponent = ({ carouselImages }: Readonly<CarouselComponentProps>) => {
     return (
-        <Container maxWidth='xl' sx={{ p: '0px !important' }}>
+        <Container maxWidth='xl' sx={{ p: '0px !important', marginTop: { sm: 0, xs: '10px' } }}>
             <Carousel>
                 {carouselImages.map((carousel, i) => (
                     <Item key={`${carousel}_${i.toString()}`} imageURL={carousel} />

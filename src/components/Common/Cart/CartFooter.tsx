@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MoonLoader from 'react-spinners/MoonLoader';
+import Container from '@mui/material/Container';
 
 import { ShowDialog } from '../Display/DialogCustom';
 import { AddressList } from '../Address/Lists/AddressList';
@@ -134,112 +135,113 @@ const CartFooterInformation: FC<CartFooterProps> = ({
     }, 1500);
 
     return (
-        <BoxBuying>
-            <Box className='cart_buy_content'>
-                <Box>Tạm tính: {currencyFormat(totalPrice)}đ</Box>
-                <Box className='cart_buy_now'>
-                    <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
-                        Mua ngay
-                    </Button>
+        <>
+            <BoxBuying>
+                <Box className='cart_buy_content'>
+                    <Box>Tạm tính: {currencyFormat(totalPrice)}đ</Box>
+                    <Box className='cart_buy_now'>
+                        <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
+                            Mua ngay
+                        </Button>
+                    </Box>
+                </Box>
+            </BoxBuying>
+            {/* Thêm địa chỉ mới  */}
+            {openNewAddress && userProfile && (
+                <DialogAddressUpdate
+                    isOpen={openNewAddress}
+                    handleClose={handleCloseNewAddress}
+                    userThisAddress={new Address()}
+                    addressIndex={null}
+                    triggerRefreshUserProfile={refreshProfile}
+                    setOpenNewAddress={setOpenNewAddress}
+                    setOpenListAddress={setOpenListAddress}
+                />
+            )}
 
-                    {/* Thêm địa chỉ mới  */}
-                    {openNewAddress && userProfile && (
-                        <DialogAddressUpdate
-                            isOpen={openNewAddress}
-                            handleClose={handleCloseNewAddress}
-                            userThisAddress={new Address()}
-                            addressIndex={null}
-                            triggerRefreshUserProfile={refreshProfile}
-                            setOpenNewAddress={setOpenNewAddress}
-                            setOpenListAddress={setOpenListAddress}
+            {/* Hiển thị danh sách địa chỉ của user */}
+            {openListAddress && userProfile && (
+                <ShowDialog
+                    isOpen={openListAddress}
+                    handleClose={handleCloseListAddress}
+                    dialogTitle='Địa chỉ của tôi'
+                    dialogStyle={{ maxWidth: '560px' }}
+                    isSmall={false}
+                >
+                    <Container maxWidth='sm' component='main' sx={{ padding: 0 }}>
+                        <AddressList
+                            handleCloseListItem={handleCloseListAddress}
+                            handleSelectAddressIndex={(index: number) => {
+                                setCurrentIndex(index);
+                            }}
                         />
-                    )}
 
-                    {/* Hiển thị danh sách địa chỉ của user */}
-                    {openListAddress && userProfile && (
-                        <ShowDialog
-                            isOpen={openListAddress}
-                            handleClose={handleCloseListAddress}
-                            dialogTitle='Địa chỉ của tôi'
-                            dialogStyle={{ minWidth: 560 }}
-                        >
-                            <AddressList
-                                handleCloseListItem={handleCloseListAddress}
-                                handleSelectAddressIndex={(index: number) => {
-                                    setCurrentIndex(index);
-                                }}
-                            />
-
-                            <Box>
-                                <Button
-                                    sx={{
-                                        width: '175px',
-                                        height: '40px',
-                                        padding: '10px',
-                                        border: '1px solid rgba(0,0,0,.09)',
-                                        borderRadius: '5px',
-                                        marginTop: '30px',
-                                        color: 'black',
-                                        marginBottom: '50px',
-                                    }}
-                                    onClick={handleClickNewAddress}
-                                >
-                                    Thêm mới địa chỉ
-                                </Button>
-                            </Box>
-
-                            <Box
+                        <Box>
+                            <Button
                                 sx={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-end',
-                                    alignItems: 'center',
-                                    marginTop: '15px',
-                                    borderTop: '1px solid rgba(0,0,0,.09)',
-                                    paddingTop: '15px',
+                                    width: '175px',
+                                    height: '40px',
+                                    padding: '10px',
+                                    border: '1px solid rgba(0,0,0,.09)',
+                                    borderRadius: '5px',
+                                    marginTop: '30px',
+                                    color: 'black',
+                                    marginBottom: { sm: '50px', xs: '20px' },
+                                }}
+                                onClick={handleClickNewAddress}
+                            >
+                                Thêm mới địa chỉ
+                            </Button>
+                        </Box>
+
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                alignItems: 'center',
+                                marginTop: '15px',
+                                borderTop: '1px solid rgba(0,0,0,.09)',
+                                paddingTop: '15px',
+                            }}
+                        >
+                            <Button
+                                onClick={handleCloseListAddress}
+                                sx={{
+                                    border: '1px solid #ee4949',
+                                    color: '#ee4949',
+                                    borderRadius: '5px',
                                 }}
                             >
-                                <Button
-                                    onClick={handleCloseListAddress}
-                                    sx={{
-                                        border: '1px solid #ee4949',
+                                Hủy
+                            </Button>
+                            <Button
+                                type='submit'
+                                sx={{
+                                    borderRadius: '5px',
+                                    backgroundColor: '#ee4949',
+                                    color: 'white',
+                                    marginLeft: '10px',
+                                    border: '1px solid #ee4949',
+                                    ':hover': {
                                         color: '#ee4949',
-                                        borderRadius: '5px',
-                                    }}
-                                >
-                                    Hủy
-                                </Button>
-                                <Button
-                                    type='submit'
-                                    sx={{
-                                        borderRadius: '5px',
-                                        backgroundColor: '#ee4949',
-                                        color: 'white',
-                                        marginLeft: '10px',
-                                        border: '1px solid #ee4949',
-                                        ':hover': {
-                                            backgroundColor: '#ee4949',
-                                        },
-                                    }}
-                                    onClick={saveInfoToLocalStorage}
-                                >
-                                    {isLoadingDetails ? (
-                                        <MoonLoader
-                                            color='#f8f8ff'
-                                            speedMultiplier={0.75}
-                                            size={22}
-                                        />
-                                    ) : (
-                                        <Typography variant='h6' sx={{ fontSize: '14px' }}>
-                                            Xác nhận
-                                        </Typography>
-                                    )}
-                                </Button>
-                            </Box>
-                        </ShowDialog>
-                    )}
-                </Box>
-            </Box>
-        </BoxBuying>
+                                    },
+                                }}
+                                disabled={isLoadingDetails}
+                                onClick={saveInfoToLocalStorage}
+                            >
+                                {isLoadingDetails ? (
+                                    <MoonLoader color='#f8f8ff' speedMultiplier={0.75} size={22} />
+                                ) : (
+                                    <Typography variant='h6' sx={{ fontSize: '14px' }}>
+                                        Xác nhận
+                                    </Typography>
+                                )}
+                            </Button>
+                        </Box>
+                    </Container>
+                </ShowDialog>
+            )}
+        </>
     );
 };
 

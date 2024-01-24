@@ -1,3 +1,7 @@
+import {
+    ListUserOrderResponseDTO,
+    OrderApiGetUserOrdersRequest,
+} from '@TechCell-Project/tech-cell-server-node-sdk';
 import { PagingResponse } from '@models/Common';
 import {
     OrderCreateRequest,
@@ -6,9 +10,10 @@ import {
     OrderReviewResponse,
     OrderSlice,
 } from '@models/Order';
-import { Dispatch, createSlice } from '@reduxjs/toolkit';
-import { createOrder, getUserOrders, reviewOrder } from '@services/OrderService';
-import { HttpStatusCode } from 'axios';
+import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createOrder, orderApi, reviewOrder } from '@services/OrderService';
+import { HttpStatusCode, isAxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 const initialState: OrderSlice = {
     orders: new PagingResponse<OrderModel>(),
@@ -25,7 +30,7 @@ export const orderSlice = createSlice({
         isFetching: (state) => {
             state.isLoading = true;
         },
-        getSuccess: (state, { payload }) => {
+        getSuccess: (state, { payload }: PayloadAction<ListUserOrderResponseDTO>) => {
             state.orders = payload;
             state.isLoading = false;
         },
@@ -36,24 +41,67 @@ export const orderSlice = createSlice({
         isFetchingDetails: (state) => {
             state.isLoadingDetails = true;
         },
-        reviewSuccess: (state, { payload }) => {
-            state.reviewedOrder = payload;
+        getDetailSuccess: (state, { payload }: PayloadAction<OrderModel>) => {
+            state.order = payload;
+            state.isLoadingDetails = false;
         },
-        fetchedDetailsDone: (state) => {
+        getDetailFailure: (state) => {
+            state.order = null;
+            state.isLoadingDetails = false;
+        },
+        reviewSuccess: (state, { payload }: PayloadAction<OrderReviewResponse>) => {
+            state.reviewedOrder = payload;
+            state.isLoadingDetails = false;
+        },
+        reviewFailure: (state) => {
+            state.reviewedOrder = null;
+            state.isLoadingDetails = false;
+        },
+        isFetchedDone: (state) => {
+            state.isLoading = false;
             state.isLoadingDetails = false;
         },
     },
 });
 
-export const getAllOrder = () => async (dispatch: Dispatch) => {
-    dispatch(isFetching());
-    try {
-        const { status, data } = await getUserOrders();
-        if (status === HttpStatusCode.Ok) {
-            dispatch(getSuccess(data));
+export const getAllOrder =
+    (requests: OrderApiGetUserOrdersRequest) => async (dispatch: Dispatch) => {
+        dispatch(isFetching());
+        try {
+            const { status, data } = await orderApi.getUserOrders({ ...requests });
+            if (status === HttpStatusCode.Ok) {
+                dispatch(getSuccess(data));
+                return { success: true };
+            }
+        } catch (error) {
+            dispatch(getFailure());
+            let status = 404;
+            if (isAxiosError(error)) {
+                if (error.response && error.response.status === 404) {
+                    toast.error('Không tìm thấy dữ liệu... Vui lòng thử lại sau');
+                } else if (error.response && error.response.status === 401) {
+                    toast.error('Phiên đăng nhập đã hết hạn...');
+                } else if (error.response && error.response.status === 429) {
+                    toast.error('Quá nhiều yêu cầu... Hãy đợi một lát và thử lại');
+                } else {
+                    toast.error('Có lỗi xảy ra ...');
+                }
+                status = error.response?.status ?? 404;
+            }
+            return { success: false, errorCode: status };
         }
-    } catch {
-        dispatch(getFailure());
+    };
+
+export const getOrder = (id: string) => async (dispatch: Dispatch) => {
+    dispatch(isFetchingDetails());
+    try {
+        const { status, data } = await orderApi.getUserOrderId({ id });
+        if (status === HttpStatusCode.Ok) {
+            dispatch(getDetailSuccess(data as unknown as OrderModel));
+        }
+    } catch (error) {
+        dispatch(getDetailFailure());
+        console.log(error);
     }
 };
 
@@ -67,10 +115,8 @@ export const reviewCurrentOrder = (payload: OrderReviewRequest) => async (dispat
             return { success: true };
         }
     } catch (error) {
-        dispatch(reviewSuccess(null));
+        dispatch(reviewFailure());
         return { success: false, error };
-    } finally {
-        dispatch(fetchedDetailsDone());
     }
 };
 
@@ -85,7 +131,7 @@ export const createNewOrder = (payload: OrderCreateRequest) => async (dispatch: 
     } catch (error) {
         return { success: false, error };
     } finally {
-        dispatch(fetchedDetailsDone());
+        dispatch(isFetchedDone());
     }
 };
 
@@ -96,7 +142,10 @@ export const {
     getSuccess,
     getFailure,
     isFetchingDetails,
-    fetchedDetailsDone,
+    getDetailSuccess,
+    getDetailFailure,
     reviewSuccess,
+    reviewFailure,
+    isFetchedDone,
 } = actions;
 export default reducer;

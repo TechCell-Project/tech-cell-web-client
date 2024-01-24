@@ -21,7 +21,12 @@ export default function RegisterParallel() {
     }, [session?.user, status]);
 
     return (
-        <ShowDialog dialogTitle='Đăng ký tài khoản' isOpen={true} handleClose={handleClose}>
+        <ShowDialog
+            dialogTitle='Đăng ký tài khoản'
+            isOpen={true}
+            handleClose={handleClose}
+            isSmall={false}
+        >
             <RegisterPage />
         </ShowDialog>
     );

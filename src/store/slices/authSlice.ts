@@ -1,5 +1,5 @@
 import { ProfileAddressRequest } from '@models/Profile';
-import { Dispatch, createSlice } from '@reduxjs/toolkit';
+import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getProfile, patchProfileAddress, patchProfileInfo } from '@services/ProfileService';
 import { HttpStatusCode, isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
@@ -24,8 +24,8 @@ export const authSlice = createSlice({
         logout: () => {
             return initialState;
         },
-        authenticatedSuccess: (state) => {
-            state.isLoading = false;
+        isAuthenticated: (state, { payload }: PayloadAction<UserAccount>) => {
+            state.user = payload;
             state.isAuthenticated = true;
         },
         isLoadingProfile: (state) => {
@@ -45,10 +45,8 @@ export const authSlice = createSlice({
     },
 });
 
-export const authenticate = () => async (dispatch: Dispatch) => {
-    if (localStorage.getItem('user')) {
-        dispatch(authenticatedSuccess());
-    }
+export const authenticate = (user: UserAccount) => async (dispatch: Dispatch) => {
+    dispatch(isAuthenticated(user));
 };
 
 export const logOut = () => async (dispatch: Dispatch) => {
@@ -181,7 +179,7 @@ const { actions, reducer } = authSlice;
 export const {
     isHandling,
     logout,
-    authenticatedSuccess,
+    isAuthenticated,
     doneHandled,
     isLoadingProfile,
     loadedProfile,

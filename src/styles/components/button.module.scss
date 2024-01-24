@@ -1,4 +1,5 @@
 @import '../base/variables';
+@import '../base/mixins';
 
 .body {
     padding-right: 0 !important;
@@ -30,7 +31,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    gap: 10px;
     padding: 10px 40px;
     cursor: pointer;
     border-radius: 4px;
@@ -47,5 +48,19 @@
         font-weight: 600;
         color: #ee4949;
         font-size: 14px;
+    }
+
+    @include responsive(max_xs) {
+        padding: 10px 20px;
+        span {
+            font-size: 12px;
+        }
+    }
+}
+
+.button_text {
+    font-size: 14px !important;
+    @include responsive(max_xs) {
+        font-size: 12px !important;
     }
 }

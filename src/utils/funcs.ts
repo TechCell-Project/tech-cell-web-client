@@ -12,6 +12,8 @@ import { getCurrentUserRole } from './local';
 import { PagingResponse } from '@models/Common';
 import { UserAccount } from '@models/Account';
 import { UserModel } from '@models/Profile';
+import slugify from 'slugify';
+import { VariantInCart } from '@/interfaces';
 
 // common functions
 export const getRole = (role?: string | null) => {
@@ -272,3 +274,26 @@ export function isEmail(email: string): boolean {
     const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
     return regex.test(email);
 }
+
+export const convertSlugUrl = (str: string) => {
+    return slugify(str, {
+        locale: 'vi',
+        trim: true,
+        lower: true,
+    });
+};
+
+export const extractIdFromSlug = (slug: string) => {
+    const id = slug.split('-');
+    return id[id.length - 1];
+};
+
+export const getAttributesToString = (variant: VariantInCart) => {
+    let str = '';
+    variant.data.attributes.forEach((attr, index) => {
+        const unit = attr.u ?? '';
+        const separate = index !== 0 ? ' - ' : ('' as string);
+        str += separate + upperCase(attr.v) + unit;
+    });
+    return str;
+};
