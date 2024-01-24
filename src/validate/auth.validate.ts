@@ -26,7 +26,7 @@ export const ProfileSchema = yup.object({
     userName: yup.string().required(),
     firstName: yup.string().required('Bạn cần điền tên'),
     lastName: yup.string().required('Bạn cần điền họ'),
-    avatarPublicId: yup.string()
+    avatarPublicId: yup.string(),
 });
 
 export const ProfileAddressSchema = yup.object({

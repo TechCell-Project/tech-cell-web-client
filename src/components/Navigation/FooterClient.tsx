@@ -48,7 +48,7 @@ const socialsIcon = [FacebookIcon, GitHubIcon, LinkedInIcon];
 
 export const FooterClient = () => {
     return (
-        <Box component='footer' sx={{ marginTop: '45px', width: '100%' }}>
+        <Box component='footer' sx={{ marginTop: '45px', width: '100%', bgcolor: '#fff' }}>
             <Container sx={{ maxWidth: '1320px !important' }}>
                 <Grid container spacing={10}>
                     <Grid item md={6}>
@@ -97,7 +97,7 @@ export const FooterClient = () => {
 
                 <hr className={styles.footerDivider} />
 
-                <Stack direction='row' alignItems='center' justifyContent='space-between' mb='25px'>
+                <Stack direction='row' alignItems='center' justifyContent='space-between' pb='25px'>
                     <Typography fontSize='14px'>
                         © 2023, made with ❤️ by <b>Techcell Team</b>
                     </Typography>

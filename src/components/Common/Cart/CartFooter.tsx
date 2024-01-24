@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MoonLoader from 'react-spinners/MoonLoader';
+import Container from '@mui/material/Container';
 
 import { ShowDialog } from '../Display/DialogCustom';
 import { AddressList } from '../Address/Lists/AddressList';
@@ -110,14 +111,9 @@ const CartFooterInformation: FC<CartFooterProps> = ({
     return (
         <Box
             sx={{
-                position: 'sticky',
-                bottom: 0,
-                margin: '15px 0px 10px 0px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#e5e5e5',
-                borderRadius: { xs: '10px' },
+                width: '700px',
+                margin: '0px auto',
+                borderRadius: '10px',
             }}
         >
             <Box
@@ -125,25 +121,12 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    width: '600px',
-                    margin: '10px 0',
-                    padding: { xs: '0px 10px' },
+                    backgroundColor: 'white',
+                    padding: '10px',
                 }}
             >
-                <Box
-                    sx={{
-                        fontSize: { xs: '14px' },
-                    }}
-                >
-                    Tạm tính: {currencyFormat(totalPrice)}đ
-                </Box>
-                <Box
-                    sx={{
-                        backgroundColor: '#ee4949',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                    }}
-                >
+                <Box>Tạm tính: {currencyFormat(totalPrice)}đ</Box>
+                <Box className='cart_buy_now'>
                     <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
                         Mua ngay
                     </Button>
@@ -167,7 +150,8 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                             isOpen={openListAddress}
                             handleClose={handleCloseListAddress}
                             dialogTitle='Địa chỉ của tôi'
-                            // dialogStyle={{ minWidth: 560 }}
+                            dialogStyle={{ minWidth: 560 }}
+                            isSmall
                         >
                             <AddressList
                                 handleCloseListItem={handleCloseListAddress}
@@ -184,9 +168,9 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                                         padding: '10px',
                                         border: '1px solid rgba(0,0,0,.09)',
                                         borderRadius: '5px',
-                                        marginTop: { sm: '30px', xs: '10px' },
+                                        marginTop: '30px',
                                         color: 'black',
-                                        marginBottom: { sm: '50px', xs: '10px' },
+                                        marginBottom: '50px',
                                     }}
                                     onClick={handleClickNewAddress}
                                 >

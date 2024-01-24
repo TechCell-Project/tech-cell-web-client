@@ -130,8 +130,9 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
         <ShowDialog
             isOpen={isOpen}
             handleClose={handleClose}
-            dialogTitle='Địa chỉ mới'
-            dialogStyle={{ minWidth: 560 }}
+            dialogTitle={addressIndex !== null ? 'Cập nhật địa chỉ' : 'Địa chỉ mới'}
+            dialogStyle={{ maxWidth: '560px' }}
+            isSmall={true}
         >
             <Formik
                 initialValues={userThisAddress}
@@ -142,20 +143,20 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                 {({ setValues, errors, isSubmitting }) => (
                     <Form style={{ width: '100%' }}>
                         <Grid container spacing={2}>
-                            <Grid item md={6} xs={12}>
+                            <Grid item md={6}>
                                 <SelectInputCustom
                                     name='addressName'
                                     label={'Địa chỉ'}
                                     options={addressName}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12}>
+                            <Grid item md={6}>
                                 <TextFieldCustom name='customerName' label={'Họ và tên'} />
                             </Grid>
-                            <Grid item md={6} xs={12}>
+                            <Grid item md={6}>
                                 <TextFieldCustom name='phoneNumbers' label={'Số điện thoại'} />
                             </Grid>
-                            <Grid item md={6} xs={12}>
+                            <Grid item md={6}>
                                 <AutocompleteCustom<Province>
                                     name={'provinceLevel'}
                                     isNotCheckbox
@@ -184,7 +185,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12}>
+                            <Grid item xs={6}>
                                 <AutocompleteCustom<District>
                                     name={'districtLevel'}
                                     isNotCheckbox
@@ -210,7 +211,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12}>
+                            <Grid item md={6}>
                                 <AutocompleteCustom<Ward>
                                     name={'wardLevel'}
                                     isNotCheckbox
@@ -221,7 +222,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                                 />
                             </Grid>
 
-                            <Grid item md={16} xs={12}>
+                            <Grid item md={12}>
                                 <TextFieldCustom
                                     name='detail'
                                     label={'Địa chỉ cụ thể'}

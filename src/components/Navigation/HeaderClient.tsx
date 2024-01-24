@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import AppBar from '@mui/material/AppBar';
@@ -38,7 +38,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
-import { useProfile } from '@hooks/useProfile';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { getProfile } from '@/store/slices/profileSlice';
 
 interface Props {
     window?: () => Window;
@@ -47,7 +48,7 @@ interface Props {
 const NAV_ITEMS = [
     { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
     { name: 'Sản phẩm', menu: CATEGORY, icon: PhoneAndroidOutlinedIcon, isNav: true },
-    { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.Home },
+    { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.OrderHistory },
 ];
 
 export const HeaderClient = ({ window }: Props) => {
@@ -207,7 +208,16 @@ export const HeaderClient = ({ window }: Props) => {
 };
 
 const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
-    const { profile } = useProfile();
+    const dispatch = useAppDispatch();
+
+    const { profile, status } = useAppSelector((state) => state.profile);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(getProfile());
+        }
+    }, [dispatch, status]);
+
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'user-popover' : undefined;
@@ -274,23 +284,17 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                         </button>
                     </li>
 
-                    <Box
-                        sx={{
-                            marginTop: '10px',
-                        }}
-                    >
-                        <li>
-                            <ShoppingCartIcon />
-                            <button
-                                onClick={() => {
-                                    push(RootPath.OrderHistory);
-                                    setAnchorEl(null);
-                                }}
-                            >
-                                Đơn hàng
-                            </button>
-                        </li>
-                    </Box>
+                    <li>
+                        <ShoppingCartIcon />
+                        <button
+                            onClick={() => {
+                                push(RootPath.OrderHistory);
+                                setAnchorEl(null);
+                            }}
+                        >
+                            Đơn hàng
+                        </button>
+                    </li>
                     <li>
                         <LogoutRoundedIcon />
                         <button onClick={() => signOut()}>Đăng xuất</button>

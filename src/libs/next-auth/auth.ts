@@ -2,7 +2,6 @@ import NextAuth, { User, NextAuthConfig, Session, Account } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { LoginRequestDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
-import { axiosAuth } from '@libs/axios';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { AxiosError } from 'axios';
 import { authApi } from '@services/AuthService';
@@ -108,7 +107,6 @@ export const nextAuthConfig: NextAuthConfig = {
         async session({ session, token }: { session: Session; token: any }) {
             if (token) {
                 session.user = token;
-                axiosAuth.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`;
             }
             return session;
         },

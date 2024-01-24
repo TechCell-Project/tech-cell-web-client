@@ -23,6 +23,7 @@ interface IButtonProps {
     isBadge?: boolean;
     badgeCount?: number;
     loading?: boolean;
+    className?: string;
 }
 
 export const CommonBtn = memo((props: IButtonProps) => {
@@ -76,6 +77,7 @@ export const CommonBtn = memo((props: IButtonProps) => {
                 onClick={props.handleClick}
                 sx={[{ ...props.styles }, getVariant(), { gap: '10px' }]}
                 disabled={props.disabled}
+                className={props.className}
                 size={props.size}
                 fullWidth={props.fullWidth}
                 defaultValue={props.defaultValue}

@@ -12,6 +12,7 @@ import FaviconIcon from '@public/favicon.ico';
 
 export const metadata: Metadata = {
     title: 'TechCell - Điện thoại, phụ kiện chính hãng',
+    description: 'Khám phá ngay với Techcell - Nơi Thăng Hoa Công Nghệ!',
 };
 
 export default async function RootLayout({

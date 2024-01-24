@@ -160,13 +160,14 @@ function CartPage() {
                                             width: '100%',
                                             display: showUncheckMsg ? 'flex' : 'none',
                                             justifyContent: 'center',
+                                            alignItems: 'center',
                                         }}
                                     >
                                         <Typography
                                             variant='h3'
                                             color='primary'
                                             sx={{
-                                                fontSize: '18px',
+                                                fontSize: { sm: '18px', xs: '14px' },
                                                 fontWeight: 500,
                                             }}
                                         >
