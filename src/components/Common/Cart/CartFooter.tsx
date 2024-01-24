@@ -22,32 +22,6 @@ import { reviewCurrentOrder } from '@store/slices/orderSlice';
 import { toast } from 'react-toastify';
 import { useProfile } from '@hooks/useProfile';
 
-const BoxBuying = styled(Box)(() => ({
-    position: 'sticky',
-    bottom: 0,
-    margin: '15px 0px 10px 0px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#e5e5e5',
-    '& .cart_buy_content': {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '600px',
-        margin: '10px 0',
-        '& .cart_buy_now': {
-            backgroundColor: '#ee4949',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            '& a': {
-                color: 'white',
-                padding: '10px 20px',
-            },
-        },
-    },
-}));
-
 interface CartFooterProps {
     isSelectedProduct: boolean;
     handleShowMsg: () => void;
@@ -134,10 +108,42 @@ const CartFooterInformation: FC<CartFooterProps> = ({
     }, 1500);
 
     return (
-        <BoxBuying>
-            <Box className='cart_buy_content'>
-                <Box>Tạm tính: {currencyFormat(totalPrice)}đ</Box>
-                <Box className='cart_buy_now'>
+        <Box
+            sx={{
+                position: 'sticky',
+                bottom: 0,
+                margin: '15px 0px 10px 0px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#e5e5e5',
+                borderRadius: { xs: '10px' },
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '600px',
+                    margin: '10px 0',
+                    padding: { xs: '0px 10px' },
+                }}
+            >
+                <Box
+                    sx={{
+                        fontSize: { xs: '14px' },
+                    }}
+                >
+                    Tạm tính: {currencyFormat(totalPrice)}đ
+                </Box>
+                <Box
+                    sx={{
+                        backgroundColor: '#ee4949',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                    }}
+                >
                     <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
                         Mua ngay
                     </Button>
@@ -161,7 +167,7 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                             isOpen={openListAddress}
                             handleClose={handleCloseListAddress}
                             dialogTitle='Địa chỉ của tôi'
-                            dialogStyle={{ minWidth: 560 }}
+                            // dialogStyle={{ minWidth: 560 }}
                         >
                             <AddressList
                                 handleCloseListItem={handleCloseListAddress}
@@ -178,9 +184,9 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                                         padding: '10px',
                                         border: '1px solid rgba(0,0,0,.09)',
                                         borderRadius: '5px',
-                                        marginTop: '30px',
+                                        marginTop: { sm: '30px', xs: '10px' },
                                         color: 'black',
-                                        marginBottom: '50px',
+                                        marginBottom: { sm: '50px', xs: '10px' },
                                     }}
                                     onClick={handleClickNewAddress}
                                 >
@@ -239,7 +245,7 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                     )}
                 </Box>
             </Box>
-        </BoxBuying>
+        </Box>
     );
 };
 

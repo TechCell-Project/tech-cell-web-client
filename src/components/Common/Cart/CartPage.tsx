@@ -123,18 +123,25 @@ function CartPage() {
                             <Box
                                 sx={{
                                     width: '100%',
-                                    padding: '10px',
+                                    padding: { sm: '10px', xs: '10px 0px' },
                                     borderBottom: '1px solid #e5e5e5',
                                     color: '#323232',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '10px',
+                                    gap: { sm: '10px', xs: '80px' },
                                 }}
                             >
-                                <IconButton aria-label='home' href='/'>
+                                <IconButton
+                                    aria-label='home'
+                                    href='/'
+                                    sx={{ padding: { xs: '10px 0px' } }}
+                                >
                                     <ArrowBackIcon />
                                 </IconButton>
-                                <Typography variant='h4' sx={{ fontSize: '22px' }}>
+                                <Typography
+                                    variant='h4'
+                                    sx={{ fontSize: { sm: '23px', xs: '16px' } }}
+                                >
                                     Giỏ hàng của bạn
                                 </Typography>
                             </Box>
@@ -168,6 +175,7 @@ function CartPage() {
                                     </Box>
                                     <Box sx={{ width: '100%' }}>
                                         <FormControlLabel
+                                            sx={{ fontSize: { xs: '10px' } }}
                                             label='Chọn tất cả'
                                             control={
                                                 <Checkbox

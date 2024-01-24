@@ -39,7 +39,10 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
             keepMounted
             onClose={handleCloseDialog}
             aria-describedby='dialog-description'
-            sx={{ '& .MuiPaper-root.MuiDialog-paper': props.dialogStyle }}
+            sx={{
+                // '& .MuiPaper-root.MuiDialog-paper': props.dialogStyle,
+                minWidth: { sm: '560px', xs: '95%' },
+            }}
         >
             <DialogTitle
                 sx={{
