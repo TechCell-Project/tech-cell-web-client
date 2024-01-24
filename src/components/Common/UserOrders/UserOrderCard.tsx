@@ -58,8 +58,6 @@ export const UserOrderCard = ({ order }: OrderProps) => {
         }
     }, [firstOrderProductVariantToDisplay, order.products]);
 
-    console.log(firstOrderProductVariantToDisplay);
-
     return (
         <Stack
             spacing={{ sm: 3, xs: 2 }}

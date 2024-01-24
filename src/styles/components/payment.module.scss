@@ -206,9 +206,15 @@
 
 .payment_card_info {
     margin-left: 20px;
+    width: 100%;
     .payment_price {
         display: flex;
         margin-top: 15px;
+        justify-content: space-between;
+        align-items: center;
+        .payment_price_box {
+            display: flex;
+        }
         .payment_price_new {
             color: #ee4949;
         }

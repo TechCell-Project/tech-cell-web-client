@@ -7,6 +7,8 @@ import { getAllOrder } from '@/store/slices/orderSlice';
 import { Paging } from '@/models/Common';
 import { LoadingPageMnt } from '@/components/Common/Display';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import { RootPath } from '@/constants/enum';
 
 const Page = () => {
     const router = useRouter();
@@ -17,13 +19,24 @@ const Page = () => {
     const { orders } = useAppSelector((state) => state.order);
 
     useEffect(() => {
+        const getOrders = async () => {
+            const res = await dispatch(getAllOrder({ ...new Paging(), page: 1 }));
+            if (!res?.success) {
+                if (res?.errorCode === 401) {
+                    signOut();
+                } else {
+                    router.push(RootPath.Home);
+                }
+            }
+            setIsFetching(false);
+        };
+
         if (orders.data.length === 0) {
             setIsFetching(true);
-            dispatch(getAllOrder({ ...new Paging(), page: 1 }))
-                .catch(() => router.refresh())
-                .finally(() => setIsFetching(false));
+            getOrders();
         }
-    }, [orders, dispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return isFetching ? <LoadingPageMnt isLoading /> : <UserOrders />;
 };
