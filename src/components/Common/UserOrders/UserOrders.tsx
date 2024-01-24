@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -24,6 +24,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { UserOrderCard } from './UserOrderCard';
 import {
     GetUserOrdersOrderStatusEnum,
+    ListUserOrderResponseDTO,
     OrderApiGetUserOrdersRequest,
     OrderSchemaDTO,
 } from '@TechCell-Project/tech-cell-server-node-sdk';
@@ -32,6 +33,10 @@ import PaginationBar from '../PaginationData/PaginationBar';
 import { useSkipFirstRender } from '@/hooks';
 import { getAllOrder } from '@/store/slices/orderSlice';
 import { LoadingSection } from '../Display';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { RootPath } from '@/constants/enum';
+import usePrevious from '@/hooks/usePrevious';
 
 const OverviewOrdersPlaced = styled(Box)(({ theme }) => ({
     width: '45%',
@@ -89,25 +94,37 @@ const ToggleOrderStatusGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 const UserOrders = () => {
+    const router = useRouter();
     const dispatch = useAppDispatch();
     const [pagingOrder, setPagingOrder] = useState<OrderApiGetUserOrdersRequest>({
         ...new Paging(),
         page: 1,
     });
+    const [orderStatus, setOrderStatus] = useState<(typeof ORDER_STATUS_KEYS)[number]>(STATUS_ALL);
+    const [prevOrderStatus, setPrevOrderStatus] =
+        useState<(typeof ORDER_STATUS_KEYS)[number]>(STATUS_ALL);
 
     const { profile } = useAppSelector((state) => state.profile);
     const { orders, isLoading } = useAppSelector((state) => state.order);
 
-    const [orderStatus, setOrderStatus] = useState<(typeof ORDER_STATUS_KEYS)[number]>(STATUS_ALL);
+    const [currentOrders, setCurrentOrders] = useState<ListUserOrderResponseDTO>(
+        orders as ListUserOrderResponseDTO,
+    );
 
     const handleSelect = (event: MouseEvent<HTMLElement>, newStatus: string | null) => {
         if (newStatus !== null) {
-            setOrderStatus(newStatus);
+            setOrderStatus((old) => {
+                setPrevOrderStatus(old);
+                return newStatus;
+            });
         }
     };
 
     const handleChange = (event: SelectChangeEvent) => {
-        setOrderStatus(event.target.value);
+        setOrderStatus((old) => {
+            setPrevOrderStatus(old);
+            return event.target.value;
+        });
     };
 
     const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
@@ -121,21 +138,53 @@ const UserOrders = () => {
         if (orderStatus === STATUS_ALL) {
             setPagingOrder({
                 ...pagingOrder,
+                page: 1,
                 orderStatus: undefined,
             });
         } else {
             setPagingOrder({
                 ...pagingOrder,
+                page: 1,
                 orderStatus: orderStatus as GetUserOrdersOrderStatusEnum,
             });
         }
     }, [orderStatus]);
 
     useSkipFirstRender(() => {
-        dispatch(getAllOrder(pagingOrder));
+        const getOrdersOnChanging = async () => {
+            const res = await dispatch(getAllOrder(pagingOrder));
+
+            if (res && !res.success) {
+                if (Number.isInteger(res.errorCode)) {
+                    const code = res.errorCode;
+
+                    switch (code) {
+                        case 401:
+                            signOut();
+                            break;
+                        case 404:
+                            setOrderStatus(prevOrderStatus);
+                            break;
+                        default:
+                            router.push(RootPath.Home);
+                            break;
+                    }
+                }
+            }
+        };
+
+        getOrdersOnChanging();
     }, [pagingOrder]);
 
-    console.log(orders);
+    useSkipFirstRender(() => {
+        if (!isLoading) {
+            setCurrentOrders(orders as ListUserOrderResponseDTO);
+        }
+    }, [isLoading]);
+
+    console.log('current: ' + orderStatus + ' prev: ' + prevOrderStatus);
+    // console.log(pagingOrder);
+    // console.log(orders);
 
     const buttons = ORDER_STATUS_KEYS.map((status) => (
         <ToggleButton value={status} key={status}>
@@ -236,7 +285,7 @@ const UserOrders = () => {
                         <LoadingSection isLoading />
                     ) : (
                         <>
-                            {orders.data.map((order) => (
+                            {currentOrders.data.map((order) => (
                                 <UserOrderCard key={order._id} order={order as OrderSchemaDTO} />
                             ))}
                         </>

@@ -12,7 +12,8 @@ import {
 } from '@models/Order';
 import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { createOrder, orderApi, reviewOrder } from '@services/OrderService';
-import { HttpStatusCode } from 'axios';
+import { HttpStatusCode, isAxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 const initialState: OrderSlice = {
     orders: new PagingResponse<OrderModel>(),
@@ -70,9 +71,24 @@ export const getAllOrder =
             const { status, data } = await orderApi.getUserOrders({ ...requests });
             if (status === HttpStatusCode.Ok) {
                 dispatch(getSuccess(data));
+                return { success: true };
             }
-        } catch {
+        } catch (error) {
             dispatch(getFailure());
+            let status = 404;
+            if (isAxiosError(error)) {
+                if (error.response && error.response.status === 404) {
+                    toast.error('Không tìm thấy dữ liệu... Vui lòng thử lại sau');
+                } else if (error.response && error.response.status === 401) {
+                    toast.error('Phiên đăng nhập đã hết hạn...');
+                } else if (error.response && error.response.status === 429) {
+                    toast.error('Quá nhiều yêu cầu... Hãy đợi một lát và thử lại');
+                } else {
+                    toast.error('Có lỗi xảy ra ...');
+                }
+                status = error.response?.status ?? 404;
+            }
+            return { success: false, errorCode: status };
         }
     };
 
