@@ -126,7 +126,14 @@ const AddressItemList = (props: AddressItemListProps) => {
                 </Box>
             </Box>
 
-            <Box sx={{ width: '25%' }}>
+            <Box
+                sx={{
+                    width: '25%',
+                    display: { sm: 'flex', xs: 'none' },
+                    justifyContent: 'flex-end',
+                    marginTop: '5px',
+                }}
+            >
                 <Button
                     onClick={() => {
                         setLengthAddress(true);

@@ -48,7 +48,7 @@ interface Props {
 const NAV_ITEMS = [
     { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
     { name: 'Sản phẩm', menu: CATEGORY, icon: PhoneAndroidOutlinedIcon, isNav: true },
-    { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.OrderHistory },
+    { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.Order },
 ];
 
 export const HeaderClient = ({ window }: Props) => {
@@ -288,7 +288,7 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
                         <ShoppingCartIcon />
                         <button
                             onClick={() => {
-                                push(RootPath.OrderHistory);
+                                push(RootPath.Order);
                                 setAnchorEl(null);
                             }}
                         >

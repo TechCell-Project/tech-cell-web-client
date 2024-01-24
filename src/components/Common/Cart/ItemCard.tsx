@@ -158,7 +158,15 @@ export const ItemCard = (props: productDataProps) => {
                     <div className={styles.product_info}>
                         <div className={styles.product_text}>
                             <div className={styles.product_heading}>{currentProduct.name}</div>
-                            <Typography variant='h6' sx={{ fontSize: '14px' }}>
+                            <Typography
+                                sx={{
+                                    fontSize: {
+                                        sm: '14px',
+                                        xs: '10px',
+                                    },
+                                    fontWeight: 'bold',
+                                }}
+                            >
                                 {currentVariant.attributes.map((attr, index) => {
                                     let str = '';
                                     const unit = attr.u ?? '';

@@ -111,9 +111,14 @@ const CartFooterInformation: FC<CartFooterProps> = ({
     return (
         <Box
             sx={{
-                width: '700px',
-                margin: '0px auto',
-                borderRadius: '10px',
+                position: 'sticky',
+                bottom: 0,
+                margin: '15px 0px 10px 0px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#e5e5e5',
+                borderRadius: { xs: '10px' },
             }}
         >
             <Box
@@ -121,12 +126,25 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    backgroundColor: 'white',
-                    padding: '10px',
+                    width: '600px',
+                    margin: '10px 0',
+                    padding: { xs: '10px' },
                 }}
             >
-                <Box>Tạm tính: {currencyFormat(totalPrice)}đ</Box>
-                <Box className='cart_buy_now'>
+                <Box
+                    sx={{
+                        fontSize: { xs: '14px' },
+                    }}
+                >
+                    Tạm tính: {currencyFormat(totalPrice)}đ
+                </Box>
+                <Box
+                    sx={{
+                        backgroundColor: '#ee4949',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                    }}
+                >
                     <Button sx={{ color: 'white', padding: '10px' }} onClick={handleBuyNow}>
                         Mua ngay
                     </Button>
@@ -168,9 +186,9 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                                         padding: '10px',
                                         border: '1px solid rgba(0,0,0,.09)',
                                         borderRadius: '5px',
-                                        marginTop: '30px',
+                                        marginTop: { sm: '30px', xs: '10px' },
                                         color: 'black',
-                                        marginBottom: '50px',
+                                        marginBottom: { sm: '50px', xs: '10px' },
                                     }}
                                     onClick={handleClickNewAddress}
                                 >

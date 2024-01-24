@@ -44,7 +44,7 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
             maxWidth={'xs'}
             onClose={handleCloseDialog}
             aria-describedby='dialog-description'
-            sx={{ '& .MuiPaper-root.MuiDialog-paper': props.dialogStyle }}
+            sx={{ minWidth: { sm: '560px', xs: '90%' } }}
         >
             <DialogTitle
                 sx={{
