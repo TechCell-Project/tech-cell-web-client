@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-function usePrevious(value: any) {
-    const ref = useRef();
+// hold previous state value of useState, but for string only
+function usePrevious(value: string) {
+    const ref = useRef<string>();
     useEffect(() => {
         ref.current = value; //assign the value of ref to the argument
     }, [value]); //this code will run when the value of 'value' changes

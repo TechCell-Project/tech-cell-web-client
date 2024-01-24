@@ -44,17 +44,17 @@ const CheckoutButton = styled(Box)(({ theme }) => ({
 const PreviewPage = () => {
     const router = useRouter();
 
-    // useEffect(() => {
-    //     const timer = setTimeout(
-    //         () => {
-    //             router.push('/gio-hang');
-    //         },
-    //         2 * 60 * 1000,
-    //     );
+    useEffect(() => {
+        const timer = setTimeout(
+            () => {
+                router.push('/gio-hang');
+            },
+            2 * 60 * 1000,
+        );
 
-    //     return () => clearTimeout(timer);
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
+        return () => clearTimeout(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const dispatch = useAppDispatch();
 

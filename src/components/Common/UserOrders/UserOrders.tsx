@@ -1,7 +1,11 @@
 'use client';
 
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+
 import { useAppDispatch, useAppSelector } from '@/store/store';
+
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -21,22 +25,23 @@ import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { UserOrderCard } from './UserOrderCard';
+
 import {
     GetUserOrdersOrderStatusEnum,
     ListUserOrderResponseDTO,
     OrderApiGetUserOrdersRequest,
     OrderSchemaDTO,
 } from '@TechCell-Project/tech-cell-server-node-sdk';
+
 import { Paging } from '@/models';
+
+import { UserOrderCard } from './UserOrderCard';
 import PaginationBar from '../PaginationData/PaginationBar';
+
 import { useSkipFirstRender } from '@/hooks';
 import { getAllOrder } from '@/store/slices/orderSlice';
 import { LoadingSection } from '../Display';
-import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { RootPath } from '@/constants/enum';
-import usePrevious from '@/hooks/usePrevious';
 
 const OverviewOrdersPlaced = styled(Box)(({ theme }) => ({
     width: '45%',
