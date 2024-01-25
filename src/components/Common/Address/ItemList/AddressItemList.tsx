@@ -38,11 +38,10 @@ const AddressItemList = (props: AddressItemListProps) => {
         <Box
             sx={{
                 display: 'flex',
-                justifyContent: 'space-between',
                 alignItems: 'center',
                 borderTop: '1px solid rgba(0,0,0,.09)',
-                paddingTop: '45px',
-                paddingBottom: '35px',
+                padding: { sm: '45px 0px 35 px 0px', xs: '35px 5px 15px 5px' },
+                width: '100%',
             }}
         >
             <Box
@@ -137,8 +136,7 @@ const AddressItemList = (props: AddressItemListProps) => {
                 <Button
                     onClick={() => {
                         setLengthAddress(true);
-                        // TODO: fix this any type
-                        selectedAddressToUpdateIndex(addressIndex, address as any);
+                        selectedAddressToUpdateIndex(addressIndex, address);
                     }}
                     sx={{
                         width: { xs: '100%' },
