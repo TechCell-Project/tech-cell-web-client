@@ -24,7 +24,6 @@ import SkeletonCartItem from '../Display/SkeletonCartItem';
 
 type OrderProps = {
     order: OrderSchemaDTO;
-    // id:string;
 };
 
 const StyledButton = styled(Button)(({ theme }) => ({
