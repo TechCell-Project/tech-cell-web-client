@@ -18,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 
 import { useCart } from '@hooks/userCart';
+import { Box } from '@mui/material';
 
 type productDataProps = {
     currentProduct: ProductDTO;
@@ -120,16 +121,52 @@ export const ItemCard = (props: productDataProps) => {
                             }}
                         />
                     </div>
-                    <Image
-                        src={currentVariant?.images[0].url ?? currentProduct?.generalImages[0].url}
-                        height={80}
-                        width={80}
-                        alt='product image'
-                    />
+                    {/* <div className={styles.product_cart_img}> */}
+                    <Box
+                        sx={{
+                            display: { sm: 'block', xs: 'none' },
+                        }}
+                    >
+                        <Image
+                            src={
+                                currentVariant?.images[0].url ??
+                                currentProduct?.generalImages[0].url
+                            }
+                            height={80}
+                            width={80}
+                            alt='product image'
+                        />
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: { sm: 'none', xs: 'block' },
+                        }}
+                    >
+                        <Image
+                            src={
+                                currentVariant?.images[0].url ??
+                                currentProduct?.generalImages[0].url
+                            }
+                            height={45}
+                            width={60}
+                            alt='product image'
+                        />
+                    </Box>
+                    {/* </div> */}
+
                     <div className={styles.product_info}>
                         <div className={styles.product_text}>
                             <div className={styles.product_heading}>{currentProduct.name}</div>
-                            <Typography variant='h6' sx={{ fontSize: '14px' }}>
+                            <Typography
+                                sx={{
+                                    fontSize: {
+                                        sm: '14px',
+                                        xs: '10px',
+                                    },
+                                    fontWeight: 'bold',
+                                }}
+                            >
                                 {currentVariant.attributes.map((attr, index) => {
                                     let str = '';
                                     const unit = attr.u ?? '';

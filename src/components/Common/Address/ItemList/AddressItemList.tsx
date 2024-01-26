@@ -76,6 +76,7 @@ const AddressItemList = (props: AddressItemListProps) => {
                             sx={{
                                 //borderRight: '1px solid rgba(0,0,0,.09)',
                                 paddingRight: '15px',
+                                fontSize: { sm: '16px', xs: '14px' },
                             }}
                         >
                             {address?.customerName}
@@ -129,12 +130,17 @@ const AddressItemList = (props: AddressItemListProps) => {
                     width: '25%',
                     display: { sm: 'flex', xs: 'none' },
                     justifyContent: 'flex-end',
+                    marginTop: '5px',
                 }}
             >
                 <Button
                     onClick={() => {
                         setLengthAddress(true);
                         selectedAddressToUpdateIndex(addressIndex, address);
+                    }}
+                    sx={{
+                        width: { xs: '100%' },
+                        margin: { xs: '0px auto' },
                     }}
                 >
                     Cập nhật
