@@ -24,6 +24,7 @@ import SkeletonCartItem from '../Display/SkeletonCartItem';
 
 type OrderProps = {
     order: OrderSchemaDTO;
+    // id:string;
 };
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -57,6 +58,8 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                 .finally(() => setIsLoading(false));
         }
     }, [firstOrderProductVariantToDisplay, order.products]);
+
+    console.log('id' + firstOrderProductVariantToDisplay?.name);
 
     return (
         <Stack
