@@ -3,13 +3,50 @@
 import Box from '@mui/material/Box';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useProfile } from '@hooks/useProfile';
-import StepperOrderDetail from '@/components/Common/OrderPreview/StepperOrderDetail';
 import Image from 'next/image';
+import { styled } from '@mui/system';
+import OrderDetailProduct from '@/components/Form/Order/OrderDetail';
+import { extractIdFromSlug } from '@/utils';
+import Link from 'next/link';
+import { RootPath } from '@/constants/enum';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import TechCellIcon from '@public/favicon.ico';
 
-const OrderDetail = () => {
+const TableOrder = styled('div')({
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    textAlign: 'right',
+    // padding: '10px 0px 10px 0px',
+    borderTop: '1px dotted rgba(0,0,0,.09);',
+});
+
+const TableLabel = styled('div')({
+    width: '70%',
+    padding: '10px',
+    fontSize: '12px',
+    color: 'rgba(0,0,0,.54)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+});
+
+const TableMoney = styled('div')({
+    width: '30%',
+    padding: '10px',
+    fontSize: '14px',
+    borderLeft: '1px dotted rgba(0,0,0,.09);',
+    '&.active': {
+        fontSize: '24px',
+        color: '#ee4949',
+    },
+});
+
+const OrderDetail = ({ params }: Readonly<{ params: { slug: string } }>) => {
+    console.log('Params' + params.slug);
     const { profile: user } = useProfile();
     const profileOrder = user?.address.find((item, i) => item.isDefault);
-    console.log(profileOrder?.customerName);
     return (
         <>
             <Box
@@ -38,15 +75,17 @@ const OrderDetail = () => {
                             padding: '20px 24px',
                         }}
                     >
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <ArrowBackIosIcon /> Trở lại
-                        </Box>
+                        <Link href={`${RootPath.Order}`}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <ArrowBackIosIcon /> Trở lại
+                            </Box>
+                        </Link>
                         <Box
                             sx={{
                                 display: 'flex',
@@ -131,93 +170,63 @@ const OrderDetail = () => {
                                 </Box>
                             </Box>
                             <Box sx={{ width: '60%', padding: '10px 0px 0px 24px' }}>
-                                <StepperOrderDetail />
-                            </Box>
-                        </Box>
-                    </Box>
+                                <Box
+                                    sx={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        backgroundColor: 'white',
+                                        marginTop: '10px',
+                                        padding: '20px 24px',
+                                    }}
+                                >
+                                    {/*  */}
+                                    <OrderDetailProduct id={extractIdFromSlug(params.slug)} />
+                                </Box>
 
-                    {/* Footer OrderDetail */}
-                    <Box
-                        sx={{
-                            width: '100%',
-                            height: 'auto',
-                            backgroundColor: 'white',
-                            marginTop: '10px',
-                            padding: '20px 24px',
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                width: '100%',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: '10px 0px',
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    width: '70%',
-                                    height: '30px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Image
-                                    src={'/img_productDetail/ip14_1.webp'}
-                                    width={80}
-                                    height={80}
-                                    alt='img'
-                                />
                                 <Box
                                     sx={{
-                                        marginLeft: '15px',
+                                        width: '100%',
+                                        margin: '10px 0px',
                                     }}
                                 >
-                                    <Box
-                                        sx={{
-                                            marginBottom: '10px',
-                                            fontWeight: 'bold',
-                                        }}
-                                    >
-                                        Iphone 14 Pro max
-                                    </Box>
-                                    <Box>x1</Box>
-                                </Box>
-                            </Box>
-                            <Box
-                                sx={{
-                                    width: '30%',
-                                    height: '30px',
-                                    display: 'flex',
-                                    justifyContent: 'flex-end',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        opacity: '0.5',
-                                        position: 'relative',
-                                        '&:before': {
-                                            position: 'absolute',
-                                            display: 'block',
-                                            content: '""',
-                                            top: '8px',
-                                            width: '100%',
-                                            height: '1px',
-                                            backgroundColor: 'black',
-                                        },
-                                    }}
-                                >
-                                    20.000.000đ
-                                </Box>
-                                <Box
-                                    sx={{
-                                        color: '#ee4949',
-                                        marginLeft: '15px',
-                                    }}
-                                >
-                                    18.000.000đ
+                                    <TableOrder>
+                                        <TableLabel>Tổng tiền hàng</TableLabel>
+                                        <TableMoney>17.000.000đ</TableMoney>
+                                    </TableOrder>
+
+                                    <TableOrder>
+                                        <TableLabel>Phí vận chuyển </TableLabel>
+                                        <TableMoney>17.000.000đ</TableMoney>
+                                    </TableOrder>
+
+                                    <TableOrder>
+                                        <TableLabel>
+                                            Giảm giá phí vận chuyển{' '}
+                                            <Box sx={{ marginLeft: '5px' }}>
+                                                <ErrorOutlineIcon />
+                                            </Box>
+                                        </TableLabel>
+                                        <TableMoney>17.000.000đ</TableMoney>
+                                    </TableOrder>
+
+                                    <TableOrder>
+                                        <TableLabel>Thành tiền </TableLabel>
+                                        <TableMoney>17.000.000đ</TableMoney>
+                                    </TableOrder>
+
+                                    <TableOrder>
+                                        <TableLabel>
+                                            <Image
+                                                src={TechCellIcon.src}
+                                                width={20}
+                                                height={20}
+                                                alt='TechCell icon'
+                                                style={{ height: '100%', marginRight: '5px' }}
+                                            />{' '}
+                                            Phương thức thanh toán{' '}
+                                        </TableLabel>
+                                        <TableMoney className='active'>17.000.000đ</TableMoney>
+                                    </TableOrder>
                                 </Box>
                             </Box>
                         </Box>

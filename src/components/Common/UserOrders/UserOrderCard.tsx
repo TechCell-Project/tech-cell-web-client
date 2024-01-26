@@ -21,6 +21,8 @@ import { currencyFormat, getAttributesToString, getSingleProductVariant } from '
 import { AddCartItemModel } from '@/models';
 import { VariantInCart } from '@/interfaces';
 import SkeletonCartItem from '../Display/SkeletonCartItem';
+import Link from 'next/link';
+import { RootPath } from '@/constants/enum';
 
 type OrderProps = {
     order: OrderSchemaDTO;
@@ -59,7 +61,7 @@ export const UserOrderCard = ({ order }: OrderProps) => {
         }
     }, [firstOrderProductVariantToDisplay, order.products]);
 
-    console.log('id' + firstOrderProductVariantToDisplay?.name);
+    console.log('id' + firstOrderProductVariantToDisplay?.data);
 
     return (
         <Stack
@@ -128,6 +130,11 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                     <Typography>{getLabel(order.orderStatus, ORDER_STATUSES) as string}</Typography>
                 </Box>
             </Box>
+            <Link
+                href={`${RootPath.Order}/${RootPath.OrderDetails}/${firstOrderProductVariantToDisplay?.id}`}
+            >
+                Chi tiết đơn hàng
+            </Link>
             <Box
                 sx={{
                     width: '100%',
