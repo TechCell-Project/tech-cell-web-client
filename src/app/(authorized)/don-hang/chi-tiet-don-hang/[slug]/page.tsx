@@ -1,5 +1,5 @@
 'use client';
-
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useProfile } from '@hooks/useProfile';
@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { RootPath } from '@/constants/enum';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import TechCellIcon from '@public/favicon.ico';
+import axios from 'axios';
+import { API_ENDPOINT } from '@/constants';
 
 const TableOrder = styled('div')({
     width: '100%',
@@ -43,8 +45,14 @@ const TableMoney = styled('div')({
     },
 });
 
+// const getOrderDetailId = async (id: string) => {
+//     const { data } = await axios.get(`https://api.techcell.cloud/order/${id}`);
+//     return data?.product;
+// };
+
 const OrderDetail = ({ params }: Readonly<{ params: { slug: string } }>) => {
-    console.log('Params' + params.slug);
+    // const getOrder = getOrderDetailId(params.slug);
+    // console.log('Order' + getOrder);
     const { profile: user } = useProfile();
     const profileOrder = user?.address.find((item, i) => item.isDefault);
     return (
