@@ -8,7 +8,11 @@ import DialogPayment from '@/components/Form/Common/PaymentDialog/DialogPayment'
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-const PaymentMethodDialog = () => {
+type PaymentMethodProps = {
+    handleChange: (method: string) => void;
+};
+
+const PaymentMethodDialog = ({ handleChange }: PaymentMethodProps) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {

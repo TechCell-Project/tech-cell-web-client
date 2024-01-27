@@ -60,7 +60,7 @@ const PreviewPage = () => {
 
     const [userAddress, setUserAddress] = useState<Address | null>(null);
     const [currentOrder, setCurrentOrder] = useState<OrderReviewResponse | null>(null);
-    const [paymentMethod, setPaymentMethod] = useState<string>('COD');
+    const [paymentMethod, setPaymentMethod] = useState<string>('VNPAY');
 
     const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
 
@@ -103,12 +103,17 @@ const PreviewPage = () => {
                 addressSelected: currentOrder.addressSelected,
                 productSelected: currentOrder.productSelected,
                 paymentMethod,
+                paymentReturnUrl: paymentMethod !== 'COD' ? 'https://techcell.cloud' : undefined,
             };
 
             const response = await dispatch(createNewOrder(payload));
             if (response?.success) {
-                toast.success('Đặt hàng thành công. Đơn hàng của bạn đang được xử lý...');
-                router.push('/');
+                if (paymentMethod === 'COD') {
+                    toast.success('Đặt đơn thành công. Đơn hàng của bạn sẽ được xử lý...');
+                    router.push('/');
+                } else {
+                    router.push(response.paymentUrl as string);
+                }
             } else {
                 toast.error('Có lỗi xảy ra. Xin vui lòng thử lại sau...');
             }
@@ -167,7 +172,9 @@ const PreviewPage = () => {
                         />
                     )}
 
-                    <PaymentMethodDialog />
+                    <PaymentMethodDialog
+                        handleChange={(method: string) => setPaymentMethod(method)}
+                    />
 
                     <CheckoutButton>
                         <CommonBtn

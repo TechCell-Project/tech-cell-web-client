@@ -126,7 +126,7 @@ export const createNewOrder = (payload: OrderCreateRequest) => async (dispatch: 
         const response = await createOrder(payload);
 
         if (response.data) {
-            return { success: true };
+            return { success: true, paymentUrl: response.data.paymentOrder?.paymentUrl };
         }
     } catch (error) {
         return { success: false, error };

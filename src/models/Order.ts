@@ -42,6 +42,7 @@ export class OrderReviewRequest {
 
 export class OrderCreateRequest extends OrderReviewRequest {
     paymentMethod: string | null = null;
+    paymentReturnUrl?: string;
 }
 
 export class OrderReviewResponse extends OrderReviewRequest {
