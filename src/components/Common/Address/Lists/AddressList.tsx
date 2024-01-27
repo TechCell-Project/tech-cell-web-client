@@ -94,7 +94,6 @@ export function AddressList(props: Readonly<AddressListProps>) {
             {userProfile && selectedAddressToUpdateIndex !== null && currentAddress !== null && (
                 <Suspense fallback={<LoadingPageMnt isLoading isBlur />}>
                     <DialogAddressUpdate
-                        // TODO: fix this any type
                         userThisAddress={currentAddress as any}
                         triggerRefreshUserProfile={refreshProfile}
                         isOpen={openAddressUpdate}

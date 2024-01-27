@@ -188,9 +188,6 @@ const UserOrders = () => {
     }, [isLoading]);
 
     console.log('current: ' + orderStatus + ' prev: ' + prevOrderStatus);
-    // console.log(pagingOrder);
-    console.log(orders);
-
     const buttons = ORDER_STATUS_KEYS.map((status) => (
         <ToggleButton value={status} key={status}>
             <Typography>

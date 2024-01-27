@@ -163,7 +163,6 @@ const PreviewPage = () => {
                             )}
                         </>
                     )}
-
                     {currentOrder && (
                         <OrderList
                             items={currentOrder.productSelected}

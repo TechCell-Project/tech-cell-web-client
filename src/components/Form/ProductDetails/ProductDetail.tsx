@@ -282,6 +282,7 @@ const DialogDetailsTable = ({
             isOpen={isOpen}
             handleClose={handleClose}
             dialogStyle={{ minWidth: { lg: '45%', xs: '80%' } }}
+            isSmall
         >
             <Stack width='100%'>
                 <Specification techInfo={product.generalAttributes} />

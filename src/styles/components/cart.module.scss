@@ -37,9 +37,14 @@
 }
 .cart_content {
     .product_cart {
+        width: 100%;
         display: flex;
         align-items: center;
         margin-bottom: 35px;
+        @include responsive(max_sm) {
+            padding: 10px 0px;
+            margin-bottom: 0px;
+        }
         .product_cart_check {
             span {
                 @include responsive(max_sm) {
@@ -53,14 +58,6 @@
                 }
             }
         }
-        .product_cart_img {
-            img {
-                @include responsive(max_sm) {
-                    width: 80px;
-                    height: 60px;
-                }
-            }
-        }
     }
     .product_info {
         display: flex;
@@ -68,11 +65,17 @@
         align-items: center;
         width: 100%;
         height: 30px;
+        @include responsive(max_sm) {
+            margin-left: 10px;
+        }
         .product_text {
             display: inline-block;
             font-size: 14px;
+            @include responsive(max_sm) {
+                font-size: 10px;
+            }
             .product_heading {
-                margin-bottom: 10px;
+                margin-bottom: 5px;
             }
         }
     }
@@ -114,20 +117,24 @@
 .product_price {
     display: flex;
     align-items: center;
+    @include responsive(max_sm) {
+        display: inline-block;
+    }
 }
 .product_price_new {
     color: #ee4949;
     font-size: 15px;
     @include responsive(max_sm) {
         margin-bottom: 5px;
-        font-size: 12px;
+        font-size: 10px;
     }
 }
 .product_price_old {
     margin-left: 10px;
     font-size: 12px;
     @include responsive(max_sm) {
-        font-size: 10px;
+        margin-left: 0px;
+        font-size: 8px;
     }
 }
 .product_price_old span {
@@ -213,6 +220,10 @@
         height: 215px;
         background-color: white;
         border-radius: 5px;
+        @include responsive(max_sm) {
+            width: 150px;
+            height: 200px;
+        }
         .card_product {
             padding: 10px;
             text-align: center;
@@ -234,7 +245,7 @@
                 margin-bottom: 15px;
                 text-wrap: wrap;
                 @include responsive(max_sm) {
-                    font-size: 12px;
+                    font-size: 10px;
                     text-wrap: wrap;
                 }
             }
@@ -253,6 +264,7 @@
                 border-radius: 5px;
                 @include responsive(max_sm) {
                     font-size: 10px;
+                    width: 100%;
                 }
             }
         }
