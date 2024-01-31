@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
@@ -21,6 +22,7 @@ import { currencyFormat, getAttributesToString, getSingleProductVariant } from '
 import { AddCartItemModel } from '@/models';
 import { VariantInCart } from '@/interfaces';
 import SkeletonCartItem from '../Display/SkeletonCartItem';
+import { RootPath } from '@/constants/enum';
 
 type OrderProps = {
     order: OrderSchemaDTO;
@@ -31,6 +33,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export const UserOrderCard = ({ order }: OrderProps) => {
+    const router = useRouter();
     const [firstOrderProductVariantToDisplay, setFirstOrderProductVariantToDisplay] =
         useState<VariantInCart | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -58,7 +61,9 @@ export const UserOrderCard = ({ order }: OrderProps) => {
         }
     }, [firstOrderProductVariantToDisplay, order.products]);
 
-    console.log('id' + firstOrderProductVariantToDisplay?.name);
+    const moveToDetail = () => {
+        router.push(`${RootPath.Order}/${order._id}`);
+    };
 
     return (
         <Stack
@@ -287,7 +292,9 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                         gap: '10px',
                     }}
                 >
-                    <StyledButton variant='contained'>Đánh giá</StyledButton>
+                    <StyledButton variant='contained' onClick={moveToDetail}>
+                        Chi tiết
+                    </StyledButton>
                     <StyledButton variant='outlined'>Mua lại</StyledButton>
                 </Box>
             </Box>

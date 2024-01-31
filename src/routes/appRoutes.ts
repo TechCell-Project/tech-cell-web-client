@@ -35,7 +35,7 @@ export const authRoutes = [
     '/auth/reset',
 ] as string[];
 
-export const needAuthRoutes = [RootPath.Cart, RootPath.Profile, RootPath.OrderHistory] as string[];
+export const needAuthRoutes = [RootPath.Cart, RootPath.Profile, RootPath.Order] as string[];
 
 /**
  * An array of routes that used for calling auth api
