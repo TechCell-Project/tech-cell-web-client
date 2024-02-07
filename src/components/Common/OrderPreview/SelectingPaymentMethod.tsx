@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { PAYMENT_METHODS, ValidPaymentMethod } from '@/constants/contents';
 import PaymentMethodCard from './PaymentMethodCard';
-import Grid from '@mui/material/Grid';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 

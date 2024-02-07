@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { PaymentMethodLabel } from '@/constants/contents';

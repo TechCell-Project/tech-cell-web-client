@@ -28,7 +28,6 @@ import { AddCartItemModel } from '@/models';
 import { VariantInCart } from '@/interfaces';
 import SkeletonCartItem from '../Display/SkeletonCartItem';
 import { RootPath } from '@/constants/enum';
-import Link from 'next/link';
 
 type OrderProps = {
     order: OrderSchemaDTO;
