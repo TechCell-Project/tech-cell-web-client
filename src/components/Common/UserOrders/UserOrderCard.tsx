@@ -139,11 +139,6 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                     <Typography>{getLabel(order.orderStatus, ORDER_STATUSES) as string}</Typography>
                 </Box>
             </Box>
-            <Link
-                href={`${RootPath.Order}/${RootPath.OrderDetails}/${firstOrderProductVariantToDisplay?.id}`}
-            >
-                Chi tiết đơn hàng
-            </Link>
             <Box
                 sx={{
                     width: '100%',
@@ -154,6 +149,8 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                     paddingBottom: { sm: '10px', xs: '5px' },
                     borderBottom: '1px solid #e0e0e0',
                 }}
+                component='a'
+                href={`${RootPath.Order}/${order._id}`}
             >
                 {isLoading && (
                     <Box sx={{ width: '100%' }}>
