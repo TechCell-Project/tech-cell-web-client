@@ -17,6 +17,7 @@ import { buildAddressString, getSingleProductVariant } from '@/utils';
 import OrderItemCard from './OrderItemCard';
 import { VariantInCart } from '@/interfaces/cart';
 import SkeletonCartItem from '../Display/SkeletonCartItem';
+import { RootPath } from '@/constants/enum';
 
 const OrderDetails = () => {
     const router = useRouter();
@@ -39,6 +40,10 @@ const OrderDetails = () => {
                 });
         }
     }, [order]);
+
+    const handleClickItem = (slug: string) => {
+        router.push(`${RootPath.ProductDetails}/${slug}`);
+    };
 
     console.log(order);
 
@@ -101,63 +106,77 @@ const OrderDetails = () => {
                     },
                 }}
             >
-                <Stack spacing={{ sm: 3, xs: 2 }}>
-                    <Typography
-                        sx={{
-                            fontWeight: '600 !important',
-                            '& span': {
-                                textTransform: 'uppercase',
-                                color: '#ee4949',
-                            },
-                        }}
-                    >
-                        Tình trạng :{' '}
-                        <span>
-                            {order?.orderStatus && ORDER_STATUSES.get(order?.orderStatus)?.label}
-                        </span>
-                    </Typography>
-                    {order?.shippingOrder && (
-                        <Grid container>
-                            <Grid item sm={6} xs={12}>
-                                <Typography
-                                    sx={{
-                                        fontWeight: '600 !important',
-                                    }}
-                                >
-                                    Địa Chỉ Nhận Hàng:
-                                </Typography>
+                <Typography
+                    sx={{
+                        fontWeight: '600 !important',
+                        '& span': {
+                            textTransform: 'uppercase',
+                            color: '#ee4949',
+                        },
+                        marginBottom: { sm: '20px', xs: '12px' },
+                    }}
+                >
+                    Tình trạng :{' '}
+                    <span>
+                        {order?.orderStatus && ORDER_STATUSES.get(order?.orderStatus)?.label}
+                    </span>
+                </Typography>
+                {order?.shippingOrder && (
+                    <Grid container>
+                        <Grid item sm={6} xs={12}>
+                            <Typography
+                                sx={{
+                                    fontWeight: '600 !important',
+                                }}
+                            >
+                                Địa Chỉ Nhận Hàng:
+                            </Typography>
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    padding: '10px 0px',
+                                }}
+                            >
                                 <Box
                                     sx={{
-                                        width: '100%',
-                                        padding: '10px 24px 0px 0px',
+                                        marginBottom: '5px',
                                     }}
                                 >
-                                    <Box
-                                        sx={{
-                                            marginBottom: '5px',
-                                        }}
-                                    >
-                                        Tên : {order.shippingOrder.toAddress.customerName}
-                                    </Box>
-                                    <Box
-                                        sx={{
-                                            marginBottom: '5px',
-                                        }}
-                                    >
-                                        Số điện thoại : {order.shippingOrder.toAddress.phoneNumbers}
-                                    </Box>
-                                    <Box>
-                                        Địa chỉ :{' '}
-                                        {buildAddressString(order.shippingOrder.toAddress)}
-                                    </Box>
+                                    Tên : {order.shippingOrder.toAddress.customerName}
                                 </Box>
-                            </Grid>
-                            <Grid item sm={6} xs={12}>
-                                <StepperOrderDetail />
-                            </Grid>
+                                <Box
+                                    sx={{
+                                        marginBottom: '5px',
+                                    }}
+                                >
+                                    Số điện thoại : {order.shippingOrder.toAddress.phoneNumbers}
+                                </Box>
+                                <Box>
+                                    Địa chỉ : {buildAddressString(order.shippingOrder.toAddress)}
+                                </Box>
+                            </Box>
+                            <Typography
+                                sx={{
+                                    fontWeight: '600 !important',
+                                    '& span': {
+                                        textTransform: 'uppercase',
+                                        color: '#ee4949',
+                                    },
+                                }}
+                            >
+                                Phương thức thanh toán:{' '}
+                                <span>
+                                    {order.paymentOrder?.method !== 'COD'
+                                        ? order.paymentOrder?.method
+                                        : 'Thanh toán khi nhận hàng'}
+                                </span>
+                            </Typography>
                         </Grid>
-                    )}
-                </Stack>
+                        <Grid item sm={6} xs={12}>
+                            <StepperOrderDetail />
+                        </Grid>
+                    </Grid>
+                )}
             </Box>
 
             {/* Footer OrderDetail */}
@@ -167,7 +186,7 @@ const OrderDetails = () => {
                     height: 'auto',
                     backgroundColor: 'white',
                     marginTop: { sm: '20px', xs: '10px' },
-                    padding: '20px 24px',
+                    padding: '10px 0',
                 }}
             >
                 {isLoadingItems &&
@@ -175,7 +194,11 @@ const OrderDetails = () => {
                         <SkeletonCartItem key={item.productId! + item.sku!} />
                     ))}
                 {variants.map((variant) => (
-                    <OrderItemCard key={variant.id + variant.data.sku} item={variant} />
+                    <OrderItemCard
+                        key={variant.id + variant.data.sku}
+                        item={variant}
+                        handleClick={handleClickItem}
+                    />
                 ))}
             </Box>
         </Container>

@@ -4,6 +4,12 @@ import PhoneRoundedIcon from '@mui/icons-material/PhoneRounded';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
+import CODImg from '@public/img_payment/cod.png';
+import VNPAYImg from '@public/img_payment/vnpay.webp';
+import ATMImg from '@public/img_payment/payment1.png';
+import VISAImg from '@public/img_payment/visa-512.webp';
+import MASTERCARDImg from '@public/img_payment/mastercard.png';
+import JCBImg from '@public/img_payment/JCB.png';
 
 export const HOME_SLOGAN = 'UPGRADE YOUR CONNECTIVITY: SMART DEALS, SMARTER PHONES!';
 export const BENEFIT_SECTION: Array<{
@@ -121,4 +127,45 @@ PAYMENT_STATUSES.set(STATUS_PROCESSING, {
     label: 'Đang xử lí',
 });
 
-export const PAYMENT_METHODS: Array<string> = ['COD', 'VNPAY', 'ATM', 'VISA', 'MASTERCARD', 'JCB'];
+export type ValidPaymentStatus = keyof typeof PAYMENT_STATUSES;
+
+export type PaymentMethodLabel = {
+    key: string;
+    label: string;
+    imgLable: string;
+};
+
+export const PAYMENT_METHODS: Array<PaymentMethodLabel> = [
+    {
+        key: 'COD',
+        label: 'Thanh toán khi nhận hàng',
+        imgLable: CODImg.src,
+    },
+    {
+        key: 'VNPAY',
+        label: 'Thanh toán bằng VNPay',
+        imgLable: VNPAYImg.src,
+    },
+    {
+        key: 'ATM',
+        label: 'Thanh toán bằng thẻ ATM',
+        imgLable: ATMImg.src,
+    },
+    {
+        key: 'VISA',
+        label: 'Thanh toán bằng thẻ Visa',
+        imgLable: VISAImg.src,
+    },
+    {
+        key: 'MASTERCARD',
+        label: 'Thanh toán bằng Mastercard',
+        imgLable: MASTERCARDImg.src,
+    },
+    {
+        key: 'JCB',
+        label: 'Thanh toán bằng thẻ JCB',
+        imgLable: JCBImg.src,
+    },
+];
+
+export type ValidPaymentMethod = (typeof PAYMENT_METHODS)[number]['key'];

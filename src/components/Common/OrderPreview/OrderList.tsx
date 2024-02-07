@@ -102,7 +102,14 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
     console.log(shipping);
 
     return (
-        <Box sx={{ backgroundColor: 'white', borderRadius: '5px', padding: '5px 15px' }}>
+        <Box
+            sx={{
+                backgroundColor: 'white',
+                borderRadius: '5px',
+                padding: '5px 15px 15px',
+                margin: '10px 0',
+            }}
+        >
             <OrderListTitle>
                 <Typography variant='subtitle1' fontSize='14px'>
                     Danh sách sản phẩm

@@ -28,8 +28,6 @@ function CartItemCard({
             setCurrentProduct(products[itemData.productId]);
         }
     }, [getProductById, itemData, currentProduct, products]);
-    console.log(status);
-    console.log(currentProduct);
 
     return status === 'loading' ? (
         <SkeletonCartItem />

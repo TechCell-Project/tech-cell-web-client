@@ -14,12 +14,14 @@ import { Address } from '@models/Account';
 import Skeleton from '@mui/material/Skeleton';
 import ShippingInfo from './ShippingInfo';
 import OrderList from './OrderList';
-import PaymentMethodDialog from './PaymentDialog';
+import { CommonBtn } from '../FormGroup/CommonBtn';
+import SelectingPaymentMethod from './SelectingPaymentMethod';
 import { OrderCreateRequest, OrderReviewResponse } from '@models/Order';
 import { createNewOrder } from '@store/slices/orderSlice';
 import { toast } from 'react-toastify';
 import { debounce } from 'utils';
-import { CommonBtn } from '../FormGroup/CommonBtn';
+import { ValidPaymentMethod } from '@/constants/contents';
+import { RootPath } from '@/constants/enum';
 
 const BoxOrderContainer = styled(Box)(({ theme }) => ({
     backgroundColor: theme.color.rice,
@@ -29,16 +31,9 @@ const BoxOrderContainer = styled(Box)(({ theme }) => ({
     '& .payment_block': {
         borderRadius: theme.spacing(1),
         margin: 'auto',
-        maxWidth: '700px',
+        maxWidth: '768px',
         padding: theme.spacing(2),
     },
-}));
-
-const CheckoutButton = styled(Box)(({ theme }) => ({
-    marginTop: '15px',
-    backgroundColor: 'white',
-    borderRadius: '5px',
-    padding: '5px 15px',
 }));
 
 const PreviewPage = () => {
@@ -49,7 +44,7 @@ const PreviewPage = () => {
             () => {
                 router.push('/gio-hang');
             },
-            2 * 60 * 1000,
+            5 * 60 * 1000,
         );
 
         return () => clearTimeout(timer);
@@ -60,7 +55,7 @@ const PreviewPage = () => {
 
     const [userAddress, setUserAddress] = useState<Address | null>(null);
     const [currentOrder, setCurrentOrder] = useState<OrderReviewResponse | null>(null);
-    const [paymentMethod, setPaymentMethod] = useState<string>('VNPAY');
+    const [paymentMethod, setPaymentMethod] = useState<ValidPaymentMethod>('COD');
 
     const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
 
@@ -103,7 +98,7 @@ const PreviewPage = () => {
                 addressSelected: currentOrder.addressSelected,
                 productSelected: currentOrder.productSelected,
                 paymentMethod,
-                paymentReturnUrl: paymentMethod !== 'COD' ? 'https://techcell.cloud' : undefined,
+                paymentReturnUrl: paymentMethod !== 'COD' ? RootPath.Order : undefined,
             };
 
             const response = await dispatch(createNewOrder(payload));
@@ -119,6 +114,16 @@ const PreviewPage = () => {
             }
         }
     }, 1500);
+
+    const handleSelectPaymentMethod = (
+        event: React.MouseEvent<HTMLElement>,
+        method: string | null,
+    ) => {
+        if (method !== null) {
+            setPaymentMethod(method);
+            console.log(method);
+        }
+    };
 
     return (
         <BoxOrderContainer>
@@ -171,19 +176,22 @@ const PreviewPage = () => {
                         />
                     )}
 
-                    <PaymentMethodDialog
+                    {/* <PaymentMethodDialog
                         handleChange={(method: string) => setPaymentMethod(method)}
+                    /> */}
+
+                    <SelectingPaymentMethod
+                        handleSelectMethod={handleSelectPaymentMethod}
+                        selectedMethod={paymentMethod}
                     />
 
-                    <CheckoutButton>
-                        <CommonBtn
-                            content='Đặt Hàng'
-                            loading={isLoadingDetails}
-                            disabled={isLoadingDetails}
-                            styles={{ width: '100%' }}
-                            handleClick={handleClickCheckout}
-                        />
-                    </CheckoutButton>
+                    <CommonBtn
+                        content='Đặt Hàng'
+                        loading={isLoadingDetails}
+                        disabled={isLoadingDetails}
+                        styles={{ width: '100%' }}
+                        handleClick={handleClickCheckout}
+                    />
                 </Box>
             </Box>
         </BoxOrderContainer>
