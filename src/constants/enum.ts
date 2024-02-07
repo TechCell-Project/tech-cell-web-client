@@ -26,5 +26,4 @@ export enum RootPath {
     ProductDetails = '/chi-tiet-san-pham',
     Profile = '/ho-so',
     Order = '/don-hang',
-    OrderDetails = '/chi-tiet-don-hang',
 }
