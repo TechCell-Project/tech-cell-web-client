@@ -18,14 +18,21 @@ import {
     StatusLabel,
 } from '@/constants/contents/common.constant';
 import { OrderSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
-import { currencyFormat, getAttributesToString, getSingleProductVariant } from '@/utils';
+import {
+    currencyFormat,
+    getAttributesToString,
+    getSingleProductVariant,
+    getTotalProductQuantity,
+} from '@/utils';
 import { AddCartItemModel } from '@/models';
 import { VariantInCart } from '@/interfaces';
 import SkeletonCartItem from '../Display/SkeletonCartItem';
 import { RootPath } from '@/constants/enum';
+import Link from 'next/link';
 
 type OrderProps = {
     order: OrderSchemaDTO;
+    // id:string;
 };
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -132,6 +139,11 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                     <Typography>{getLabel(order.orderStatus, ORDER_STATUSES) as string}</Typography>
                 </Box>
             </Box>
+            <Link
+                href={`${RootPath.Order}/${RootPath.OrderDetails}/${firstOrderProductVariantToDisplay?.id}`}
+            >
+                Chi tiết đơn hàng
+            </Link>
             <Box
                 sx={{
                     width: '100%',
@@ -262,7 +274,10 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                         marginBottom: { sm: '20px', xs: '10px' },
                     }}
                 >
-                    <Typography sx={{ fontSize: '14px', color: '#757575' }}>2 Sản phẩm</Typography>
+                    <Typography sx={{ fontSize: '14px', color: '#757575' }}>
+                        {getTotalProductQuantity(order)}
+                        {' sản phẩm'}
+                    </Typography>
                     <Box
                         sx={{
                             display: 'flex',
