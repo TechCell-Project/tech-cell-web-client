@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
@@ -17,11 +18,15 @@ import {
     StatusLabel,
 } from '@/constants/contents/common.constant';
 import { OrderSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
-import { currencyFormat, getAttributesToString, getSingleProductVariant } from '@/utils';
+import {
+    currencyFormat,
+    getAttributesToString,
+    getSingleProductVariant,
+    getTotalProductQuantity,
+} from '@/utils';
 import { AddCartItemModel } from '@/models';
 import { VariantInCart } from '@/interfaces';
 import SkeletonCartItem from '../Display/SkeletonCartItem';
-import Link from 'next/link';
 import { RootPath } from '@/constants/enum';
 
 type OrderProps = {
@@ -34,6 +39,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export const UserOrderCard = ({ order }: OrderProps) => {
+    const router = useRouter();
     const [firstOrderProductVariantToDisplay, setFirstOrderProductVariantToDisplay] =
         useState<VariantInCart | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -61,7 +67,9 @@ export const UserOrderCard = ({ order }: OrderProps) => {
         }
     }, [firstOrderProductVariantToDisplay, order.products]);
 
-    console.log('id' + firstOrderProductVariantToDisplay?.name);
+    const moveToDetail = () => {
+        router.push(`${RootPath.Order}/${order._id}`);
+    };
 
     return (
         <Stack
@@ -130,11 +138,6 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                     <Typography>{getLabel(order.orderStatus, ORDER_STATUSES) as string}</Typography>
                 </Box>
             </Box>
-            <Link
-                href={`${RootPath.Order}/${RootPath.OrderDetails}/${firstOrderProductVariantToDisplay?.id}`}
-            >
-                Chi tiết đơn hàng
-            </Link>
             <Box
                 sx={{
                     width: '100%',
@@ -145,6 +148,8 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                     paddingBottom: { sm: '10px', xs: '5px' },
                     borderBottom: '1px solid #e0e0e0',
                 }}
+                component='a'
+                href={`${RootPath.Order}/${order._id}`}
             >
                 {isLoading && (
                     <Box sx={{ width: '100%' }}>
@@ -265,7 +270,10 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                         marginBottom: { sm: '20px', xs: '10px' },
                     }}
                 >
-                    <Typography sx={{ fontSize: '14px', color: '#757575' }}>2 Sản phẩm</Typography>
+                    <Typography sx={{ fontSize: '14px', color: '#757575' }}>
+                        {getTotalProductQuantity(order)}
+                        {' sản phẩm'}
+                    </Typography>
                     <Box
                         sx={{
                             display: 'flex',
@@ -295,7 +303,9 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                         gap: '10px',
                     }}
                 >
-                    <StyledButton variant='contained'>Đánh giá</StyledButton>
+                    <StyledButton variant='contained' onClick={moveToDetail}>
+                        Chi tiết
+                    </StyledButton>
                     <StyledButton variant='outlined'>Mua lại</StyledButton>
                 </Box>
             </Box>

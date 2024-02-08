@@ -14,6 +14,7 @@ import { UserAccount } from '@models/Account';
 import { UserModel } from '@models/Profile';
 import slugify from 'slugify';
 import { VariantInCart } from '@/interfaces';
+import { OrderSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
 // common functions
 export const getRole = (role?: string | null) => {
@@ -296,4 +297,10 @@ export const getAttributesToString = (variant: VariantInCart) => {
         str += separate + upperCase(attr.v) + unit;
     });
     return str;
+};
+
+export const getTotalProductQuantity = (order: OrderSchemaDTO) => {
+    let totalQuantity = 0;
+    order.products.forEach((product) => (totalQuantity += product.quantity));
+    return totalQuantity;
 };

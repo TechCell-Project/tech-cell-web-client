@@ -15,7 +15,10 @@ export default auth((req: NextAuthRequest) => {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(path);
     const isAuthRoute = authRoutes.includes(path);
-    const isNeedAuthRoutes = needAuthRoutes.includes(path);
+    const isNeedAuthRoutes = needAuthRoutes.includes(`/${path.split('/').at(1)}`);
+
+    console.log('Path:', path.split('/').at(1));
+    console.log('Is need auth route', isNeedAuthRoutes);
 
     if (!isAuthRoute && !isApiAuthRoute) response.cookies.set('stored-pathname', path);
 
