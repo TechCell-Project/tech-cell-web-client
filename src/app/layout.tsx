@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'styles/base/index.scss';
 import { auth } from '@libs/next-auth';
 import { SessionProvider as NextAuthSessionProvider } from 'next-auth/react';
+import { Analytics } from '@vercel/analytics/react';
 
 import FaviconIcon from '@public/favicon.ico';
 
@@ -55,6 +56,7 @@ export default async function RootLayout({
                             </SocketProvider>
                         </ReduxProvider>
                     </ThemeProviderMui>
+                    <Analytics />
                 </body>
             </html>
         </NextAuthSessionProvider>
