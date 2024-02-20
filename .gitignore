@@ -38,3 +38,12 @@ next-env.d.ts
 .idea
 .vscode/*
 !.vscode/settings.json
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+.pnp.cjs
+.pnp.loader.mjs
