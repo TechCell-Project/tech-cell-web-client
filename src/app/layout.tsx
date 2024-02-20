@@ -8,6 +8,7 @@ import 'styles/base/index.scss';
 import { auth } from '@libs/next-auth';
 import { SessionProvider as NextAuthSessionProvider } from 'next-auth/react';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import FaviconIcon from '@public/favicon.ico';
 
@@ -57,6 +58,7 @@ export default async function RootLayout({
                         </ReduxProvider>
                     </ThemeProviderMui>
                     <Analytics />
+                    <SpeedInsights />
                 </body>
             </html>
         </NextAuthSessionProvider>

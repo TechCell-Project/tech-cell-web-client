@@ -26,6 +26,7 @@
         "@reduxjs/toolkit": "^1.9.5",
         "@svgr/webpack": "^8.0.1",
         "@vercel/analytics": "^1.2.1",
+        "@vercel/speed-insights": "^1.0.10",
         "axios": "^1.6.5",
         "axios-retry": "^4.0.0",
         "formik": "^2.4.1",
