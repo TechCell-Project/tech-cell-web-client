@@ -3,9 +3,10 @@ import Image from 'next/image';
 
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+
 import { PaymentMethodLabel } from '@/constants/contents';
-import { Typography } from '@mui/material';
 
 const Card = styled(Paper)(({ theme }) => ({
     width: '100%',
@@ -23,7 +24,7 @@ type CardProps = {
     method: PaymentMethodLabel;
 };
 
-const PaymentMethodCard = ({ method, isSelected }: CardProps) => {
+export const PaymentMethodCard = ({ method, isSelected }: CardProps) => {
     return (
         <Stack
             direction='column'
@@ -54,5 +55,3 @@ const PaymentMethodCard = ({ method, isSelected }: CardProps) => {
         </Stack>
     );
 };
-
-export default PaymentMethodCard;

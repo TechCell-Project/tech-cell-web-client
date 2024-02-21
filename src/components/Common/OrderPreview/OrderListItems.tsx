@@ -1,19 +1,20 @@
 import React, { FC } from 'react';
 import Image from 'next/image';
 
-import { VariantInCart } from '@/interfaces/cart';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
-import styles from '@styles/components/payment.module.scss';
-import { currencyFormat, upperCase } from '@/utils/funcs';
 import Stack from '@mui/material/Stack';
+
+import { VariantInCart } from '@/interfaces/cart';
+import styles from '@styles/components/payment.module.scss';
+
+import { currencyFormat, upperCase } from '@/utils/funcs';
 
 type ListProps = {
     list: VariantInCart[];
 };
 
-const OrderListItems: FC<ListProps> = ({ list }) => {
+export const OrderListItems: FC<ListProps> = ({ list }) => {
     return (
         <Box>
             {list.map((item) => (
@@ -117,5 +118,3 @@ const OrderListItems: FC<ListProps> = ({ list }) => {
         </Box>
     );
 };
-
-export default OrderListItems;
