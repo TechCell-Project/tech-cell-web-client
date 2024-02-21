@@ -37,6 +37,7 @@ const BoxOrderContainer = styled(Box)(({ theme }) => ({
         borderRadius: theme.spacing(1),
         margin: 'auto',
         maxWidth: '768px',
+        maxWidth: '768px',
         padding: theme.spacing(2),
     },
 }));
@@ -50,6 +51,7 @@ const PreviewPage = () => {
                 router.push('/gio-hang');
             },
             5 * 60 * 1000,
+            5 * 60 * 1000,
         );
 
         return () => clearTimeout(timer);
@@ -60,6 +62,7 @@ const PreviewPage = () => {
 
     const [userAddress, setUserAddress] = useState<Address | null>(null);
     const [currentOrder, setCurrentOrder] = useState<OrderReviewResponse | null>(null);
+    const [paymentMethod, setPaymentMethod] = useState<ValidPaymentMethod>('COD');
     const [paymentMethod, setPaymentMethod] = useState<ValidPaymentMethod>('COD');
 
     const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
@@ -109,6 +112,12 @@ const PreviewPage = () => {
 
             const response = await dispatch(createNewOrder(payload));
             if (response?.success) {
+                if (paymentMethod === 'COD') {
+                    toast.success('Đặt đơn thành công. Đơn hàng của bạn sẽ được xử lý...');
+                    router.push('/');
+                } else {
+                    router.push(response.paymentUrl as string);
+                }
                 if (paymentMethod === 'COD') {
                     toast.success('Đặt đơn thành công. Đơn hàng của bạn sẽ được xử lý...');
                     router.push('/');
@@ -179,6 +188,22 @@ const PreviewPage = () => {
                         />
                     )}
 
+                    {/* <PaymentMethodDialog
+                        handleChange={(method: string) => setPaymentMethod(method)}
+                    /> */}
+
+                    <SelectingPaymentMethod
+                        handleSelectMethod={handleSelectPaymentMethod}
+                        selectedMethod={paymentMethod}
+                    />
+
+                    <CommonBtn
+                        content='Đặt Hàng'
+                        loading={isLoadingDetails}
+                        disabled={isLoadingDetails}
+                        styles={{ width: '100%' }}
+                        handleClick={handleClickCheckout}
+                    />
                     {/* <PaymentMethodDialog
                         handleChange={(method: string) => setPaymentMethod(method)}
                     /> */}
