@@ -11,11 +11,10 @@ import { useProfile } from '@hooks/useProfile';
 import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 
 interface AddressListProps {
-    handleCloseListItem: (value: boolean) => void;
     handleSelectAddressIndex: (index: number) => void;
 }
 
-export function AddressList(props: Readonly<AddressListProps>) {
+export function AddressList({ handleSelectAddressIndex }: Readonly<AddressListProps>) {
     const { profile: userProfile, refreshProfile } = useProfile();
 
     const DialogAddressUpdate = lazy(
@@ -24,8 +23,6 @@ export function AddressList(props: Readonly<AddressListProps>) {
     const AddressItemList = lazy(
         () => import('@components/Common/Address/ItemList/AddressItemList'),
     );
-
-    const { handleCloseListItem, handleSelectAddressIndex } = props;
 
     const [checkedAddress, setCheckedAddress] = useState<number>(0);
     const [openAddressUpdate, setOpenAddressUpdate] = useState(false);
@@ -66,29 +63,30 @@ export function AddressList(props: Readonly<AddressListProps>) {
     return (
         <>
             {/* danh sách địa chỉ của user */}
-            {userProfile?.address?.map((address, index: number) => (
-                <Suspense
-                    fallback={
-                        <SkeletonLoading
-                            enableAnimation
-                            height={120}
-                            wrapper={Box}
-                            duration={0.5}
+            <div className='flex flex-col w-full'>
+                {userProfile?.address?.map((address, index: number) => (
+                    <Suspense
+                        fallback={
+                            <SkeletonLoading
+                                enableAnimation
+                                height={120}
+                                wrapper={Box}
+                                duration={0.5}
+                            />
+                        }
+                        key={`index-${index.toString()}`}
+                    >
+                        <AddressItemList
+                            address={address}
+                            checked={checkedAddress}
+                            setChecked={handleSetChecked}
+                            setLengthAddress={handleLength}
+                            addressIndex={index}
+                            selectedAddressToUpdateIndex={handleSelectAddress}
                         />
-                    }
-                    key={`index-${index.toString()}`}
-                >
-                    <AddressItemList
-                        address={address}
-                        checked={checkedAddress}
-                        setChecked={handleSetChecked}
-                        setLengthAddress={handleLength}
-                        handleCloseListItem={handleCloseListItem}
-                        addressIndex={index}
-                        selectedAddressToUpdateIndex={handleSelectAddress}
-                    />
-                </Suspense>
-            ))}
+                    </Suspense>
+                ))}
+            </div>
 
             {/* cập nhật địa chỉ khi click cập nhật ở danh sách địa chỉ */}
             {userProfile && selectedAddressToUpdateIndex !== null && currentAddress !== null && (

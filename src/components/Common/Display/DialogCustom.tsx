@@ -1,7 +1,6 @@
 'use client';
 
 import React, { memo } from 'react';
-import { useTheme } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -12,6 +11,8 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import Divider from '@mui/material/Divider';
+import { useTheme } from '@mui/material/styles';
 
 import styles from '@styles/components/display.module.scss';
 
@@ -41,10 +42,15 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
             open={props.isOpen}
             keepMounted
             fullWidth={true}
-            maxWidth={'xs'}
+            maxWidth={'sm'}
             onClose={handleCloseDialog}
             aria-describedby='dialog-description'
-            sx={{ minWidth: { sm: '560px', xs: '90%' } }}
+            sx={{
+                minWidth: { sm: '560px' },
+                '& .MuiPaper-root': {
+                    margin: { sm: '32px', xs: '15px' },
+                },
+            }}
         >
             <DialogTitle
                 sx={{
@@ -75,6 +81,7 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
                     <CloseRoundedIcon />
                 </IconButton>
             </DialogTitle>
+            <Divider />
             {props.dialogDesc && (
                 <DialogContent>
                     <DialogContentText id='dialog-description'>
@@ -85,9 +92,7 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
             <DialogActions
                 sx={{
                     padding: '0 10px 15px 10px',
-                    gap: '10px',
-                    display: 'inline',
-                    margin: '0px !important',
+                    margin: '0',
                 }}
             >
                 {props.children}
