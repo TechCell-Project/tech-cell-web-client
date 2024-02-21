@@ -57,3 +57,27 @@
 .MuiButtonBase-root.MuiButton-root.MuiButton-text.Mui-disabled.MuiButton-root {
     opacity: 0.6;
 }
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
