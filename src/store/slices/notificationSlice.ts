@@ -38,16 +38,12 @@ export const notificationSlice = createSlice({
             state.isPing = true;
         },
         getSuccess: (state, { payload }: { payload: Array<NotificationModel> }) => {
-            if (payload.length < 10) {
-                state.showReadmore = false;
-            }
+            state.showReadmore = payload.length >= 10;
             state.notifications = payload;
             state.isLoading = false;
         },
         getMoreSuccess: (state, { payload }: { payload: Array<NotificationModel> }) => {
-            if (payload.length < 10) {
-                state.showReadmore = false;
-            }
+            state.showReadmore = payload.length >= 10;
             state.notifications.push(...payload);
             state.isLoading = false;
         },

@@ -27,7 +27,7 @@ import Popover from '@mui/material/Popover';
 import { usePathname, useRouter } from 'next/navigation';
 import { IconBtn } from '@components/Common';
 import Typography from '@mui/material/Typography';
-import { getRole, resolveCallbackUrl } from '@utils/index';
+import { getRole, resolveCallbackUrl } from '@utils';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { RootPath } from '@constants/enum';
 import { CATEGORY } from '@constants/PhoneConstant';
@@ -55,6 +55,7 @@ export const HeaderClient = ({ window }: Props) => {
     const { data: session } = useSession();
     const [mobileOpen, setMobileOpen] = useState<boolean>(false);
     const { push } = useRouter();
+    const { carts } = useAppSelector((state) => state.carts);
 
     const container = window !== undefined ? () => window().document.body : undefined;
     const handleDrawerToggle = () => {
@@ -66,7 +67,6 @@ export const HeaderClient = ({ window }: Props) => {
             <AppBar
                 component='nav'
                 sx={{
-                    // backgroundColor: theme.color.red,
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -99,7 +99,7 @@ export const HeaderClient = ({ window }: Props) => {
                                 width: { xs: '130px' },
                             }}
                         >
-                            <Link href='/'>
+                            <Link href={RootPath.Home}>
                                 <Image
                                     src='/logo-red.png'
                                     alt='Logo Techcell'
@@ -149,10 +149,10 @@ export const HeaderClient = ({ window }: Props) => {
                         >
                             <IconBtn
                                 icon={<LocalMallOutlinedIcon />}
-                                onClick={() => push('/gio-hang')}
+                                onClick={() => push(RootPath.Cart)}
                                 isBadge
                                 tooltip='Giỏ hàng'
-                                badgeContent={1}
+                                badgeContent={carts && carts.cartCountProducts}
                             />
                             <Notification />
 
@@ -168,17 +168,17 @@ export const HeaderClient = ({ window }: Props) => {
                     >
                         <IconBtn
                             icon={<LocalMallOutlinedIcon />}
-                            onClick={() => push('/gio-hang')}
+                            onClick={() => push(RootPath.Cart)}
                             isBadge
                             tooltip='Giỏ hàng'
-                            badgeContent={1}
+                            badgeContent={carts && carts.cartCountProducts}
                         />
                         <Notification />
                         <RenderUserBtn session={session} />
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Box component='nav' sx={{}}>
+            <Box component='nav'>
                 <Drawer
                     container={container}
                     variant='temporary'
