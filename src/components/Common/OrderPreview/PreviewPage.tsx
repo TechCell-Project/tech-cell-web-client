@@ -50,7 +50,6 @@ const PreviewPage = () => {
                 router.push('/gio-hang');
             },
             5 * 60 * 1000,
-            5 * 60 * 1000,
         );
 
         return () => clearTimeout(timer);
@@ -101,7 +100,9 @@ const PreviewPage = () => {
                 productSelected: currentOrder.productSelected,
                 paymentMethod,
                 paymentReturnUrl:
-                    paymentMethod !== 'COD' ? `localhost:3000${RootPath.Order}` : undefined,
+                    paymentMethod !== 'COD'
+                        ? `${process.env.API_BASE_URL}${RootPath.Order}`
+                        : undefined,
             };
 
             const response = await dispatch(createNewOrder(payload));
