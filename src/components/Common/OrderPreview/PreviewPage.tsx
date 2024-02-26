@@ -37,7 +37,6 @@ const BoxOrderContainer = styled(Box)(({ theme }) => ({
         borderRadius: theme.spacing(1),
         margin: 'auto',
         maxWidth: '768px',
-        maxWidth: '768px',
         padding: theme.spacing(2),
     },
 }));
@@ -63,7 +62,6 @@ const PreviewPage = () => {
     const [userAddress, setUserAddress] = useState<Address | null>(null);
     const [currentOrder, setCurrentOrder] = useState<OrderReviewResponse | null>(null);
     const [paymentMethod, setPaymentMethod] = useState<ValidPaymentMethod>('COD');
-    const [paymentMethod, setPaymentMethod] = useState<ValidPaymentMethod>('COD');
 
     const { user, isLoadingProfile } = useAppSelector((state) => state.auth);
 
@@ -80,12 +78,12 @@ const PreviewPage = () => {
         if (!currentOrder) {
             if (reviewedOrder) {
                 if (reviewedOrder.productSelected === null) {
-                    handleBackToCart();
+                    router.back();
                 }
                 setCurrentOrder(reviewedOrder);
             }
         }
-    }, [reviewedOrder, currentOrder]);
+    }, [reviewedOrder, currentOrder, router]);
 
     useEffect(() => {
         if (user) {
@@ -95,10 +93,6 @@ const PreviewPage = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoadingProfile, currentOrder]);
-
-    const handleBackToCart = () => {
-        router.back();
-    };
 
     const handleClickCheckout = debounce(async (e: MouseEvent<HTMLElement>) => {
         if (currentOrder) {
@@ -112,12 +106,6 @@ const PreviewPage = () => {
 
             const response = await dispatch(createNewOrder(payload));
             if (response?.success) {
-                if (paymentMethod === 'COD') {
-                    toast.success('Đặt đơn thành công. Đơn hàng của bạn sẽ được xử lý...');
-                    router.push('/');
-                } else {
-                    router.push(response.paymentUrl as string);
-                }
                 if (paymentMethod === 'COD') {
                     toast.success('Đặt đơn thành công. Đơn hàng của bạn sẽ được xử lý...');
                     router.push('/');
@@ -150,7 +138,7 @@ const PreviewPage = () => {
                         }}
                     >
                         <Box sx={{ width: '20%' }}>
-                            <Button onClick={handleBackToCart} sx={{ color: 'black' }}>
+                            <Button onClick={() => router.back()} sx={{ color: 'black' }}>
                                 <ArrowBackIcon />
                             </Button>
                         </Box>
@@ -188,22 +176,6 @@ const PreviewPage = () => {
                         />
                     )}
 
-                    {/* <PaymentMethodDialog
-                        handleChange={(method: string) => setPaymentMethod(method)}
-                    /> */}
-
-                    <SelectingPaymentMethod
-                        handleSelectMethod={handleSelectPaymentMethod}
-                        selectedMethod={paymentMethod}
-                    />
-
-                    <CommonBtn
-                        content='Đặt Hàng'
-                        loading={isLoadingDetails}
-                        disabled={isLoadingDetails}
-                        styles={{ width: '100%' }}
-                        handleClick={handleClickCheckout}
-                    />
                     {/* <PaymentMethodDialog
                         handleChange={(method: string) => setPaymentMethod(method)}
                     /> */}
