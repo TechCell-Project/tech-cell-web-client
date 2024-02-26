@@ -27,7 +27,6 @@ const NotificationList = ({ status, onClose }: Props) => {
         (state) => state.notifications,
     );
     const [paging, setPaging] = useState<PagingNotify>(new PagingNotify());
-    const router = useRouter();
     const { data: session } = useSession();
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const NotificationList = ({ status, onClose }: Props) => {
         };
     }, [status, dispatch]);
 
-    const pagingNoti = () => {
+    const pagingNotification = () => {
         setPaging((prev) => ({ ...prev, page: prev.page + 1 }));
         dispatch(
             getAllNotification(
@@ -157,7 +156,7 @@ const NotificationList = ({ status, onClose }: Props) => {
                         <CommonBtn
                             variant='text'
                             content='Xem thêm'
-                            handleClick={pagingNoti}
+                            handleClick={pagingNotification}
                             styles={{
                                 width: '100%',
                                 lineHeight: '40px',

@@ -2,16 +2,16 @@
 @import '../base/mixins';
 
 .popover_account_ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
     li {
         display: flex;
         align-items: center;
         gap: 20px;
         cursor: pointer;
         transition: all ease 0.3s;
-
-        &:last-child {
-            margin-top: 15px;
-        }
 
         &:hover button {
             color: $primaryColor;
