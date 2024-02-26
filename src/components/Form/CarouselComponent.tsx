@@ -27,7 +27,13 @@ const Item = ({ imageURL }: { imageURL: string }) => {
 
 export const CarouselComponent = ({ carouselImages }: Readonly<CarouselComponentProps>) => {
     return (
-        <Container maxWidth='xl' sx={{ p: '0px !important', marginTop: { sm: 0, xs: '10px' } }}>
+        <Container
+            sx={{
+                p: '0px !important',
+                marginTop: { sm: 0, xs: '10px' },
+                maxWidth: '100% !important',
+            }}
+        >
             <Carousel>
                 {carouselImages.map((carousel, i) => (
                     <Item key={`${carousel}_${i.toString()}`} imageURL={carousel} />
