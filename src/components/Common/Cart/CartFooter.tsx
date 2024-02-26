@@ -169,79 +169,80 @@ const CartFooterInformation: FC<CartFooterProps> = ({
                             dialogStyle={{ minWidth: 560 }}
                             isSmall
                         >
-                            <AddressList
-                                handleCloseListItem={handleCloseListAddress}
-                                handleSelectAddressIndex={(index: number) => {
-                                    setCurrentIndex(index);
-                                }}
-                            />
+                            <div className='flex flex-col w-full'>
+                                <AddressList
+                                    handleSelectAddressIndex={(index: number) => {
+                                        setCurrentIndex(index);
+                                    }}
+                                />
 
-                            <Box>
-                                <Button
-                                    sx={{
-                                        width: '175px',
-                                        height: '40px',
-                                        padding: '10px',
-                                        border: '1px solid rgba(0,0,0,.09)',
-                                        borderRadius: '5px',
-                                        marginTop: { sm: '30px', xs: '10px' },
-                                        color: 'black',
-                                        marginBottom: { sm: '50px', xs: '10px' },
-                                    }}
-                                    onClick={handleClickNewAddress}
-                                >
-                                    Thêm mới địa chỉ
-                                </Button>
-                            </Box>
+                                <Box>
+                                    <Button
+                                        sx={{
+                                            width: '175px',
+                                            height: '40px',
+                                            padding: '10px',
+                                            border: '1px solid rgba(0,0,0,.09)',
+                                            borderRadius: '5px',
+                                            marginTop: { sm: '30px', xs: '10px' },
+                                            color: 'black',
+                                            marginBottom: { sm: '50px', xs: '10px' },
+                                        }}
+                                        onClick={handleClickNewAddress}
+                                    >
+                                        Thêm mới địa chỉ
+                                    </Button>
+                                </Box>
 
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-end',
-                                    alignItems: 'center',
-                                    marginTop: '15px',
-                                    borderTop: '1px solid rgba(0,0,0,.09)',
-                                    paddingTop: '15px',
-                                }}
-                            >
-                                <Button
-                                    onClick={handleCloseListAddress}
+                                <Box
                                     sx={{
-                                        border: '1px solid #ee4949',
-                                        color: '#ee4949',
-                                        borderRadius: '5px',
+                                        display: 'flex',
+                                        justifyContent: 'flex-end',
+                                        alignItems: 'center',
+                                        marginTop: '15px',
+                                        borderTop: '1px solid rgba(0,0,0,.09)',
+                                        paddingTop: '15px',
                                     }}
                                 >
-                                    Hủy
-                                </Button>
-                                <Button
-                                    type='submit'
-                                    sx={{
-                                        borderRadius: '5px',
-                                        backgroundColor: '#ee4949',
-                                        color: 'white',
-                                        marginLeft: '10px',
-                                        border: '1px solid #ee4949',
-                                        '&:hover': {
-                                            color: '#ee4949 !important',
-                                            backgroundColor: '#white',
-                                        },
-                                    }}
-                                    onClick={saveInfoToLocalStorage}
-                                >
-                                    {isLoadingDetails ? (
-                                        <MoonLoader
-                                            color='#f8f8ff'
-                                            speedMultiplier={0.75}
-                                            size={22}
-                                        />
-                                    ) : (
-                                        <Typography variant='h6' sx={{ fontSize: '14px' }}>
-                                            Xác nhận
-                                        </Typography>
-                                    )}
-                                </Button>
-                            </Box>
+                                    <Button
+                                        onClick={handleCloseListAddress}
+                                        sx={{
+                                            border: '1px solid #ee4949',
+                                            color: '#ee4949',
+                                            borderRadius: '5px',
+                                        }}
+                                    >
+                                        Hủy
+                                    </Button>
+                                    <Button
+                                        type='submit'
+                                        sx={{
+                                            borderRadius: '5px',
+                                            backgroundColor: '#ee4949',
+                                            color: 'white',
+                                            marginLeft: '10px',
+                                            border: '1px solid #ee4949',
+                                            '&:hover': {
+                                                color: '#ee4949 !important',
+                                                backgroundColor: '#white',
+                                            },
+                                        }}
+                                        onClick={saveInfoToLocalStorage}
+                                    >
+                                        {isLoadingDetails ? (
+                                            <MoonLoader
+                                                color='#f8f8ff'
+                                                speedMultiplier={0.75}
+                                                size={22}
+                                            />
+                                        ) : (
+                                            <Typography variant='h6' sx={{ fontSize: '14px' }}>
+                                                Xác nhận
+                                            </Typography>
+                                        )}
+                                    </Button>
+                                </Box>
+                            </div>
                         </ShowDialog>
                     )}
                 </Box>

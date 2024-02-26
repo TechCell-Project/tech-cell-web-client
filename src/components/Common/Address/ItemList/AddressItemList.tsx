@@ -1,11 +1,13 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { AddressSchemaDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import Stack from '@mui/material/Stack';
-import { useState, useEffect } from 'react';
+
 import { buildAddressString } from 'utils/address.util';
 
 interface AddressItemListProps {
@@ -13,21 +15,18 @@ interface AddressItemListProps {
     checked: number;
     setChecked: (index: number) => void;
     setLengthAddress: (value: boolean) => void;
-    handleCloseListItem: (value: boolean) => void;
     addressIndex: number;
     selectedAddressToUpdateIndex: (indexToUpdate: number, addressInfo: AddressSchemaDTO) => void;
 }
 
-const AddressItemList = (props: AddressItemListProps) => {
-    const {
-        address,
-        checked,
-        setChecked,
-        setLengthAddress,
-        addressIndex,
-        selectedAddressToUpdateIndex,
-    } = props;
-
+const AddressItemList = ({
+    address,
+    checked,
+    setChecked,
+    setLengthAddress,
+    addressIndex,
+    selectedAddressToUpdateIndex,
+}: AddressItemListProps) => {
     const [addressString, setAddressString] = useState<string>('');
 
     useEffect(() => {
@@ -39,9 +38,10 @@ const AddressItemList = (props: AddressItemListProps) => {
             sx={{
                 display: 'flex',
                 alignItems: 'center',
-                borderTop: '1px solid rgba(0,0,0,.09)',
-                padding: { sm: '45px 0px 35 px 0px', xs: '35px 5px 15px 5px' },
+                borderBottom: '1px solid rgba(0,0,0,.09)',
+                padding: { sm: '20px 0', xs: '10px 0' },
                 width: '100%',
+                maxWidth: '100%',
             }}
         >
             <Box

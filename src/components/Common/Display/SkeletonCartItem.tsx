@@ -3,7 +3,7 @@ import React from 'react';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
-const SkeletonCartItem = () => {
+export const SkeletonCartItem = () => {
     return (
         <Stack spacing={2} direction='row' alignItems='center' justifyContent='center'>
             <Skeleton animation='wave' variant='rectangular' width={80} height={80} />
@@ -21,5 +21,3 @@ const SkeletonCartItem = () => {
         </Stack>
     );
 };
-
-export default SkeletonCartItem;

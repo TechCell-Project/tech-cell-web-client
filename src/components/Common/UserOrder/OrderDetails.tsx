@@ -15,7 +15,7 @@ import { ORDER_STATUSES } from '@/constants/contents';
 import { buildAddressString, getSingleProductVariant } from '@/utils';
 import OrderItemCard from './OrderItemCard';
 import { VariantInCart } from '@/interfaces/cart';
-import SkeletonCartItem from '../Display/SkeletonCartItem';
+import { SkeletonCartItem } from '../Display/SkeletonCartItem';
 import { RootPath } from '@/constants/enum';
 
 const OrderDetails = () => {

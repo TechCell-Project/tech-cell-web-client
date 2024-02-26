@@ -14,7 +14,7 @@ type InfoProps = {
     email: string;
 };
 
-const ShippingInfo: FC<InfoProps> = ({ address, email }) => {
+export const ShippingInfo: FC<InfoProps> = ({ address, email }) => {
     return (
         <Box>
             <div className={styles.address_main}>
@@ -55,5 +55,3 @@ const ShippingInfo: FC<InfoProps> = ({ address, email }) => {
         </Box>
     );
 };
-
-export default ShippingInfo;

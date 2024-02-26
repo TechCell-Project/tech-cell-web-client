@@ -10,9 +10,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import DialogActions from '@mui/material/DialogActions';
-import { VariantInCart } from '@interfaces/cart';
-import { currencyFormat, upperCase } from 'utils';
 import Typography from '@mui/material/Typography';
+
+import { VariantInCart } from '@interfaces/cart';
+
+import { currencyFormat, upperCase } from 'utils';
 
 interface DialogProps {
     openList: boolean;

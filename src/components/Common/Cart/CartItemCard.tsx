@@ -1,10 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import SkeletonCartItem from '../Display/SkeletonCartItem';
-import { ItemCard } from './ItemCard';
-import { useProduct } from '@hooks/useProduct';
+
 import { ProductCartSchemaDTO, ProductDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
+
+import { SkeletonCartItem } from '../Display/SkeletonCartItem';
+import { ItemCard } from './ItemCard';
+
+import { useProduct } from '@hooks/useProduct';
 
 interface CartItemPropsValues {
     itemData: ProductCartSchemaDTO;

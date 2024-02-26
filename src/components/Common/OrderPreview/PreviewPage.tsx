@@ -2,24 +2,29 @@
 
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Typography from '@mui/material/Typography';
+import Skeleton from '@mui/material/Skeleton';
+
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { getCurrentUser } from '@store/slices/authSlice';
-import { Address } from '@models/Account';
-import Skeleton from '@mui/material/Skeleton';
-import ShippingInfo from './ShippingInfo';
-import OrderList from './OrderList';
-import { CommonBtn } from '../FormGroup/CommonBtn';
-import SelectingPaymentMethod from './SelectingPaymentMethod';
-import { OrderCreateRequest, OrderReviewResponse } from '@models/Order';
 import { createNewOrder } from '@store/slices/orderSlice';
-import { toast } from 'react-toastify';
+
+import { Address } from '@models/Account';
+import { OrderCreateRequest, OrderReviewResponse } from '@models/Order';
+
+import { ShippingInfo } from './ShippingInfo';
+import { OrderList } from './OrderList';
+import { CommonBtn } from '../FormGroup/CommonBtn';
+import { SelectingPaymentMethod } from './SelectingPaymentMethod';
+
 import { debounce } from 'utils';
+
 import { ValidPaymentMethod } from '@/constants/contents';
 import { RootPath } from '@/constants/enum';
 
@@ -72,12 +77,12 @@ const PreviewPage = () => {
         if (!currentOrder) {
             if (reviewedOrder) {
                 if (reviewedOrder.productSelected === null) {
-                    handleBackToCart();
+                    router.back();
                 }
                 setCurrentOrder(reviewedOrder);
             }
         }
-    }, [reviewedOrder, currentOrder]);
+    }, [reviewedOrder, currentOrder, router]);
 
     useEffect(() => {
         if (user) {
@@ -88,17 +93,16 @@ const PreviewPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoadingProfile, currentOrder]);
 
-    const handleBackToCart = () => {
-        router.back();
-    };
-
     const handleClickCheckout = debounce(async (e: MouseEvent<HTMLElement>) => {
         if (currentOrder) {
             const payload: OrderCreateRequest = {
                 addressSelected: currentOrder.addressSelected,
                 productSelected: currentOrder.productSelected,
                 paymentMethod,
-                paymentReturnUrl: paymentMethod !== 'COD' ? RootPath.Order : undefined,
+                paymentReturnUrl:
+                    paymentMethod !== 'COD'
+                        ? `${process.env.API_BASE_URL}${RootPath.Order}`
+                        : undefined,
             };
 
             const response = await dispatch(createNewOrder(payload));
@@ -115,10 +119,7 @@ const PreviewPage = () => {
         }
     }, 1500);
 
-    const handleSelectPaymentMethod = (
-        event: React.MouseEvent<HTMLElement>,
-        method: string | null,
-    ) => {
+    const handleSelectPaymentMethod = (method: string | null) => {
         if (method !== null) {
             setPaymentMethod(method);
             console.log(method);
@@ -138,7 +139,7 @@ const PreviewPage = () => {
                         }}
                     >
                         <Box sx={{ width: '20%' }}>
-                            <Button onClick={handleBackToCart} sx={{ color: 'black' }}>
+                            <Button onClick={() => router.back()} sx={{ color: 'black' }}>
                                 <ArrowBackIcon />
                             </Button>
                         </Box>

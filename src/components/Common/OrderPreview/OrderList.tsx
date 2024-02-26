@@ -13,8 +13,8 @@ import { ShippingData, VariantInCart } from '@interfaces/cart';
 import { AddCartItemModel } from '@models/Cart';
 import { currencyFormat, getSingleProductVariant } from 'utils';
 
-import OrderListItems from './OrderListItems';
-import SkeletonCartItem from '../Display/SkeletonCartItem';
+import { OrderListItems } from './OrderListItems';
+import { SkeletonCartItem } from '../Display/SkeletonCartItem';
 
 const SaleButton = styled(Button)(({ theme }) => ({
     border: `1px solid ${theme.color.red}`,
@@ -47,6 +47,14 @@ const PaymentInfoBox = styled(Box)(({ theme }) => ({
     },
 }));
 
+function getTotalQuantity(orderItems: AddCartItemModel[]): number {
+    let totalQuantity = 0;
+    orderItems.forEach((item) => {
+        totalQuantity += item.quantity;
+    });
+    return totalQuantity;
+}
+
 export const OrderListTitle = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
@@ -70,7 +78,7 @@ interface OrderProps {
     shipping: ShippingData | null;
 }
 
-const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
+export const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [variants, setVariants] = useState<VariantInCart[]>([]);
 
@@ -88,18 +96,6 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
                 });
         }
     }, [items]);
-
-    console.log(variants);
-
-    const getTotalQuantity = (orderItems: AddCartItemModel[]) => {
-        let totalQuantity = 0;
-        orderItems.forEach((item) => {
-            totalQuantity += item.quantity;
-        });
-        return totalQuantity;
-    };
-
-    console.log(shipping);
 
     return (
         <Box
@@ -193,5 +189,3 @@ const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }) => {
         </Box>
     );
 };
-
-export default OrderList;
