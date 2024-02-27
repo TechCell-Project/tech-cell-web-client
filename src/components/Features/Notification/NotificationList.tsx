@@ -152,7 +152,7 @@ const NotificationList = ({ status, onClose }: Props) => {
                             </Stack>
                         );
                     })}
-                    {showReadmore && (
+                    {session && showReadmore && (
                         <CommonBtn
                             variant='text'
                             content='Xem thêm'
