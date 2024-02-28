@@ -26,7 +26,7 @@ import {
 } from '@/utils';
 import { AddCartItemModel } from '@/models';
 import { VariantInCart } from '@/interfaces';
-import SkeletonCartItem from '../Display/SkeletonCartItem';
+import { SkeletonCartItem } from '../Display/SkeletonCartItem';
 import { RootPath } from '@/constants/enum';
 
 type OrderProps = {

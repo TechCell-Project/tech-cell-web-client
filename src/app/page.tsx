@@ -1,11 +1,14 @@
 import React from 'react';
-import { HomePage } from '@components/Common';
+
 import Typography from '@mui/material/Typography';
-import { CarouselComponent } from '@components/Form';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+
+import { HomePage } from '@components/Common';
+import { CarouselComponent } from '@components/Form';
+
 import { HOME_SLOGAN, BENEFIT_SECTION } from '@constants/contents/common.constant';
 import { IMAGE_CAROUSEL } from '@/constants/contents/carousel.constant';
 
@@ -24,6 +27,7 @@ export default function Home() {
             >
                 {HOME_SLOGAN}
             </Typography>
+
             <CarouselComponent carouselImages={IMAGE_CAROUSEL} />
 
             <HomePage />

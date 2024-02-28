@@ -284,16 +284,8 @@ const DialogDetailsTable = ({
             dialogStyle={{ minWidth: { lg: '45%', xs: '80%' } }}
             isSmall
         >
-            <Stack width='100%'>
+            <Stack width='100%' spacing={2} justifyContent='center' alignItems='center'>
                 <Specification techInfo={product.generalAttributes} />
-            </Stack>
-            <Stack
-                direction='row'
-                width='100%'
-                justifyContent='flex-end'
-                ml='0px !important'
-                mt={5}
-            >
                 <CommonBtn content='Hủy bỏ' variant='outlined' handleClick={handleClose} />
             </Stack>
         </ShowDialog>
