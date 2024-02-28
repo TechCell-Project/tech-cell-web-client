@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
@@ -139,7 +139,7 @@ const UserOrders = () => {
         });
     };
 
-    useSkipFirstRender(() => {
+    useEffect(() => {
         if (orderStatus === STATUS_ALL) {
             setPagingOrder({
                 ...pagingOrder,

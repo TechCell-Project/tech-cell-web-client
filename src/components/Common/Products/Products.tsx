@@ -53,9 +53,6 @@ const Products: FC<ProductsPageProps> = ({ className }) => {
         setCurrentProducts(productData);
     }, [products]);
 
-    console.log(searchProduct);
-    console.log(currentProducts);
-
     const handleChange = (event: ChangeEvent<unknown>, page: number) => {
         setSearchProduct({
             ...searchProduct,
