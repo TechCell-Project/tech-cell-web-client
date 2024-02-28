@@ -153,6 +153,7 @@ const UserOrders = () => {
                 orderStatus: orderStatus as GetUserOrdersOrderStatusEnum,
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderStatus]);
 
     useSkipFirstRender(() => {
