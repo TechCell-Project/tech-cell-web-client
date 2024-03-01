@@ -9,14 +9,14 @@
         "lint": "next lint",
         "format": "prettier --write '**/*.{ts,tsx,js,jsx,json,css,scss}'",
         "clean": "rimraf ./node_modules",
-        "sdk": "yarn add TechCell-Project/tech-cell-server-node-sdk",
+        "sdk": "yarn add '@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git'",
         "prepare": "husky install"
     },
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown"
     },
     "dependencies": {
-        "@TechCell-Project/tech-cell-server-node-sdk": "TechCell-Project/tech-cell-server-node-sdk",
+        "@TechCell-Project/tech-cell-server-node-sdk": "https://github.com/TechCell-Project/tech-cell-server-node-sdk.git",
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
         "@mui/icons-material": "5.14.19",
