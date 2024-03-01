@@ -33,6 +33,7 @@
         "type",
         "typo/spell",
         "seo",
-        "images"
+        "images",
+        "scripts"
     ]
 }
