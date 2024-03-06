@@ -101,7 +101,7 @@ const PreviewPage = () => {
                 paymentMethod,
                 paymentReturnUrl:
                     paymentMethod !== 'COD'
-                        ? `${process.env.API_BASE_URL}${RootPath.Order}`
+                        ? `${process.env.NEXT_PUBLIC_BASE_URL}${RootPath.Order}`
                         : undefined,
             };
 
