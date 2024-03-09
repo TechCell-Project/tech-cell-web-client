@@ -10,7 +10,7 @@ import { SliderImgProductDetail } from './SliderImg';
 
 import { EndowProduct } from './EndowProduct';
 import { BundleProduct } from './BundleProduct';
-import { SalientFeatures } from './SalientFeatures';
+import { SalientFeatures } from '../../Common/Product/SalientFeatures';
 import { Specification } from './Specification';
 
 import { LoadingSection } from '@components/Common/Display/LoadingSection';

@@ -78,7 +78,7 @@
     margin-top: 20px;
 
     .produt_details {
-        max-width: 13200px;
+        max-width: 1320px;
         margin: 0 auto;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -762,83 +762,6 @@
             padding: 16px 20px 0;
             border-radius: 5px;
             margin-bottom: 20px;
-
-            .card_title_left {
-                margin-bottom: 15px;
-            }
-
-            .card_head_left {
-                width: 100%;
-                height: auto;
-                background-color: #f2f2f2;
-                margin-bottom: 15px;
-                border-radius: 5px;
-
-                ul {
-                    padding: 5px;
-
-                    .card_head_title {
-                        display: flex;
-                        align-items: center;
-                        padding: 5px;
-
-                        span {
-                            display: block;
-                            width: 5px;
-                            height: 5px;
-                            background-color: #333;
-                            border-radius: 50%;
-                            padding: 4px;
-                            margin-right: 5px;
-                        }
-
-                        li {
-                            font-size: 14px;
-                            text-align: justify;
-                            line-height: 1.4;
-                            margin-left: 5px;
-                        }
-                    }
-                }
-            }
-
-            .card_body_left {
-                .card_body_title {
-                    //position: relative;
-                    max-height: 100px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    //display: inline-block;
-                    transition: max-height 0.2s ease-in-out;
-                    font-size: 14px;
-                    line-height: 1.6;
-                    text-align: justify;
-                    margin-bottom: 5px;
-                }
-
-                .expanded {
-                    max-height: 100%;
-                    height: auto;
-                }
-
-                .card_btn {
-                    //position: relative;
-                    width: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin: 15px 0;
-
-                    button {
-                        padding: 10px 15px;
-                        border: 1px solid #ee4949;
-                        background-color: #fff;
-                        color: #cb1c22;
-                        border-radius: 5px;
-                        cursor: pointer;
-                    }
-                }
-            }
         }
     }
 
@@ -929,6 +852,83 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.card_title_left {
+    margin-bottom: 15px;
+}
+
+.card_head_left {
+    width: 100%;
+    height: auto;
+    background-color: #f2f2f2;
+    margin-bottom: 15px;
+    border-radius: 5px;
+
+    ul {
+        padding: 5px;
+
+        .card_head_title {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+
+            span {
+                display: block;
+                width: 5px;
+                height: 5px;
+                background-color: #333;
+                border-radius: 50%;
+                padding: 4px;
+                margin-right: 5px;
+            }
+
+            li {
+                font-size: 14px;
+                text-align: justify;
+                line-height: 1.4;
+                margin-left: 5px;
+            }
+        }
+    }
+}
+
+.card_body_left {
+    .card_body_title {
+        //position: relative;
+        max-height: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        //display: inline-block;
+        transition: max-height 0.2s ease-in-out;
+        font-size: 14px;
+        line-height: 1.6;
+        text-align: justify;
+        margin-bottom: 5px;
+    }
+
+    .expanded {
+        max-height: 100%;
+        height: auto;
+    }
+
+    .card_btn {
+        //position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0;
+
+        button {
+            padding: 10px 15px;
+            border: 1px solid #ee4949;
+            background-color: #fff;
+            color: #cb1c22;
+            border-radius: 5px;
+            cursor: pointer;
         }
     }
 }

@@ -74,10 +74,51 @@
     flex-direction: column;
 }
 
+.items-center {
+    align-items: center;
+}
+
+.items-end {
+    align-items: flex-end;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
 .relative {
     position: relative;
 }
 
 .absolute {
     position: absolute;
+}
+
+.btn-text {
+    color: $primaryColor;
+    font-family: $primaryFont;
+    font-size: 14px;
+    position: relative;
+    width: max-content;
+    background-color: transparent;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        width: 100%;
+        height: 1px;
+        background-color: $primaryColor;
+        left: 0;
+        transition: all 0.3s ease-in-out;
+        transform: scale(0);
+    }
+
+    &:hover::after {
+        transform: scale(1);
+    }
 }
