@@ -9,7 +9,7 @@ const ScrollLink = ({ children, ...props }: ScrollLinkProps) => {
         e.preventDefault();
         //remove everything before the hash
         if (e.currentTarget.href.length < 20) {
-            const regExp = new RegExp(/.*#/);
+            const regExp = new RegExp(/^(.*?)#/);
             const targetId = e.currentTarget.href.replace(regExp, '');
             const elem = document.getElementById(targetId);
             window.scrollTo({
