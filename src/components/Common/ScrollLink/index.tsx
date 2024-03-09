@@ -8,15 +8,16 @@ const ScrollLink = ({ children, ...props }: ScrollLinkProps) => {
     const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         //remove everything before the hash
-        if (e.currentTarget.href.length > 20) {
+        if (e.currentTarget.href.length < 20) {
+            const targetId = e.currentTarget.href.replace(/.*#/, '');
+            const elem = document.getElementById(targetId);
+            window.scrollTo({
+                top: elem?.getBoundingClientRect().top,
+                behavior: 'smooth',
+            });
+        } else {
             return;
         }
-        const targetId = e.currentTarget.href.replace(/.*#/, '');
-        const elem = document.getElementById(targetId);
-        window.scrollTo({
-            top: elem?.getBoundingClientRect().top,
-            behavior: 'smooth',
-        });
     };
     return (
         <Link {...props} onClick={handleScroll}>
