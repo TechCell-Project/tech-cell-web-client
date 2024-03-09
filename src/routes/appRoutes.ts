@@ -42,7 +42,6 @@ export const needAuthRoutes = [RootPath.Cart, RootPath.Profile, RootPath.Order] 
  * @type {string[]}
  */
 export const apiAuthRoute = [
-    '/api/auth/session',
     CHANGE_PASSWORD_ENDPOINT,
     IMAGES_ENDPOINT,
     CART_ENDPOINT,

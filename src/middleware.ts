@@ -1,5 +1,5 @@
 import { auth } from '@libs/next-auth';
-import { apiAuthPrefix, authRoutes, needAuthRoutes, publicRoutes } from './routes/appRoutes';
+import { apiAuthRoute, authRoutes, needAuthRoutes, publicRoutes } from './routes/appRoutes';
 import { RootPath } from './constants/enum';
 import { NextAuthRequest } from 'next-auth/lib';
 import { cookies } from 'next/headers';
@@ -12,13 +12,15 @@ export default auth((req: NextAuthRequest) => {
     const response = NextResponse.next();
     console.log(`ROUTE: ${path} - ${isLoggedIn ? 'LOGGED IN' : 'NOT LOGGED IN'}`);
 
-    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isApiAuthRoute = apiAuthRoute.some((prefix) => nextUrl.pathname.startsWith(prefix));
     const isPublicRoute = publicRoutes.includes(path);
     const isAuthRoute = authRoutes.includes(path);
     const isNeedAuthRoutes = needAuthRoutes.includes(`/${path.split('/').at(1)}`);
 
-    console.log('Path:', path.split('/').at(1));
+    // console.log('req:', req);
+    console.log('Path:', path);
     console.log('Is need auth route', isNeedAuthRoutes);
+    console.log('Is api auth route', isApiAuthRoute);
 
     if (!isAuthRoute && !isApiAuthRoute) response.cookies.set('stored-pathname', path);
 
@@ -26,7 +28,6 @@ export default auth((req: NextAuthRequest) => {
         if (isLoggedIn) {
             const storedPathname = cookies().get('stored-pathname');
 
-            console.log(storedPathname);
             return storedPathname
                 ? Response.redirect(new URL(storedPathname.value, nextUrl))
                 : Response.redirect(new URL(RootPath.Home, nextUrl));
@@ -45,6 +46,16 @@ export default auth((req: NextAuthRequest) => {
         return Response.redirect(
             new URL(`${RootPath.Login}?callbackUrl=${encodedCallbackUrl}`, nextUrl),
         );
+    }
+
+    if (!isLoggedIn && isApiAuthRoute) {
+        const storedPathname = cookies().get('stored-pathname');
+
+        if (storedPathname) {
+            return Response.redirect(
+                new URL(`${RootPath.Login}?callbackUrl=${storedPathname.value}`, nextUrl),
+            );
+        }
     }
 
     return response;
