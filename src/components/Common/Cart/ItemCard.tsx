@@ -71,7 +71,7 @@ export const ItemCard = ({
 
             return () => clearTimeout(timer1);
         }
-    }, [updateInfo]);
+    }, [addItemToCart, refreshCart, updateInfo]);
 
     useEffect(() => {
         if (currentVariant) {
@@ -85,6 +85,7 @@ export const ItemCard = ({
 
     useEffect(() => {
         passThisItemPrice(productCart.productId, productCart.sku, totalAmount);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalAmount]);
 
     const handleUpdateQuantity = (quantityUpdate: number) => {
@@ -173,7 +174,7 @@ export const ItemCard = ({
                         >
                             {currentVariant.attributes.map((attr, index) => {
                                 let str = '';
-                                const unit = attr.u ?? '';
+                                const unit = attr.u ? attr.u.toUpperCase() : '';
                                 const separate = index !== 0 ? ' - ' : ('' as string);
                                 str += separate + upperCase(attr.v) + unit;
                                 return str;

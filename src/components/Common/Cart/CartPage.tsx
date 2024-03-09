@@ -11,7 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import CartItemCard from './CartItemCard';
 import CartPromotions from './CartPromotions';
 import CartSaleBanners from './CartSaleBanners';
-import { scrollToTop, addOrRemoveFromArray } from 'utils';
+import { scrollToTop, addOrRemoveFromArray } from 'utils/funcs';
 import CartFooterInformation from './CartFooter';
 import { LoadingSection } from '../Display';
 import IconButton from '@mui/material/IconButton';
@@ -52,6 +52,7 @@ function CartPage() {
             });
             setCheckedTotal(total);
         } else setCheckedTotal(0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checkedList]);
 
     const handleCalculateTotal = (id: string, sku: string, price: number) => {
