@@ -317,13 +317,11 @@ export function getMatchProductColorsToImages(variants: VariationModel[]): Image
                 if (color) {
                     if (!uniqueColors.has(color.v.toLowerCase())) {
                         images.push(variant.images[0]);
-                        uniqueColors.add(color.v.toLocaleLowerCase());
+                        uniqueColors.add(color.v.toLowerCase());
                     }
                 }
             }
         }
-    } else {
-        images.push(variants[0].images[0]);
     }
 
     return images;

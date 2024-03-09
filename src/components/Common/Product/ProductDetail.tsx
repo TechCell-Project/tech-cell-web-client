@@ -1,15 +1,8 @@
 'use client';
 
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {
-    AttributeDynamics,
-    ImageModel,
-    PagingProduct,
-    PriceModel,
-    ProductModel,
-    VariationModel,
-} from '@/models';
+import { AttributeDynamics, ImageModel, PagingProduct, PriceModel, ProductModel } from '@/models';
 
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';

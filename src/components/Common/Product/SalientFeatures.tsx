@@ -26,7 +26,7 @@ export const SalientFeatures = memo(({ content }: { content: string }) => {
                     Đặc điểm chi tiết, nổi bật
                 </Typography>
                 <Box
-                    className={`${styles.card_body_title} ${collapse ? `${styles.expanded}` : ''}`}
+                    className={`${styles.card_body_title}` + collapse ? ` ${styles.expanded}` : ''}
                     id='description-top'
                 >
                     <Collapse

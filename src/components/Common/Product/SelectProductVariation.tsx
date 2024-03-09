@@ -100,6 +100,13 @@ export const SelectProductVariation = ({
         return upperCase(Array.from(map.values())[0].name);
     };
 
+    // check if an attribute is contained in a variation
+    const isAttributeInVariation = (variation: VariationModel, attribute: AttributeDynamics) => {
+        return variation.attributes.some(
+            (attr) => attr.k === attribute.k && attr.v.toLowerCase() === attribute.v.toLowerCase(),
+        );
+    };
+
     // get the variations that have the current attributes
     const getOtherAttributesVariations = (key: string) => {
         // get other attributes in selectedAttributes except for current key
@@ -107,15 +114,11 @@ export const SelectProductVariation = ({
             ([selectedKey]) => selectedKey !== key,
         );
 
-        const variationsMatchedWithOtherAttributes = variations.filter((variation) => {
-            return otherAttributes.every(([, otherAttribute]) => {
-                return variation.attributes.some(
-                    (attribute) =>
-                        attribute.k === otherAttribute.k &&
-                        attribute.v.toLowerCase() === otherAttribute.v.toLowerCase(),
-                );
-            });
-        });
+        const variationsMatchedWithOtherAttributes = variations.filter((variation) =>
+            otherAttributes.every(([, otherAttribute]) =>
+                isAttributeInVariation(variation, otherAttribute),
+            ),
+        );
         return variationsMatchedWithOtherAttributes;
     };
 
@@ -180,21 +183,16 @@ export const SelectProductVariation = ({
                             if (index === 0) {
                                 // we can select any thing at first row
                                 isSelectable = true;
-                            } else if (index > Object.entries(selectedAttributes).length + 1) {
-                                // We just can select variation by attributes by 'row by row'
-                                isSelectable = false;
-                            } else {
+                            }
+
+                            if (index <= Object.entries(selectedAttributes).length) {
                                 // get variations available with current selected attributes and this attribute key
                                 const availableVariations = getOtherAttributesVariations(
                                     attribute.k,
                                 );
                                 // check if this attribute appears in available variations
                                 isSelectable = availableVariations.some((variation) =>
-                                    variation.attributes.some(
-                                        (attr) =>
-                                            attr.k === attribute.k &&
-                                            attr.v.toLowerCase() === attribute.v.toLowerCase(),
-                                    ),
+                                    isAttributeInVariation(variation, attribute),
                                 );
                             }
 
