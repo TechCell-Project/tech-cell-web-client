@@ -2,17 +2,14 @@
 
 import React, { useEffect } from 'react';
 
-import { LoadingPage } from '@/components/Common/Display';
-
 import { useAppDispatch, useAppSelector } from '@/store/store';
+import { getDetailsProduct } from '@/store/slices/productSlice';
 
 import { extractIdFromSlug } from '@utils';
-import { getDetailsProduct } from '@/store/slices/productSlice';
-import { ProductDetail } from '@/components/Common/Product/ProductDetail';
+
+import { LoadingPage } from '@/components/Common/Display';
 import NotFound from './NotFound';
-import { getDetailsProduct } from '@/store/slices/productSlice';
 import { ProductDetail } from '@/components/Common/Product/ProductDetail';
-import NotFound from './NotFound';
 
 export default function Page({ params }: Readonly<{ params: { slug: string } }>) {
     const dispatch = useAppDispatch();
