@@ -18,8 +18,10 @@ export const getProducts = (payload: PagingProduct) => {
 };
 
 export const getProductsPublic = (payload: PagingProduct) => {
-    const { page, pageSize, keyword } = payload;
-    let url = `${PRODUCTS_ENDPOINT}?page=${page + 1}&pageSize=${pageSize}&select_type=only_active`;
+    const { page, pageSize, keyword, select_type } = payload;
+    let url = `${PRODUCTS_ENDPOINT}?page=${page + 1}&pageSize=${pageSize}&select_type=${
+        select_type ?? 'only_active'
+    }`;
 
     if (keyword) {
         url += `&keyword=${keyword}`;

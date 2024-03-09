@@ -55,6 +55,7 @@ export const getCart = () => async (dispatch: Dispatch) => {
 };
 
 export const addItemToCart = (addCartData: AddCartRequestDTO) => async (dispatch: Dispatch) => {
+    dispatch(setStatus({ status: 'loading' }));
     try {
         const { status } = await cartApi.addCart({
             addCartRequestDTO: addCartData,
@@ -64,8 +65,10 @@ export const addItemToCart = (addCartData: AddCartRequestDTO) => async (dispatch
         }
         // refresh data
         getCart()(dispatch);
+        dispatch(setStatus({ status: 'success' }));
         return true;
     } catch (error) {
+        dispatch(setStatus({ status: 'error' }));
         return false;
     }
 };

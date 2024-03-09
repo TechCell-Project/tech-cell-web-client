@@ -1,9 +1,12 @@
 import axios, { AxiosError, AxiosInstance, CreateAxiosDefaults } from 'axios';
 import axiosRetry from 'axios-retry';
+
 import { AuthenticationApi } from '@TechCell-Project/tech-cell-server-node-sdk';
+
 import { getSession } from 'next-auth/react';
-import { API_ENDPOINT } from '@constants/Services';
 import { update } from '@libs/next-auth';
+
+import { API_ENDPOINT } from '@constants/Services';
 
 /**
  * Generates an Axios instance with the provided options.
@@ -63,6 +66,7 @@ axiosAuth.interceptors.request.use(
     async (request) => {
         if (!request.headers.Authorization) {
             const session = await getSession();
+
             if (!session?.user.accessToken) {
                 throw new Error('No access token found');
             }

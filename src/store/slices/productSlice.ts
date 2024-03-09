@@ -1,7 +1,9 @@
-import { PagingResponse } from '@models/Common';
+import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
+
 import { PagingProduct, ProductModel, ProductSlice } from '@models/Product';
-import { createSlice, Dispatch } from '@reduxjs/toolkit';
-import { getProductById, getProducts, getProductsPublic } from '@services/index';
+import { PagingResponse } from '@models/Common';
+
+import { getProductById, getProductsPublic } from '@services/index';
 
 const initialState: ProductSlice = {
     products: new PagingResponse<ProductModel>(),
@@ -20,7 +22,7 @@ export const productSlice = createSlice({
         isFetchingDetails: (state) => {
             state.isLoadingDetails = true;
         },
-        getAllSuccess: (state, { payload }) => {
+        getAllSuccess: (state, { payload }: PayloadAction<PagingResponse<ProductModel>>) => {
             state.products = payload;
             state.isLoading = false;
         },
@@ -28,7 +30,7 @@ export const productSlice = createSlice({
             state.products = new PagingResponse<ProductModel>();
             state.isLoading = false;
         },
-        getDetailsSuccess: (state, { payload }) => {
+        getDetailsSuccess: (state, { payload }: PayloadAction<ProductModel>) => {
             state.product = payload;
             state.isLoadingDetails = false;
         },
@@ -56,6 +58,8 @@ export const getAllProduct = (payload: PagingProduct) => async (dispatch: Dispat
     } catch (error) {
         console.log(error);
         dispatch(getAllFailure());
+    } finally {
+        dispatch(fetchedDone);
     }
 };
 

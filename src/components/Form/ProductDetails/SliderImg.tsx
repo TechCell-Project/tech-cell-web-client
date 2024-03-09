@@ -10,7 +10,6 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { product } from './product';
 import { ImageModel } from '@models/Product';
 
 interface SliderImgProps {
@@ -83,109 +82,98 @@ export const SliderImgProductDetail: FC<SliderImgProps> = ({ images }) => {
     }, [width, sliderIndex]);
 
     return (
-        <>
-            <div className={styles.product_page_img}>
+        <div className={styles.product_page_img}>
+            {images.map((image, index) => (
+                <div
+                    key={image.publicId}
+                    className={styles.mySlides}
+                    style={{
+                        display: index + 1 === sliderIndex ? 'block' : 'none',
+                    }}
+                >
+                    <div className={styles.numbertext}>
+                        {index + 1} / {images.length}
+                    </div>
+                    <div className={styles.product_details_img}>
+                        <Image src={image.url} alt={image.publicId} width={398.4} height={398.4} />
+                    </div>
+
+                    <div className={styles.product_details_btn}>
+                        <a href='#!' className={styles.prev_icon} onClick={() => plusSlider(-1)}>
+                            <ArrowBackIosNewIcon />
+                        </a>
+                        <a href='#!' className={styles.next_icon} onClick={() => plusSlider(1)}>
+                            <ArrowForwardIosIcon />
+                        </a>
+                    </div>
+                </div>
+            ))}
+
+            <div
+                className={styles.slider_img}
+                draggable={true}
+                ref={sliderRef}
+                onDragStart={dragStart}
+                onDragOver={dragOver}
+                onDragEnd={dragEnd}
+            >
                 {images.map((image, index) => (
                     <div
                         key={image.publicId}
-                        className={styles.mySlides}
-                        style={{
-                            display: index + 1 === sliderIndex ? 'block' : 'none',
-                        }}
+                        className={`${styles.slider_box} ${
+                            index + 1 === sliderIndex ? `${styles.active}` : ''
+                        }`}
+                        onClick={() => setSliderIndex(index + 1)}
                     >
-                        <div className={styles.numbertext}>
-                            {index + 1} / {images.length}
-                        </div>
-                        <div className={styles.product_details_img}>
-                            <Image
-                                src={image.url}
-                                alt={image.publicId}
-                                width={398.4}
-                                height={398.4}
-                            />
-                        </div>
-
-                        <div className={styles.product_details_btn}>
-                            <a
-                                href='#!'
-                                className={styles.prev_icon}
-                                onClick={() => plusSlider(-1)}
-                            >
-                                <ArrowBackIosNewIcon />
-                            </a>
-                            <a href='#!' className={styles.next_icon} onClick={() => plusSlider(1)}>
-                                <ArrowForwardIosIcon />
-                            </a>
-                        </div>
+                        <Image src={image.url} width={60} height={60} alt={image.publicId} />
                     </div>
                 ))}
+            </div>
 
-                <div
-                    className={styles.slider_img}
-                    draggable={true}
-                    ref={sliderRef}
-                    onDragStart={dragStart}
-                    onDragOver={dragOver}
-                    onDragEnd={dragEnd}
-                >
-                    {images.map((image, index) => (
-                        <div
-                            key={image.publicId}
-                            className={`${styles.slider_box} ${
-                                index + 1 === sliderIndex ? `${styles.active}` : ''
-                            }`}
-                            onClick={() => setSliderIndex(index + 1)}
-                        >
-                            <Image src={image.url} width={60} height={60} alt={image.publicId} />
-                        </div>
-                    ))}
-                </div>
+            {/* Thông số sản phẩm */}
+            <div className={styles.product_parameters}>
+                <div className={styles.product_parameter_heading}>Thông tin sản phẩm</div>
+                <div className={styles.product_parameter_content}>
+                    <ul>
+                        <li>
+                            <span>
+                                <PhoneIphoneIcon />
+                            </span>
+                            <p>6.7 inch, Super Retina XDR, 2796 x 1290 Pixels</p>
+                        </li>
 
-                {/* Thông số sản phẩm */}
-                <div className={styles.product_parameters}>
-                    <div className={styles.product_parameter_heading}>Thông tin sản phẩm</div>
-                    <div className={styles.product_parameter_content}>
-                        <ul>
-                            <li>
-                                <span>
-                                    <PhoneIphoneIcon />
-                                </span>
-                                <p>6.7 inch, Super Retina XDR, 2796 x 1290 Pixels</p>
-                            </li>
+                        <li>
+                            <span>
+                                <CameraIcon />
+                            </span>
+                            <p>6.7 inch, Super Retina XDR, 2796 x 1290 Pixels</p>
+                        </li>
 
-                            <li>
-                                <span>
-                                    <CameraIcon />
-                                </span>
-                                <p>6.7 inch, Super Retina XDR, 2796 x 1290 Pixels</p>
-                            </li>
-
-                            <li>
-                                <span>
-                                    <DnsIcon />
-                                </span>
-                                <p>6.7 inch, Super Retina XDR, 2796 x 1290 Pixels</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Chính sách sản phẩm */}
-                <div className={styles.product_policy}>
-                    <div className={styles.product_policy_content}>
-                        <span>
-                            <WorkspacePremiumIcon />
-                        </span>
-                        <p>Hàng chính hãng - Bảo hành 12 Tháng</p>
-                    </div>
-                    <div className={styles.product_policy_content}>
-                        <span>
-                            <LocalShippingIcon />
-                        </span>
-                        <p>Giao hàng toàn quốc</p>
-                    </div>
+                        <li>
+                            <span>
+                                <DnsIcon />
+                            </span>
+                            <p>6.7 inch, Super Retina XDR, 2796 x 1290 Pixels</p>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </>
+
+            {/* Chính sách sản phẩm */}
+            <div className={styles.product_policy}>
+                <div className={styles.product_policy_content}>
+                    <span>
+                        <WorkspacePremiumIcon />
+                    </span>
+                    <p>Hàng chính hãng - Bảo hành 12 Tháng</p>
+                </div>
+                <div className={styles.product_policy_content}>
+                    <span>
+                        <LocalShippingIcon />
+                    </span>
+                    <p>Giao hàng toàn quốc</p>
+                </div>
+            </div>
+        </div>
     );
 };

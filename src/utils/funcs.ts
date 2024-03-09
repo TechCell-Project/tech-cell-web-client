@@ -119,10 +119,10 @@ export const formatProductLabel = (product: ProductModel) => {
 };
 
 //get attribute from product details
-export const getSingleAttribute = (attributes: AttributeDynamics[], type: string) => {
-    const specificAttribute = attributes.filter((attribute) => attribute.k === type).shift();
+export const getSingleAttribute = (attributes: AttributeDynamics[], name: string) => {
+    const specificAttribute = attributes.find((attribute) => attribute.k === name)!;
 
-    return specificAttribute ?? new AttributeDynamics();
+    return specificAttribute;
 };
 
 // //get blur image data url
@@ -304,3 +304,43 @@ export const getTotalProductQuantity = (order: OrderSchemaDTO) => {
     order.products.forEach((product) => (totalQuantity += product.quantity));
     return totalQuantity;
 };
+
+export function getMatchProductColorsToImages(variants: VariationModel[]): ImageModel[] {
+    const uniqueColors: Set<string> = new Set();
+    const images: ImageModel[] = [];
+
+    if (variants.length > 1) {
+        for (const variant of variants) {
+            if (variant.attributes.length > 1) {
+                const color = variant.attributes.find((att) => att.k === 'color');
+
+                if (color) {
+                    if (!uniqueColors.has(color.v.toLowerCase())) {
+                        images.push(variant.images[0]);
+                        uniqueColors.add(color.v.toLowerCase());
+                    }
+                }
+            }
+        }
+    }
+
+    return images;
+}
+
+export function getArrayAttributesByKey(attributes: AttributeDynamics[], key: string) {
+    const specifics: AttributeDynamics[] = [];
+    const rest: AttributeDynamics[] = [];
+
+    attributes.forEach((attr) => {
+        if (attr.k.startsWith(key)) {
+            specifics.push(attr);
+        } else {
+            rest.push(attr);
+        }
+    });
+
+    return {
+        specifics,
+        rest,
+    };
+}
