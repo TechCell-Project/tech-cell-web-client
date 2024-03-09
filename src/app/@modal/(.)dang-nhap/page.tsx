@@ -1,10 +1,11 @@
 'use client';
 
-import { LoginPage } from '@/components/Pages/Login';
-import ShowDialog from '@components/Common/Display/DialogCustom';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+
+import { LoginPage } from '@/components/Pages/Login';
+import { ShowDialog } from '@components/Common/Display/DialogCustom';
 
 export default function LoginParallel() {
     const router = useRouter();

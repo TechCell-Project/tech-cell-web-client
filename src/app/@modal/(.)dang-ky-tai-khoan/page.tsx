@@ -1,10 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import RegisterPage from '@/components/Pages/Register/Register';
-import ShowDialog from '@components/Common/Display/DialogCustom';
-import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+
+import RegisterPage from '@/components/Pages/Register/Register';
+import { ShowDialog } from '@components/Common/Display/DialogCustom';
 
 export default function RegisterParallel() {
     const router = useRouter();

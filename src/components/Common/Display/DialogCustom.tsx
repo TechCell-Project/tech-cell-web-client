@@ -14,8 +14,6 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 
-import styles from '@styles/components/display.module.scss';
-
 interface IDialog {
     isOpen: boolean;
     handleClose: (event?: any) => void;
@@ -69,7 +67,12 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
                     }}
                 >
                     {!props.isSmall && <ErrorOutlineOutlinedIcon sx={{ fill: theme.color.red }} />}
-                    <Typography variant='body1' fontWeight={600} fontSize='17px'>
+                    <Typography
+                        variant='body1'
+                        fontWeight={600}
+                        fontSize='17px'
+                        color={theme.color.red}
+                    >
                         {props.dialogTitle}
                     </Typography>
                 </Stack>
@@ -102,4 +105,3 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
 }
 
 export const ShowDialog = memo(ShowDialogWithoutMemo);
-export default memo(ShowDialogWithoutMemo);
