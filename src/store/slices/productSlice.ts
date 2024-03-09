@@ -59,7 +59,7 @@ export const getAllProduct = (payload: PagingProduct) => async (dispatch: Dispat
         console.log(error);
         dispatch(getAllFailure());
     } finally {
-        dispatch(fetchedDone);
+        dispatch(fetchedDone());
     }
 };
 
@@ -74,6 +74,8 @@ export const getDetailsProduct =
             }
         } catch (error) {
             dispatch(getDetailsFailure());
+        } finally {
+            dispatch(fetchedDetailsDone());
         }
     };
 
@@ -82,6 +84,7 @@ const { actions, reducer } = productSlice;
 export const {
     isFetching,
     fetchedDone,
+    fetchedDetailsDone,
     getAllSuccess,
     getAllFailure,
     isFetchingDetails,

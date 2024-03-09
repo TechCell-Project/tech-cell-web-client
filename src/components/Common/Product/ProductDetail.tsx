@@ -61,6 +61,10 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     const [selectedVariationSku, setSelectedVariationSku] = useState<string | null>(null);
     const [colorIndex, setColorIndex] = useState<number | null>(null);
 
+    const matchProductColorsToImages = getMatchProductColorsToImages(product.variations);
+
+    console.log(matchProductColorsToImages);
+
     const combineProductImages: ImageModel[] = [
         ...product.generalImages,
         ...getMatchProductColorsToImages(product.variations),

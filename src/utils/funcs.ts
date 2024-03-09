@@ -305,18 +305,19 @@ export const getTotalProductQuantity = (order: OrderSchemaDTO) => {
     return totalQuantity;
 };
 
-export function getMatchProductColorsToImages(variants: VariationModel[]): ImageModel[] {
+export function getMatchProductColorsToImages(variations: VariationModel[]): ImageModel[] {
     const uniqueColors: Set<string> = new Set();
     const images: ImageModel[] = [];
 
-    if (variants.length > 1) {
-        for (const variant of variants) {
-            if (variant.attributes.length > 1) {
-                const color = variant.attributes.find((att) => att.k === 'color');
-
+    console.log(variations);
+    if (variations.length >= 1) {
+        for (const variation of variations) {
+            if (variation.attributes.length >= 1) {
+                const color = variation.attributes.find((att) => att.k === 'color');
+                console.log(color);
                 if (color) {
                     if (!uniqueColors.has(color.v.toLowerCase())) {
-                        images.push(variant.images[0]);
+                        images.push(variation.images[0]);
                         uniqueColors.add(color.v.toLowerCase());
                     }
                 }
