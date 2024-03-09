@@ -1,5 +1,7 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
+import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
+
 import { PagingProduct, ProductModel, ProductSlice } from '@models/Product';
 import { PagingResponse } from '@models/Common';
 

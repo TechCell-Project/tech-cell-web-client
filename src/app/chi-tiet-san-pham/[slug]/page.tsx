@@ -10,6 +10,9 @@ import { extractIdFromSlug } from '@utils';
 import { getDetailsProduct } from '@/store/slices/productSlice';
 import { ProductDetail } from '@/components/Common/Product/ProductDetail';
 import NotFound from './NotFound';
+import { getDetailsProduct } from '@/store/slices/productSlice';
+import { ProductDetail } from '@/components/Common/Product/ProductDetail';
+import NotFound from './NotFound';
 
 export default function Page({ params }: Readonly<{ params: { slug: string } }>) {
     const dispatch = useAppDispatch();
