@@ -8,8 +8,8 @@ import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { PriceModel } from '@models/Product';
-import { convertSlugUrl, currencyFormat } from 'utils';
 import { RootPath } from '@constants/enum';
+import { convertSlugUrl, currencyFormat } from 'utils';
 
 interface ProductDataProps {
     initialData: {
@@ -17,7 +17,6 @@ interface ProductDataProps {
         name: string;
         category: string;
         price: PriceModel;
-        // price: number;
         image: string;
     };
 }
@@ -49,13 +48,21 @@ const CardComponent: FC<ProductDataProps> = ({ initialData }) => {
                         <h3 className={styles.productNameproduct}>{initialData.name}</h3>
                         <div className={styles.productPrice}>
                             <div className={styles.productNewprice}>
-                                {currencyFormat(Number(initialData.price.special))}
+                                {currencyFormat(
+                                    Number(
+                                        initialData.price.special !== 0
+                                            ? initialData.price.special
+                                            : initialData.price.base,
+                                    ),
+                                )}
                                 <sup>đ</sup>
                             </div>
-                            <div className={styles.productOldprice}>
-                                {currencyFormat(Number(initialData.price.base))}
-                                <sup>đ</sup>
-                            </div>
+                            {initialData.price.special !== 0 && (
+                                <div className={styles.productOldprice}>
+                                    {currencyFormat(Number(initialData.price.base))}
+                                    <sup>đ</sup>
+                                </div>
+                            )}
                         </div>
                         <div className={styles.productContentpromotion}>
                             <div className={styles.productPromotion}>

@@ -21,7 +21,7 @@ export const HomePage = () => {
     const dispatch = useAppDispatch();
     const { products, isLoading } = useAppSelector((state) => state.product);
 
-    const [searchProduct, setSearchProduct] = useState<Paging>(new Paging());
+    const [searchProduct, setSearchProduct] = useState<Paging>({ ...new Paging(), pageSize: 4 });
     const [newestProducts, setNewestProducts] = useState<ProductLabel[]>([]);
 
     useEffect(() => {

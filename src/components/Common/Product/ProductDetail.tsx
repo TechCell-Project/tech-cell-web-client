@@ -81,7 +81,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     }, [selectedVariationSku, product.variations]);
 
     useEffect(() => {
-        const pagingData = new PagingProduct();
+        const pagingData = { ...new PagingProduct(), pageSize: 4 };
 
         dispatch(getAllProduct(pagingData));
         // eslint-disable-next-line react-hooks/exhaustive-deps
