@@ -16,7 +16,6 @@ import CartItemCard from './CartItemCard';
 import CartPromotions from './CartPromotions';
 import CartSaleBanners from './CartSaleBanners';
 import CartFooterInformation from './CartFooter';
-import { LoadingSection } from '../Display';
 
 import { scrollToTop, addOrRemoveFromArray } from 'utils/funcs';
 import { useCart } from '@hooks/userCart';

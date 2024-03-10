@@ -24,9 +24,11 @@ export const HomePage = () => {
     const [searchProduct, setSearchProduct] = useState<Paging>({ ...new Paging(), pageSize: 4 });
     const [newestProducts, setNewestProducts] = useState<ProductLabel[]>([]);
 
+    console.log(setSearchProduct); //not use yet
+
     useEffect(() => {
         dispatch(getAllProduct(searchProduct)).then();
-    }, [searchProduct]);
+    }, [dispatch, searchProduct]);
 
     useEffect(() => {
         const productData = products.data.map((product) => formatProductLabel(product)).slice(0, 4);
