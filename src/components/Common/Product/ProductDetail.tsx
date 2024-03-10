@@ -64,8 +64,6 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     const matchProductColorsToImages =
         product.variations.length > 1 ? getMatchProductColorsToImages(product.variations) : [];
 
-    console.log(matchProductColorsToImages);
-
     const combineProductImages: ImageModel[] = [
         ...product.generalImages,
         ...matchProductColorsToImages,
