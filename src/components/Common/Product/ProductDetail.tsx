@@ -61,13 +61,14 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     const [selectedVariationSku, setSelectedVariationSku] = useState<string | null>(null);
     const [colorIndex, setColorIndex] = useState<number | null>(null);
 
-    const matchProductColorsToImages = getMatchProductColorsToImages(product.variations);
+    const matchProductColorsToImages =
+        product.variations.length > 1 ? getMatchProductColorsToImages(product.variations) : [];
 
     console.log(matchProductColorsToImages);
 
     const combineProductImages: ImageModel[] = [
         ...product.generalImages,
-        ...getMatchProductColorsToImages(product.variations),
+        ...matchProductColorsToImages,
     ];
 
     useEffect(() => {
@@ -136,6 +137,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                         <Box className='w-full'>
                             <ProductImageSlider
                                 images={combineProductImages}
+                                alternativeImg={product.generalImages[0]}
                                 selectedImage={colorIndex}
                             />
                         </Box>
@@ -161,13 +163,20 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                                     {'Điện thoại'}
                                 </Typography>
                                 <ProductPrice price={currentPrice} />
-                                <SelectProductVariation
-                                    variations={product.variations}
-                                    handleSelectVariationSku={setSelectedVariationSku}
-                                    handleSelectColorAttribute={(index: number) =>
-                                        setColorIndex(product.generalImages.length + index + 1)
-                                    }
-                                />
+                                {product.variations.length > 1 ? (
+                                    <SelectProductVariation
+                                        variations={product.variations}
+                                        handleSelectVariationSku={setSelectedVariationSku}
+                                        handleSelectColorAttribute={(index: number) =>
+                                            setColorIndex(product.generalImages.length + index + 1)
+                                        }
+                                    />
+                                ) : (
+                                    <SelectProductVariation
+                                        variations={product.variations}
+                                        handleSelectVariationSku={setSelectedVariationSku}
+                                    />
+                                )}
 
                                 {/* Handle adding to cart and buying */}
                                 <HandlingButtons

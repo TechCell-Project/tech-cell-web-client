@@ -183,9 +183,7 @@ export const SelectProductVariation = ({
                             if (index === 0) {
                                 // we can select any thing at first row
                                 isSelectable = true;
-                            }
-
-                            if (index <= Object.entries(selectedAttributes).length) {
+                            } else if (index <= Object.entries(selectedAttributes).length) {
                                 // get variations available with current selected attributes and this attribute key
                                 const availableVariations = getOtherAttributesVariations(
                                     attribute.k,
