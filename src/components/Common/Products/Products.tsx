@@ -68,7 +68,7 @@ const Products: FC<ProductsPageProps> = ({ className }) => {
             <Box marginTop='20px'>
                 {/*<Container maxWidth="lg">*/}
                 <Container sx={{ maxWidth: '1320px !important' }}>
-                    <Stack spacing={3}>
+                    <Box className='flex flex-col w-full' sx={{ paddingBottom: '20px' }}>
                         <Box sx={{ overflowX: 'auto' }}>
                             <BrandScrolling className={styles.list_brands.toString()} />
                             <CategorySelect />
@@ -79,7 +79,7 @@ const Products: FC<ProductsPageProps> = ({ className }) => {
                             pagingData={{ page: searchProduct.page, totalPage: products.totalPage }}
                             handleChange={handleChange}
                         />
-                    </Stack>
+                    </Box>
                 </Container>
             </Box>
         </>
