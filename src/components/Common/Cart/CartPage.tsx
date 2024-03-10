@@ -105,6 +105,9 @@ function CartPage() {
         localStorage.setItem('select-item-query', checkedList.toString());
     };
 
+    console.log(carts);
+    console.log(status);
+
     return (
         <Box
             sx={{
@@ -112,7 +115,6 @@ function CartPage() {
                 minHeight: '60vh',
             }}
         >
-            {!carts && status === 'loading' && <LoadingSection isLoading={true} />}
             {status === 'success' && (
                 <>
                     <Container
@@ -151,7 +153,7 @@ function CartPage() {
                                 </Typography>
                             </Box>
 
-                            {carts !== undefined && carts.cartCountProducts === 0 ? (
+                            {!carts ? (
                                 <Typography
                                     variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
