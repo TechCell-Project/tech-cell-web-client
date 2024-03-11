@@ -97,7 +97,7 @@ export const Specification = memo(({ techInfo, isDialog }: TechnologyInformation
                         ...operatorAttributes.specifics,
                         ...connectivityAttributes.specifics,
                     ]}
-                    title='Pin & Công nghệ sạc'
+                    title='Giao tiếp & Kết nối'
                 />
             )}
             {dimensionAttributes.specifics.length > 0 && weightAttributes.specifics.length > 0 && (

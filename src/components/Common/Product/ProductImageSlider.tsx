@@ -143,10 +143,11 @@ const TechcellCommitment = styled(Box)(({ theme }) => ({
 
 interface SliderProps {
     images: ImageModel[];
+    alternativeImg: ImageModel;
     selectedImage: number | null;
 }
 
-export const ProductImageSlider = ({ images, selectedImage }: SliderProps) => {
+export const ProductImageSlider = ({ images, alternativeImg, selectedImage }: SliderProps) => {
     const [sliderIndex, setSliderIndex] = useState<number>(1);
 
     const handleChangeSlideImg = (e: React.MouseEvent<HTMLButtonElement>, count: number) => {
@@ -165,6 +166,8 @@ export const ProductImageSlider = ({ images, selectedImage }: SliderProps) => {
             setSliderIndex(selectedImage);
         }
     }, [selectedImage, images.length]);
+
+    const validatedImages = images.map((image) => image ?? alternativeImg);
 
     return (
         <>
@@ -195,7 +198,7 @@ export const ProductImageSlider = ({ images, selectedImage }: SliderProps) => {
                         <ArrowForwardIosIcon />
                     </BtnSlider>
                 </Box>
-                {images.map((image, index) => (
+                {validatedImages.map((image, index) => (
                     <Box
                         key={image.publicId}
                         sx={{
@@ -221,7 +224,7 @@ export const ProductImageSlider = ({ images, selectedImage }: SliderProps) => {
                 ))}
             </SliderContainer>
             <BottomImage>
-                {images.map((image, index) => (
+                {validatedImages.map((image, index) => (
                     <Box
                         key={image.publicId}
                         onClick={() => setSliderIndex(index + 1)}

@@ -309,17 +309,13 @@ export function getMatchProductColorsToImages(variations: VariationModel[]): Ima
     const uniqueColors: Set<string> = new Set();
     const images: ImageModel[] = [];
 
-    console.log(variations);
-    if (variations.length >= 1) {
-        for (const variation of variations) {
-            if (variation.attributes.length >= 1) {
-                const color = variation.attributes.find((att) => att.k === 'color');
-                console.log(color);
-                if (color) {
-                    if (!uniqueColors.has(color.v.toLowerCase())) {
-                        images.push(variation.images[0]);
-                        uniqueColors.add(color.v.toLowerCase());
-                    }
+    for (const variation of variations) {
+        if (variation.attributes.length >= 1) {
+            const color = variation.attributes.find((att) => att.k === 'color');
+            if (color) {
+                if (!uniqueColors.has(color.v.toLowerCase())) {
+                    images.push(variation.images[0]);
+                    uniqueColors.add(color.v.toLowerCase());
                 }
             }
         }

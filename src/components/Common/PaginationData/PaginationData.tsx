@@ -1,9 +1,8 @@
 import React, { ChangeEvent, FC } from 'react';
 
 import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+
 import CardComponent from '@components/Form/CardComponent';
 import { PriceModel } from '@models/Product';
 import { theme } from '@components/Theme';
@@ -25,58 +24,25 @@ interface PaginationProps {
 
 const PaginationData: FC<PaginationProps> = ({ initialData, pagingData, handleChange }) => {
     return (
-        <Stack spacing={3}>
+        <Box className='flex flex-col w-full' sx={{ gap: '20px' }}>
             <Box
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: '10px',
+                    maxWidth: '100%',
+                    display: 'grid',
+                    gap: '10px',
+                    gridTemplateColumns: {
+                        lg: 'repeat(4, 1fr)',
+                        md: 'repeat(3, 1fr)',
+                        sm: 'repeat(2, 1fr)',
+                        xs: 'repeat(1, 1fr)',
+                    },
                 }}
             >
-                <Box sx={{ width: '1200px' }}>
-                    <Box
-                        sx={{
-                            maxWidth: '100%',
-                            borderRadius: '5px',
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                padding: {
-                                    lg: '15px 0px 15px 0px',
-                                    xs: '0px 10px 0px 10px',
-                                },
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: { xs: 'space-around' },
-                                }}
-                            >
-                                <Grid
-                                    container
-                                    sx={{
-                                        width: '100%',
-                                        display: 'flex',
-                                        justifyContent: {
-                                            sm: 'space-between',
-                                            xs: 'space-around',
-                                        },
-                                    }}
-                                    spacing={5}
-                                >
-                                    {initialData?.map((product) => (
-                                        <Grid item key={product.id} xs={6} lg={3} md={4}>
-                                            <CardComponent initialData={product} />
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            </Box>
-                        </Box>
+                {initialData?.map((product) => (
+                    <Box key={product.id}>
+                        <CardComponent initialData={product} />
                     </Box>
-                </Box>
+                ))}
             </Box>
             <Pagination
                 sx={{
@@ -100,7 +66,7 @@ const PaginationData: FC<PaginationProps> = ({ initialData, pagingData, handleCh
                 page={pagingData.page + 1}
                 count={pagingData.totalPage}
             />
-        </Stack>
+        </Box>
     );
 };
 

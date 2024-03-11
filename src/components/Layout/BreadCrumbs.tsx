@@ -37,14 +37,17 @@ export const BreadCrumbs = () => {
                             sx={{ alignItems: 'center' }}
                             color='white'
                         >
-                            <Typography
-                                variant='h6'
-                                sx={{ '& a:hover': { textDecoration: 'underline' } }}
-                            >
-                                <Link color='#ee4949' href='/'>
+                            <Link href='/'>
+                                <Typography
+                                    variant='h6'
+                                    sx={{
+                                        '&:hover': { textDecoration: 'underline' },
+                                        color: '#ee4949',
+                                    }}
+                                >
                                     Trang chủ
-                                </Link>
-                            </Typography>
+                                </Typography>
+                            </Link>
                             <Typography variant='h6'>Điện thoại</Typography>
                         </Breadcrumbs>
                     </Stack>

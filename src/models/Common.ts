@@ -5,7 +5,7 @@ export class Paging {
 
     constructor() {
         this.page = 0;
-        this.pageSize = 4;
+        this.pageSize = 8;
     }
 }
 

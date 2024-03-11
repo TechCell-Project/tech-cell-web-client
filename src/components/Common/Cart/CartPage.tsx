@@ -1,6 +1,7 @@
 'use client';
 
 import React, { MouseEvent, useEffect, useState } from 'react';
+
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -8,13 +9,15 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+
+import IconButton from '@mui/material/IconButton';
+
 import CartItemCard from './CartItemCard';
 import CartPromotions from './CartPromotions';
 import CartSaleBanners from './CartSaleBanners';
-import { scrollToTop, addOrRemoveFromArray } from 'utils/funcs';
 import CartFooterInformation from './CartFooter';
-import { LoadingSection } from '../Display';
-import IconButton from '@mui/material/IconButton';
+
+import { scrollToTop, addOrRemoveFromArray } from 'utils/funcs';
 import { useCart } from '@hooks/userCart';
 
 type CartItemPrice = {
@@ -101,6 +104,9 @@ function CartPage() {
         localStorage.setItem('select-item-query', checkedList.toString());
     };
 
+    console.log(carts);
+    console.log(status);
+
     return (
         <Box
             sx={{
@@ -108,7 +114,6 @@ function CartPage() {
                 minHeight: '60vh',
             }}
         >
-            {!carts && status === 'loading' && <LoadingSection isLoading={true} />}
             {status === 'success' && (
                 <>
                     <Container
@@ -147,7 +152,7 @@ function CartPage() {
                                 </Typography>
                             </Box>
 
-                            {carts !== undefined && carts.cartCountProducts === 0 ? (
+                            {!carts ? (
                                 <Typography
                                     variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
