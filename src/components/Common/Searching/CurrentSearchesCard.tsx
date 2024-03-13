@@ -41,66 +41,78 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                     </Typography>
                 </Paper>
             )}
-            {currentProducts.map((product) => (
-                <MenuItem
-                    key={product.id}
-                    onClick={() => router.push(`/chi-tiet-san-pham/${product.id}`)}
-                >
-                    <Stack spacing={2} direction='row'>
-                        <Box>
-                            <Image src={product.image} alt={product.name} height={64} width={64} />
-                        </Box>
-                        <Stack
-                            sx={{
-                                width: '100%',
-                                paddingLeff: '10px',
-                            }}
-                            alignItems='flex-start'
-                            justifyContent='center'
-                            spacing={1}
-                        >
-                            <Typography
-                                variant='h4'
-                                sx={{
-                                    fontWeight: '600',
-                                    fontSize: '16px',
-                                }}
-                            >
-                                {product.name}
-                            </Typography>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'flex-end',
-                                    gap: '8px',
-                                }}
-                            >
-                                <Typography
-                                    variant='h6'
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: '17px',
-                                        color: '#ee4949',
-                                    }}
-                                >
-                                    {currencyFormat(product.price.sale)}
-                                </Typography>
-                                <Typography
-                                    variant='h6'
-                                    sx={{
-                                        fontWeight: 500,
-                                        fontSize: '14px',
-                                        color: '#777777',
-                                        textDecoration: 'line-through',
-                                    }}
-                                >
-                                    {currencyFormat(product.price.base)}
-                                </Typography>
+            {currentProducts.map((product) => {
+                const special = product.price.special;
+                const base = product.price.base;
+
+                return (
+                    <MenuItem
+                        key={product.id}
+                        onClick={() => router.push(`/chi-tiet-san-pham/${product.id}`)}
+                    >
+                        <Stack spacing={2} direction='row'>
+                            <Box>
+                                <Image
+                                    src={product.image}
+                                    alt={product.name}
+                                    height={64}
+                                    width={64}
+                                />
                             </Box>
+                            <Stack
+                                sx={{
+                                    width: '100%',
+                                    paddingLeff: '10px',
+                                }}
+                                alignItems='flex-start'
+                                justifyContent='center'
+                                spacing={1}
+                            >
+                                <Typography
+                                    variant='h4'
+                                    sx={{
+                                        fontWeight: '600',
+                                        fontSize: '16px',
+                                    }}
+                                >
+                                    {product.name}
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        gap: '8px',
+                                    }}
+                                >
+                                    <Typography
+                                        variant='h6'
+                                        sx={{
+                                            fontWeight: 700,
+                                            fontSize: '17px',
+                                            color: '#ee4949',
+                                        }}
+                                    >
+                                        {currencyFormat(special !== 0 ? special : base)}
+                                    </Typography>
+                                    {special !== 0 && (
+                                        <Typography
+                                            variant='h6'
+                                            sx={{
+                                                fontWeight: 500,
+                                                fontSize: '14px',
+                                                color: '#777777',
+                                                textDecoration: 'line-through',
+                                            }}
+                                        >
+                                            {currencyFormat(product.price.base)}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Stack>
                         </Stack>
-                    </Stack>
-                </MenuItem>
-            ))}
+                    </MenuItem>
+                );
+            })}
         </>
     );
 };

@@ -1,11 +1,14 @@
 import React, { memo } from 'react';
-import { ShowDialog } from '@components/Common/Display';
+import * as Yup from 'yup';
 import { Form, Formik, FormikHelpers } from 'formik';
+import { toast } from 'react-toastify';
+
+import { ShowDialog } from '@components/Common/Display';
 import { TextFieldCustom } from '@components/Common/FormFormik';
 import { CommonBtn } from '@components/Common';
+
 import Stack from '@mui/system/Stack';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
+
 import { UserMntResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { useProfile } from '@hooks/useProfile';
 
@@ -39,6 +42,7 @@ const UpdateInfo = ({ isOpen, handleClose }: Props) => {
                 isOpen={isOpen}
                 handleClose={handleClose}
                 dialogStyle={{ minWidth: { lg: '30%', xs: '90%' } }}
+                isSmall={false}
             >
                 <Formik
                     enableReinitialize
@@ -50,7 +54,7 @@ const UpdateInfo = ({ isOpen, handleClose }: Props) => {
                     })}
                 >
                     {(form) => (
-                        <Form style={{ width: '100%' }}>
+                        <Form style={{ width: '100%', marginTop: '20px' }}>
                             <Stack direction='column' gap='20px'>
                                 <TextFieldCustom name='lastName' label='Họ' />
                                 <TextFieldCustom name='firstName' label='Tên' />
