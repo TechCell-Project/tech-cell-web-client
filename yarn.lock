@@ -5,10 +5,10 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git":
-  version: 0.0.1-661822b
-  resolution: "@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git#commit=33691c4ee85fecb68708ba1b84536ee580c681a4"
-  checksum: 10c0/f9c5bebb5df9dde4d90afe55e181afcc94166cb213c0c9dca17495467acdb39ff44c631bfa14aec8a08af8a46547ebaf7dd42cf00d21803f5f4a944e65f0a23e
+"@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git#master":
+  version: 0.0.1-b23a1e6
+  resolution: "@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git#commit=b46ed67c3b75e91b522b5ad7d8149b970e9b2714"
+  checksum: 10c0/4c6ff85047f30877507cdc64353d9e33b3e9eedb66c909f40e9111722ddba6e6c693050b0f865a40585d336f32fce3adf30a2490c763f924fe71625074722ff7
   languageName: node
   linkType: hard
 
@@ -7817,7 +7817,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tech-cell-web-client@workspace:."
   dependencies:
-    "@TechCell-Project/tech-cell-server-node-sdk": "https://github.com/TechCell-Project/tech-cell-server-node-sdk.git"
+    "@TechCell-Project/tech-cell-server-node-sdk": "https://github.com/TechCell-Project/tech-cell-server-node-sdk.git#master"
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@mui/icons-material": "npm:5.14.19"
