@@ -230,30 +230,36 @@ export const UserOrderCard = ({ order }: OrderProps) => {
                                 borderTop: { sm: 'none', xs: '1px solid #e0e0e0' },
                             }}
                         >
-                            <Typography
-                                sx={{
-                                    textDecoration: 'lineThrough',
-                                    color: '#757575',
-                                    fontWeight: 600,
-                                    position: 'relative',
-                                }}
-                            >
-                                {currencyFormat(firstOrderProductVariantToDisplay?.data.price.base)}
-                                <Box
+                            {firstOrderProductVariantToDisplay.data.price.special !== 0 && (
+                                <Typography
                                     sx={{
-                                        position: 'absolute',
-                                        content: '""',
-                                        display: 'block',
-                                        width: '100%',
-                                        height: '2px',
-                                        backgroundColor: '#9e9e9e',
-                                        top: '12px',
+                                        textDecoration: 'lineThrough',
+                                        color: '#757575',
+                                        fontWeight: 600,
+                                        position: 'relative',
                                     }}
-                                />
-                            </Typography>
+                                >
+                                    {currencyFormat(
+                                        firstOrderProductVariantToDisplay.data.price.base,
+                                    )}
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            content: '""',
+                                            display: 'block',
+                                            width: '100%',
+                                            height: '2px',
+                                            backgroundColor: '#9e9e9e',
+                                            top: '12px',
+                                        }}
+                                    />
+                                </Typography>
+                            )}
                             <Typography sx={{ color: '#ee4949', fontWeight: 600 }}>
                                 {currencyFormat(
-                                    firstOrderProductVariantToDisplay?.data.price.special,
+                                    firstOrderProductVariantToDisplay.data.price.special !== 0
+                                        ? firstOrderProductVariantToDisplay?.data.price.special
+                                        : firstOrderProductVariantToDisplay.data.price.base,
                                 )}
                             </Typography>
                         </Box>

@@ -1,14 +1,12 @@
 'use client';
 
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import { alpha, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import InputBase, { InputBaseProps } from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
-import Divider from '@mui/material/Divider';
 import SearchIcon from '@mui/icons-material/Search';
-import { Urlify } from 'utils';
 
 const StyledBox = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -58,13 +56,13 @@ interface SearchValueProps {
     inputProps: InputBaseProps;
 }
 
-const SearchBar: FC<SearchValueProps> = ({
+const SearchBar = ({
     onSubmit,
     defaultValue,
     alreadyInputSomething,
     handleLengthSituations,
     inputProps,
-}) => {
+}: SearchValueProps) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [isError, setIsError] = useState<boolean>(false);
 

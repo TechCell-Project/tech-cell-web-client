@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, MouseEvent, FC } from 'react';
+import React, { useState, MouseEvent } from 'react';
 
 import styles from '@styles/components/brands.module.scss';
 

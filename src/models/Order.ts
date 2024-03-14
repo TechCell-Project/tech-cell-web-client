@@ -10,7 +10,7 @@ export class OrderModel {
     products: Array<CartItemModel> = new Array<CartItemModel>();
     checkoutOrder: OrderCheckout = new OrderCheckout();
     shippingOrder: OrderShipping = new OrderShipping();
-    paymentOrder?: OrderPayment = new OrderPayment();
+    paymentOrder: OrderPayment = new OrderPayment();
     trackingCode: string | null = null;
     orderStatus: string | null = null;
     createdAt: string | null = null;
@@ -50,10 +50,15 @@ export class OrderReviewResponse extends OrderReviewRequest {
     shipping: ShippingData | null = null;
 }
 
+export class CancelOrderRequest {
+    id: string | null = null;
+    cancelReason: string | null = null;
+}
+
 export class OrderSlice {
     orders: PagingResponse<OrderModel> | ListUserOrderResponseDTO =
         new PagingResponse<OrderModel>();
-    order?: OrderModel | null = null;
+    order: OrderModel | null = null;
     reviewedOrder: OrderReviewResponse | null = null;
     isLoading: boolean = false;
     isLoadingDetails: boolean = false;

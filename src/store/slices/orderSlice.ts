@@ -1,9 +1,11 @@
 import {
     ListUserOrderResponseDTO,
+    OrderApiGetPaymentUrlRequest,
     OrderApiGetUserOrdersRequest,
 } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { PagingResponse } from '@models/Common';
 import {
+    CancelOrderRequest,
     OrderCreateRequest,
     OrderModel,
     OrderReviewRequest,
@@ -11,7 +13,7 @@ import {
     OrderSlice,
 } from '@models/Order';
 import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createOrder, orderApi, reviewOrder } from '@services/OrderService';
+import { cancelOrder, createOrder, orderApi, reviewOrder } from '@services/OrderService';
 import { HttpStatusCode, isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
@@ -134,6 +136,69 @@ export const createNewOrder = (payload: OrderCreateRequest) => async (dispatch: 
         dispatch(isFetchedDone());
     }
 };
+
+export const newPaymentUrl =
+    (payload: OrderApiGetPaymentUrlRequest) => async (dispatch: Dispatch) => {
+        dispatch(isFetchingDetails());
+        try {
+            const { status, data } = await orderApi.getPaymentUrl(payload);
+
+            if (status === HttpStatusCode.Ok) {
+                dispatch(getDetailSuccess(data as unknown as OrderModel));
+                return { success: true };
+            }
+        } catch (error) {
+            let status = 400;
+            if (isAxiosError(error) && error.response) {
+                if (error.response.status === 400) {
+                    toast.error('Yêu cầu không hợp lệ. Vui lòng kiểm tra lại dữ liệu yêu cầu!');
+                } else if (error.response.status === 401) {
+                    toast.error('Phiên đăng nhập không khả dụng. Vui lòng đăng nhập lại');
+                } else if (error.response.status === 404) {
+                    toast.error('Không tìm thấy dữ liệu. Vui lòng thử lại sau');
+                } else if (error.response.status === 429) {
+                    toast.error('Quá nhiều yêu cầu. Vui lòng thử lại sau');
+                } else {
+                    toast.error('Có lỗi xảy ra. Vui lòng thử lại sau ít phút');
+                }
+                status = error.response.status;
+            }
+            dispatch(getDetailFailure());
+            return { success: false, statusCode: status };
+        }
+    };
+
+export const cancelAnOrder =
+    (payload: Required<CancelOrderRequest>) => async (dispatch: Dispatch) => {
+        dispatch(isFetchingDetails());
+        try {
+            const { status } = await cancelOrder(payload);
+
+            if (status === HttpStatusCode.Ok) {
+                toast.success('Đã hủy đơn hàng thành công');
+                return { success: true };
+            }
+        } catch (error) {
+            let status = 400;
+            if (isAxiosError(error) && error.response) {
+                if (error.response.status === 400) {
+                    toast.error('Yêu cầu không hợp lệ. Vui lòng kiểm tra lại dữ liệu yêu cầu!');
+                } else if (error.response.status === 401) {
+                    toast.error('Phiên đăng nhập không khả dụng. Vui lòng đăng nhập lại');
+                } else if (error.response.status === 404) {
+                    toast.error('Không tìm thấy dữ liệu. Vui lòng thử lại sau');
+                } else if (error.response.status === 429) {
+                    toast.error('Quá nhiều yêu cầu. Vui lòng thử lại sau');
+                } else {
+                    toast.error('Có lỗi xảy ra. Vui lòng thử lại sau ít phút');
+                }
+                status = error.response.status;
+            }
+            return { success: false, statusCode: status };
+        } finally {
+            dispatch(isFetchedDone());
+        }
+    };
 
 const { actions, reducer } = orderSlice;
 

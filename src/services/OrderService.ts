@@ -2,6 +2,7 @@ import { axiosAuth } from '@libs/axios';
 import { ORDER_ENDPOINT, REVIEW_ORDER_ENDPOINT } from '@constants/Services';
 import { PagingResponse } from '@models/Common';
 import {
+    CancelOrderRequest,
     OrderCreateRequest,
     OrderModel,
     OrderReviewRequest,
@@ -18,3 +19,6 @@ export const reviewOrder = (payload: OrderReviewRequest) =>
 
 export const createOrder = (payload: OrderCreateRequest) =>
     axiosAuth.post<OrderModel>(ORDER_ENDPOINT, payload);
+
+export const cancelOrder = (payload: CancelOrderRequest) =>
+    axiosAuth.put(`${ORDER_ENDPOINT}/${payload.id}/cancel`, payload);
