@@ -45,11 +45,6 @@ export const CUSTOM_STATUS_CODE = [
     },
 ];
 
-type ErrorCase = {
-    statusCode: number;
-    case: string;
-};
-
 export const INVALID = 400;
 export const UNAUTHORIZED = 401;
 export const NOTFOUND = 404;

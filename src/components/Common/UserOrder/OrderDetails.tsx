@@ -8,7 +8,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -28,8 +27,11 @@ import { styled } from '@mui/material/styles';
 import OrderItemCard from './OrderItemCard';
 import { SkeletonCartItem } from '../Display/SkeletonCartItem';
 import { ShowDialog } from '../Display/DialogCustom';
+import { CommonBtn } from '../FormGroup/CommonBtn';
+import { TextFieldCustom } from '../FormFormik';
 
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch } from '@/store/store';
+import { cancelAnOrder, getOrder, newPaymentUrl } from '@/store/slices/orderSlice';
 
 import { buildAddressString, currencyFormat, debounce, getSingleProductVariant } from '@/utils';
 import {
@@ -42,14 +44,13 @@ import {
     STATUS_SHIPPING,
     STATUS_WAIT_FOR_PAYMENT,
 } from '@/constants/contents';
-import { VariantInCart } from '@/interfaces/cart';
 import { RootPath } from '@/constants/enum';
+import { VariantInCart } from '@/interfaces/cart';
+
 import { OrderSchemaDTO, PaymentOrderDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
-import { cancelAnOrder, getOrder, newPaymentUrl } from '@/store/slices/orderSlice';
+
 import { Form, Formik } from 'formik';
 import { CancelOrderReasonValidateSchema } from '@/validate/auth.validate';
-import { TextFieldCustom } from '../FormFormik';
-import { CommonBtn } from '../FormGroup/CommonBtn';
 
 const HeaderBox = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -117,7 +118,7 @@ const InformationBox = styled(Box)(({ theme }) => ({
     marginBottom: '20px',
 }));
 
-const StyledStepper = styled(Stepper)(({ theme }) => ({
+const StyledStepper = styled(Stepper)(() => ({
     marginTop: '10px',
     marginBottom: '30px',
     '& .MuiStepLabel-label': {

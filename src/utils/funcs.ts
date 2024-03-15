@@ -3,8 +3,6 @@ import { ImageModel, PriceModel, ProductModel, VariationModel } from '@models/Pr
 import { AttributeDynamics } from '@models/Attribute';
 import { VariantStorage } from '@interfaces/product';
 import {
-    CASE_DEFAULT,
-    CASE_ORDER_CANCEL,
     ERROR_MSG,
     FOUND_CODE,
     MAP_STATUS_CODE,
@@ -12,7 +10,6 @@ import {
     SERVER_ERROR_CODE,
 } from '@constants/errorCode';
 import { getCurrentUserRole } from './local';
-import { PagingResponse } from '@models/Common';
 import { UserAccount } from '@models/Account';
 import { UserModel } from '@models/Profile';
 import slugify from 'slugify';
@@ -60,18 +57,6 @@ export const isRoleAccepted = (role?: string): boolean => {
         default:
             return false;
     }
-};
-
-// get status product
-const productStatusMapping: { [key: number]: string } = {
-    [ProductStatus.ComingSoon]: 'Sắp ra mắt',
-    [ProductStatus.NewArrival]: 'Hàng mới về',
-    [ProductStatus.Pre_order]: 'Đặt hàng trước',
-    [ProductStatus.OnSales]: 'Đang bán',
-    [ProductStatus.Hide]: 'Ẩn',
-    [ProductStatus.NotSales]: 'Không bán',
-    [ProductStatus.LowStock]: 'Còn ít hàng',
-    [ProductStatus.TemporarilyOutOfStock]: 'Tạm thời hết hàng',
 };
 
 //get thumbnail image
