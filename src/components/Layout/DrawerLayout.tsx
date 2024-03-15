@@ -12,7 +12,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import { CATEGORY } from '@constants/PhoneConstant';
+import { CATEGORIES } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { usePathnameChange } from '@hooks/usePathnameChange';
@@ -23,7 +23,7 @@ interface Props {
 
 const NAV_ITEMS = [
     { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
-    { name: 'Sản phẩm', menu: CATEGORY, icon: PhoneAndroidOutlinedIcon, isNav: true },
+    { name: 'Sản phẩm', menu: CATEGORIES, icon: PhoneAndroidOutlinedIcon, isNav: true },
     { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.Order },
 ];
 

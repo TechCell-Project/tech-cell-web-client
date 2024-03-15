@@ -1,14 +1,8 @@
-export const CATEGORY = [
-    { label: 'Điện thoại, Tablet', value: 1, to: '/phone' },
-    { label: 'Laptop', value: 2, to: '/laoptop' },
-    { label: 'Tai nghe', value: 3, to: '/tainghe' },
-    { label: 'Đồng hồ, Máy ảnh', value: 4, to: '/dongho&mayanh' },
-    { label: 'Phụ kiện', value: 5, to: '/phukien' },
-    { label: 'PC, Màn hình', value: 6, to: '/pc&manhinh' },
-    { label: 'Tivi', value: 7, to: '/tivi' },
-    { label: 'Hàng cũ', value: 8, to: '/hangcu' },
-    { label: 'Chương trình khuyến mãi', value: 9, to: '/khuyenmai' },
-    { label: 'Tin công nghệ', value: 10, to: '/tintuc' },
+import { RootPath } from './enum';
+
+export const CATEGORIES = [
+    { label: 'Iphone', value: 1, to: `${RootPath.ProductList}?category=iphone` },
+    { label: 'Samsung', value: 2, to: `${RootPath.ProductList}?category=samsung` },
 ];
 
 export const BRANDS = [

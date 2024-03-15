@@ -1,7 +1,14 @@
 'use client';
 
 import React, { memo, useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { Session } from 'next-auth';
+import { useSession, signOut } from 'next-auth/react';
+
+import styles from '@styles/components/header.module.scss';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,32 +16,30 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
-import { Menu as MenuIcon } from '@mui/icons-material';
+import Avatar from '@mui/material/Avatar';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+
+import MenuIcon from '@mui/icons-material/Menu';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+
 import { MenuComponent } from '@components/Form';
 import { DRAWER_WIDTH } from '@constants/NavConstant';
 import { DrawerLayout } from '@components/Layout';
-import styles from '@styles/components/header.module.scss';
-import { useSession, signOut } from 'next-auth/react';
-import SearchBarBox from '@components/Common/Searching/SearchBarBox';
-import Link from 'next/link';
-import { Session } from 'next-auth';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import Avatar from '@mui/material/Avatar';
-import Popover from '@mui/material/Popover';
-import { usePathname, useRouter } from 'next/navigation';
-import { IconBtn } from '@components/Common';
-import Typography from '@mui/material/Typography';
-import { getRole, resolveCallbackUrl } from '@utils';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import { RootPath } from '@constants/enum';
-import { CATEGORY } from '@constants/PhoneConstant';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Notification } from '@components/Features';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SearchBarBox from '@components/Common/Searching/SearchBarBox';
+import { IconBtn } from '@components/Common/FormGroup/IconBtn';
+
+import { getRole, resolveCallbackUrl } from '@utils';
+
+import { RootPath } from '@constants/enum';
+import { CATEGORIES } from '@constants/PhoneConstant';
 
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
@@ -47,8 +52,7 @@ interface Props {
 
 const NAV_ITEMS = [
     { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
-    { name: 'Sản phẩm', menu: CATEGORY, icon: PhoneAndroidOutlinedIcon, isNav: true },
-    { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.Order },
+    { name: 'Sản phẩm', menu: CATEGORIES, icon: PhoneAndroidOutlinedIcon, isNav: true },
 ];
 
 export const HeaderClient = ({ window }: Props) => {
@@ -227,7 +231,7 @@ const RenderUserBtn = memo(({ session }: { session: Session | null }) => {
     return session && profile ? (
         <>
             <Avatar
-                src={profile?.avatar?.url ?? AlternateAvatar.src}
+                src={profile.avatar?.url ?? AlternateAvatar.src}
                 alt='User Avatar'
                 sx={{ height: '38px', width: '38px', cursor: 'pointer' }}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
