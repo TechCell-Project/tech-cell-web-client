@@ -9,8 +9,13 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import { UserAvatar } from '@/components/Layout/UserAvatar';
 import {
@@ -19,17 +24,10 @@ import {
     ORDER_STATUSES,
     STATUS_PROCESSING,
 } from '@/constants/contents';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 
 import {
     GetUserOrdersOrderStatusEnum,
-    ListUserOrderResponseDTO,
-    OrderApiGetUserOrdersRequest,
+    OrdersApiGetUserOrdersRequest,
     OrderSchemaDTO,
 } from '@TechCell-Project/tech-cell-server-node-sdk';
 
@@ -38,29 +36,9 @@ import { Paging } from '@/models';
 import { UserOrderCard } from './UserOrderCard';
 import PaginationBar from '../PaginationData/PaginationBar';
 
-import { useSkipFirstRender } from '@/hooks';
 import { getAllOrder } from '@/store/slices/orderSlice';
 import { LoadingSection } from '../Display';
 import { RootPath } from '@/constants/enum';
-
-const OverviewOrdersPlaced = styled(Box)(({ theme }) => ({
-    width: '45%',
-    textAlign: 'center',
-    '& h4': {
-        fontWeight: 700,
-        fontSize: '18px',
-        [theme.breakpoints.up('sm')]: {
-            fontSize: '24px',
-        },
-    },
-    '& p': {
-        fontWeight: 500,
-        fontSize: '14px',
-        [theme.breakpoints.up('sm')]: {
-            fontSize: '18px',
-        },
-    },
-}));
 
 const ToggleOrderStatusGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     width: '100%',
@@ -101,7 +79,7 @@ const ToggleOrderStatusGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 const UserOrders = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const [pagingOrder, setPagingOrder] = useState<OrderApiGetUserOrdersRequest>({
+    const [pagingOrder, setPagingOrder] = useState<OrdersApiGetUserOrdersRequest>({
         ...new Paging(),
         page: 1,
     });
@@ -111,10 +89,6 @@ const UserOrders = () => {
 
     const { profile } = useAppSelector((state) => state.profile);
     const { orders, isLoading } = useAppSelector((state) => state.order);
-
-    const [currentOrders, setCurrentOrders] = useState<ListUserOrderResponseDTO>(
-        orders as ListUserOrderResponseDTO,
-    );
 
     const handleSelect = (event: MouseEvent<HTMLElement>, newStatus: string | null) => {
         if (newStatus !== null) {
@@ -139,6 +113,31 @@ const UserOrders = () => {
         });
     };
 
+    const getOrdersOnChanging = async () => {
+        const res = await dispatch(getAllOrder(pagingOrder));
+
+        if (res && !res.success) {
+            if (Number.isInteger(res.errorCode)) {
+                const code = res.errorCode;
+
+                if (code === 401) signOut();
+                else if (code === 429) router.push(RootPath.Home);
+                else if (code === 404) {
+                    setOrderStatus(prevOrderStatus);
+                    await dispatch(
+                        getAllOrder({
+                            ...pagingOrder,
+                            orderStatus:
+                                prevOrderStatus === STATUS_ALL
+                                    ? undefined
+                                    : (prevOrderStatus as GetUserOrdersOrderStatusEnum),
+                        }),
+                    );
+                }
+            }
+        }
+    };
+
     useEffect(() => {
         if (orderStatus === STATUS_ALL) {
             setPagingOrder({
@@ -156,39 +155,13 @@ const UserOrders = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderStatus]);
 
-    useSkipFirstRender(() => {
-        const getOrdersOnChanging = async () => {
-            const res = await dispatch(getAllOrder(pagingOrder));
-
-            if (res && !res.success) {
-                if (Number.isInteger(res.errorCode)) {
-                    const code = res.errorCode;
-
-                    switch (code) {
-                        case 401:
-                            signOut();
-                            break;
-                        case 404:
-                            setOrderStatus(prevOrderStatus);
-                            break;
-                        default:
-                            router.push(RootPath.Home);
-                            break;
-                    }
-                }
-            }
-        };
-
-        getOrdersOnChanging();
+    useEffect(() => {
+        if (orderStatus !== prevOrderStatus) {
+            getOrdersOnChanging();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pagingOrder]);
 
-    useSkipFirstRender(() => {
-        if (!isLoading) {
-            setCurrentOrders(orders as ListUserOrderResponseDTO);
-        }
-    }, [isLoading]);
-
-    console.log('current: ' + orderStatus + ' prev: ' + prevOrderStatus);
     const buttons = ORDER_STATUS_KEYS.map((status) => (
         <ToggleButton value={status} key={status}>
             <Typography>
@@ -211,14 +184,6 @@ const UserOrders = () => {
             sx={{ padding: { sm: 0, xs: '10px' }, paddingTop: '20px !important' }}
         >
             <Stack>
-                {profile ? (
-                    <UserAvatar
-                        url={profile.avatar?.url}
-                        name={`${profile.lastName} ${profile.firstName}`}
-                    />
-                ) : (
-                    <UserAvatar />
-                )}
                 <Box
                     sx={{
                         backgroundColor: 'white',
@@ -228,22 +193,14 @@ const UserOrders = () => {
                         borderRadius: '3px',
                     }}
                 >
-                    <Stack
-                        direction='row'
-                        divider={<Divider orientation='vertical' flexItem />}
-                        spacing={0}
-                        alignItems='center'
-                        justifyContent='center'
-                    >
-                        <OverviewOrdersPlaced>
-                            <h4>0</h4>
-                            <p>Đơn hàng</p>
-                        </OverviewOrdersPlaced>
-                        <OverviewOrdersPlaced>
-                            <h4>0đ</h4>
-                            <p>Tổng tiền</p>
-                        </OverviewOrdersPlaced>
-                    </Stack>
+                    {profile ? (
+                        <UserAvatar
+                            url={profile.avatar?.url}
+                            name={`${profile.lastName} ${profile.firstName}`}
+                        />
+                    ) : (
+                        <UserAvatar />
+                    )}
                 </Box>
                 <Box
                     sx={{
@@ -288,9 +245,20 @@ const UserOrders = () => {
                         <LoadingSection isLoading />
                     ) : (
                         <>
-                            {currentOrders.data.map((order) => (
-                                <UserOrderCard key={order._id} order={order as OrderSchemaDTO} />
-                            ))}
+                            {orders.data.length !== 0 ? (
+                                orders.data.map((order) => (
+                                    <UserOrderCard
+                                        key={order._id}
+                                        order={order as OrderSchemaDTO}
+                                    />
+                                ))
+                            ) : (
+                                <div className='flex w-full h-full items-center justify-center'>
+                                    <Typography variant='subtitle1'>
+                                        Chưa có đơn hàng nào
+                                    </Typography>
+                                </div>
+                            )}
                         </>
                     )}
                     <Box
