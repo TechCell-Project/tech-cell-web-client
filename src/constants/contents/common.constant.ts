@@ -97,35 +97,35 @@ const COMMON_STATUSES: Map<string, StatusLabel> = new Map<string, StatusLabel>([
     ],
 ]);
 
-export const ORDER_STATUSES: Map<string, StatusLabel> = new Map(COMMON_STATUSES);
-ORDER_STATUSES.set(STATUS_SHIPPING, {
-    key: STATUS_SHIPPING,
-    label: 'Đang giao hàng',
-});
-ORDER_STATUSES.set(STATUS_COMPLETED, {
-    key: STATUS_COMPLETED,
-    label: 'Đã giao hàng',
-});
-ORDER_STATUSES.set(STATUS_PROCESSING, {
-    key: STATUS_PROCESSING,
-    label: 'Đơn của bạn đang được xử lí',
-});
+export const ORDER_STATUSES: Map<string, StatusLabel> = new Map(COMMON_STATUSES)
+    .set(STATUS_SHIPPING, {
+        key: STATUS_SHIPPING,
+        label: 'Đang giao hàng',
+    })
+    .set(STATUS_COMPLETED, {
+        key: STATUS_COMPLETED,
+        label: 'Đã giao hàng',
+    })
+    .set(STATUS_PROCESSING, {
+        key: STATUS_PROCESSING,
+        label: 'Đơn của bạn đang được xử lí',
+    });
 
 export type ValidOrderStatus = keyof typeof ORDER_STATUSES;
 
-export const PAYMENT_STATUSES: Map<string, StatusLabel> = new Map(COMMON_STATUSES);
-PAYMENT_STATUSES.set(STATUS_WAIT_FOR_PAYMENT, {
-    key: STATUS_WAIT_FOR_PAYMENT,
-    label: 'Chờ thanh toán',
-});
-PAYMENT_STATUSES.set(STATUS_COMPLETED, {
-    key: STATUS_COMPLETED,
-    label: 'Đã thanh toán',
-});
-PAYMENT_STATUSES.set(STATUS_PROCESSING, {
-    key: STATUS_PROCESSING,
-    label: 'Đang xử lí',
-});
+export const PAYMENT_STATUSES: Map<string, StatusLabel> = new Map(COMMON_STATUSES)
+    .set(STATUS_WAIT_FOR_PAYMENT, {
+        key: STATUS_WAIT_FOR_PAYMENT,
+        label: 'Chờ thanh toán',
+    })
+    .set(STATUS_COMPLETED, {
+        key: STATUS_COMPLETED,
+        label: 'Đã thanh toán',
+    })
+    .set(STATUS_PROCESSING, {
+        key: STATUS_PROCESSING,
+        label: 'Đang xử lí',
+    });
 
 export type ValidPaymentStatus = keyof typeof PAYMENT_STATUSES;
 

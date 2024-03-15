@@ -46,8 +46,8 @@ export const UPDATE_PROFILE_INFO_ENDPOINT = '/profile/info';
 export const UPDATE_PROFILE_ADDRESS_ENDPOINT = '/profile/address';
 
 // Order
-export const ORDER_ENDPOINT = '/order';
-export const REVIEW_ORDER_ENDPOINT = './order/review';
+export const ORDER_ENDPOINT = '/orders';
+export const REVIEW_ORDER_ENDPOINT = './orders/review';
 
 // Notification
 export const NOTIFICATION_ENDPOINT = '/notifications';
