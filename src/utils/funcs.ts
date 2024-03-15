@@ -3,6 +3,9 @@ import { ImageModel, PriceModel, ProductModel, VariationModel } from '@models/Pr
 import { AttributeDynamics } from '@models/Attribute';
 import { VariantStorage } from '@interfaces/product';
 import {
+    CASE_DEFAULT,
+    CASE_ORDER_CANCEL,
+    ERROR_MSG,
     FOUND_CODE,
     MAP_STATUS_CODE,
     NOTFOUND_ERROR_CODE,
@@ -340,4 +343,10 @@ export function getArrayAttributesByKey(attributes: AttributeDynamics[], key: st
         specifics,
         rest,
     };
+}
+
+export function getErrorMsg(statusCode: number, errorCase: string): string {
+    const errorObj = ERROR_MSG.get(statusCode) ?? (ERROR_MSG.get(0) as Record<string, string>);
+
+    return errorObj[errorCase] ?? errorObj.CASE_DEFAULT;
 }
