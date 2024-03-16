@@ -359,7 +359,9 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
                 id: order._id,
                 cancelOrderRequestDTO: cancelOrderValues,
             }),
-        ).then(() => dispatch(getOrder(order._id)));
+        )
+            .then(() => dispatch(getOrder(order._id)))
+            .catch((err) => console.log(err));
     };
 
     const handleGetNewPaymentUrl = debounce(() => {
@@ -368,7 +370,7 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
                 id: order._id,
                 paymentReturnUrl: `${process.env.NEXT_PUBLIC_BASE_URL}${RootPath.Order}/${order._id}`,
             }),
-        );
+        ).catch((err) => console.log(err));
     }, 2000);
 
     return (
