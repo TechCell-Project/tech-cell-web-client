@@ -1,4 +1,3 @@
-import { ProductStatus } from '@constants/enum';
 import { ImageModel, PriceModel, ProductModel, VariationModel } from '@models/Product';
 import { AttributeDynamics } from '@models/Attribute';
 import { VariantStorage } from '@interfaces/product';
@@ -330,6 +329,14 @@ export function getArrayAttributesByKey(attributes: AttributeDynamics[], key: st
     };
 }
 
+/**
+ * Retrieves a specific error message based on the provided status code and error case.
+ * This function centralizes error message retrieval, making it easier to manage and update error messages.
+ *
+ * @param {number} statusCode - The HTTP status code associated with the error.
+ * @param {string} errorCase - A specific case of the error to retrieve a more detailed message.
+ * @returns {string} The error message corresponding to the given status code and error case. Returns a default error message if the specific case is not found.
+ */
 export function getErrorMsg(statusCode: number, errorCase: string): string {
     const errorObj = ERROR_MSG.get(statusCode) ?? (ERROR_MSG.get(0) as Record<string, string>);
 
