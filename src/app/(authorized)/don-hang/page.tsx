@@ -13,7 +13,6 @@ import { RootPath } from '@/constants/enum';
 const Page = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
     const { orders } = useAppSelector((state) => state.order);
@@ -21,10 +20,10 @@ const Page = () => {
     useEffect(() => {
         const getOrders = async () => {
             const res = await dispatch(getAllOrder({ ...new Paging(), page: 1 }));
-            if (!res?.success) {
-                if (res?.errorCode === 401) {
+            if (res && !res.success) {
+                if (res.errorCode === 401) {
                     signOut();
-                } else {
+                } else if (res.errorCode === 429) {
                     router.push(RootPath.Home);
                 }
             }

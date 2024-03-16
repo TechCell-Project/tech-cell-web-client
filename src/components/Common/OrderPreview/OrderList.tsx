@@ -177,7 +177,7 @@ export const OrderList: FC<OrderProps> = ({ items, totalProductPrice, shipping }
                             <p>
                                 {currencyFormat(
                                     shipping
-                                        ? totalProductPrice -
+                                        ? totalProductPrice +
                                               shipping[Object.keys(shipping)[0]].total
                                         : totalProductPrice,
                                 )}

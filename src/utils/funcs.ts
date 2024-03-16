@@ -1,15 +1,14 @@
-import { ProductStatus } from '@constants/enum';
 import { ImageModel, PriceModel, ProductModel, VariationModel } from '@models/Product';
 import { AttributeDynamics } from '@models/Attribute';
 import { VariantStorage } from '@interfaces/product';
 import {
+    ERROR_MSG,
     FOUND_CODE,
     MAP_STATUS_CODE,
     NOTFOUND_ERROR_CODE,
     SERVER_ERROR_CODE,
 } from '@constants/errorCode';
 import { getCurrentUserRole } from './local';
-import { PagingResponse } from '@models/Common';
 import { UserAccount } from '@models/Account';
 import { UserModel } from '@models/Profile';
 import slugify from 'slugify';
@@ -57,18 +56,6 @@ export const isRoleAccepted = (role?: string): boolean => {
         default:
             return false;
     }
-};
-
-// get status product
-const productStatusMapping: { [key: number]: string } = {
-    [ProductStatus.ComingSoon]: 'Sắp ra mắt',
-    [ProductStatus.NewArrival]: 'Hàng mới về',
-    [ProductStatus.Pre_order]: 'Đặt hàng trước',
-    [ProductStatus.OnSales]: 'Đang bán',
-    [ProductStatus.Hide]: 'Ẩn',
-    [ProductStatus.NotSales]: 'Không bán',
-    [ProductStatus.LowStock]: 'Còn ít hàng',
-    [ProductStatus.TemporarilyOutOfStock]: 'Tạm thời hết hàng',
 };
 
 //get thumbnail image
@@ -340,4 +327,18 @@ export function getArrayAttributesByKey(attributes: AttributeDynamics[], key: st
         specifics,
         rest,
     };
+}
+
+/**
+ * Retrieves a specific error message based on the provided status code and error case.
+ * This function centralizes error message retrieval, making it easier to manage and update error messages.
+ *
+ * @param {number} statusCode - The HTTP status code associated with the error.
+ * @param {string} errorCase - A specific case of the error to retrieve a more detailed message.
+ * @returns {string} The error message corresponding to the given status code and error case. Returns a default error message if the specific case is not found.
+ */
+export function getErrorMsg(statusCode: number, errorCase: string): string {
+    const errorObj = ERROR_MSG.get(statusCode) ?? (ERROR_MSG.get(0) as Record<string, string>);
+
+    return errorObj[errorCase] ?? errorObj.CASE_DEFAULT;
 }

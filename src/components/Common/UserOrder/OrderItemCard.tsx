@@ -17,7 +17,7 @@ const OrderItemCard = ({ item, handleClick }: ItemCardProps) => {
         <Box
             sx={{
                 width: '100%',
-                padding: { sm: '0 24px', xs: '0 10px' },
+                padding: { sm: '0 24px', xs: 0 },
                 '&:hover': {
                     backgroundColor: '#e0e0e0',
                 },
@@ -89,6 +89,7 @@ const OrderItemCard = ({ item, handleClick }: ItemCardProps) => {
                             }}
                         >
                             <Typography
+                                variant='h5'
                                 sx={{
                                     fontSize: { sm: '16px', xs: '14px' },
                                     fontWeight: 600,
@@ -100,6 +101,7 @@ const OrderItemCard = ({ item, handleClick }: ItemCardProps) => {
                         </Button>
                         <Stack direction={{ sm: 'column', xs: 'row' }} spacing={{ sm: 0, xs: 2 }}>
                             <Typography
+                                variant='body2'
                                 sx={{
                                     fontSize: { sm: '14px', xs: '12px' },
                                     fontWeight: 500,
@@ -115,6 +117,7 @@ const OrderItemCard = ({ item, handleClick }: ItemCardProps) => {
                                 })}
                             </Typography>
                             <Typography
+                                variant='body2'
                                 sx={{ fontSize: { sm: '14px', xs: '12px' }, fontWeight: 600 }}
                             >
                                 x{item.quantity}

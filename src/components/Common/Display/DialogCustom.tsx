@@ -94,7 +94,7 @@ function ShowDialogWithoutMemo(props: Readonly<IDialog>) {
             )}
             <DialogActions
                 sx={{
-                    padding: '0 10px 15px 10px',
+                    padding: { xs: '10px 10px', sm: '12px 20px' },
                     margin: '0',
                 }}
             >

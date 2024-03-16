@@ -70,3 +70,11 @@ export const forgotPasswordValidate = yup.object({
         .oneOf([yup.ref('password')], 'Không trùng khớp với mật khẩu mới!')
         .required('Mật khẩu nhập lại không được bỏ trống !'),
 });
+
+export const CancelOrderReasonValidateSchema = yup.object({
+    cancelReason: yup
+        .string()
+        .min(3, 'Vui lòng nhập tối thiểu 3 kí tự')
+        .max(1000, 'Vui lòng nhập lý do dưới 1000 ký tự')
+        .required('Lý do hủy đơn không được bỏ trống'),
+});

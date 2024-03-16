@@ -6,9 +6,9 @@ __metadata:
   cacheKey: 10c0
 
 "@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git#master":
-  version: 0.0.1-b23a1e6
-  resolution: "@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git#commit=b46ed67c3b75e91b522b5ad7d8149b970e9b2714"
-  checksum: 10c0/4c6ff85047f30877507cdc64353d9e33b3e9eedb66c909f40e9111722ddba6e6c693050b0f865a40585d336f32fce3adf30a2490c763f924fe71625074722ff7
+  version: 0.0.1-11e600e
+  resolution: "@TechCell-Project/tech-cell-server-node-sdk@https://github.com/TechCell-Project/tech-cell-server-node-sdk.git#commit=c0aae59e0602a061d297ec5155ad308da52150d0"
+  checksum: 10c0/e1c9079e70bb6c02cc51f8f073f205a4ffd38c9191fe55bea98e775a9256502f73fef169401812e02203348a607a454b27b71844c31c477a507dd9d84f3d5c29
   languageName: node
   linkType: hard
 

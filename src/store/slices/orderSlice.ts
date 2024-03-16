@@ -1,19 +1,22 @@
+import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createOrder, orderApi, reviewOrder } from '@services/OrderService';
+import { CASE_ORDERS_FETCH, CASE_ORDER_CANCEL, CASE_ORDER_NEW_PAYMENT_URL } from '@/constants';
+import { getErrorMsg } from '@/utils';
 import {
     ListUserOrderResponseDTO,
-    OrderApiGetPaymentUrlRequest,
-    OrderApiGetUserOrdersRequest,
+    OrderSchemaDTO,
+    OrdersApiCancelOrderRequest,
+    OrdersApiGetPaymentUrlRequest,
+    OrdersApiGetUserOrdersRequest,
 } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { PagingResponse } from '@models/Common';
 import {
-    CancelOrderRequest,
     OrderCreateRequest,
     OrderModel,
     OrderReviewRequest,
     OrderReviewResponse,
     OrderSlice,
 } from '@models/Order';
-import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { cancelOrder, createOrder, orderApi, reviewOrder } from '@services/OrderService';
 import { HttpStatusCode, isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
@@ -43,7 +46,7 @@ export const orderSlice = createSlice({
         isFetchingDetails: (state) => {
             state.isLoadingDetails = true;
         },
-        getDetailSuccess: (state, { payload }: PayloadAction<OrderModel>) => {
+        getDetailSuccess: (state, { payload }: PayloadAction<OrderModel | OrderSchemaDTO>) => {
             state.order = payload;
             state.isLoadingDetails = false;
         },
@@ -67,7 +70,7 @@ export const orderSlice = createSlice({
 });
 
 export const getAllOrder =
-    (requests: OrderApiGetUserOrdersRequest) => async (dispatch: Dispatch) => {
+    (requests: OrdersApiGetUserOrdersRequest) => async (dispatch: Dispatch) => {
         dispatch(isFetching());
         try {
             const { status, data } = await orderApi.getUserOrders({ ...requests });
@@ -78,16 +81,8 @@ export const getAllOrder =
         } catch (error) {
             dispatch(getFailure());
             let status = 404;
-            if (isAxiosError(error)) {
-                if (error.response && error.response.status === 404) {
-                    toast.error('Không tìm thấy dữ liệu... Vui lòng thử lại sau');
-                } else if (error.response && error.response.status === 401) {
-                    toast.error('Phiên đăng nhập đã hết hạn...');
-                } else if (error.response && error.response.status === 429) {
-                    toast.error('Quá nhiều yêu cầu... Hãy đợi một lát và thử lại');
-                } else {
-                    toast.error('Có lỗi xảy ra ...');
-                }
+            if (isAxiosError(error) && error.response) {
+                toast.error(getErrorMsg(error.response.status, CASE_ORDERS_FETCH));
                 status = error.response?.status ?? 404;
             }
             return { success: false, errorCode: status };
@@ -99,7 +94,7 @@ export const getOrder = (id: string) => async (dispatch: Dispatch) => {
     try {
         const { status, data } = await orderApi.getUserOrderId({ id });
         if (status === HttpStatusCode.Ok) {
-            dispatch(getDetailSuccess(data as unknown as OrderModel));
+            dispatch(getDetailSuccess(data));
         }
     } catch (error) {
         dispatch(getDetailFailure());
@@ -138,10 +133,10 @@ export const createNewOrder = (payload: OrderCreateRequest) => async (dispatch: 
 };
 
 export const newPaymentUrl =
-    (payload: OrderApiGetPaymentUrlRequest) => async (dispatch: Dispatch) => {
+    (requests: OrdersApiGetPaymentUrlRequest) => async (dispatch: Dispatch) => {
         dispatch(isFetchingDetails());
         try {
-            const { status, data } = await orderApi.getPaymentUrl(payload);
+            const { status, data } = await orderApi.getPaymentUrl({ ...requests });
 
             if (status === HttpStatusCode.Ok) {
                 dispatch(getDetailSuccess(data as unknown as OrderModel));
@@ -150,17 +145,7 @@ export const newPaymentUrl =
         } catch (error) {
             let status = 400;
             if (isAxiosError(error) && error.response) {
-                if (error.response.status === 400) {
-                    toast.error('Yêu cầu không hợp lệ. Vui lòng kiểm tra lại dữ liệu yêu cầu!');
-                } else if (error.response.status === 401) {
-                    toast.error('Phiên đăng nhập không khả dụng. Vui lòng đăng nhập lại');
-                } else if (error.response.status === 404) {
-                    toast.error('Không tìm thấy dữ liệu. Vui lòng thử lại sau');
-                } else if (error.response.status === 429) {
-                    toast.error('Quá nhiều yêu cầu. Vui lòng thử lại sau');
-                } else {
-                    toast.error('Có lỗi xảy ra. Vui lòng thử lại sau ít phút');
-                }
+                toast.error(getErrorMsg(error.response.status, CASE_ORDER_NEW_PAYMENT_URL));
                 status = error.response.status;
             }
             dispatch(getDetailFailure());
@@ -168,37 +153,23 @@ export const newPaymentUrl =
         }
     };
 
-export const cancelAnOrder =
-    (payload: Required<CancelOrderRequest>) => async (dispatch: Dispatch) => {
-        dispatch(isFetchingDetails());
-        try {
-            const { status } = await cancelOrder(payload);
+export const cancelAnOrder = (requests: OrdersApiCancelOrderRequest) => async () => {
+    try {
+        const { status } = await orderApi.cancelOrder({ ...requests });
 
-            if (status === HttpStatusCode.Ok) {
-                toast.success('Đã hủy đơn hàng thành công');
-                return { success: true };
-            }
-        } catch (error) {
-            let status = 400;
-            if (isAxiosError(error) && error.response) {
-                if (error.response.status === 400) {
-                    toast.error('Yêu cầu không hợp lệ. Vui lòng kiểm tra lại dữ liệu yêu cầu!');
-                } else if (error.response.status === 401) {
-                    toast.error('Phiên đăng nhập không khả dụng. Vui lòng đăng nhập lại');
-                } else if (error.response.status === 404) {
-                    toast.error('Không tìm thấy dữ liệu. Vui lòng thử lại sau');
-                } else if (error.response.status === 429) {
-                    toast.error('Quá nhiều yêu cầu. Vui lòng thử lại sau');
-                } else {
-                    toast.error('Có lỗi xảy ra. Vui lòng thử lại sau ít phút');
-                }
-                status = error.response.status;
-            }
-            return { success: false, statusCode: status };
-        } finally {
-            dispatch(isFetchedDone());
+        if (status === HttpStatusCode.Ok) {
+            toast.success('Đã hủy đơn hàng thành công');
+            return { success: true };
         }
-    };
+    } catch (error) {
+        let status = 400;
+        if (isAxiosError(error) && error.response) {
+            toast.error(getErrorMsg(error.response.status, CASE_ORDER_CANCEL));
+            status = error.response.status;
+        }
+        return { success: false, statusCode: status };
+    }
+};
 
 const { actions, reducer } = orderSlice;
 
