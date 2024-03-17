@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { useSkipFirstRender } from '@hooks/useSkipFirstRender';
@@ -21,7 +21,7 @@ interface ResultsDataProps {
     totalPage: number;
 }
 
-const ResultsSection: FC<ResultsDataProps> = ({ currentData, keyword, totalPage }) => {
+const ResultsSection: FC<ResultsDataProps> = memo(({ currentData, keyword, totalPage }) => {
     const dispatch = useAppDispatch();
     const { products, isLoading } = useAppSelector((state) => state.product);
 
@@ -53,19 +53,19 @@ const ResultsSection: FC<ResultsDataProps> = ({ currentData, keyword, totalPage 
             {isLoading ? (
                 <LoadingSection isLoading={isLoading} />
             ) : (
-                <>
-                    <Box sx={{ width: '100%' }}>
+                <Box className='w-full' sx={{ minHeight: '80vh' }}>
+                    <div className='w-full'>
                         <SortingToolbarVSearch />
-                    </Box>
+                    </div>
                     <PaginationData
                         initialData={currentProducts}
                         pagingData={{ page: searchProduct.page, totalPage }}
                         handleChange={handleChange}
                     />
-                </>
+                </Box>
             )}
         </>
     );
-};
+});
 
 export default ResultsSection;

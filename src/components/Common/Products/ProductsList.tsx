@@ -12,7 +12,7 @@ interface ProductsListProps {
     products: ProductLabel[];
 }
 
-export const ProductsList = ({ products }: ProductsListProps) => {
+export default function ProductsList({ products }: ProductsListProps) {
     return (
         <Box className='flex flex-col w-full' sx={{ gap: '20px' }}>
             {products.length === 0 ? (
@@ -44,4 +44,4 @@ export const ProductsList = ({ products }: ProductsListProps) => {
             )}
         </Box>
     );
-};
+}

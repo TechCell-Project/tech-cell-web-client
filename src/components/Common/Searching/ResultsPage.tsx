@@ -17,7 +17,7 @@ interface SearchProps {
     keyword: string;
 }
 
-const ResultsPage: FC<SearchProps> = async ({ searchData, keyword }) => {
+const ResultsPage: FC<SearchProps> = ({ searchData, keyword }) => {
     const headMessage = getMessage(
         searchData.messageStatusCode,
         keyword,
