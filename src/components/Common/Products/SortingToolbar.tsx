@@ -57,6 +57,8 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
         exclusive: true,
     };
 
+    const iconStyle = { fontSize: '20px', marginRight: '5px' };
+
     return (
         <Box sx={{ padding: '0 !important', margin: '20px 0px' }}>
             <Stack spacing={2} sx={{ alignItems: 'flex-start', justifyContent: 'center' }}>
@@ -82,19 +84,19 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
                         {...sortByTagControl}
                     >
                         <ToggleButtonStyled value='ascending' key='ascending'>
-                            <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            <Descending style={iconStyle} />
                             Giá Cao - Thấp
                         </ToggleButtonStyled>
                         <ToggleButtonStyled value='descending' key='descending'>
-                            <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            <Ascending style={iconStyle} />
                             Giá Thấp - Cao
                         </ToggleButtonStyled>
                         <ToggleButtonStyled value='hot-promo' key='hot-promo'>
-                            <PercentIcon sx={{ fontSize: '20px', marginRight: '5px' }} />
+                            <PercentIcon sx={iconStyle} />
                             Khuyến mãi hot
                         </ToggleButtonStyled>
                         <ToggleButtonStyled value='popular' key='popular'>
-                            <VisibilityIcon sx={{ fontSize: '20px', marginRight: '5px' }} />
+                            <VisibilityIcon sx={iconStyle} />
                             Xem nhiều
                         </ToggleButtonStyled>
                     </ToggleButtonGroup>

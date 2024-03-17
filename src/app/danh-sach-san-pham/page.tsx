@@ -21,8 +21,10 @@ const ProductsList = dynamic(() => import('@components/Common/Products/ProductsL
     loading: () => <ProductsSkeleton />,
 });
 
-export default async function Page({ searchParams }: { searchParams?: { [key: string]: string } }) {
-    const page = searchParams?.page || '1';
+export default async function Page({
+    searchParams,
+}: Readonly<{ searchParams?: { [key: string]: string } }>) {
+    const page = searchParams?.page ?? '1';
 
     const payload = {
         ...new PagingProduct(),

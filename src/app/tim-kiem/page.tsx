@@ -16,7 +16,9 @@ import { ProductModel } from '@/models/Product';
 
 const ResultsSection = lazy(() => import('@/components/Common/Searching/ResultsSection'));
 
-export default async function SearchPage({ searchParams }: { searchParams: { search?: string } }) {
+export default async function SearchPage({
+    searchParams,
+}: Readonly<{ searchParams: { search?: string } }>) {
     const searchQuery = searchParams.search ?? '';
 
     const searchData = (await getProductsCustom(searchQuery)) as ProductSearchingStatus;

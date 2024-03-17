@@ -12,7 +12,7 @@ interface ProductsListProps {
     products: ProductLabel[];
 }
 
-export default function ProductsList({ products }: ProductsListProps) {
+export default function ProductsList({ products }: Readonly<ProductsListProps>) {
     return (
         <Box className='flex flex-col w-full' sx={{ gap: '20px' }}>
             {products.length === 0 ? (
