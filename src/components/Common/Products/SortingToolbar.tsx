@@ -7,8 +7,11 @@ import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material';
-import { Percent, Visibility } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+
+import PercentIcon from '@mui/icons-material/Percent';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 import { Ascending, Descending } from '@components/svgs';
 
 const ToggleButtonStyled = styled(ToggleButton)(({ theme }) => ({
@@ -75,23 +78,27 @@ const SortingToolbar: FC<ToolbarProps> = ({ className }) => {
                                     borderRadius: '10px',
                                 },
                             },
+                            '& svg': {
+                                fontSize: '20px',
+                                marginRight: '5px',
+                            },
                         }}
                         {...sortByTagControl}
                     >
                         <ToggleButtonStyled value='ascending' key='ascending'>
-                            <Descending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            <Descending />
                             Giá Cao - Thấp
                         </ToggleButtonStyled>
                         <ToggleButtonStyled value='descending' key='descending'>
-                            <Ascending style={{ fontSize: '20px', marginRight: '5px' }} />
+                            <Ascending />
                             Giá Thấp - Cao
                         </ToggleButtonStyled>
                         <ToggleButtonStyled value='hot-promo' key='hot-promo'>
-                            <Percent sx={{ fontSize: '20px', marginRight: '5px' }} />
+                            <PercentIcon />
                             Khuyến mãi hot
                         </ToggleButtonStyled>
                         <ToggleButtonStyled value='popular' key='popular'>
-                            <Visibility sx={{ fontSize: '20px', marginRight: '5px' }} />
+                            <VisibilityIcon />
                             Xem nhiều
                         </ToggleButtonStyled>
                     </ToggleButtonGroup>

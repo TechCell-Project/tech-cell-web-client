@@ -5,7 +5,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import BackgroundImg from '../../../public/images/bread-crumb-img-test-crop.jpg';
+
+import BackgroundImg from '@public/images/bread-crumb-img-test-crop.jpg';
 
 export const BreadCrumbs = () => {
     return (

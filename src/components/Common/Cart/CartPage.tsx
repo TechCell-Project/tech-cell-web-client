@@ -104,9 +104,6 @@ function CartPage() {
         localStorage.setItem('select-item-query', checkedList.toString());
     };
 
-    console.log(carts);
-    console.log(status);
-
     return (
         <Box
             sx={{
@@ -152,7 +149,7 @@ function CartPage() {
                                 </Typography>
                             </Box>
 
-                            {!carts ? (
+                            {!carts || carts.cartCountProducts === 0 ? (
                                 <Typography
                                     variant='h4'
                                     sx={{ fontSize: '18px', textAlign: 'center' }}
@@ -231,7 +228,7 @@ function CartPage() {
                             )}
                         </Stack>
                     </Container>
-                    {carts?.cartCountProducts !== 0 && (
+                    {carts && carts.cartCountProducts !== 0 && (
                         <Box sx={{ padding: '10px' }}>
                             <CartFooterInformation
                                 isSelectedProduct={checkedList.length !== 0}

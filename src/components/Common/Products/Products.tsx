@@ -1,88 +1,67 @@
-'use client';
-
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import { BreadCrumbs } from '@components/Layout';
-
-import BrandScrolling from './BrandScrolling';
-import CategorySelect from './CategorySelect';
-import SortingToolbar from './SortingToolbar';
 
 import PaginationData from '../PaginationData/PaginationData';
 
-import styles from '@styles/components/brands.module.scss';
-import { Paging } from '@models/Common';
-import { useAppDispatch, useAppSelector } from '@store/store';
-import { getAllProduct } from '@store/slices/productSlice';
-import { getThumbnail } from 'utils';
-
 import { ProductLabel } from '@interfaces/product';
-import { LoadingSection } from '../Display/LoadingSection';
+import Skeleton from '@mui/material/Skeleton';
 
 interface ProductsPageProps {
-    className?: string;
+    products: ProductLabel[];
+    page: number;
+    totalPage: number;
+    handleChangePage: (event: ChangeEvent<unknown>, page: number) => void;
 }
 
-const Products: FC<ProductsPageProps> = ({ className }) => {
-    const dispatch = useAppDispatch();
-    const { products, isLoading } = useAppSelector((state) => state.product);
-
-    const [searchProduct, setSearchProduct] = useState<Paging>(new Paging());
-    const [currentProducts, setCurrentProducts] = useState<ProductLabel[]>([]);
-
-    useEffect(() => {
-        dispatch(getAllProduct(searchProduct));
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchProduct]);
-
-    useEffect(() => {
-        const productData = products.data.map((product) => {
-            return {
-                id: product._id ?? '',
-                name: product.name ?? '',
-                category: product.category?.name ?? '',
-                price: product.variations[0].price,
-                image: getThumbnail(product.generalImages),
-            };
-        });
-
-        setCurrentProducts(productData);
-    }, [products]);
-
-    const handleChange = (event: ChangeEvent<unknown>, page: number) => {
-        setSearchProduct({
-            ...searchProduct,
-            page: page - 1,
-        });
-    };
-
-    return isLoading ? (
-        <LoadingSection isLoading={isLoading} />
-    ) : (
-        <>
-            <BreadCrumbs />
-            <Box marginTop='20px'>
-                {/*<Container maxWidth="lg">*/}
-                <Container sx={{ maxWidth: '1320px !important' }}>
-                    <Box className='flex flex-col w-full' sx={{ paddingBottom: '20px' }}>
-                        <Box sx={{ overflowX: 'auto' }}>
-                            <BrandScrolling className={styles.list_brands.toString()} />
-                            <CategorySelect />
-                            <SortingToolbar className={styles.list_brands.toString()} />
-                        </Box>
-                        <PaginationData
-                            initialData={currentProducts}
-                            pagingData={{ page: searchProduct.page, totalPage: products.totalPage }}
-                            handleChange={handleChange}
-                        />
-                    </Box>
-                </Container>
-            </Box>
-        </>
+export const Products = ({ products, page, totalPage, handleChangePage }: ProductsPageProps) => {
+    return (
+        <PaginationData
+            initialData={products}
+            pagingData={{ page, totalPage }}
+            handleChange={handleChangePage}
+        />
     );
 };
 
-export default Products;
+const ProductCardSkeletion = () => {
+    return (
+        <Box sx={{ maxHeight: '400px' }}>
+            <Skeleton
+                variant='rounded'
+                animation='wave'
+                width='100%'
+                sx={{ height: { lg: '400px', xs: '320px' } }}
+            />
+        </Box>
+    );
+};
+
+export const ProductsSkeleton = () => {
+    return (
+        <div className='w-full'>
+            <Box
+                sx={{
+                    maxWidth: '100%',
+                    display: 'grid',
+                    gap: '10px',
+                    gridTemplateColumns: {
+                        lg: 'repeat(4, 1fr)',
+                        md: 'repeat(3, 1fr)',
+                        sm: 'repeat(2, 1fr)',
+                        xs: 'repeat(1, 1fr)',
+                    },
+                }}
+            >
+                <ProductCardSkeletion />
+                <ProductCardSkeletion />
+                <ProductCardSkeletion />
+                <ProductCardSkeletion />
+                <ProductCardSkeletion />
+                <ProductCardSkeletion />
+                <ProductCardSkeletion />
+                <ProductCardSkeletion />
+            </Box>
+        </div>
+    );
+};

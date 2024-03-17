@@ -1,43 +1,70 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 
 import { getProductsCustom } from 'utils/get-products';
-import ResultsPage from '@components/Common/Searching/ResultsPage';
-import { FOUND_CODE, NOTFOUND_ERROR_CODE, SERVER_ERROR_CODE } from '@constants/errorCode';
-import { ProductSearchingStatus } from '@interfaces/product';
-import Loading from './loading';
 
-const SearchPage = async ({ searchParams }: { searchParams: { search?: string } }) => {
+import { ProductSearchingStatus } from '@/interfaces/product';
+
+import { ProductsSkeleton } from '@/components/Common/Products/Products';
+
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
+import { formatProductLabel, getMessage } from '@/utils/funcs';
+import { ProductModel } from '@/models/Product';
+
+const ResultsSection = lazy(() => import('@/components/Common/Searching/ResultsSection'));
+
+export default async function SearchPage({
+    searchParams,
+}: Readonly<{ searchParams: { search?: string } }>) {
     const searchQuery = searchParams.search ?? '';
+
+    const searchData = (await getProductsCustom(searchQuery)) as ProductSearchingStatus;
 
     const decodeKeyword = decodeURIComponent(searchQuery);
 
-    const searchData: ProductSearchingStatus = await getProductsCustom(searchQuery)
-        .then((res) => {
-            return {
-                data: res,
-                messageStatusCode: FOUND_CODE,
-            };
-        })
-        .catch((err) => {
-            if (err.response.status === 404) {
-                return {
-                    data: null,
-                    messageStatusCode: NOTFOUND_ERROR_CODE,
-                };
-            } else {
-                return {
-                    data: null,
-                    messageStatusCode: SERVER_ERROR_CODE,
-                };
-            }
-        });
-    console.log(searchData);
+    const getDataLabels = (products: ProductModel[]) => {
+        return products.map((product) => formatProductLabel(product));
+    };
 
     return (
-        <Suspense fallback={<Loading />}>
-            <ResultsPage searchData={searchData} keyword={decodeKeyword} />
-        </Suspense>
+        <Box marginTop='24px'>
+            <Container sx={{ maxWidth: '1320px !important' }}>
+                <Stack spacing={3} alignItems='center' minHeight='60vh'>
+                    <Suspense fallback={<ProductsSkeleton />}>
+                        <Typography
+                            variant='h3'
+                            color='primary'
+                            sx={{
+                                fontSize: '18px',
+                                fontWeight: 500,
+                                '& span': {
+                                    fontWeight: 700,
+                                },
+                            }}
+                        >
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: getMessage(
+                                        searchData.messageStatusCode,
+                                        decodeKeyword,
+                                        searchData.data?.totalRecord,
+                                    ),
+                                }}
+                            />
+                        </Typography>
+                        {searchData.data && (
+                            <ResultsSection
+                                currentData={getDataLabels(searchData.data.data)}
+                                keyword={decodeKeyword}
+                                totalPage={searchData.data.totalPage}
+                            />
+                        )}
+                    </Suspense>
+                </Stack>
+            </Container>
+        </Box>
     );
-};
-
-export default SearchPage;
+}
