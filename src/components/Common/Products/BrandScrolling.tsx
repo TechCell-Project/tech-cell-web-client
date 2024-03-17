@@ -1,11 +1,13 @@
 'use client';
 
 import React, { FC, HTMLAttributes } from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material';
+import Link from 'next/link';
 import Image from 'next/image';
+
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+
 import { BRANDS } from '@constants/PhoneConstant';
 
 const Brand = styled(Paper)(({ theme }) => ({
@@ -28,7 +30,7 @@ interface Props {
     className: string;
 }
 
-const BrandScrolling: FC<Props & HTMLAttributes<HTMLDivElement>> = ({ className }) => {
+export const BrandScrolling: FC<Props & HTMLAttributes<HTMLDivElement>> = ({ className }) => {
     return (
         <Box className={className} sx={{ padding: '0 !important', marginBottom: '20px' }}>
             {BRANDS.map((brand) => (
@@ -47,5 +49,3 @@ const BrandScrolling: FC<Props & HTMLAttributes<HTMLDivElement>> = ({ className 
         </Box>
     );
 };
-
-export default BrandScrolling;

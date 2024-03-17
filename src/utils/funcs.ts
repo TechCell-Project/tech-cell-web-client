@@ -4,7 +4,7 @@ import { VariantStorage } from '@interfaces/product';
 import {
     ERROR_MSG,
     FOUND_CODE,
-    MAP_STATUS_CODE,
+    MAP_STATUS_CODE_ON_FINDING,
     NOTFOUND_ERROR_CODE,
     SERVER_ERROR_CODE,
 } from '@constants/errorCode';
@@ -162,10 +162,11 @@ export const getMessage = (messageStatusCode: string, keyword: string, totalReco
             break;
         case NOTFOUND_ERROR_CODE:
             message =
-                MAP_STATUS_CODE.get(NOTFOUND_ERROR_CODE)!.message + ` <span>'${keyword}'</span>`;
+                MAP_STATUS_CODE_ON_FINDING.get(NOTFOUND_ERROR_CODE)!.message +
+                ` <span>'${keyword}'</span>`;
             break;
         case SERVER_ERROR_CODE:
-            message = MAP_STATUS_CODE.get(SERVER_ERROR_CODE)!.message;
+            message = MAP_STATUS_CODE_ON_FINDING.get(SERVER_ERROR_CODE)!.message;
     }
 
     return message;
@@ -341,4 +342,29 @@ export function getErrorMsg(statusCode: number, errorCase: string): string {
     const errorObj = ERROR_MSG.get(statusCode) ?? (ERROR_MSG.get(0) as Record<string, string>);
 
     return errorObj[errorCase] ?? errorObj.CASE_DEFAULT;
+}
+
+/**
+ * This function take searchParams from url and return valid payload that can be pass to fetching data
+ * @param searchParams - The object get from url params query
+ * @param validKeys - An array that provide specific keys could get from params for specific case
+ * @returns { [key: string] : string } - An object of valid values can be pass to api
+ */
+
+export function filterSearchParams(
+    searchParams: { [key: string]: string },
+    validKeys: string[],
+): { [key: string]: string } {
+    const filteredParams: { [key: string]: string } = {};
+
+    // Iterate through all keys in the URLSearchParams
+    Object.entries(searchParams).forEach(([key, value]) => {
+        // Check if the key is valid
+        if (validKeys.includes(key)) {
+            // Add the valid key-value pair to the filteredParams object
+            filteredParams[key] = value;
+        }
+    });
+
+    return filteredParams;
 }

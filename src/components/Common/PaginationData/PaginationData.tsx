@@ -1,20 +1,17 @@
+'use client';
+
 import React, { ChangeEvent, FC } from 'react';
 
 import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';
 
 import CardComponent from '@components/Form/CardComponent';
-import { PriceModel } from '@models/Product';
 import { theme } from '@components/Theme';
 
+import { ProductLabel } from '@/interfaces';
+
 interface PaginationProps {
-    initialData?: {
-        id: string;
-        name: string;
-        category: string;
-        price: PriceModel;
-        image: string;
-    }[];
+    initialData: ProductLabel[];
     pagingData: {
         page: number;
         totalPage: number;

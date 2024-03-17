@@ -6,7 +6,7 @@ export const NOTFOUND_ERROR_CODE = 'notFoundError';
 
 export const SERVER_ERROR_CODE = 'serverError';
 
-export const MAP_STATUS_CODE = new Map<string, ErrorLabel>([
+export const MAP_STATUS_CODE_ON_FINDING = new Map<string, ErrorLabel>([
     [
         FOUND_CODE,
         {
@@ -29,21 +29,6 @@ export const MAP_STATUS_CODE = new Map<string, ErrorLabel>([
         },
     ],
 ]);
-
-export const CUSTOM_STATUS_CODE = [
-    {
-        code: FOUND_CODE,
-        message: 'Tìm thấy',
-    },
-    {
-        code: NOTFOUND_ERROR_CODE,
-        message: 'Không tìm thấy sản phẩm nào cho từ khóa',
-    },
-    {
-        code: SERVER_ERROR_CODE,
-        message: 'Có lỗi xảy ra. Xin vui lòng thử lại sau',
-    },
-];
 
 export const INVALID = 400;
 export const UNAUTHORIZED = 401;
