@@ -16,6 +16,9 @@ import { CATEGORIES } from '@constants/PhoneConstant';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { usePathnameChange } from '@hooks/usePathnameChange';
+import Button from '@mui/material/Button';
+import { NavAccordion } from '../UI/NavAccordion';
+import { NAV_CATEGORIES } from '@/constants';
 
 interface Props {
     handleDrawerToggle: () => void;
@@ -24,7 +27,6 @@ interface Props {
 const NAV_ITEMS = [
     { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
     { name: 'Sản phẩm', menu: CATEGORIES, icon: PhoneAndroidOutlinedIcon, isNav: true },
-    { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.Order },
 ];
 
 export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
@@ -43,46 +45,45 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
                     <Image src='/logo-red.png' alt='Logo Techcell' width={150} height={50} />
                 </Link>
             </Stack>
-            <Stack
-                direction='row'
-                justifyContent='flex-start'
-                alignItems='center'
-                gap={4}
-                p='10px 0'
-                sx={{ cursor: 'pointer' }}
-                onClick={() => setOpenSearchModal(true)}
+            <Box
+                className='w-full flex flex-col'
+                sx={{
+                    gap: '5px',
+                    '& button': {
+                        width: '100%',
+                        justifyContent: 'flex-start',
+                        padding: '5px 0',
+                    },
+                    '& span': {
+                        marginRight: '20px',
+                    },
+                    '& svg': {
+                        fontSize: '24px !important',
+                    },
+                    '& .MuiTypography-body1': {
+                        color: '#3b3b3b',
+                        fontSize: '15px',
+                        fontWeight: 500,
+                        textTransform: 'none',
+                    },
+                }}
             >
-                <SearchOutlinedIcon />
-                <Typography fontSize='15px' fontWeight={500}>
-                    Tìm kiếm
-                </Typography>
-            </Stack>
-            {NAV_ITEMS.map((item) => {
-                return item.isNav ? (
-                    <AccordionComponent
-                        key={item.name}
-                        content={item.name}
-                        options={item?.menu}
-                        icon={<item.icon />}
-                    />
-                ) : (
-                    <Stack
-                        direction='row'
-                        justifyContent='flex-start'
-                        alignItems='center'
-                        gap={4}
-                        key={item.name}
-                        p='10px 0'
-                        onClick={() => item.href && push(item.href)}
-                        sx={{ cursor: 'pointer' }}
+                <Link href={RootPath.Home} className='w-full'>
+                    <Button startIcon={<HomeOutlinedIcon />}>
+                        <Typography variant='body1'>Trang chủ</Typography>
+                    </Button>
+                </Link>
+                <div className='w-full'>
+                    <Button
+                        startIcon={<SearchOutlinedIcon />}
+                        onClick={() => setOpenSearchModal(true)}
                     >
-                        <item.icon />
-                        <Typography fontSize='15px' fontWeight={500}>
-                            {item.name}
-                        </Typography>
-                    </Stack>
-                );
-            })}
+                        <Typography variant='body1'>Tìm kiếm</Typography>
+                    </Button>
+                </div>
+                <NavAccordion content='Sản phẩm' redirectLinks={NAV_CATEGORIES} />
+            </Box>
+
             <ModelSearch open={openSearchModal} handleClose={() => setOpenSearchModal(false)} />
         </>
     );

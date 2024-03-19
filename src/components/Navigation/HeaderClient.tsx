@@ -23,13 +23,10 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 
-import { MenuComponent } from '@components/Form';
 import { DRAWER_WIDTH } from '@constants/NavConstant';
 import { DrawerLayout } from '@components/Layout';
 import { Notification } from '@components/Features';
@@ -39,21 +36,18 @@ import { IconBtn } from '@components/Common/FormGroup/IconBtn';
 import { getRole, resolveCallbackUrl } from '@utils';
 
 import { RootPath } from '@constants/enum';
-import { CATEGORIES } from '@constants/PhoneConstant';
 
 import AlternateAvatar from '@public/images/avatarColor.webp';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { getProfile } from '@/store/slices/profileSlice';
+import { NAV_CATEGORIES } from '@/constants/NavConstant';
+import { NavMenu } from '../UI/NavMenu';
+import Button from '@mui/material/Button';
 
 interface Props {
     window?: () => Window;
 }
-
-const NAV_ITEMS = [
-    { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
-    { name: 'Sản phẩm', menu: CATEGORIES, icon: PhoneAndroidOutlinedIcon, isNav: true },
-];
 
 export const HeaderClient = ({ window }: Props) => {
     const { data: session } = useSession();
@@ -119,22 +113,20 @@ export const HeaderClient = ({ window }: Props) => {
                                 display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' },
                                 gap: '15px',
                                 alignItems: 'center',
+                                '& .MuiTypography-body1': {
+                                    fontSize: '15px',
+                                    fontWeight: 600,
+                                    textTransform: 'capitalize',
+                                    color: '#3b3b3b',
+                                },
                             }}
                         >
-                            {NAV_ITEMS.map((item, index) => (
-                                <MenuComponent
-                                    isBlackContent
-                                    key={`nav_item_${index.toString()}`}
-                                    content={item.name}
-                                    options={item?.menu}
-                                    icon={
-                                        item.icon ? (
-                                            <item.icon style={{ fontSize: '34px' }} />
-                                        ) : undefined
-                                    }
-                                    href={item.href ? item.href : undefined}
-                                />
-                            ))}
+                            <Link href={RootPath.Home}>
+                                <Button>
+                                    <Typography variant='body1'>Trang chủ</Typography>
+                                </Button>
+                            </Link>
+                            <NavMenu content='Sản phẩm' redirectLinks={NAV_CATEGORIES} />
                         </Box>
                     </Stack>
                     <Stack

@@ -1,14 +1,25 @@
-import { CATEGORY } from './PhoneConstant';
-// import { Article, Shipping } from '@components/svgs';
-import { RootPath } from '@constants/enum';
-// import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-// import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-// import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
+import { CATEGORY_PARAM, PHONE_CATEGORIES } from './ValidApisParams';
+import { upperCase } from '@/utils/funcs';
+
+export interface NavLinks {
+    label: string;
+    value: string;
+    searchQuery: URLSearchParams;
+}
 
 export const DRAWER_WIDTH: number = 280;
 
-// export const NAV_ITEMS = [
-//     { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
-//     { name: 'Sản phẩm', menu: CATEGORY, icon: PhoneAndroidOutlinedIcon, isNav: true },
-//     { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.Home },
-// ];
+function getSearchParamsQuery(key: string, value: string): URLSearchParams {
+    const searchParams: URLSearchParams = new URLSearchParams();
+    searchParams.append(key, value);
+
+    return searchParams;
+}
+
+export const NAV_CATEGORIES: NavLinks[] = PHONE_CATEGORIES.map((cat) => {
+    return {
+        label: upperCase(cat),
+        value: cat,
+        searchQuery: getSearchParamsQuery(CATEGORY_PARAM, cat),
+    };
+});
