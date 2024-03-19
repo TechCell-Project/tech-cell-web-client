@@ -67,6 +67,12 @@ export const theme: Theme = createTheme({
     },
     typography: {
         fontFamily: ['Montserrat', 'sans-serif'].join(','),
+        body1: {
+            fontSize: '15px',
+            fontWeight: 600,
+            textTransform: 'none',
+            color: '#3b3b3b',
+        },
     },
     spacing: 5,
     // breakpoints: {

@@ -1,39 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import Stack from '@mui/material/Stack';
-import Image from 'next/image';
-// import { NAV_ITEMS } from '@constants/NavConstant';
-import { AccordionComponent } from '@components/Form';
-import { RootPath } from '@constants/enum';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
+
+import { usePathnameChange } from '@hooks/usePathnameChange';
+import { NavAccordion } from '../UI/NavAccordion';
 import SearchBarBox from '@components/Common/Searching/SearchBarBox';
+import { NAV_CATEGORIES } from '@/constants/NavConstant';
+import { RootPath } from '@constants/enum';
+
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { useRouter, usePathname } from 'next/navigation';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import { CATEGORIES } from '@constants/PhoneConstant';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import { usePathnameChange } from '@hooks/usePathnameChange';
 
 interface Props {
     handleDrawerToggle: () => void;
 }
 
-const NAV_ITEMS = [
-    { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
-    { name: 'Sản phẩm', menu: CATEGORIES, icon: PhoneAndroidOutlinedIcon, isNav: true },
-    { name: 'Tra cứu đơn hàng', icon: LocalShippingOutlinedIcon, href: RootPath.Order },
-];
-
 export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
-    const { push } = useRouter();
     const pathname = usePathname();
     const [openSearchModal, setOpenSearchModal] = useState(false);
 
     useEffect(() => {
         handleDrawerToggle();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
     return (
@@ -43,46 +37,40 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
                     <Image src='/logo-red.png' alt='Logo Techcell' width={150} height={50} />
                 </Link>
             </Stack>
-            <Stack
-                direction='row'
-                justifyContent='flex-start'
-                alignItems='center'
-                gap={4}
-                p='10px 0'
-                sx={{ cursor: 'pointer' }}
-                onClick={() => setOpenSearchModal(true)}
+            <Box
+                className='w-full flex flex-col'
+                sx={(theme) => ({
+                    gap: '5px',
+                    '& button': {
+                        width: '100%',
+                        justifyContent: 'flex-start',
+                        padding: `${theme.spacing(1)} 0`,
+                    },
+                    '& span': {
+                        marginRight: theme.spacing(4),
+                    },
+                    '& svg': {
+                        fontSize: '24px !important',
+                    },
+                    '& .MuiTypography-body1': theme.typography.body1,
+                })}
             >
-                <SearchOutlinedIcon />
-                <Typography fontSize='15px' fontWeight={500}>
-                    Tìm kiếm
-                </Typography>
-            </Stack>
-            {NAV_ITEMS.map((item) => {
-                return item.isNav ? (
-                    <AccordionComponent
-                        key={item.name}
-                        content={item.name}
-                        options={item?.menu}
-                        icon={<item.icon />}
-                    />
-                ) : (
-                    <Stack
-                        direction='row'
-                        justifyContent='flex-start'
-                        alignItems='center'
-                        gap={4}
-                        key={item.name}
-                        p='10px 0'
-                        onClick={() => item.href && push(item.href)}
-                        sx={{ cursor: 'pointer' }}
+                <Link href={RootPath.Home} className='w-full'>
+                    <Button startIcon={<HomeOutlinedIcon />}>
+                        <Typography variant='body1'>Trang chủ</Typography>
+                    </Button>
+                </Link>
+                <div className='w-full'>
+                    <Button
+                        startIcon={<SearchOutlinedIcon />}
+                        onClick={() => setOpenSearchModal(true)}
                     >
-                        <item.icon />
-                        <Typography fontSize='15px' fontWeight={500}>
-                            {item.name}
-                        </Typography>
-                    </Stack>
-                );
-            })}
+                        <Typography variant='body1'>Tìm kiếm</Typography>
+                    </Button>
+                </div>
+                <NavAccordion content='Sản phẩm' redirectLinks={NAV_CATEGORIES} />
+            </Box>
+
             <ModelSearch open={openSearchModal} handleClose={() => setOpenSearchModal(false)} />
         </>
     );

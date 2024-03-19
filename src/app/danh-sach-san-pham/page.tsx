@@ -14,7 +14,7 @@ import { ProductsSkeleton } from '@/components/Common/Products/Products';
 
 import { getProductsPublic } from '@/services';
 import { PagingProduct } from '@/models';
-import { filterSearchParams, formatProductLabel } from '@/utils/funcs';
+import { filterSearchParams } from '@/utils/funcs';
 import { VALID_GET_PRODUCTS_PARAMS } from '@/constants/ValidApisParams';
 
 const ProductsList = dynamic(() => import('@components/Common/Products/ProductsList'), {
@@ -45,13 +45,7 @@ export default async function Page({
                             <CategorySelect />
                             <SortingToolbar className={styles.list_brands.toString()} />
                         </Box>
-                        <ProductsList
-                            products={
-                                res.totalRecord !== 0
-                                    ? res.data.map((product) => formatProductLabel(product))
-                                    : []
-                            }
-                        />
+                        <ProductsList productsResponse={res} />
                         <Pagination page={Number.parseInt(page)} totalPage={res.totalPage} />
                     </Box>
                 </Container>

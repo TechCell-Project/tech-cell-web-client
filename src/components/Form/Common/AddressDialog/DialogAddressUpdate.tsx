@@ -16,7 +16,7 @@ import { ProfileAddressRequest } from '@models/Profile';
 import { toastConfig } from '@constants/ToastMsgConfig';
 import { Address } from '@models/Account';
 import { useAppDispatch, useAppSelector } from '@store/store';
-import { editProfileAddress } from '@store/slices/authSlice';
+import { editProfileAddress, getCurrentUser } from '@store/slices/authSlice';
 
 interface DialogAddressUpdateProps {
     isOpen: boolean;
@@ -51,6 +51,13 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
     const { user } = useAppSelector((state) => state.auth);
 
     useEffect(() => {
+        if (!user) {
+            dispatch(getCurrentUser());
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
+
+    useEffect(() => {
         getProvinces()
             .then(({ data }) => {
                 // TODO: fix wrong data type set
@@ -67,6 +74,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
         if (userThisAddress.districtLevel !== null) {
             getDataWards(String((userThisAddress.districtLevel as District).district_id));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getDataDistricts = useCallback(
@@ -75,6 +83,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                 .then(({ data }) => setDistricts(data))
                 .catch(() => setDistricts(new Array<District>()));
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [provinces],
     );
 
@@ -84,8 +93,11 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                 .then(({ data }) => setWards(data))
                 .catch(() => setWards(new Array<Ward>()));
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [districts],
     );
+
+    console.log(user);
 
     const handleUpdateAddress = async (
         addressUpdatedData: Address,
@@ -98,6 +110,8 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
         } else {
             updateData[addressIndex] = addressUpdatedData;
         }
+
+        console.log(updateData);
 
         const payload = new ProfileAddressRequest(updateData);
 
@@ -140,7 +154,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
                 validationSchema={ProfileAddressSchema}
                 onSubmit={handleUpdateAddress}
             >
-                {({ setValues, errors, isSubmitting }) => (
+                {({ setValues, isSubmitting }) => (
                     <Form style={{ width: '100%' }}>
                         <Grid container spacing={2}>
                             <Grid item md={6} xs={12}>
