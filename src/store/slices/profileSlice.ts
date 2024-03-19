@@ -1,6 +1,7 @@
 import { Dispatch, createSlice } from '@reduxjs/toolkit';
 import { UserMntResponseDTO } from '@TechCell-Project/tech-cell-server-node-sdk';
 import { profileApi } from '@services/ProfileService';
+import { HttpStatusCode } from 'axios';
 
 export type ProfileState = {
     profile?: UserMntResponseDTO;
@@ -38,10 +39,8 @@ export const getProfile = () => async (dispatch: Dispatch) => {
     dispatch(isFetching());
     try {
         const { status, data } = await profileApi.getProfile();
-        if (status >= 200 && status < 300) {
+        if (status === HttpStatusCode.Ok) {
             dispatch(getSuccess(data));
-        } else {
-            dispatch(getFailure());
         }
     } catch (error) {
         console.error(error);
