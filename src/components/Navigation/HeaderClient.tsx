@@ -109,17 +109,12 @@ export const HeaderClient = ({ window }: Props) => {
                             </Link>
                         </Box>
                         <Box
-                            sx={{
+                            sx={(theme) => ({
                                 display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' },
                                 gap: '15px',
                                 alignItems: 'center',
-                                '& .MuiTypography-body1': {
-                                    fontSize: '15px',
-                                    fontWeight: 600,
-                                    textTransform: 'capitalize',
-                                    color: '#3b3b3b',
-                                },
-                            }}
+                                '& .MuiTypography-body1': theme.typography.body1,
+                            })}
                         >
                             <Link href={RootPath.Home}>
                                 <Button>

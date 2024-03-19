@@ -55,9 +55,7 @@ const DialogAddressUpdate: FC<DialogAddressUpdateProps> = ({
             dispatch(getCurrentUser());
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    console.log(user);
+    }, [user]);
 
     useEffect(() => {
         getProvinces()

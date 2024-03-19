@@ -39,26 +39,21 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
             </Stack>
             <Box
                 className='w-full flex flex-col'
-                sx={{
+                sx={(theme) => ({
                     gap: '5px',
                     '& button': {
                         width: '100%',
                         justifyContent: 'flex-start',
-                        padding: '5px 0',
+                        padding: `${theme.spacing(1)} 0`,
                     },
                     '& span': {
-                        marginRight: '20px',
+                        marginRight: theme.spacing(4),
                     },
                     '& svg': {
                         fontSize: '24px !important',
                     },
-                    '& .MuiTypography-body1': {
-                        color: '#3b3b3b',
-                        fontSize: '15px',
-                        fontWeight: 500,
-                        textTransform: 'none',
-                    },
-                }}
+                    '& .MuiTypography-body1': theme.typography.body1,
+                })}
             >
                 <Link href={RootPath.Home} className='w-full'>
                     <Button startIcon={<HomeOutlinedIcon />}>

@@ -28,7 +28,7 @@ const NavMenu = ({ content, redirectLinks }: NavMenuProps) => {
     };
 
     return (
-        <div>
+        <div key={`nav-menu-${content}`}>
             <Button
                 id='nav-button'
                 aria-controls={open ? 'nav-menu' : undefined}
