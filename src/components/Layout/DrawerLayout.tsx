@@ -1,36 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import Stack from '@mui/material/Stack';
-import Image from 'next/image';
-// import { NAV_ITEMS } from '@constants/NavConstant';
-import { AccordionComponent } from '@components/Form';
-import { RootPath } from '@constants/enum';
-import Link from 'next/link';
-import SearchBarBox from '@components/Common/Searching/SearchBarBox';
-import Typography from '@mui/material/Typography';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
+
+import { usePathnameChange } from '@hooks/usePathnameChange';
+import { NavAccordion } from '../UI/NavAccordion';
+import SearchBarBox from '@components/Common/Searching/SearchBarBox';
+import { NAV_CATEGORIES } from '@/constants/NavConstant';
+import { RootPath } from '@constants/enum';
+
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import { CATEGORIES } from '@constants/PhoneConstant';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import { usePathnameChange } from '@hooks/usePathnameChange';
 import Button from '@mui/material/Button';
-import { NavAccordion } from '../UI/NavAccordion';
-import { NAV_CATEGORIES } from '@/constants';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 interface Props {
     handleDrawerToggle: () => void;
 }
 
-const NAV_ITEMS = [
-    { name: 'Trang chủ', icon: HomeOutlinedIcon, href: RootPath.Home },
-    { name: 'Sản phẩm', menu: CATEGORIES, icon: PhoneAndroidOutlinedIcon, isNav: true },
-];
-
 export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
-    const { push } = useRouter();
     const pathname = usePathname();
     const [openSearchModal, setOpenSearchModal] = useState(false);
 
