@@ -156,7 +156,8 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                                     fontWeight={400}
                                     sx={{ mb: '10px' }}
                                 >
-                                    {getSingleAttribute(product.generalAttributes, 'brand').v}
+                                    {getSingleAttribute(product.generalAttributes, 'brand')?.v ??
+                                        'Apple'}
                                     {' - '}
                                     {'Điện thoại'}
                                 </Typography>

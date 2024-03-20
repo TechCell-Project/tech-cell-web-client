@@ -107,7 +107,7 @@ export const formatProductLabel = (product: ProductModel) => {
 
 //get attribute from product details
 export const getSingleAttribute = (attributes: AttributeDynamics[], name: string) => {
-    const specificAttribute = attributes.find((attribute) => attribute.k === name)!;
+    const specificAttribute = attributes.find((attribute) => attribute.k === name);
 
     return specificAttribute;
 };

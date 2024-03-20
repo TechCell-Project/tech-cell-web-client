@@ -49,24 +49,23 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                     <MenuItem
                         key={product.id}
                         onClick={() => router.push(`/chi-tiet-san-pham/${product.id}`)}
+                        sx={{ maxWidth: '100%' }}
                     >
-                        <Stack spacing={2} direction='row'>
-                            <Box>
+                        <Box
+                            sx={{ display: 'grid', gridTemplateColumns: '64px 1fr', width: '100%' }}
+                        >
+                            <Box sx={{ width: '64px' }}>
                                 <Image
                                     src={product.image}
                                     alt={product.name}
                                     height={64}
                                     width={64}
+                                    style={{ width: '64px', height: 'auto' }}
                                 />
                             </Box>
-                            <Stack
-                                sx={{
-                                    width: '100%',
-                                    paddingLeff: '10px',
-                                }}
-                                alignItems='flex-start'
-                                justifyContent='center'
-                                spacing={1}
+                            <Box
+                                className='flex flex-col justify-center'
+                                sx={{ marginLeft: { xs: '8px', sm: '12px' } }}
                             >
                                 <Typography
                                     variant='h4'
@@ -108,8 +107,8 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                                         </Typography>
                                     )}
                                 </Box>
-                            </Stack>
-                        </Stack>
+                            </Box>
+                        </Box>
                     </MenuItem>
                 );
             })}

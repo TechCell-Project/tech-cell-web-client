@@ -61,39 +61,35 @@ export const HeaderClient = ({ window }: Props) => {
     };
 
     return (
-        <Box sx={{ display: 'flex', height: { xs: '56px', sm: '68px' } }}>
+        <Box className='flex w-full' sx={{ maxHeight: { xs: '48px', sm: '68px' } }}>
             <AppBar
-                component='nav'
+                className='flex justify-between items-center w-full'
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    maxWidth: '100%',
-                    paddingRight: '0px !important',
+                    position: 'relative !important',
+                    maxHeight: '100% !important',
+                    boxSizing: 'border-box',
                 }}
             >
                 <Toolbar
+                    disableGutters
                     sx={{
                         justifyContent: 'space-between',
                         width: '100%',
+                        height: '100% !important',
+                        minHeight: '0',
+                        padding: '10px 0',
                         maxWidth: '1320px',
                         alignItems: 'center',
-                        padding: { xs: '0px 10px' },
                     }}
                 >
-                    <IconButton
-                        color='inherit'
-                        aria-label='open drawer'
-                        edge='start'
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'block', lg: 'none' } }}
+                    <Stack
+                        direction='row'
+                        gap={6}
+                        alignItems='center'
+                        sx={{ display: { sm: 'flex', xs: 'none' } }}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Stack direction='row' gap={6} alignItems='center'>
                         <Box
                             sx={{
-                                display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' },
                                 width: { xs: '130px' },
                             }}
                         >
@@ -110,7 +106,7 @@ export const HeaderClient = ({ window }: Props) => {
                         </Box>
                         <Box
                             sx={(theme) => ({
-                                display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' },
+                                display: 'flex',
                                 gap: '15px',
                                 alignItems: 'center',
                                 '& .MuiTypography-body1': theme.typography.body1,
@@ -128,12 +124,15 @@ export const HeaderClient = ({ window }: Props) => {
                         direction='row'
                         alignItems='center'
                         gap={3}
-                        sx={{ justifyContent: { xs: 'space-between' } }}
+                        sx={{
+                            display: { sm: 'flex', xs: 'none' },
+                            justifyContent: { xs: 'space-between' },
+                        }}
                     >
                         <SearchBarBox />
                         <Box
                             sx={{
-                                display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' },
+                                display: 'flex',
                                 gap: '10px',
                                 alignItems: 'center',
                             }}
@@ -150,9 +149,18 @@ export const HeaderClient = ({ window }: Props) => {
                             <RenderUserBtn session={session} />
                         </Box>
                     </Stack>
+                    <IconButton
+                        color='inherit'
+                        aria-label='open drawer'
+                        edge='start'
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { xs: 'block', sm: 'none' } }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Box
                         sx={{
-                            display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' },
+                            display: { xs: 'flex', sm: 'none' },
                             alignItems: { xs: 'center', sm: 'center', md: 'center' },
                             gap: '10px',
                         }}
@@ -169,7 +177,7 @@ export const HeaderClient = ({ window }: Props) => {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Box component='nav'>
+            <Box className='w-full'>
                 <Drawer
                     container={container}
                     variant='temporary'
@@ -179,7 +187,7 @@ export const HeaderClient = ({ window }: Props) => {
                         keepMounted: true,
                     }}
                     sx={{
-                        display: { xs: 'block', sm: 'block', lg: 'none' },
+                        display: { xs: 'block', sm: 'none' },
                         color: '#000',
                         '& .MuiDrawer-paper': {
                             boxSizing: 'border-box',
@@ -190,9 +198,6 @@ export const HeaderClient = ({ window }: Props) => {
                 >
                     <DrawerLayout handleDrawerToggle={() => setMobileOpen(false)} />
                 </Drawer>
-            </Box>
-            <Box component='main' sx={{ p: 3 }}>
-                <Toolbar />
             </Box>
         </Box>
     );

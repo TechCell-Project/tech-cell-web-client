@@ -123,6 +123,7 @@ const SearchBarBox = ({ isDisplay, minWidth }: { isDisplay?: boolean; minWidth?:
             />
             <CurrentSearches
                 open={openCurrents}
+                isSearchbarMobileOpen={isDisplay}
                 anchorEl={anchorEl.current}
                 onClose={() => {
                     setOpenCurrents(false);

@@ -16,6 +16,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { styled } from '@mui/material/styles';
 
 interface Props {
     handleDrawerToggle: () => void;
@@ -76,16 +77,19 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
     );
 };
 
-const style = {
+const StyledBox = styled(Box)(({ theme }) => ({
     position: 'absolute',
     top: '40%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '70%',
-    height: 'auto',
-    bgcolor: '#fff',
-    padding: '20px 30px',
-};
+    height: '70px',
+    backgroundColor: '#fff',
+    borderRadius: '2px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 10px',
+}));
 
 const ModelSearch = ({ open, handleClose }: { open: boolean; handleClose: () => void }) => {
     const isPathnameChanged = usePathnameChange();
@@ -103,9 +107,9 @@ const ModelSearch = ({ open, handleClose }: { open: boolean; handleClose: () => 
             aria-labelledby='modal-modal-title'
             aria-describedby='modal-modal-description'
         >
-            <Box sx={style}>
+            <StyledBox>
                 <SearchBarBox isDisplay minWidth='100%' />
-            </Box>
+            </StyledBox>
         </Modal>
     );
 };
