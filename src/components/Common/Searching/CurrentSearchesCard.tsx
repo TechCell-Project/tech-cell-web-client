@@ -49,10 +49,20 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                     <MenuItem
                         key={product.id}
                         onClick={() => router.push(`/chi-tiet-san-pham/${product.id}`)}
-                        sx={{ maxWidth: '100%' }}
+                        sx={{
+                            width: '100%',
+                            padding: '5px 10px',
+                            display: 'inline-block !important',
+                            whiteSpace: 'normal',
+                        }}
                     >
                         <Box
-                            sx={{ display: 'grid', gridTemplateColumns: '64px 1fr', width: '100%' }}
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: '64px 1fr',
+                                width: '100%',
+                                maxHeight: '64px',
+                            }}
                         >
                             <Box sx={{ width: '64px' }}>
                                 <Image
@@ -65,10 +75,10 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                             </Box>
                             <Box
                                 className='flex flex-col justify-center'
-                                sx={{ marginLeft: { xs: '8px', sm: '12px' } }}
+                                sx={{ marginLeft: { xs: '8px', sm: '12px' }, maxWidth: '100%' }}
                             >
                                 <Typography
-                                    variant='h4'
+                                    variant='h5'
                                     sx={{
                                         fontWeight: '600',
                                         fontSize: '16px',
@@ -76,37 +86,25 @@ const CurrentSearchesCard: FC<CurrentSearchesProps> = ({ currentProducts }) => {
                                 >
                                     {product.name}
                                 </Typography>
-                                <Box
+                                <Typography
+                                    variant='body1'
                                     sx={{
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        gap: '8px',
+                                        fontWeight: 700,
+                                        fontSize: '17px',
+                                        color: '#ee4949',
+                                        '& span': {
+                                            fontWeight: 500,
+                                            fontSize: '14px',
+                                            color: '#777777',
+                                            textDecoration: 'line-through',
+                                        },
                                     }}
                                 >
-                                    <Typography
-                                        variant='h6'
-                                        sx={{
-                                            fontWeight: 700,
-                                            fontSize: '17px',
-                                            color: '#ee4949',
-                                        }}
-                                    >
-                                        {currencyFormat(special !== 0 ? special : base)}
-                                    </Typography>
+                                    {currencyFormat(special !== 0 ? special : base)}{' '}
                                     {special !== 0 && (
-                                        <Typography
-                                            variant='h6'
-                                            sx={{
-                                                fontWeight: 500,
-                                                fontSize: '14px',
-                                                color: '#777777',
-                                                textDecoration: 'line-through',
-                                            }}
-                                        >
-                                            {currencyFormat(product.price.base)}
-                                        </Typography>
+                                        <span>{currencyFormat(product.price.base)}</span>
                                     )}
-                                </Box>
+                                </Typography>
                             </Box>
                         </Box>
                     </MenuItem>

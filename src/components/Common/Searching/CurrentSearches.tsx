@@ -61,9 +61,6 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     useOnClickOutside(paperRef, onClose);
     if (!anchorEl) return null;
 
-    console.log(anchorEl);
-    console.log(window.innerWidth);
-
     const el = anchorEl as HTMLElement;
     const popperWidth: string = isSearchbarMobileOpen
         ? `${(el.clientWidth + (window.innerWidth - el.clientWidth) / 1.5).toString()}px`

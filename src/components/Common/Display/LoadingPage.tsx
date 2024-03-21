@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 
 export const LoadingPage = ({ isLoading }: { isLoading?: boolean }) => {
+    console.log('Loading goes brrrr');
+
     return (
         <Box marginTop='20px'>
             {/*<Container maxWidth="lg">*/}

@@ -4,7 +4,8 @@ import { Paging, PagingResponse } from './Common';
 
 export class PagingProduct extends Paging {
     detail?: boolean = false;
-    select_type?: string | null = null;
+    select_type?: string;
+    category?: string;
 }
 
 export class PriceModel {

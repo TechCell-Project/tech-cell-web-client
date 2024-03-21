@@ -70,6 +70,10 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     ];
 
     useEffect(() => {
+        if (product.name) document.title = product.name;
+    }, [product.name]);
+
+    useEffect(() => {
         if (selectedVariationSku !== null) {
             setCurrentPrice(
                 product.variations.find((variation) => variation.sku === selectedVariationSku)!
@@ -257,7 +261,10 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                                     </ListItem>
                                 </ProductPackageInfo>
 
-                                <ProductsSuggestion label={product.category.label!} />
+                                <ProductsSuggestion
+                                    category={product.category.label!}
+                                    currentId={product._id!}
+                                />
                             </Box>
                         </Box>
                     </Box>

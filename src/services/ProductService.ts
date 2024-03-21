@@ -18,7 +18,7 @@ export const getProducts = (payload: PagingProduct) => {
 };
 
 export const getProductsPublic = (payload: PagingProduct) => {
-    const { page, pageSize, keyword, select_type } = payload;
+    const { page, pageSize, keyword, select_type, category } = payload;
     let url = `${PRODUCTS_ENDPOINT}?page=${page + 1}&pageSize=${pageSize}&select_type=${
         select_type ?? 'only_active'
     }`;
@@ -27,14 +27,16 @@ export const getProductsPublic = (payload: PagingProduct) => {
         url += `&keyword=${keyword}`;
     }
 
+    if (category) {
+        url += `&category=${category}`;
+    }
+
     return axiosPublic.get<PagingResponse<ProductModel>>(url);
 };
 
 export const getProductById = (id: string, isDetails?: boolean) => {
     let url = `${PRODUCTS_ENDPOINT}/${id}`;
+    url += `?detail=${isDetails ?? true}`;
 
-    if (isDetails) {
-        url += `?detail=${isDetails}`;
-    }
     return axiosPublic.get<ProductModel>(url);
 };
