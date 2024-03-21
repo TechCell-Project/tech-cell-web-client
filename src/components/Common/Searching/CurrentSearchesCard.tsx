@@ -8,7 +8,6 @@ import { ProductLabel } from '@interfaces/product';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { currencyFormat } from 'utils/funcs';
 

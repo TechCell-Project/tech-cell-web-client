@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-import { AxiosError, HttpStatusCode, isAxiosError } from 'axios';
+import { HttpStatusCode, isAxiosError } from 'axios';
 
 import { getProductById, getProductsPublic } from '@services/ProductService';
 import { PagingProduct, ProductModel } from '@models/Product';

@@ -77,7 +77,7 @@ export const DrawerLayout = ({ handleDrawerToggle }: Props) => {
     );
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)({
     position: 'absolute',
     top: '40%',
     left: '50%',
@@ -89,7 +89,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '0 10px',
-}));
+});
 
 const ModelSearch = ({ open, handleClose }: { open: boolean; handleClose: () => void }) => {
     const isPathnameChanged = usePathnameChange();
