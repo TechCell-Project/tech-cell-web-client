@@ -32,6 +32,7 @@ interface RecentSearchValueProps {
     getHistoryKey(searched: string): void;
     recentSearches: string[];
     removeItem(searchTerm: string): void;
+    isSearchbarMobileOpen?: boolean;
 }
 
 const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
@@ -41,6 +42,7 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     recentSearches,
     removeItem,
     getHistoryKey,
+    isSearchbarMobileOpen,
 }) => {
     const paperRef = useRef<HTMLDivElement>(null);
 
@@ -59,10 +61,20 @@ const CurrentSearches: FC<RecentSearchValueProps & PopperProps> = ({
     useOnClickOutside(paperRef, onClose);
     if (!anchorEl) return null;
 
+    const el = anchorEl as HTMLElement;
+    const popperWidth: string = isSearchbarMobileOpen
+        ? `${(el.clientWidth + (window.innerWidth - el.clientWidth) / 1.5).toString()}px`
+        : '100%';
+
     return (
-        <Popper open={open} anchorEl={anchorEl} disablePortal placement='bottom-start'>
-            <Paper sx={{ width: '500px', marginTop: '5px' }} ref={paperRef}>
-                <MenuList sx={{ padding: 0 }}>
+        <Popper
+            open={open}
+            anchorEl={anchorEl}
+            disablePortal
+            placement={isSearchbarMobileOpen ? 'bottom' : 'bottom-start'}
+        >
+            <Paper sx={{ width: { sm: '500px', xs: '100%' }, marginTop: '5px' }} ref={paperRef}>
+                <MenuList sx={{ padding: 0, width: `${popperWidth}` }}>
                     {isLoading ? (
                         <MenuItem sx={{ alignItems: 'center', justifyContent: 'center' }}>
                             <PulseLoader

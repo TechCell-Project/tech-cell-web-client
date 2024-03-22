@@ -1,40 +1,24 @@
-'use client';
-
-import React, { useEffect } from 'react';
-
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { getDetailsProduct } from '@/store/slices/productSlice';
-
-import { extractIdFromSlug } from '@utils';
-
-import { LoadingPage } from '@/components/Common/Display';
-import { ProductDetail } from '@/components/Common/Product/ProductDetail';
-import NotFound from '@/components/Common/Display/NotFound';
+import { CASE_PRODUCT_FETCH } from '@/constants';
 import { RootPath } from '@/constants/enum';
+import { extractIdFromSlug, getErrorMsg, getProductByIdCustom } from '@utils';
 
-export default function Page({ params }: Readonly<{ params: { slug: string } }>) {
-    const dispatch = useAppDispatch();
+import NotFound from '@/components/Common/Display/NotFound';
+import { ProductDetail } from '@/components/Common/Product/ProductDetail';
+
+export default async function Page({ params }: Readonly<{ params: { slug: string } }>) {
     const idExtractedFromSlug = extractIdFromSlug(params.slug);
 
-    const { product, isLoadingDetails } = useAppSelector((state) => state.product);
+    const response = await getProductByIdCustom(idExtractedFromSlug);
 
-    useEffect(() => {
-        if (!product || product._id !== idExtractedFromSlug) {
-            dispatch(getDetailsProduct(idExtractedFromSlug));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    if (isLoadingDetails) return <LoadingPage />;
-
-    if (!product)
+    if (!response.product) {
         return (
             <NotFound
-                description='Không tìm thấy sản phẩm'
-                redirectTitle='Trang chủ'
-                redirect={RootPath.Home}
+                description={getErrorMsg(response.status, CASE_PRODUCT_FETCH)}
+                redirectTitle='Xem danh sách sản phẩm'
+                redirect={RootPath.ProductList}
             />
         );
+    }
 
-    return <ProductDetail product={product} />;
+    return <ProductDetail product={response.product} />;
 }

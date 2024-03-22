@@ -22,6 +22,12 @@ const AttributesContainer = styled(Box)(({ theme }) => ({
         border: `1px solid ${theme.color.red}`,
         backgroundColor: theme.color.lightRed,
     },
+    '& .Mui-disabled': {
+        borderColor: `${theme.color.lightBlack} !important`,
+        '& .MuiTypography-body1': {
+            color: `${theme.color.gray} !important`,
+        },
+    },
 }));
 
 const AttributeButton = styled(Button)(({ theme }) => ({
@@ -29,7 +35,7 @@ const AttributeButton = styled(Button)(({ theme }) => ({
     padding: '8px 18px',
     borderRadius: '5px',
     color: theme.color.black,
-    borderColor: theme.color.lightGray,
+    borderColor: theme.color.gray,
     transition: 'all .25s ease',
     '&:hover': {
         color: theme.color.red,

@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import { useAppSelector } from '@/store/store';
 
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
@@ -11,17 +9,43 @@ import Box from '@mui/material/Box';
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import { convertSlugUrl, currencyFormat } from '@/utils';
+import { convertSlugUrl, currencyFormat, getAllProductsCustom } from '@/utils';
 import { RootPath } from '@/constants/enum';
+import { PagingProduct, ProductModel } from '@/models';
 
 interface ProductsSuggestionProps {
-    label: string;
+    currentId: string;
+    category: string;
 }
 
-export const ProductsSuggestion = ({ label }: ProductsSuggestionProps) => {
-    const { products, isLoading } = useAppSelector((state) => state.product);
+export const ProductsSuggestion = ({ category, currentId }: ProductsSuggestionProps) => {
+    const [isFetching, setIsFetching] = useState<boolean>(false);
+    const [suggestions, setSuggestions] = useState<ProductModel[]>([]);
 
-    if (isLoading) {
+    useEffect(() => {
+        const getSuggestionProducts = async (category: string) => {
+            setIsFetching(true);
+            const res = await getAllProductsCustom({
+                ...new PagingProduct(),
+                pageSize: 4,
+                category: category,
+            });
+
+            if (res.totalRecord > 0) {
+                const getProductsExceptCurrent = res.data.filter(
+                    (product) => product._id !== currentId,
+                );
+                if (getProductsExceptCurrent.length > 0) {
+                    setSuggestions(getProductsExceptCurrent);
+                }
+            }
+            setIsFetching(false);
+        };
+
+        getSuggestionProducts(category);
+    }, [category, currentId]);
+
+    if (isFetching) {
         return (
             <>
                 <ProductSuggestingSkeleton />
@@ -43,7 +67,7 @@ export const ProductsSuggestion = ({ label }: ProductsSuggestionProps) => {
                 Sản phẩm tương tự
             </Typography>
             <div className='flex flex-col w-full'>
-                {products.data.map((product) => {
+                {suggestions.map((product) => {
                     const special = product.variations[0].price.special;
                     const base = product.variations[0].price.base;
                     const slug = convertSlugUrl(product.name!) + '-' + product._id;
@@ -117,28 +141,30 @@ export const ProductsSuggestion = ({ label }: ProductsSuggestionProps) => {
                                     )}
                                 </Typography>
                             </Box>
-                            <Button
-                                variant='outlined'
-                                sx={{
-                                    width: { sm: '200px', xs: 'auto' },
-                                    display: 'flex',
-                                    flexDirection: { sm: 'row', xs: 'column' },
-                                    alignItems: 'center',
-                                    textTransform: 'capitalize',
-                                    gap: { sm: '5px', xs: 0 },
-                                    borderRadius: '5px',
-                                    padding: { sm: '5 12px', xs: '4px' },
-                                }}
-                            >
-                                <AddShoppingCartIcon />
-                                <Typography
-                                    variant='body1'
-                                    fontSize={{ sm: 14, xs: 10 }}
-                                    fontWeight={500}
+                            <Link href={`${RootPath.ProductDetails}/${slug}`}>
+                                <Button
+                                    variant='outlined'
+                                    sx={{
+                                        width: { sm: '120px', xs: 'auto' },
+                                        display: 'flex',
+                                        flexDirection: { sm: 'row', xs: 'column' },
+                                        alignItems: 'center',
+                                        textTransform: 'capitalize',
+                                        gap: { sm: '5px', xs: 0 },
+                                        borderRadius: '5px',
+                                        padding: { sm: '5 12px', xs: '4px' },
+                                    }}
                                 >
-                                    Giỏ hàng
-                                </Typography>
-                            </Button>
+                                    <AddShoppingCartIcon />
+                                    <Typography
+                                        variant='body1'
+                                        fontSize={{ sm: 14, xs: 10 }}
+                                        fontWeight={500}
+                                    >
+                                        Giỏ hàng
+                                    </Typography>
+                                </Button>
+                            </Link>
                         </Box>
                     );
                 })}

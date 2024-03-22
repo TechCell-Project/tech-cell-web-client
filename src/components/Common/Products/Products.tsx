@@ -24,7 +24,7 @@ export const Products = ({ products, page, totalPage, handleChangePage }: Produc
     );
 };
 
-const ProductCardSkeletion = () => {
+export const ProductCardSkeletion = () => {
     return (
         <Box sx={{ maxHeight: '400px' }}>
             <Skeleton

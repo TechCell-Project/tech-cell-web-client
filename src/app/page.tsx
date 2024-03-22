@@ -7,10 +7,10 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
 import { HomePage } from '@components/Common';
-import { CarouselComponent } from '@components/Form';
 
 import { HOME_SLOGAN, BENEFIT_SECTION } from '@constants/contents/common.constant';
 import { IMAGE_CAROUSEL } from '@/constants/contents/carousel.constant';
+import { SwiperCarousel } from '@/components/Common/Home/SwiperCarousel';
 
 export default function Home() {
     return (
@@ -28,7 +28,7 @@ export default function Home() {
                 {HOME_SLOGAN}
             </Typography>
 
-            <CarouselComponent carouselImages={IMAGE_CAROUSEL} />
+            <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
             <HomePage />
 

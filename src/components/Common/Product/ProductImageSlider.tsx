@@ -84,6 +84,14 @@ const BottomImage = styled(Box)(() => ({
     },
     msOverflowStyle: 'none',
     scrollbarWidth: 'none',
+    '& .img-bottom': {
+        cursor: 'pointer',
+        padding: '4px',
+        borderRadius: '3px',
+        minWidth: '74px',
+        width: '74px',
+        height: '74px',
+    },
 }));
 
 export const ProductPackageInfo = styled(List)(({ theme }) => ({
@@ -226,15 +234,10 @@ export const ProductImageSlider = ({ images, alternativeImg, selectedImage }: Sl
             <BottomImage>
                 {validatedImages.map((image, index) => (
                     <Box
+                        className='img-bottom'
                         key={image.publicId}
                         onClick={() => setSliderIndex(index + 1)}
                         sx={{
-                            cursor: 'pointer',
-                            padding: '4px',
-                            borderRadius: '3px',
-                            minWidth: '74px',
-                            width: '74px',
-                            height: '74px',
                             ...(index + 1 === sliderIndex
                                 ? {
                                       border: '1px solid #ee4949',

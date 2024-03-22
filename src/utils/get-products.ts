@@ -2,9 +2,9 @@ import { cache } from 'react';
 
 import { HttpStatusCode, isAxiosError } from 'axios';
 
-import { getProductsPublic } from '@services/ProductService';
-import { PagingProduct } from '@models/Product';
-import { Paging } from '@models/Common';
+import { getProductById, getProductsPublic } from '@services/ProductService';
+import { PagingProduct, ProductModel } from '@models/Product';
+import { Paging, PagingResponse } from '@models/Common';
 
 import { FOUND_CODE, NOTFOUND_ERROR_CODE, SERVER_ERROR_CODE } from '@/constants';
 import { ProductSearchingStatus } from '@/interfaces';
@@ -44,3 +44,23 @@ export const getProductsCustom = cache(
         }
     },
 );
+
+export const getAllProductsCustom = async (payload: PagingProduct) => {
+    try {
+        const { data } = await getProductsPublic(payload);
+
+        return data;
+    } catch (error) {
+        return new PagingResponse<ProductModel>();
+    }
+};
+
+export const getProductByIdCustom = cache(async (id: string) => {
+    try {
+        const { data, status } = await getProductById(id);
+
+        return { product: data, status: status };
+    } catch (error) {
+        return { product: null, status: isAxiosError(error) ? error.response!.status : 404 };
+    }
+});

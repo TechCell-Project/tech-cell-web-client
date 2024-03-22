@@ -42,6 +42,9 @@ export const CASE_ORDER_CANCEL = 'order-cancel';
 export const CASE_ORDER_NEW_PAYMENT_URL = 'order-new-payment-url';
 export const CASE_ORDERS_FETCH = 'orders-fetch';
 export const CASE_CART_DELETE_PRODUCT = 'order-delete-product';
+
+export const CASE_PRODUCT_FETCH = 'product-detail-fetch';
+
 export const CASE_DEFAULT = 'default';
 
 export const ERROR_MSG = new Map<number, Record<string, string>>([
@@ -49,6 +52,7 @@ export const ERROR_MSG = new Map<number, Record<string, string>>([
         INVALID,
         {
             [CASE_DEFAULT]: 'Dữ liệu không hợp lệ',
+            [CASE_PRODUCT_FETCH]: 'Sản phẩm không tồn tại',
         },
     ],
     [
@@ -64,6 +68,7 @@ export const ERROR_MSG = new Map<number, Record<string, string>>([
             [CASE_ORDER_NEW_PAYMENT_URL]: 'Chuyển hướng thất bại. Đơn hàng không tồn tại',
             [CASE_CART_DELETE_PRODUCT]: 'Sản phẩm không còn tồn tại',
             [CASE_ORDERS_FETCH]: 'Không tìm thấy đơn hàng nào',
+            [CASE_PRODUCT_FETCH]: 'Không tìm thấy sản phẩm nào',
             [CASE_DEFAULT]: 'Không tìm thấy dữ liệu',
         },
     ],
