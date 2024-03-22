@@ -51,6 +51,7 @@ import { OrderSchemaDTO, PaymentOrderDTO } from '@TechCell-Project/tech-cell-ser
 
 import { Form, Formik } from 'formik';
 import { CancelOrderReasonValidateSchema } from '@/validate/auth.validate';
+import { OrderModel } from '@/models';
 
 const HeaderBox = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -342,6 +343,13 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
             });
     }, [order]);
 
+    // useEffect(() => {
+    //     if (order.paymentOrder?.paymentUrl) {
+    //         router.replace(order.paymentOrder.paymentUrl);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [order.paymentOrder?.paymentUrl]);
+
     const handleClickItem = (slug: string) => {
         router.push(`${RootPath.ProductDetails}/${slug}`);
     };
@@ -370,7 +378,14 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
                 id: order._id,
                 paymentReturnUrl: `${process.env.NEXT_PUBLIC_BASE_URL}${RootPath.Order}/${order._id}`,
             }),
-        ).catch((err) => console.log(err));
+        )
+            .then((res) => {
+                if (res?.newUrl) {
+                    console.log(res.newUrl);
+                    router.replace(res.newUrl);
+                }
+            })
+            .catch((err) => console.log(err));
     }, 2000);
 
     return (
