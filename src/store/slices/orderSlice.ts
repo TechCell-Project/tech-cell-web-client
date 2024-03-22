@@ -140,7 +140,7 @@ export const newPaymentUrl =
 
             if (status === HttpStatusCode.Ok) {
                 dispatch(getDetailSuccess(data as unknown as OrderModel));
-                return { success: true };
+                return { success: true, newUrl: data.paymentOrder?.paymentUrl };
             }
         } catch (error) {
             let status = 400;
